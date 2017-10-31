@@ -1,0 +1,23 @@
+﻿a {
+    color: Black;
+    text-decoration: none;
+}
+
+#lmenu ul{list-style-type:none;margin:0px; padding:10px;}
+#lmenu ul li{ padding:0px;}
+#lmenu ul li a{line-height:24px;}
+#lmenu ul li div{margin:2px 0px;padding-left:10px;padding-top:2px;}
+#lmenu ul li div.hover{border:1px dashed #99BBE8; background:#E0ECFF;cursor:pointer;}
+#lmenu ul li div.hover a{color:#416AA3;}
+#lmenu ul li div.selected{border:1px solid #99BBE8; background:#E0ECFF;cursor:default;}
+#lmenu ul li div.selected a{color:#416AA3; font-weight:bold;}
+
+/*icon*/
+.icon{padding:2px 9px; background:url(../images/tabicons.png) no-repeat; }
+.icon-sys{ background:url(../images/directory.png) no-repeat;}
+.icon-add{background-position: -19px 0px;}
+.icon-nav{background-position: -100px -18px;}
+.icon-users{background-position: -100px -480px;}
+.icon-role{background-position: -360px -200px;}
+.icon-set{background-position: -380px -200px;}
+.icon-log{background-position: -380px -80px;}

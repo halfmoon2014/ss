@@ -1,0 +1,19 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="lsss.aspx.cs" Inherits="lsss" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">    
+    <ctrl:DefaultHeader  WEBID="0" ID="sysHead" runat="server" TITLE="Default" />
+</head>
+<body class="easyui-layout" id="bd" runat="server" >  
+    <div data-options="region:'north',title:'North Title',split:true" style="height:100px;">1</div>  
+    <div data-options="region:'south',title:'South Title',split:true" style="height:100px;">2</div>  
+    <div data-options="region:'east',iconCls:'icon-reload',title:'East',split:true" style="width:100px;">3</div>  
+    <div data-options="region:'west',title:'West',split:true" style="width:100px;">4</div>  
+    <div data-options="region:'center',title:'center title'" style="padding:5px;background:#eee;">5</div> 
+
+</body> 
+
+</html>
+

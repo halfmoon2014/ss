@@ -1,0 +1,208 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_ls_rk.aspx.cs" Inherits="web_eb_web_eb_kccx" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="../javascripts/myjs/myweb.js"></script>
+    <!--jquery eui-->
+    <script src="../javascripts/jey/jquery.easyui.min.js" type="text/javascript"></script>
+    <link href="../css/jey/default/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jey/icon.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jey/mycss.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $.parser.parse();
+            /*右键菜单*/
+            tabCloseEven();
+        });
+
+    
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <table style="width: 100%">
+            <tr>
+                <td align="right">
+                    <input type="button" value="新增" onclick="myadd()" />
+                    <input type="button" value="保存" onclick="mysave()" />
+                    <input type="button" value="导入EXCEL" onclick="MyDr()" />
+                </td>
+            </tr>
+        </table>
+        <table id="mytable" style="table-layout: fixed">
+            <tr id="head">
+                <td file="sphh" mytype="td" style="width: 100px">
+                    商品编号
+                </td>
+                <td file="spqm" mytype="td" style="width: 100px">
+                    商品全名
+                </td>
+                <td file="gg" mytype="td" style="width: 100px">
+                    规格
+                </td>
+                <td file="xh" mytype="td" style="width: 100px">
+                    保质期
+                </td>
+                <td file="cd" mytype="td" style="width: 100px">
+                    产地
+                </td>
+                <td file="dw" mytype="td" style="width: 100px">
+                    单位
+                </td>
+                <td file="tm" mytype="td" style="width: 100px">
+                    条码
+                </td>
+                <td file="pfj" mytype="td" style="width: 100px">
+                    批发价
+                </td>
+                <td file="id" mytype="td" style="display: none">
+                    id
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div id="mm" class="easyui-menu" style="width: 150px;">
+        <div id="add">
+            新增</div>
+        <div class="menu-sep">
+        </div>
+        <div id="mysave">
+            保存</div>
+        <div id="drexcel">
+            导入EXCEL</div>
+        <div id="exit">
+            退出</div>
+    </div>
+    </form>
+</body>
+</html>
+<script language="javascript" type="text/javascript">
+
+    document.oncontextmenu = function (e) {
+        e.preventDefault();
+        $('#mm').menu('show', {
+            left: e.pageX,
+            top: e.pageY
+        });
+    }
+    /*右键菜单*/
+    function tabCloseEven() {
+        $('#mm').menu({
+            onClick: function (item) {
+                closeTab(item.id);
+            }
+        });
+
+        return false;
+    }
+    function closeTab(action) {
+
+        switch (action) {
+            case "add":
+                myadd();
+                break;
+            case "mysave":
+                //  myadd();
+                break;
+            case "drexcel":
+                MyDr();
+                break;
+
+        }
+    }
+    function mysave() {
+    }
+    function myadd() {
+
+        var newh = $("#head").clone();
+
+        $.each(newh.children(), function (i, n) {
+
+            if ($(n).attr("mytype") == "td") {
+                n.innerHTML = "<input type='text' style='width:100%' >";
+            }
+
+        });
+        $("#mytable").append(newh);
+    }
+    function readExcel(ksh, col_sl, row_sl, myPath) {
+        try {
+            var exApp = new ActiveXObject("Excel.Application");
+        }
+        catch (e) {
+            alert("请将站点加入到信任站点，允许创建ActiveX对象。");
+            return;
+        }
+        var exWBook = exApp.workbooks.open(myPath);
+        var exWSheet = exWBook.Worksheets(1);
+        var col = Number(col_sl), row = Number(row_sl) + Number(ksh) - 1; //col 要有几列 
+
+        var i = Number(ksh), j = 1, k, zt = true;
+        var insRow = 0, maxjls;
+        if (Number(MyForm.maxRow.value) >= 0 && MyForm("mytext_0_ph").value != "") { insRow = Number(MyForm.maxRow.value) + 1 }
+        maxjls = Number(MyForm.maxRow.value);
+
+        try {
+            while (i <= row) {
+
+                if (exWSheet.Cells(i, 1).Value == null || exWSheet.Cells(i, 1).Value.Length == 0 || exWSheet.Cells(i, 1).Value == "人员编号") { i = i + 1; continue; }
+                k = insRow;
+                for (k; k <= maxjls; k++) {
+                    if (MyTab.rows(k).cells(0).childNodes[0].value.length == 0)
+                    { insRow = k; zt = false; break; }
+                }
+                if (zt == true) {
+                    try { addRow() } catch (e) { };
+                    insRow = insRow;
+                }
+
+                while (j <= col) {
+                    if (exWSheet.Cells(i, j).Value != null) {
+                        /* if (j==4){ //日期的导入
+                        var newyear = new Date(exWSheet.Cells(i, j).Value); 
+                        var yf=newyear.getMonth()+1;
+                        MyTab.rows(insRow).cells(j-1).childNodes[0].value=newyear.getFullYear()+"-"+yf+"-"+newyear.getDate(); 
+                        }else{*/
+                        try { MyTab.rows(insRow).cells(j - 1).childNodes[0].value = exWSheet.Cells(i, j).Value.toString(); } catch (e) { }
+
+                    }
+                    j = j + 1;
+                }
+                i = i + 1;
+                j = 1;
+                nullmark = 0;
+                insRow = insRow + 1;
+                zt = true;
+            }
+        } catch (e) {
+            alert("错误代号是:" + e);
+        }
+        finally {
+            exWBook.Close(savechanges = true);
+            exApp.Quit();
+            exApp = null;
+            //释放excel进程,关闭当前浏览器后有效。
+        }
+    }
+
+    function MyDr() {
+
+        var MyURL = "yx_cl_qckcdr.aspx?bt=(EXCEL导入系统)"
+        
+        rtn = window.showModalDialog(MyURL, window, "dialogHeight: 500px; dialogWidth: 650px; help: No; status: No;");
+        if (rtn == null) {
+            alert("未选中导入的数据！");
+        } else {
+            //mywait.style.visibility = "visible";
+            var tmp = rtn.split("|");
+            if (tmp[0].length > 0 && tmp[1].length > 0 && tmp.length == 3) readExcel(tmp[0], 30, tmp[1], tmp[2]);
+
+            //MyForm.jls.value=Number(tmp[1])+Number(MyForm.maxRow.value); 
+            //mywait.style.visibility = "hidden";
+        }
+    }
+</script>

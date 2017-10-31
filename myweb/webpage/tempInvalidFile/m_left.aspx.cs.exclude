@@ -1,0 +1,177 @@
+﻿using System;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+using System.DataBase;
+using System.Web;
+using System.Text;
+public partial class main : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        this.GetTreeView();
+    }
+            
+    private void GetTreeView()//程序开始
+        //最后一级菜单为mj=1
+        //如果某菜单下面存在下线菜单mj=1 则xjmx=1  说明 是树形目录的最后一级
+        //菜单父子之间关系由id ssid 决定
+    {
+        
+        try
+        {
+            
+            SqlParameter[] Parm = new SqlParameter[1];
+            Parm[0] = new SqlParameter("@userid", System.Data.SqlDbType.Int, 100);
+            Parm[0].Value = Convert.ToInt32(mySession.CSession.Get("userid").Trim());
+            dbConnet.dbstring db = new dbConnet.dbstring();
+            string webid = "";//循环过程使用到的webid
+            DataTable dt = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.StoredProcedure, "p_GETTOPLEVELMENU", Parm).Tables[0];            
+            this.TreeView1.Nodes.Clear();
+            TreeNode mRoot = new TreeNode();
+            mRoot.SelectAction = TreeNodeSelectAction.Expand;
+            mRoot.Text = "主目录";
+            //mRoot.NavigateUrl = "#";
+            this.TreeView1.Nodes.Add(mRoot);            
+            //建立根节点，遍历。
+            foreach(DataRow dr in dt.Rows)//1
+            {                
+                TreeNode Root = new TreeNode();
+                Root.Text = dr["text"].ToString();               
+                if (Convert.ToInt32(dr["xjmj"]) == 1)//字节点
+                {
+                    Root.Target = "main";
+                    string Path = dr["cmd"].ToString().Trim();
+                    string menuid = dr["id"].ToString().Trim();                    
+                    Root.NavigateUrl = "Transfer.aspx" + "?main=1&cmd=" + Path + "&id=" + menuid ;                    
+                    mRoot.ChildNodes.Add(Root);//建立根节点
+                }
+                else 
+                {
+                    webid = dr["webid"].ToString().Trim();
+                    if (Convert.ToInt32(dr["mj"]) == 1 && webid!="0")
+                    {                        
+                        string url = "Transfer.aspx" + "?&cmd=" + dr["cmd"].ToString().Trim() + "&id=" + dr["id"].ToString().Trim() + "&title=" + HttpUtility.UrlEncode(dr["text"].ToString().Trim(), Encoding.GetEncoding("utf-8")) + (webid == "0" ? "" : "&webid=" + webid) + "";
+                        Root.Target = "_blank";
+                        Root.NavigateUrl = url;
+                    }             
+                    Root.SelectAction = TreeNodeSelectAction.Expand;
+                    mRoot.ChildNodes.Add(Root);//建立根节点                    
+                    
+                    SqlParameter[] Parm0 = new SqlParameter[2];
+                    Parm0[0] = new SqlParameter("@userid", System.Data.SqlDbType.Int, 100);
+                    Parm0[0].Value = Convert.ToInt32(mySession.CSession.Get("userid").Trim());
+                    Parm0[1] = new SqlParameter("@id", System.Data.SqlDbType.Int, 100);
+                    Parm0[1].Value = Convert.ToInt32(dr["id"].ToString());
+
+                    DataTable dtNode = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.StoredProcedure, "[p_GETTHEMENU]", Parm0).Tables[0];          
+                    //建立子节点，遍历。
+                    foreach (DataRow drNode in dtNode.Rows)//2
+                    {
+                        TreeNode Node = new TreeNode();
+                        Node.Text = drNode["text"].ToString();
+                        if (Convert.ToInt32(drNode["xjmj"]) == 1)//字节点
+                        {
+                            Node.Target = "main";
+                            string Path = drNode["cmd"].ToString().Trim();
+                            string menuid = drNode["id"].ToString().Trim();
+                            
+                            Node.NavigateUrl = "Transfer.aspx" + "?main=1&cmd=" + Path + "&id=" + menuid ;
+                            Root.ChildNodes.Add(Node);//建立子节点  
+                        }
+                        else
+                        {
+                            webid = drNode["webid"].ToString().Trim();
+                            if (Convert.ToInt32(drNode["mj"]) == 1 && webid != "0")
+                            {
+                                string url = "Transfer.aspx" + "?&cmd=" + drNode["cmd"].ToString().Trim() + "&id=" + drNode["id"].ToString().Trim() + "&title=" + HttpUtility.UrlEncode(drNode["text"].ToString().Trim(), Encoding.GetEncoding("utf-8")) + (webid == "0" ? "" : "&webid=" + webid) + "";
+                                Node.Target = "_blank";
+                                Node.NavigateUrl = url;
+                            }                             
+
+                            Node.SelectAction = TreeNodeSelectAction.Expand;
+                            Root.ChildNodes.Add(Node);//建立子节点   
+                            
+                            SqlParameter[] Parm1 = new SqlParameter[2];
+                            Parm1[0] = new SqlParameter("@userid", System.Data.SqlDbType.Int, 100);
+                            Parm1[0].Value = Convert.ToInt32(mySession.CSession.Get("userid").Trim());
+                            Parm1[1] = new SqlParameter("@id", System.Data.SqlDbType.Int, 100);
+                            Parm1[1].Value = Convert.ToInt32(drNode["id"].ToString());
+
+                            DataTable dtNode1 = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.StoredProcedure, "[p_GETTHEMENU]", Parm1).Tables[0];                             
+                            
+                            //建立子节点，遍历。
+                            foreach (DataRow drNode1 in dtNode1.Rows)//3
+                            {
+                                TreeNode Node1 = new TreeNode();
+                                Node1.Text = drNode1["text"].ToString();
+                                if (Convert.ToInt32(drNode1["xjmj"]) == 1)//字节点
+                                {
+                                    Node1.Target = "main";
+                                    string Path = drNode1["cmd"].ToString().Trim();
+                                    string menuid = drNode1["id"].ToString().Trim();
+                                    
+                                    Node1.NavigateUrl = "Transfer.aspx" + "?main=1&cmd=" + Path + "&id=" + menuid ;
+                                    Node.ChildNodes.Add(Node1);//建立子节点  
+                                }
+                                else
+                                {
+                                    //Node1.NavigateUrl = "#";
+                                    webid = drNode1["webid"].ToString().Trim();
+                                    if (Convert.ToInt32(drNode["mj"]) == 1 && webid != "0")
+                                    {
+                                        string url = "Transfer.aspx" + "?&cmd=" + drNode1["cmd"].ToString().Trim() + "&id=" + drNode1["id"].ToString().Trim() + "&title=" + HttpUtility.UrlEncode(drNode1["text"].ToString().Trim(), Encoding.GetEncoding("utf-8")) + (webid == "0" ? "" : "&webid=" + webid) + "";
+                                        Node1.Target = "_blank";
+                                        Node1.NavigateUrl = url;
+                                    } 
+                                    Node1.SelectAction = TreeNodeSelectAction.Expand;
+                                    Node.ChildNodes.Add(Node1);//建立子节点                                    
+                                    
+                                    SqlParameter[] Parm2 = new SqlParameter[2];
+                                    Parm2[0] = new SqlParameter("@userid", System.Data.SqlDbType.Int, 100);
+                                    Parm2[0].Value = Convert.ToInt32(mySession.CSession.Get("userid").Trim());
+                                    Parm2[1] = new SqlParameter("@id", System.Data.SqlDbType.Int, 100);
+                                    Parm2[1].Value = Convert.ToInt32(drNode1["id"].ToString());
+
+                                    DataTable dtNode2 = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.StoredProcedure, "[p_GETTHEMENU]", Parm2).Tables[0];                                                                              
+                                    
+                                    //建立子节点，遍历。
+                                    foreach (DataRow drNode2 in dtNode2.Rows)//3
+                                    {
+                                        TreeNode Node2 = new TreeNode();
+                                        Node2.Text = drNode2["text"].ToString();
+                                        Node2.Target = "main";
+
+                                        string Path = drNode2["cmd"].ToString().Trim();
+                                        string menuid = drNode2["id"].ToString().Trim();
+                                        
+                                        Node2.NavigateUrl = "Transfer.aspx" + "?main=1&cmd=" + Path + "&id=" + menuid ;
+                                        Node1.ChildNodes.Add(Node2);//建立子节点 
+                                    }
+                                }
+                            }
+
+                         }
+                     
+                    }
+                }
+                
+            }
+            mRoot.Expand();//主目录展开
+        }
+        catch(Exception e)
+        {
+            string msg = "";
+            msg = "您没有可操作的菜单项，请与管理员联系"; 
+            Response.Write("<script  language='javascript' type='text/javascript'> alert('"+msg+"!'); </script>");
+        }
+        finally
+        {
+            
+        }
+
+
+    }
+
+   
+}

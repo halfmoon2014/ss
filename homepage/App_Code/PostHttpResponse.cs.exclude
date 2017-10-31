@@ -1,0 +1,77 @@
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
+
+namespace Help
+{
+    /// <summary>
+    ///发送POST请求
+    /// </summary>
+    public class PostHttpResponse
+    {
+        /// <summary>
+        /// 发送POST请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="stream">请求数据</param>
+        /// <param name="timeout"></param>
+        /// <param name="userAgent"></param>
+        /// <param name="requestEncoding"></param>
+        /// <param name="cookies"></param>
+        /// <param name="contentType"></param>
+        /// <returns>请求结果</returns>
+        public static HttpWebResponse CreatePostHttpResponse(string url, Stream streamIn, int? timeout, string userAgent, Encoding requestEncoding, CookieCollection cookies, string contentType)
+        {
+
+            if (string.IsNullOrEmpty(url))
+            {
+                throw new ArgumentNullException("url");
+            }
+            if (requestEncoding == null)
+            {
+                throw new ArgumentNullException("requestEncoding");
+            }
+            HttpWebRequest request = null;
+            //如果是发送HTTPS请求
+            if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+            {
+                ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
+                request = WebRequest.Create(url) as HttpWebRequest;
+                request.ProtocolVersion = HttpVersion.Version10;
+            }
+            else
+            {
+                request = WebRequest.Create(url) as HttpWebRequest;
+            }
+            request.Method = "POST";
+            request.ContentType = contentType;
+            request.UserAgent = userAgent;
+
+            if (timeout.HasValue)
+            {
+                request.Timeout = timeout.Value;
+            }
+            if (cookies != null)
+            {
+                request.CookieContainer = new CookieContainer();
+                request.CookieContainer.Add(cookies);
+            }
+
+            using (Stream s = request.GetRequestStream())
+            {
+                streamIn.CopyTo(s);
+            }
+
+            return request.GetResponse() as HttpWebResponse;
+        }
+
+
+        private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            return true; //总是接受
+        }
+    }
+}

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <!-- 用来做页面重定向,暂时无用-->
+  <Url>
+    <Site Name="/MYWEB/C">/MYWEB/CHOOSETZ.ASPX</Site>
+    <Site Name="/MYWEB/M">/MYWEB/WEBPAGE/MENU_3.ASPX</Site>
+  </Url>
+  <!-- 下面的文件不限定session情况 -->
+  <NoLimitUrl>
+    <Site>other/my26upload.aspx</Site>
+    <Site>other/my27upload.aspx</Site>
+    <Site>other/my28upload.aspx</Site>
+    <Site>sindex.aspx</Site>
+    <Site>index.aspx</Site>
+    <Site>other/default24.aspx</Site>
+    <Site>other/default23.aspx</Site>
+    <Site>other/default22.aspx</Site>
+    <Site>other/default2_wxcs.aspx</Site>
+    <Site>other/default2_qyhcs.aspx</Site>
+    <Site>other/default2_wx_zxdp_tp.aspx</Site>
+    <Site>other/default2_wx_zxdp_firefox.aspx</Site>
+    <Site>other/default2_wx_zxdp.aspx</Site>
+    <Site>other/default2_wx_xsph.aspx</Site>
+    <Site>other/default2_wx.aspx</Site>
+    <Site>other/default2_html5.aspx</Site>
+    <Site>other/default2.aspx</Site>
+    <Site>other/eng.aspx</Site>
+    <Site>longPollingData.aspx</Site>
+    
+  </NoLimitUrl>
+  <WebFile>
+    <Login>
+      <!-- 登陆页面,不能使用html页面,因为session在二种类型的页面切换会不一致,待解-->      
+      <FileName>login.aspx</FileName>
+      <!--<FileName>login2.html</FileName>-->
+    </Login>
+    <ChooseTz>
+      <!-- 套账页面-->
+      <FileName>ChooseTz.aspx</FileName>      
+    </ChooseTz>
+    <MenuPage>
+      <!--主页-->
+      <FileName>webpage/menu_2.aspx</FileName>
+      <FileName>webpage/menu_3.aspx</FileName>
+      <FileName>webpage/menu_4.aspx</FileName>
+      <FileName>webpage/menu_lsy.aspx</FileName>
+    </MenuPage>
+    <PrintPage>
+      <!--打印页-->
+      <FileName>webpage/ProcPager_SysPrt.aspx</FileName>      
+    </PrintPage>
+    <ExcelPage>
+      <!--导出EXCEL-->
+      <FileName>webpage/ProcPager_SysExcel.aspx</FileName>
+    </ExcelPage>
+    <SysModulePage>
+      <!--模块页-->
+      <FileName>webpage/lss.aspx</FileName>
+    </SysModulePage>
+  </WebFile>
+  <appSettings>
+    <!--页面样式-->
+    <PageThemes>jqeui</PageThemes>
+    <Themes>pepper-grinder</Themes>
+    <!--end页面样式-->
+  </appSettings>
+</Root>

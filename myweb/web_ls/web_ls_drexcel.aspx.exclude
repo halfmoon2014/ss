@@ -1,0 +1,143 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_ls_drexcel.aspx.cs" Inherits="web_ls_web_ls_drexcel" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <!--jquery eui-->
+    <script src="../javascripts/jey/jquery.easyui.min.js" type="text/javascript"></script>
+    <link href="../css/jey/default/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jey/icon.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jey/mycss.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            for (var i = 0; i < 1; i++) {
+                //增加上传控件
+                uploadcreate($("#uploadbox"), i);
+            }
+        });
+        //载入中的GIF动画
+        var loadingUrl = "../images/loading.gif";
+
+        //选择文件后的事件,iframe里面调用的
+        var uploading = function (imgsrc, itemid) {
+            var el = $("#uploading" + itemid);
+            $("#ifUpload" + itemid).fadeOut("fast");
+            el.fadeIn("fast");
+            el.html("<img src='" + loadingUrl + "' align='absmiddle' /> 上传中");
+            return el;
+        };
+
+        //重新上传方法    
+        var uploadinit = function (itemid) {
+            currentItemID++;
+            $("#uploading" + itemid).fadeOut("fast", function () {
+                $("#ifUpload" + itemid).fadeIn("fast");
+                $("#panelViewPic" + itemid).fadeOut("fast");
+            });
+
+        };
+
+        //上传时程序发生错误时，给提示，并返回上传状态
+        var uploaderror = function (itemid) {
+            alert("程序异常，" + itemid + "项上传未成功。");
+            uploadinit();
+        };
+
+        //上传成功后的处理
+        var uploadsuccess = function (newpath, itemid, rjson) {
+            $("#uploading" + itemid).html("文件上传成功. ");
+            var ksh = document.getElementById("ksh").value;
+            var zhs = document.getElementById("zhs").value;
+            if (ksh.length == 0 || zhs.length == 0 || rjson.length == 0) { alert("参数不能为空！"); return; }
+            window.returnValue = "{'h':{'ksh':'" + ksh + "','zhs':'" + zhs + "'}," + rjson + "}";
+            window.close();
+        };
+
+
+        var currentItemID = 0;  //用于存放共有多少个上传控件了
+        //创建一个上传控件
+        var uploadcreate = function (el, itemid) {
+            currentItemID++;
+            if (itemid == null) {
+                itemid = currentItemID;
+            }
+            var strContent = "<div class='uploadcontrol'><iframe src=\"web_ls_drexcel_upload.aspx?id=" + itemid + "\" id=\"ifUpload" + itemid + "\" frameborder=\"no\" scrolling=\"no\" style=\"width:400px; height:28px;\"></iframe>";
+            strContent += "<div class=\"uploading\" id=\"uploading" + itemid + "\" style=\"display:none;\" ></div>";
+            strContent += "<div class=\"image\" id=\"panelViewPic" + itemid + "\" style=\"display:none;\"></div></div>";
+            el.append(strContent);
+        };
+     
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <b><u id="bt" runat="server">excel上传</u></b>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <table width="100%">
+        <tr>
+            <td align="center">
+                <b>注:请确认数据排列顺序与输入界面的表格一致！</b>
+            </td>
+        </tr>
+    </table>
+    <table width="100%">
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td align="right">
+                <b>读取开始行:</b>
+            </td>
+            <td>
+                <input type="text" id="ksh" name="ksh" value="1" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" />
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td align="right">
+                <b>导入行数:</b>
+            </td>
+            <td>
+                <input type="text" id="zhs" name="zhs" value="0" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" />
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td align="right">
+                <b>选择文件:</b>
+            </td>
+            <td>
+                <div id="uploadbox" class="box">
+                </div>
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+
+    </table>
+
+    </form>
+</body>
+</html>

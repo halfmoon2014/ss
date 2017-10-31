@@ -1,0 +1,62 @@
+﻿using System;
+using mySession;
+using System.Data;
+using System.DataBase;
+using System.Web;
+using System.Web.UI.HtmlControls;
+public partial class webpage_MasterPage : System.Web.UI.MasterPage
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        //说明:加载的时候,只加载用户自己相关的,默认相关在后台处理
+
+            
+        if (CSession.Get("userid") != null && CSession.Get("userid").ToString() != string.Empty || CSession.Get("tzid") != null && Convert.ToInt32(CSession.Get("tzid").ToString()) != 0)
+        {
+             
+            dbConnet.dbstring db = new dbConnet.dbstring();  
+            string url = Request.RawUrl.Trim();
+            string rp=Request.PhysicalApplicationPath;                
+            string rph=Request.PhysicalPath;                
+            string cmd = rph.Replace(rp, "");
+			
+            string str2 = "SELECT a.* FROM v_menu  a where charindex('" + cmd.Replace("\\", "/") + "',a.cmd)>0";
+            DataTable dtm = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.Text, str2).Tables[0]; 
+            
+            //根据页面URL地址信息,查到对应的WID表信息
+            string webid = dtm.Rows[0]["webid"].ToString().Trim();
+            //MasterPageTitle.InnerHtml = dtm.Rows[0]["text"].ToString().Trim();
+            main_tit.InnerText = dtm.Rows[0]["text"].ToString().Trim();
+            
+            webId.Value = webid;
+            userWebId.Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(" ", "") + "_" + webid; //某一个页面多次打开,不同uwi
+
+            //用来初始表头外部控件,得到页面JS
+            DefaultHeader1.webId = webid;
+            DefaultHeader1.TITLE = dtm.Rows[0]["text"].ToString().Trim();
+
+            //用户自定义界面
+            string strv = "select a.* from v_usermenu a inner join v_menu b on a.menuid=b.id where b.webid=" + webid + " and a.userid=" + CSession.Get("userid");
+            DataTable dtv = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.Text, strv).Tables[0];
+            pageSize.Value = dtv.Rows[0]["rows"].ToString().Trim();
+
+
+            //初始报表打印
+	
+            string strSql = "select a.rptname,a.rptcmd  from v_rpt a  inner join v_wid b on a.wid_id = b.id where b.id=" + webid;
+            DataTable dt = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.Text, strSql).Tables[0];
+            
+            string ptmp = "";
+            foreach (DataRow dr in dt.Rows)
+            {
+                ptmp += "<tr  ><td  ><a   href='" + dr["rptcmd"].ToString().Trim() + "' onclick='MySysPrtOver(this,event)'  target='_blank'> " + dr["rptname"].ToString().Trim() + "</a></td></tr>";
+            }
+            if (ptmp == "") {
+                ptmp += "<tr  ><td  ><a   href='#' onclick='myDefaultOperate();return false;'  target='_blank'> 默认打印</a></td></tr>";
+            }
+            mpprt.InnerHtml = "<br  ><table   style=' z-index:9;'  >" + ptmp + "</table>";
+
+        }
+
+    }
+}

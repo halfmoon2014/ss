@@ -1,0 +1,425 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using sjxg;
+using System.Data;
+public partial class lsss : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        int wid = int.Parse(Request.QueryString["wid"].ToString().Trim());
+        sjxg.Class1 sj = new sjxg.Class1();
+        DataTable dt = sj.GetLayout(wid, "");
+        if (dt.Rows.Count == 0)
+        {//没有复杂布局
+            string t=GetYs(wid, "t");
+            string l = GetYs(wid, "l");
+            string r = GetYs(wid, "r");
+            string b = GetYs(wid, "b");
+
+            string top =(t==string.Empty?"":"<div id=\"north\" runat=\"server\" data-options=\"region:'north',split:true\" style=\"height:100px;\">"+ t+"</div>");            
+            string left =(l==string.Empty?"": "<div id=\"west\" runat=\"server\" data-options=\"region:'west',split:true\" style=\"width:100px;\">"+l+"</div>");
+            string right =(r==string.Empty?"":"<div id=\"east\" runat=\"server\" data-options=\"region:'east',split:true\" style=\"width:100px;\">"+ r+"</div>");            
+            string bottom =(b==string.Empty?"": "<div id=\"south\" runat=\"server\" data-options=\"region:'south',split:true\" style=\"height:100px;\">"+b+"</div>");
+            string center = "<div id=\"sscenter\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"width:80px:height:80px;padding:5px;background:#eee;\">zhong</div>";
+            //bd.InnerHtml = top + left + right + bottom + center;            
+        }
+        else
+        {
+            bd.InnerHtml=Layout(dt);            
+        }
+
+    }
+    //得到简单布局对应布局
+    public string GetYs(int wid, string bs)
+    {
+        sjxg.Class1 sj = new sjxg.Class1();
+        DataTable sdt = sj.GetLayout(wid, bs);
+        string div = "";
+        if (sdt.Rows.Count > 0)
+        {
+            string divbs = "";//换div标识
+
+            foreach (DataRow dr in sdt.Rows)
+            {
+                if (divbs != dr["lx"].ToString().Trim())
+                {//如果不相等,就创建一个DIV
+                    divbs = dr["lx"].ToString().Trim();
+                    div += CreatDiv(divbs, sdt);
+                }
+            }
+        }
+        return div;
+    }
+    //创建DIV
+    public string CreatDiv(string divbs, DataTable sdt)
+    {
+        string d = "<div>";
+
+        string tablebs = "";
+        string table = "";
+        foreach (DataRow dr in sdt.Select("lx='" + divbs + "'"))
+        {
+            if (tablebs != dr["ord"].ToString().Trim().Substring(0, 1))
+            {
+                tablebs = dr["ord"].ToString().Trim().Substring(0, 1);
+                table += CreateTable(tablebs, divbs, sdt);
+            }
+            else
+            {
+            }
+
+        }
+        d = d + table + "</div>";
+        return d;
+    }
+    //创建TABLE
+    public string CreateTable(string tablebs, string divbs, DataTable sdt)
+    {
+        string t = "<table><tr>";
+        string h = "";
+        foreach (DataRow dr in sdt.Select("lx='" + divbs + "' and substring(ord,1,1)='" + tablebs + "'"))
+        {
+            string type = dr["type"].ToString().Trim();
+            string qwidth=(dr["qwidth"].ToString().Trim()==string .Empty?"":"style=\"width:" + dr["qwidth"].ToString().Trim() + "px\"");
+            string htmlid = (dr["htmlid"].ToString().Trim() == string.Empty ? "" : "id=\"" + dr["htmlid"].ToString().Trim() + "\"");
+            string width = (dr["width"].ToString().Trim() == string.Empty ? "" : "style=\"width:" + dr["width"].ToString().Trim() + "px\"");
+
+            if (type == "text")
+            {
+                h += "<td><label " + qwidth + ">" + dr["mc"].ToString().Trim() + "</label>";
+                h += "<input type=\"text\"  " + qwidth + htmlid+" />";
+                h += "</td>";
+            }
+            else if (type == "select")
+            {
+            }
+            else if (type == "button")
+            {
+            }
+            else if (type == "checkbox")
+            {
+            }
+            else if (type == "textarea")
+            {
+            }
+            else if (type == "td")
+            {
+            }
+            else if (type == "a")
+            {
+            }
+
+        }
+        t += h + "</tr></table>";
+        return t;
+    }
+    //复杂布局
+    public string Layout(DataTable dt)
+    {
+        //判断布局
+        //上 
+        string sn = "";
+        string sntmp = "";
+        foreach (DataRow dr in dt.Select("ord like 't%'"))
+        {
+            if (dr["ord"].ToString().IndexOf("tt") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sntmp += "<div id=\"snorth_north\" runat=\"server\" data-options=\"region:'north',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("tl") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+
+                    sntmp += "<div id=\"snorth_west\" runat=\"server\" data-options=\"region:'west',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("tc") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+
+                    sntmp += "<div id=\"snorth_center\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"padding:5px;background:#eee;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("tr") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+
+                    sntmp += "<div id=\"snorth_east\" runat=\"server\" data-options=\"region:'east',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("tb") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sntmp += "<div id=\"snorth_south\" runat=\"server\" data-options=\"region:'south',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>";
+                }
+            }
+        }
+        if (sntmp == "")
+        {
+            sn = "";
+        }
+        else
+        {
+            sn = "  <div id=\"north\" runat=\"server\" data-options=\"region:'north',split:true\" style=\"height:100px;\">";            
+            sn+="<div id=\"snorth\" class=\"easyui-layout\">  ";
+            sn += sntmp;
+            sn += "</div>";
+            sn += "</div> ";
+        }
+
+        //左
+        string sw = "";
+        string swtmp = "";
+        foreach (DataRow dr in dt.Select("ord like 'l%'"))
+        {
+            if (dr["ord"].ToString().IndexOf("lt") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    swtmp += "<div id=\"swest_north\" runat=\"server\" data-options=\"region:'north',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("ll") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    swtmp += "<div id=\"swest_west\" runat=\"server\" data-options=\"region:'west',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("lc") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    swtmp += "<div id=\"swest_center\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"padding:5px;background:#eee;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("lr") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    swtmp += "<div id=\"swest_east\" runat=\"server\" data-options=\"region:'east',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("lb") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    swtmp += "<div id=\"swest_south\" runat=\"server\" data-options=\"region:'south',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>";
+                    
+                }
+            }
+
+        }
+        if (swtmp == "")
+        {
+            sw = "";
+        }
+        else
+        {
+            sw = "  <div id=\"west\" runat=\"server\" data-options=\"region:'west',split:true\" style=\"width:100px;\">";
+            sw += "<div id=\"swest\" class=\"easyui-layout\">  ";
+            sw += swtmp;
+            sw += "</div>";
+            sw += "</div> ";
+        }
+        //中
+        string sc = "";
+        string sctmp = "";
+        foreach (DataRow dr in dt.Select("ord like 'c%'"))
+        {
+            if (dr["ord"].ToString().IndexOf("ct") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sctmp += "<div id=\"scenter_north\" runat=\"server\" data-options=\"region:'north',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("cl") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sctmp += "<div id=\"scenter_west\" runat=\"server\" data-options=\"region:'west',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("cc") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sctmp += "<div id=\"scenter_center\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"padding:5px;background:#eee;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("cr") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sctmp += "<div id=\"scenter_east\" runat=\"server\" data-options=\"region:'east',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("cb") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sctmp += "<div id=\"scenter_south\" runat=\"server\" data-options=\"region:'south',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>";
+                    
+                }
+            }
+        }
+        if (sctmp == "")
+        {
+            sc = "";
+        }
+        else
+        {
+            sc = "  <div id=\"center\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"padding:5px;background:#eee;\">";
+            sc += "<div id=\"scenter\" class=\"easyui-layout\"  data-options=\"fit:true\" >  ";
+            sc += sctmp;
+            sc += "</div>";
+            sc += "</div> ";
+        }
+        //右
+        string se = "";
+        string setmp = "";
+        foreach (DataRow dr in dt.Select("ord like 'r%'"))
+        {
+            if (dr["ord"].ToString().IndexOf("rt") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    setmp += "<div id=\"seast_north\" runat=\"server\" data-options=\"region:'north',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("rl") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    setmp += "<div id=\"seast_west\" runat=\"server\" data-options=\"region:'west',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("rc") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    setmp += "<div id=\"seast_center\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"padding:5px;background:#eee;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("rr") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    setmp += "<div id=\"seast_east\" runat=\"server\" data-options=\"region:'east',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("rb") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    setmp += "<div id=\"seast_south\" runat=\"server\" data-options=\"region:'south',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>";
+                    
+                }
+            }
+        }
+        if (setmp == "")
+        {
+            se = "";
+        }
+        else
+        {
+            se = "  <div id=\"east\" runat=\"server\" data-options=\"region:'east',split:true\" style=\"width:100px;\">";
+            se += "<div id=\"seast\" class=\"easyui-layout\">  ";
+            se += setmp;
+            se += "</div>";
+            se += "</div> ";
+        }
+        //下
+        string ss = "";
+        string sstmp = "";
+        foreach (DataRow dr in dt.Select("ord like 'b%'"))
+        {
+            if (dr["ord"].ToString().IndexOf("bt") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sstmp += "<div id=\"ssouth_north\" runat=\"server\" data-options=\"region:'north',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("bl") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sstmp += "<div id=\"ssouth_west\" runat=\"server\" data-options=\"region:'west',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("bc") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sstmp += "<div id=\"ssouth_center\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"padding:5px;background:#eee;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("br") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sstmp += "<div id=\"ssouth_east\" runat=\"server\" data-options=\"region:'east',split:true\" style=\"width:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>  ";
+                    
+                }
+            }
+            else if (dr["ord"].ToString().IndexOf("bb") >= 0)
+            {
+                if (int.Parse(dr["nwebid"].ToString().Trim()) != 0)
+                {
+                    sstmp += "<div id=\"ssouth_south\" runat=\"server\" data-options=\"region:'south',split:true\" style=\"height:100px;\"><div class=\"easyui-tabs\" data-options=\"fit:true\"  style=\"width:500px;height:250px;\"> <div title=\"Tab1\" style=\"padding:20px;display:none;\" data-options=\"fit:true\"> <iframe  scrolling=\"auto\" frameborder=\"0\"  src=\"lss.aspx?wid=" + int.Parse(dr["nwebid"].ToString().Trim()) + "\" style=\"width:100%;height:100%;\"></iframe></div></div> </div>";
+                    
+                }
+            }
+
+        }
+        if (sstmp == "")
+        {
+            ss = "";
+        }
+        else
+        {
+            ss = "  <div id=\"south\" runat=\"server\" data-options=\"region:'south',split:true\" style=\"height:100px;\">";
+            ss += "<div id=\"ssouth\" class=\"easyui-layout\">  ";
+            ss += sstmp;
+            ss += "</div>";
+            ss += "</div> ";
+        }
+
+        if ((sn + sw + se + sc + ss) == "")
+        {
+            return "<div id=\"ssouth_center\" runat=\"server\" data-options=\"region:'center',fit:'true'\" style=\"padding:5px;background:#eee;\">无数据</div>";
+        }
+        else
+        {
+            return sn + sw + se + sc + ss;
+        }
+    }
+}

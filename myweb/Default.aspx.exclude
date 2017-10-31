@@ -1,0 +1,163 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="main" %>
+<html>
+<head id="Head1" runat="server">
+   
+    <ctrl:DefaultHeader   ID="sysHead" TITLE="首页" runat="server" />
+    <script language="javascript" type="text/javascript" src="javascripts/default/Default.js"></script>
+    <style type="text/css" >
+        body
+        {            
+            
+            background: none transparent scroll repeat 0% 0%;
+            
+            overflow: hidden;
+            background-image: url('images/BG2.png'); background-repeat: repeat;
+        }
+        .table1
+        {
+            width: 100%; height: 100%
+        }
+        /**/
+        .table2
+        {
+            width: 100%; height: 300px;
+        }
+        /**/
+        .td_empty
+        {
+            width: 20%; height: 100%
+        }  
+        .td_content
+        {
+            width: 60%; text-align:center;
+        }
+        /**/       
+        .table3
+        {
+            width:600px;
+            height:100%;
+            border: 2px outset #F0F0F0;
+            background:url("images/login.jpg");
+            margin-left:auto;
+            margin-right:auto;
+        }
+        .table3_logo
+        {
+            width:250px;
+            
+        }
+        .table3_content
+        {
+           text-align:center; 
+        }
+        /**/
+        .tm1_top
+        {
+            margin-top:50px;
+            text-align:center;
+            margin-left:auto;
+            margin-right:auto;            
+        }
+        .tm1_empty
+        {
+            width:15px
+        }
+        /**/
+        .tm2_top
+        {
+            margin-top:10px;
+            text-align:center;
+            margin-left:auto;
+            margin-right:auto;             
+        }  
+        .tm2_empty
+        {
+            width:45px
+        }
+        /**/
+        .text_right
+        {
+            text-align:right;
+        }
+        .text_left
+        {
+            text-align:left;
+        }
+    </style>
+</head>
+<body>
+    <form id="myform" runat="server">
+    <table class="table1" >
+        <tr>
+            <td>
+                <table class="table2">
+                    <tr>
+                        <td class="td_empty">
+                        </td>
+                        <td class="td_content">
+                            <table class="table3">
+                                <tr>
+                                    <td class="table3_logo">
+                                    </td>
+                                    <td class="table3_content">                                 
+                                        <table class="tm1_top">
+                                            <tr >
+                                                <td class="tm1_empty">
+                                                    &nbsp;
+                                                </td>
+                                                <td class="text_right" >
+                                                    用户名
+                                                </td>
+                                                <td class="text_left">
+                                                    <input type="text" id="usr" class="easyui-validatebox" data-options="required:true,missingMessage:'用户名不能为空'"
+                                                        style='width: 140px; height: 22px;' />
+                                                </td>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+                                            <tr >
+                                                <td class="tm1_empty">
+                                                    &nbsp;
+                                                </td>
+                                                <td class="text_right" >
+                                                    密码
+                                                </td>
+                                                <td class="text_left" >
+                                                    <input type="password" id="psw" class="easyui-validatebox" data-options="required:true,missingMessage:'密码能为空'"
+                                                        style='width: 140px; height: 22px;' />
+                                                </td>
+                                                <td>
+                                                    &nbsp;
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                        <table class="tm2_top">
+                                            <tr align="center">
+                                                <td class="tm2_empty">
+                                                    &nbsp;
+                                                </td>
+                                                <td align="center">
+                                                    <a href="javascript:void(0)" class="easyui-linkbutton"  id="ok">
+                                                        确定</a>
+                                                </td>
+                                                <td align="center">
+                                                    <a href="javascript:void(0)" class="easyui-linkbutton" id="esc">清除</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td_empty">
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

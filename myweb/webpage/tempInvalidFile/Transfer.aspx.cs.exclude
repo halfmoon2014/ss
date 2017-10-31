@@ -1,0 +1,85 @@
+﻿using System;
+using System.Web;
+using System.Data;
+using System.DataBase;
+using System.Text;
+using mySession;
+using MyClass;
+public partial class main : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        dbConnet.dbstring db = new dbConnet.dbstring();
+        if (Request["main"] != null && Convert.ToInt32(Request["main"].ToString()) == 1)//展开右菜单
+        {
+            if (Request["id"] != null)
+            {
+                //第一个字母表示列位置,第二个排序
+				
+                string str2 = "SELECT SUBSTRING(CONVERT(VARCHAR(10),a.xh),1,1) AS ls,a.* FROM v_menu  a inner join  v_usermenu v on  a.id=v.menuid and v.userid=" + mySession.CSession.Get("userid").Trim() + "  WHERE a.ty=0 and  isnull(a.text,'')<>'' and  a.ssid=" + Request["id"].ToString() + "  ORDER BY SUBSTRING(CONVERT(VARCHAR(10),a.xh),1,1),xh ";
+                DataTable dt = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.Text, str2).Tables[0];
+                int ls = 0;
+                string sls = "";
+                string outs="";
+                if (dt.Rows.Count > 0)
+                {
+                    outs = "<table width='100%'><tr>";
+
+                    foreach (DataRow dr in dt.Rows)//1
+                    {
+                        string title = HttpUtility.UrlEncode(dr["text"].ToString().Trim(), Encoding.GetEncoding("utf-8"));
+                        string url = "href=#";
+                        string webid = dr["webid"].ToString().Trim();
+                        if (dr["cmd"].ToString().Trim() != string.Empty)
+                        {
+                            url = " href='Transfer.aspx" + "?&cmd=" + dr["cmd"].ToString().Trim() + "&id=" + dr["id"].ToString().Trim() + "&title=" + title +(webid=="0"?"":"&webid="+webid) +"' target='_blank'";
+                        }
+
+                        if (sls != dr["ls"].ToString().Trim())
+                        {
+                            ls += 1;
+                            sls = dr["ls"].ToString().Trim();
+                            if (ls != 1) { outs += "</table></td>"; }
+                            outs += "<td style='vertical-align:top'>";
+                            outs += "<table><tr><td><input type='image' src='../images/menu2_myhelp.png' onclick='myhelp(" + dr["id"].ToString().Trim() + ")' /></td><td><a  style='text-decoration:none'" + url + " >" + dr["text"].ToString().Trim() + "</a></td></tr>";
+                            //<a href='#' onclick='myhelp(" + dr["id"].ToString().Trim() + ")' >
+                        }
+                        else
+                        {
+                            outs += "<tr><td><input type='image' src='../images/menu2_myhelp.png' onclick='myhelp(" + dr["id"].ToString().Trim() + ")'  /></td><td><a style='text-decoration:none'" + url + " >" + dr["text"].ToString().Trim() + "</a></td></tr>";
+                        }
+
+                    }
+                    outs += "</table></td></tr></table>";
+                }
+                transfer_menu.InnerHtml = outs;
+            }
+            
+            
+        }
+        else
+        {//打开模块
+            if (Request["cmd"] == null || Request["cmd"].ToString() == string.Empty)
+            {
+                string gourl = @"../Default.aspx";
+                 
+                Response.Redirect(gourl);
+            }
+            else
+            {
+                
+                myclass myc = new myclass();
+                myc.Log(Request["title"].ToString(), "click", "action");
+                
+                string cmd = Request["cmd"].ToString();
+                if (cmd.Contains("?"))
+                {
+                    cmd += "&title=" + Request["title"].ToString() + (Request["webid"] == null ? "" : "&webid=" + Request["webid"].ToString());
+                }else {
+                    cmd += "?title=" + Request["title"].ToString() + (Request["webid"] == null ? "" : "&webid=" + Request["webid"].ToString());
+                }
+                Response.Redirect(cmd);
+            } 
+        }
+    }
+}

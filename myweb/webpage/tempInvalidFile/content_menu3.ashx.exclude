@@ -1,0 +1,60 @@
+﻿<%@ WebHandler Language="C#" Class="content_menu3" %>
+
+using System;
+using System.Web;
+using System.Web.SessionState;
+using System.Data;
+using System.DataBase;
+public class content_menu3 : IHttpHandler, IRequiresSessionState {
+    
+    public void ProcessRequest (HttpContext context) {
+        context.Response.ContentType = "text/plain";
+        string id = context.Request.QueryString["url"].ToString();
+        
+        dbConnet.dbstring db = new dbConnet.dbstring();
+        //第一个字母表示列位置,第二个排序
+        string str2 = "SELECT SUBSTRING(CONVERT(VARCHAR(10),a.xh),1,1) AS ls,a.* FROM v_menu  a inner join  v_usermenu v on  a.id=v.menuid and v.userid=" + mySession.CSession.Get("userid").Trim() + "  WHERE a.ty=0 and  isnull(a.text,'')<>'' and  a.ssid=" + id + "  ORDER BY SUBSTRING(CONVERT(VARCHAR(10),a.xh),1,1),xh ";
+        DataTable dt = SqlHelper.ExecuteDataset(db.GetDb(), CommandType.Text, str2).Tables[0];
+        int ls = 0;
+        string sls = "";
+        string outs = "";
+        if (dt.Rows.Count > 0)
+        {
+            outs = "<table width='100%'><tr>";
+
+            foreach (DataRow dr in dt.Rows)//1
+            {                
+                string url = "href=\"#\"";
+                string webid = dr["webid"].ToString().Trim();
+                if (dr["cmd"].ToString().Trim() != string.Empty)
+                {
+                    url = " onclick=addTab(\""+dr["text"].ToString().Trim()+"\",\""+dr["cmd"].ToString().Trim()+"\"";
+                }
+
+                if (sls != dr["ls"].ToString().Trim())
+                {
+                    ls += 1;
+                    sls = dr["ls"].ToString().Trim();
+                    if (ls != 1) { outs += "</table></td>"; }
+                    outs += "<td style='vertical-align:top'>";
+                    outs += "<table><tr><td><input type='image' src='../images/menu2_myhelp.png' onclick='myhelp(" + dr["id"].ToString().Trim() + ")' /></td><td><a  style='text-decoration:none'" + url + " >" + dr["text"].ToString().Trim() + "</a></td></tr>";
+                    //<a href='#' onclick='myhelp(" + dr["id"].ToString().Trim() + ")' >
+                }
+                else
+                {
+                    outs += "<tr><td><input type='image' src='../images/menu2_myhelp.png' onclick='myhelp(" + dr["id"].ToString().Trim() + ")'  /></td><td><a style='text-decoration:none'" + url + " >" + dr["text"].ToString().Trim() + "</a></td></tr>";
+                }
+
+            }
+            outs += "</table></td></tr></table>";
+        }
+        context.Response.Write(outs);
+    }
+ 
+    public bool IsReusable {
+        get {
+            return false;
+        }
+    }
+
+}

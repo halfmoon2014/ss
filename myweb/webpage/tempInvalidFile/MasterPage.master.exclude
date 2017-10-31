@@ -1,0 +1,255 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="webpage_MasterPage" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>    
+    <ctrl:DefaultHeader WEBID="0" ID="sysHead"  runat="server" TITLE="Default"   />        
+</head>
+<body onload="MySysOnload()">    
+    <!-- 通用打印报表选择 -->
+    <div id="mpprt" runat="server" style="    display:none;width:80px; height:100px; z-index:10;"  >    
+    </div>
+
+    <div id="waitmsg" style="display:none;">
+        <div id="mask" style="top: 0; left: 0; position: absolute; z-index: 1000;" class="waitmsg_bg">
+        </div>
+        <div class="waitmsg_beian_winBG" id="beian_popup">
+            <!--弹出框-->
+            <div id="divOneStep" style="z-index: 1002; width: 100%; height: 200px; background: #fff;
+                position: absolute; vertical-align: middle;">
+                <div style="width: 100%; background: #f1f1f1; height: 30px; light-height: 30px; border-bottom: #666666 1px solid;
+                    text-align: right;">
+                    &nbsp;</div>
+                <div style="text-align: center">
+                    数据处理中...</div>
+            </div>
+            <div style="z-index: 1001; position: absolute;">
+                <iframe id="frmOneStep" width="100%" height="200" frameborder="0" scrolling="no"
+                    src="about:blank"></iframe>
+            </div>
+        </div>
+    </div>
+    <div id="div_SysFindSort" style="display: none;">
+        <div id="SysFindSortMask" style="top: 0; left: 0; position: absolute; z-index: 1000;"
+            class="SysFindSortMaskclass">
+        </div>
+        <div class="SysFindSort_beian_winBG">
+            <div style="z-index: 1002; width: 100%; height: 300px; background: #fff; position: absolute;
+                vertical-align: middle;">
+                <div style="width: 100%; background: #f1f1f1; height: 16px; light-height: 16px; border-bottom: #666666 1px solid;
+                    text-align: right;">
+                    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td align="right" style="background-color:  #F7FAF3">
+                                <a href="JavaScript:hideMySysFindSort();">
+                                    <img alt="img" width="19" height="16" border="0" src="../images/login_08.gif" /></a>
+                            </td>
+                        </tr>
+                    </table>
+                    &nbsp;</div>
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td class="td1">
+                            查询条件:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%">
+                                <tr>
+                                    <td class="td1">
+                                        关键字:
+                                    </td>
+                                    <td>
+                                        <select id="SysFindSort_key">
+                                        </select>
+                                    </td>
+                                    <td class="td1">
+                                        条件:
+                                    </td>
+                                    <td>
+                                        <select id="SysFindSort_tj">
+                                            <option selected="selected">=</option>
+                                            <option>!= </option>
+                                            <option>包含 </option>
+                                            <option>不包 </option>
+                                            <option>&gt; </option>
+                                            <option>&gt;= </option>
+                                            <option>&lt; </option>
+                                            <option>&lt;= </option>
+                                        </select>
+                                    </td>
+                                    <td class="td1">
+                                        值:
+                                    </td>
+                                    <td>
+                                        <input type="text" id="SysFindSort_val" />
+                                    </td>
+                                    <td>
+                                        <input type="button" class="btn1" id="SysFindSort_add" onclick="sysFindSortAdd()" value="加入" />
+                                        <input type="button" class="btn1" id="SysFindSort_go" style="background-color:#C0C0C0" onclick="execSysFindSort()" value="筛选" />
+                                        <input type="button" class="btn1" id="SysFindSort_and" onclick="sysFindSortAndOr('并且')" value="并且" />
+                                        <input type="button" class="btn1" id="SysFindSort_or" onclick="sysFindSortAndOr('或者')" value="或者" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <textarea id="SysFindSort_jg" rows="10" cols="10" runat="server" style="width: 565px;
+                                                        height: 120px"></textarea>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tr style="height: 75px">
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="button" class="btn1" id="SysFindSort_clr" onclick="sysFindSortclear()" value="清除" />
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="button" class="btn1" id="SysFindSort_save" onclick="SysFindSort_save()" value="保存"
+                                                                    title="保存当前筛选条件" />
+                                                            </td>
+                                                            <td>
+                                                                <input type="button" class="btn1" id="SysFindSort_load" onclick="SysFindSort_load()" value="加载"
+                                                                    title="加载已保存的筛选条件" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%">
+                                <tr>
+                                    <td style="width:75px" class="td1">
+                                        显示行数:
+                                    </td>
+                                    <td style="width:30px">
+                                        <input style="width:30px" type="text" id="UserShowRows" />
+                                    </td>
+                                    <td style="width:50px">
+                                        <input type="button" class="btn1" onclick="SysSaveUserShowRows()" value="保存" title="设置当前显示行数" />
+                                    </td>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <form id="form1" runat="server">
+    <div class='divallclass' id="divall">
+        <div class="divtotalclass">
+        <div class="mtitle">
+            <div class="lbox" id="main_tit" runat="server">
+                default_title</div>
+        </div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder22" runat="server">
+            </asp:ContentPlaceHolder>
+            <div id="divPager" >
+            </div>           
+        </div>
+    </div>
+
+    <input type="hidden" id="orderBy" name="orderBy" value="" runat="server" />
+    <input type="hidden" id="filterRow" name="filterRow" value="" runat="server" />
+    <input type="hidden" id="sysFindSortRow" name="sysFindSortRow" value="" runat="server" />
+    <input type="hidden" id="filterColumn" name="filterColumn" value="" runat="server" />
+
+    <input type="hidden" id="pageSize" name="pageSize" value="" runat="server" />
+    <input type="hidden"  id="webId" name="webId" value="" runat="server" />
+    <input type="hidden"  id="userWebId" name="userWebId" value="" runat="server" />
+    
+    <!-- 
+    //        用户传给后台
+    //        1用户自这下义排序顺序
+    //        2用户后台筛选条件     
+    //        2用户前台筛选条件
+    //        3自定义列
+    //        4用户设置每页显示行数
+    //        5页面ID(在每个面页中)
+    //        6用户页面ID(一用户多开同一页面,在每个面页中))
+    -->
+    </form>
+</body>
+</html>
+<script type="text/javascript">
+    var pagerObj = null;
+    
+    $(function () {
+        loadInfo();
+    })
+    
+
+    function loadInfo() {
+        var url = '../AjaxHandler/ProcPager.aspx';
+
+        pagerObj = new PagerObj({
+            userWebId: document.getElementById("userWebId").value,
+            filterRow: document.getElementById("filterRow").value + (document.getElementById("sysFindSortRow").value == "" ? "" : " and " + document.getElementById("sysFindSortRow").value),
+            filterColumn: document.getElementById("filterColumn").value,
+            pageSize: document.getElementById("pageSize").value,
+            orderBy: document.getElementById("orderBy").value,
+            webId: document.getElementById("webId").value,
+            url: url,
+            callbackFn: loadInfoCallback
+        });
+
+        pagerObj.Page(1);
+    }
+
+    function loadInfoCallback() {
+        //document.getElementById("waitmsg").style.display = "none";
+        if (getContentTableId() != null) {
+            var key = "table_Content_" + document.getElementById("webId").value;
+            /*
+            $("#" + key + " tr").mouseover(function () {
+                $(this).addClass("over");
+            }).click(function () {
+                $("#" + key + " tr").removeClass("selected");
+                $(this).addClass("selected");
+
+            }).mouseout(function () {
+                $(this).removeClass("over");
+            })去掉鼠标事件*/
+            $("#" + key + " tr").click(function () {
+                $("#" + key + " tr").removeClass("selected");
+                $(this).addClass("selected");
+
+            })
+        }
+    }
+
+
+</script>

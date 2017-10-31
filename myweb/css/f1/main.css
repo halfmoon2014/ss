@@ -1,0 +1,45 @@
+*{
+	padding:0px;
+	margin:0px;
+}
+
+body{
+	color:#666;
+	padding:10px;
+	font-size:12px;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+/*不能改变,因为JS有用到CSS样式名!*/
+.txt{
+	font-size:12px;
+	padding:4px;
+	margin-right:5px;
+	border-width:1px;
+	border-style:solid;
+	border-color:#888 #CCC #CCC #888;
+	background:#FBFBFB;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+}
+
+.txt_o{
+	border-color:#690 #A3C266 #A3C266 #690;
+	background:#FAFDF7;
+	color:#336600;
+}
+.txt_s{
+	border-color:#F60 #FFA366 #FFA366 #F60;
+	background:#FFFBF7;
+	color:#CC3300;
+}
+
+input[type="button"]{
+	height:25px;
+	padding-left:6px;
+	padding-right:6px;
+	font-size:12px;
+	line-height:23px;
+	color:#666;
+	border:1px solid #88AC44;
+	background:url(../../images/button_bg1.jpg) left center repeat-x;
+}

@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using mySession;
+using System.DataBase;
+public partial class main : System.Web.UI.Page
+{
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        string strSql = "select a.* from v_conn  a inner join v_tz b on a.id=b.connid where b.id=" + CSession.Get("tzid").ToString();
+        DataTable dt = SqlHelper.ExecuteDataset(ConfigerHelper.GetValue("DBCon"), CommandType.Text, strSql).Tables[0]; 
+
+        string strrq = DateTime.Now.ToString("d");
+
+        this.m_top_title.InnerHtml = "<a href='../ChooseTz.aspx'  style='text-decoration:none' target='_parent' >切换套账</a> 当前系统:" + dt.Rows[0]["tzmc"].ToString() + (Session["user"] != null ? "&nbsp;用户名:" + Session["username"].ToString() : "") + " &nbsp;日期:" + strrq + "&nbsp;&nbsp;";
+       
+    }
+
+}

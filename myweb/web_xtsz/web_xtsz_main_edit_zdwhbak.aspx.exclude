@@ -1,0 +1,181 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_zdwhbak.aspx.cs"
+    Inherits="web_xtsz_web_xtsz_main_edit_zdwh" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <ctrl:DefaultHeader   ID="sysHead" runat="server" />
+    <style>
+        .jqeui_n_txt
+        {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body id="bodyzdwh" class="easyui-layout">
+    <div region="center" border="false">
+        <table id="zdwhtb" fit="true">
+        </table>
+    </div>
+    <div id='Loading' algin='center' style="position: absolute; z-index: 1000; top: 0px;
+        left: 0px; width: 100%; height: 100%; background: #DDDDDB; text-align: center;
+        padding-top: 20%;">
+        <table style='width: 100%'>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+                <td style='width: 20px'>
+                    <img src='../images/loading.gif' />
+                </td>
+                <td style='width: 58px'>
+                    <font color="#15428B" style='font-size: 12px;'>加载中···</font>
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    $(function () {
+        
+        $('#zdwhtb').datagrid({
+            title: '',
+            fit: true,
+            nowrap: true,
+            autoRowHeight: false,
+            striped: true,
+            collapsible: true,
+            url: 'web_xtsz_main.ashx',
+            queryParams: { 'type': 'GetTbzd', 'id': parent.document.getElementById("wid").value },             
+            columns: [[
+					{ field: 'id', title: 'id', width: 40 },
+                    { field: 'ywname', title: '名称', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\"  value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+                    { field: 'zwname', title: '字段', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\" value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+                    { field: 'ord', title: '顺序', width: 40,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\" value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+                    { field: 'width', title: '宽度', width: 40,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\" value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+                    { field: 'visible', title: '隐藏', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"checkbox\"  " + (value == 1 ? "" : "checked") + "  />";
+                            return s;
+                        }
+                    },
+                    { field: 'readonly', title: '只读', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"checkbox\"  " + (value == 1 ? "" : "checked") + "  />";
+                            return s;
+                        }
+                    },
+                    { field: 'type', title: '类型', width: 80 },
+                    { field: 'ssview', title: '对应表名', width: 80 },
+                    { field: 'sx', title: '筛选', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"checkbox\"  " + (value == 1 ? "" : "checked") + "  />";
+                            return s;
+                        }
+                    },
+                    { field: 'bz', title: '备注', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\" value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+                    { field: 'showzero', title: '显示数字0', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"checkbox\"  " + (value == 1 ? "" : "checked") + "  />";
+                            return s;
+                        }
+                    },
+                    { field: 'event', title: '事件', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\" value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+                    { field: 'btnvalue', title: '按钮名称', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\" value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+                    { field: 'showmrrq', title: '显示默认日期', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"checkbox\"  " + (value == 1 ? "" : "checked") + "  />";
+                            return s;
+                        }
+                    },
+                    { field: 'hj', title: '合计', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"checkbox\"  " + (value == 1 ? "" : "checked") + "  />";
+                            return s;
+                        }
+                    },
+                    { field: 'hbltname', title: '合并列头名称', width: 80,
+                        formatter: function (value, rec, index) {
+                            var s = "<input type=\"text\" class=\"jqeui_n_txt\" value=\"" + value + "\" />";
+                            return s;
+                        }
+                    },
+				]],
+            loadMsg: '数据加载中...',
+            pagination: true,
+            singleSelect: true,
+            toolbar: [{
+                id: 'btnsave',
+                text: '保存',
+                iconCls: 'icon-save',
+                handler: function () {
+                    gridSave();
+                }
+            }]
+        });
+
+
+    });
+    function gridSave() {
+        alert(1);
+    }
+  
+    /*等待框*/
+    function waitOff() {
+        $("#Loading").fadeOut("normal", function () {
+            $(this).remove();
+        });
+    }
+
+    var pc;
+    $.parser.onComplete = function () {
+        if (pc) clearTimeout(pc);
+        pc = setTimeout(waitOff, 1000);
+    }
+
+</script>

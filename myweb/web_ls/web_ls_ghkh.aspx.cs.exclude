@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class web_ls_web_ls_ghkh : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+        /*
+        <tr class="tr_content r1">
+                    <td style="width: 100px" mytype="td" field="sphh"><input type="text" style="width:100%" value="b"></td>
+                    <td style="width: 200px" mytype="td" field="spqm"><input type="text" style="width:100%" value="2"></td>
+                    <td style="display: none" mytype="td" field="id"><input type="text" style="width:100%"></td>
+                </tr>*/
+
+
+    }
+}

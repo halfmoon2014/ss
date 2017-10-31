@@ -1,0 +1,544 @@
+﻿/*通用统一样式表*/
+/*div条件筛选框样式*/
+.SysFindSortMaskclass
+{
+    position: absolute;
+    z-index: 999;
+    filter: alpha(opacity=50);
+    background: #666;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    left: 0;
+    top: 0;
+    height: 99%;
+    width: 100%;
+}
+.SysFindSort_beian_winBG
+{
+    margin-top: -100px;
+    left: 40%;
+    margin-left: -190px;
+    width: 700px;
+    position: absolute;
+    top: 35%;
+    height: 300px;
+    border: #666666 1px solid;
+    z-index: 1000;
+}
+.SysPrtConfigSortMaskclass
+{
+    position: absolute;
+    z-index: 999;
+    filter: alpha(opacity=50);
+    background: #666;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    left: 0;
+    top: 0;
+    height: 99%;
+    width: 100%;
+}
+.SysPrtConfigSort_beian_winBG
+{
+    margin-top: -100px;
+    left: 40%;
+    margin-left: -190px;
+    width: 700px;
+    position: absolute;
+    top: 35%;
+    height: 300px;
+    border: #666666 1px solid;
+    z-index: 1000;
+}
+/*div条件筛选框样式*/
+/*旧样式*/
+.waitmsg_bg
+{
+    position: absolute;
+    z-index: 999;
+    filter: alpha(opacity=50);
+    background: #666;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    left: 0;
+    top: 0;
+    height: 99%;
+    width: 100%;
+}
+.waitmsg_beian_winBG
+{
+    margin-top: -100px;
+    left: 50%;
+    margin-left: -190px;
+    width: 376px;
+    position: absolute;
+    top: 50%;
+    height: 200px;
+    border: #666666 1px solid;
+    z-index: 1000;
+}
+/*旧样式*/
+/*easy layout 方位div除中间部份样式*/
+.MyDivBlockClass
+{
+    margin-bottom: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0;
+}
+.c_head_tb tr
+{
+    height: 30px;
+}
+.c_head_tb td
+{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+/*easy layout 方位div除中间部份样式*/
+
+/*easy layout 方位div 中间部份样式*/
+.MyDivTableClass
+{
+    margin-bottom: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0; /* 	overflow-x: auto; 	overflow-y: hidden;     */
+}
+
+/*easy layout 方位div 中间部份样式*/
+
+/*page分页标题头表格样式  head begin*/
+.style_head
+{
+    border-collapse: collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+    border: solid #999; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+    border-width: 0; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+    background-image: url('../../images/t-03.gif');
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+    height: 29px;
+}
+
+.style_head caption
+{
+    font-size: 14px;
+    font-weight: bolder;
+}
+.style_head th
+{
+    border: solid #999;
+    border-width: 0 1px 1px 0;
+    padding: 2px;
+}
+.style_head td
+{
+    text-overflow: ellipsis;
+    overflow: hidden; /*border: solid #999; 	border-width: 0 1px 1px 0; 	padding: 2px; 	text-align: center; 	*/
+    background: none repeat scroll 0 0 #d9d6c4;
+    border-bottom: 1px solid #E1EBCE;
+    border-top: 1px solid #E1EBCE; /*color: #9CB085;*/
+    border-left: 1px solid #E1EBCE;
+    border-right: 1px solid #E1EBCE;
+    font-weight: normal;
+    height: 19px;
+    line-height: 19px;
+    padding-right: 10px;
+}
+.style_head td a
+{
+    text-decoration: none;
+}
+.style_head_td_text
+{
+    text-align: center;
+    background: none transparent scroll repeat 0% 0%;
+    border-width: 0px;
+    border-style: none;
+    width: 100%;
+    height: 100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    left: 0px;
+}
+
+/*排序样式*/
+@font-face
+{
+    font-family: "Ionicons";
+    src: url("../fonts/ionicons.eot?v=1.4.1");
+    src: url("../fonts/ionicons.eot?v=1.4.1#iefix") format("embedded-opentype"), url("../fonts/ionicons.ttf?v=1.4.1") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+.ion-arrow-down-b, .ion-arrow-up-b, .ion-stats-bars
+{
+    font-family: "Ionicons";
+}
+.ion-arrow-down-b:after
+{
+    content: "\f104";
+}
+.ion-arrow-up-b:after
+{
+    content: "\f10d";
+}
+.ion-stats-bars:after
+{
+    content: "\f2b5";
+}
+/*排序样式*/
+/*page分页标题头表格样式 head end*/
+
+/*与head一样,只是去掉图片改为颜色  打印页面*/
+.style_head_prt /*与上面一个一样,只是用在打印,去掉图片*/
+{
+    border-collapse: collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+    border: solid #999; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+    border-width: 0; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+    background-image: url('../../images/t-03.gif');
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+    height: 29px;
+}
+.style_head_prt caption
+{
+    font-size: 14px;
+    font-weight: bolder;
+}
+.style_head_prt th
+{
+    border: solid #999;
+    border-width: 0 1px 1px 0;
+    padding: 2px;
+}
+.style_head_prt td
+{
+    text-overflow: ellipsis;
+    overflow: hidden; /*border: solid #999; 	border-width: 0 1px 1px 0; 	padding: 2px; 	text-align: center; 	*/
+    background: none repeat scroll 0 0 #d9d6c4;
+    border-bottom: 1px solid #E1EBCE;
+    border-top: 1px solid #E1EBCE;
+    border-left: 1px solid #E1EBCE;
+    border-right: 1px solid #E1EBCE;
+    color: black;
+    font-weight: normal;
+    height: 19px;
+    line-height: 19px;
+    padding-right: 10px;
+}
+
+.style_head_prt_td_text
+{
+    text-align: center;
+    background: none transparent scroll repeat 0% 0%;
+    border-width: 0px;
+    border-style: none;
+    width: 100%;
+    height: 100%;
+}
+/*prt end*/
+
+/* page分页内容表格样式 content begin*/
+.style_Content
+{
+    width: 100%;
+    border-left-width: 0px;
+    border-collapse: collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+    border: solid #999; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+    border-width: 0; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+    table-layout: fixed;
+    margin: 0 auto; /* 	table-layout: fixed;     */
+}
+.style_Content a:link, a:visited
+{
+    text-decoration: none; /*超链接无下划线*/
+}
+
+.style_Content caption
+{
+    font-size: 14px;
+    font-weight: bolder;
+}
+.style_Content th
+{
+    border: solid #999;
+    border-width: 0 1px 1px 0;
+    padding: 2px;
+}
+.style_Content td
+{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    background: none repeat scroll 0 0 #F7FAF3;
+    border-bottom: 1px dotted #d9d6c4;
+    border-top: 1px dotted #d9d6c4;
+    border-left: 1px dotted #d9d6c4;
+    border-right: 1px dotted #d9d6c4;
+    color: black;
+    font-weight: normal;
+    height: 19px;
+    line-height: 19px;
+    padding-right: 10px;
+}
+
+.style_Content_td_text_d
+{
+    background: none repeat scroll 0 0 transparent;
+    text-align: left;
+    border-width: 0px;
+    border-style: none;
+    width: 100%;
+    height: 100%;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    left: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.style_Content_td_text_e
+{
+    text-align: left;
+    background: none transparent scroll repeat 0% 0%;
+    border-width: 0px;
+    border-style: none;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.style_Content_td_buttont_e
+{
+    /*height:25px;*/
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 12px;
+    line-height: 23px;
+    color: #666;
+    border: 1px solid #88AC44;
+    background: url(../../images/button_bg1.jpg) left center repeat-x;
+}
+.style_Content_td_checkbox_d
+{
+    background: alp text-align: center;
+    border-width: 0px;
+    border-style: none;
+    width: 100%;
+}
+.style_Content_td_checkbox_e
+{
+    background: alp text-align: center;
+    border-width: 0px;
+    border-style: none;
+    width: 100%;
+}
+.style_Content_td_checkbox_ebak
+{
+    text-align: center;
+    background: none transparent scroll repeat 0% 0%;
+    border-width: 0px;
+    border-style: none;
+    width: 100%;
+}
+.style_Content_td_textarea_d
+{
+    border-width: 0px;
+    border-style: none;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.style_Content_td_textarea_e
+{
+    border-width: 0px;
+    border-style: none;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.style_Content_td_select_e
+{
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+.style_Content_td_select_d
+{
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+.style_Content tr.over
+{
+    background-color: #d1d2d4;
+}
+.style_Content tr.selected
+{
+    background-color: #D6E5F2;
+}
+.style_Content tr.selected td
+{
+    background-color: #D6E5F2;
+}
+/* page分页内容表格样式  content end*/
+
+/*page分页合计表格样式 hj begin*/
+.style_hj
+{
+    border-collapse: collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+    border: solid #999; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+    border-width: 0; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+    background-image: url('../../images/t-03.gif');
+    margin: 0 auto;
+    table-layout: fixed; /* 	table-layout: fixed; 	*/
+    width: 100%;
+    height: 29px;
+}
+
+.style_hj caption
+{
+    font-size: 14px;
+    font-weight: bolder;
+}
+.style_hj th
+{
+    border: solid #999;
+    border-width: 0 1px 1px 0;
+    padding: 2px;
+}
+.style_hj td
+{
+    text-overflow: ellipsis;
+    overflow: hidden; /*border: solid #999; 	border-width: 0 1px 1px 0; 	padding: 2px; 	text-align: center; 	*/
+    background: none repeat scroll 0 0 #d9d6c4;
+    border-bottom: 1px solid #E1EBCE;
+    border-top: 1px solid #E1EBCE; /*color: #9CB085;*/
+    border-left: 1px solid #E1EBCE;
+    border-right: 1px solid #E1EBCE;
+    font-weight: normal;
+    height: 19px;
+    line-height: 19px;
+    padding-right: 10px;
+}
+/*hj end*/
+
+
+
+
+/*page分页,页码导航表格样式*/
+.navigateClass
+{
+    border-bottom-color: #DDE7CC;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-collapse: collapse;
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    width: 100%;
+}
+
+
+.pageClass
+{
+    font-size: 12px;
+    margin-top: 10px;
+}
+.pageClass ul
+{
+    margin: 0 5px 0 0;
+    list-style: none;
+    float: left;
+}
+/*#f60*/
+.pageClass li
+{
+    float: left;
+    padding: 0 0 5px 0;
+}
+.pageClass a
+{
+    display: block;
+    text-align: center;
+    line-height: 16px;
+    padding: 0 5px;
+}
+.pageClass a:link, .pageClass a:visited
+{
+    /*background: white; 	text-decoration: none; 	color: gray; */
+    border: 1px solid #FFFFFF;
+    color: #669900;
+    display: block;
+    float: left;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    height: 17px;
+    letter-spacing: -1px;
+    line-height: 15px;
+    margin-right: 1px;
+    overflow: hidden;
+    padding-left: 4px;
+    padding-right: 5px;
+    text-decoration: none;
+}
+.pageClass a:hover, .pageClass a:active
+{
+    /*text-decoration: none; 	background: #f93; 	color: white; 	line-height: 16px;    */
+    background: #F1FFD6;
+    border: 1px solid #85BD1E;
+    color: #638425;
+}
+.pagetotal
+{
+    margin: 4px 0 4px 10px;
+    float: right;
+    width: 20%;
+}
+.pageClass ul .pageactive
+{
+    border: 1px solid #85BD1E;
+    background: none repeat scroll 0 0 #F1FFD6;
+    color: #638425;
+    font-weight: bold;
+    font-size: 13px;
+}
+.pagetotal span
+{
+    font-weight: bold;
+    color: #F00;
+}
+.fr
+{
+    float: left;
+}
+/*page分页,页码导航表格样式 end*/
+
+/*打印和EXCEL标题样式*/
+.title_prt
+{
+    margin: auto;
+}
+.title_prt #printTitle
+{
+    font-size: x-large;
+}
+.title_prt #excelTitle
+{
+    font-size: x-large;
+}
+/*打印和EXCEL标题样式*/
+
+/*多页面切换时,选择按钮样式*/
+.mySelectButton
+{
+    border: 1px ridge #000000;
+}
+/*多页面切换时,选择按钮样式*/

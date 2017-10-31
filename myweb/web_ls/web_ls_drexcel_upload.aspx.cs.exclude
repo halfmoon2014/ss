@@ -1,0 +1,157 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Data.OleDb;
+using System.IO;
+
+public partial class upload : System.Web.UI.Page
+{
+    string picPath = "";
+    
+    protected string itemID = "";
+    protected void Page_Load(object sender, EventArgs e)
+    {       
+
+        if (Request.QueryString["id"] != null)
+        {
+            itemID = Request.QueryString["id"];
+        }
+
+        if (IsPostBack)
+        {
+            //picPath = Server.MapPath("web_ls_UpFile");
+            picPath = HttpContext.Current.Request.MapPath("~/UpFile/web_ls");
+            doUpload();
+        }
+    }
+    /// <summary>
+    /// 上传文件
+    /// </summary>
+    protected void doUpload()
+    {
+        try
+        {
+            HttpPostedFile file = file1.PostedFile;
+            string ext = GetExtension(file.FileName);
+            string filename = file.FileName;
+            if (filename.IndexOf("\\") > -1)
+            {
+                filename=filename.Substring(file.FileName.LastIndexOf("\\") + 1, file.FileName.Length - file.FileName.LastIndexOf("\\") - 1);
+            }
+            string strNewPath = GetSaveFilePath(filename.Replace(ext, "")) + ext;
+            file.SaveAs(picPath + strNewPath);
+  
+            DataSet ds = ExcelDataSource(picPath + strNewPath, ExcelSheetName(picPath + strNewPath)[0].ToString());
+            string rjson="";
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                rjson += "{";
+                for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
+                {
+                    rjson += "'"+i+"':'"+dr[i].ToString()+"',";
+                }
+                rjson = rjson.Substring(0, rjson.Length - 1);
+                rjson += "},";
+            }
+            rjson = rjson.Substring(0, rjson.Length - 1);
+            rjson = "'content':["+rjson+"]";
+            WriteJs("parent.uploadsuccess('" + file.FileName + "','" + itemID + "',\"" + rjson + "\"); ");
+
+        }
+        catch (Exception ex)
+        {
+            WriteJs("parent.uploaderror(\""+ex.Message+"\");");
+        }
+    }
+    /// <summary>
+    /// 得到后缀
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    private string GetExtension(string fileName)
+    {
+        try
+        {
+            int startPos = fileName.LastIndexOf(".");
+            string ext = fileName.Substring(startPos, fileName.Length - startPos);
+            return ext;
+        }
+        catch (Exception ex)
+        {
+            WriteJs("parent.uploaderror('" + itemID + "');");
+            return string.Empty;
+        }
+    }
+    /// <summary>
+    /// 得到保存路径
+    /// </summary>
+    /// <param name="oldname"></param>
+    /// <returns></returns>
+    private string GetSaveFilePath(string oldname)
+    {
+        try
+        {
+            DateTime dateTime = DateTime.Now;
+            string yearStr = dateTime.Year.ToString(); ;
+            string monthStr = dateTime.Month.ToString();
+            string dayStr = dateTime.Day.ToString();
+            string hourStr = dateTime.Hour.ToString();
+            string minuteStr = dateTime.Minute.ToString();
+            string dir = dateTime.ToString(@"\\yyyyMMdd");
+            if (!Directory.Exists(picPath + dir))
+            {
+                Directory.CreateDirectory(picPath + dir);
+            }
+            return dir +"\\" +oldname + dateTime.ToString("yyyyMMddhhmmssffff");
+        }
+        catch (Exception ex)
+        {
+            WriteJs("parent.uploaderror(\""+ex.Message+"\");");
+            return string.Empty;
+        }
+    }
+
+    protected void WriteJs(string jsContent)
+    {
+        Page.ClientScript.RegisterStartupScript(typeof(string),"writejs","<script type='text/javascript'>" + jsContent + "</script>");
+        
+    }
+
+    //该方法实现从Excel中导出数据到DataSet中，其中filepath为Excel文件的绝对路径， sheetname为excel文件中的表名
+    public DataSet ExcelDataSource(string filepath, string sheetname)
+    {
+        string strConn;
+        strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filepath + ";Extended Properties=Excel 8.0;";
+        OleDbConnection conn = new OleDbConnection(strConn);
+        OleDbDataAdapter oada = new OleDbDataAdapter("select * from [" + sheetname + "]", strConn);
+        DataSet ds = new DataSet();
+        oada.Fill(ds);
+        conn.Close();
+        return ds;
+    }
+
+    //获得Excel中的所有sheetname。
+    public ArrayList ExcelSheetName(string filepath)
+    {
+        ArrayList al = new ArrayList();
+        string strConn;
+        strConn = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filepath + ";Extended Properties=Excel 8.0;";
+        OleDbConnection conn = new OleDbConnection(strConn);
+        conn.Open();
+        DataTable sheetNames = conn.GetOleDbSchemaTable
+        (System.Data.OleDb.OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
+        conn.Close();
+        foreach (DataRow dr in sheetNames.Rows)
+        {
+            al.Add(dr[2]);
+        }
+        return al;
+    } 
+}

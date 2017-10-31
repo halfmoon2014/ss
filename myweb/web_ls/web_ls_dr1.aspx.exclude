@@ -1,0 +1,126 @@
+<%@ Page Language="VB" %>
+<html>
+<head>
+    <title>EXCEL数据导入</title>
+    <base target="_self">
+        <script language="javascript">
+            function DateToStr(str) {
+                var d = new Date(str);
+                var yy = d.getFullYear();
+                var mm = d.getMonth() + 1;
+                var rr = d.getDate();
+                if (mm < 10) { mm = "0" + mm };
+                if (rr < 10) { rr = "0" + rr };
+                return yy + '-' + mm + '-' + rr;
+            }
+            function MyDr() {
+                var ksh = MyForm.ksh.value;
+                var fileUpload = MyForm.fileUpload.value;
+                var zhs = MyForm.zhs.value;
+                if (ksh.length == 0 || zhs.length == 0 || fileUpload.length == 0) { alert("参数不能为空！"); return; }
+                window.returnValue = ksh + "|" + zhs + "|" + fileUpload;
+                window.close();
+            }
+        </script>
+</head>
+<form method="POST" id="MyForm" name="MyForm">
+<%	
+    Dim bt As String
+    bt = Trim(Request.QueryString("bt"))
+%>
+<table width="100%">
+    <tr>
+        <td height="60" class="TLbt" align="center">
+            <b><u>
+                <%=bt%></u></b>
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr height="30">
+        <td align="center" style="font-weight: bold; font-size: 14px; color: darkblue; font-family: 宋体">
+            请检查导入的数据源是否正确（如数据太多，可分几次导入。）
+        </td>
+    </tr>
+    <tr height="30">
+        <td align="center" style="font-weight: bold; font-size: 14px; color: darkblue; font-family: 宋体">
+            提示：数据只导到页面,如要保存请提交！
+        </td>
+    </tr>
+    <tr height="30">
+        <td align="center">
+            <b>注:请确认数据排列顺序与输入界面的表格一致！</b>
+        </td>
+    </tr>
+</table>
+<center>
+    <table border="0" cellpadding="0" cellspacing="0" width="60%">
+        <tr height="50">
+            <td>
+                &nbsp;
+            </td>
+            <td  align="left">
+                <b>读取开始行:</b>
+            </td>
+            <td>
+                <input type="text" id="ksh" name="ksh" style="width: 280px;" value="1" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr height="50">
+            <td>
+                &nbsp;
+            </td>
+            <td align="left">
+                <b>导入行数:</b>
+            </td>
+            <td>
+                <input type="text" id="zhs" name="zhs" style="width: 280px;" value="30" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');">
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+        <tr height="50">
+            <td>
+                &nbsp;
+            </td>
+            <td  align="left">
+                <b>选择文件:</b>
+            </td>
+            <td>
+                <input type="file" id="fileUpload" onkeydown="return false;" name="fileUpload" style="width: 280px;">
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr height="60">
+            <td>
+                &nbsp;
+            </td>
+            <td width="10" valign="bottom">
+            <input type="button" value="导入" onclick="javascript:MyDr()" />
+                
+            </td>
+            <td width="20">
+                &nbsp;
+            </td>
+            <td width="10" valign="bottom">
+            <input type="button" value="关闭" onclick="vbscript:window.close()" />
+      
+            </td>
+            <td>
+                &nbsp;
+            </td>
+        </tr>
+    </table>
+</center>
+</form>
+</html>

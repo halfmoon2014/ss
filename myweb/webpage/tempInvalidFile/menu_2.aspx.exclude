@@ -1,0 +1,20 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="menu_2.aspx.cs" Inherits="main" %>
+<html><head><title>首页</title></head>
+
+<frameset rows="75,*" border="0">    
+	<frame id="banner" name="banner" src="m_top.aspx" scrolling="no" noresize target="left" >
+	<frameset framespacing="1"  cols="200,*"   >
+		<frame id="left" name="left" target="_self"  src="m_left.aspx" noresize scrolling="no" >
+		<frame id="main" name="main" src="m_main.aspx" target="_self">		
+	</frameset>
+<noframes>
+
+<pre id="preid">
+================================================================
+//  浏览器不支持                                               //
+================================================================
+</pre>
+
+</noframes>
+</frameset>
+</html>

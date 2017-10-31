@@ -1,0 +1,179 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_ls_ghkh.aspx.cs" Inherits="web_ls_web_ls_ghkh" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>供应商档案</title>
+    <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript" src="../javascripts/myjs/myweb.js"></script>
+    <script src="../javascripts/json2.js" type="text/javascript"></script>
+    <!--jquery eui-->
+    <script src="../javascripts/jey/jquery.easyui.min.js" type="text/javascript"></script>
+    <link href="../css/jey/default/easyui.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jey/icon.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jey/mycss.css" rel="stylesheet" type="text/css" />
+    <script language="javascript" type="text/javascript">
+        $(function () {
+            $.parser.parse();
+            /*右键菜单*/
+            tabCloseEven();
+        });
+
+    
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <div>
+            <table style="width: 100%">
+                <tr>
+                    <td align="right">
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="myAdd()"  >新增</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="mySave()"  >保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="myDr()"  >导入EXCEL</a>
+
+                    </td>
+                </tr>
+            </table>
+            <table id="mytable" style="table-layout: fixed">
+                <tr class="tr_head">
+                    <td field="sphh" mytype="td" style="width: 100px">
+                        供应商编码
+                    </td>
+                    <td field="spqm" mytype="td" style="width: 200px">
+                        供应商全名
+                    </td>
+                    <td field="id" mytype="td" style="display: none">
+                        id
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="mm" class="easyui-menu" style="width: 150px;">
+            <div id="add">
+                新增</div>
+            <div class="menu-sep">
+            </div>
+            <div id="mySave">
+                保存</div>
+            <div id="drExcel">
+                导入EXCEL</div>
+            <div id="exit">
+                退出</div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>
+<script language="javascript" type="text/javascript">
+
+    document.oncontextmenu = function (e) {
+        e.preventDefault();
+        $('#mm').menu('show', {
+            left: e.pageX,
+            top: e.pageY
+        });
+    }
+    /*右键菜单*/
+    function tabCloseEven() {
+        $('#mm').menu({
+            onClick: function (item) {
+                closeTab(item.id);
+            }
+        });
+
+        return false;
+    }
+    function closeTab(action) {
+
+        switch (action) {
+            case "add":
+                myAdd();
+                break;
+            case "mySave":
+                //  myadd();
+                break;
+            case "drExcel":
+                myDr();
+                break;
+
+        }
+    }
+    function mySave() {
+    }
+    function getContentCount() {
+        try {
+            return $(".tr_content", $("#mytable")).length;
+        }
+        catch (err) {
+            return 0;
+        }
+    }
+    function myAdd() {
+        try {
+            var maxhh = getContentCount();
+            var newh = $(".tr_head").clone();
+            $(newh).removeClass("tr_head");
+            $(newh).addClass("tr_content r" + (maxhh + 1));
+
+            $.each(newh.children(), function (i, n) {
+
+                if ($(n).attr("mytype") == "td") {
+                    n.innerHTML = "<input type='text' style='width:100%' >";
+                }
+
+            });
+            $("#mytable").append(newh);
+            return true;
+        }
+        catch (e) {
+            return false;
+        }
+    }
+    function readExcel(ksh, zhs, content) {
+        try {            
+            var h=0;//正在处理第几行
+            for (var i = ksh-1; i < content.length; i++) {
+                if (zhs == 0 || zhs > h) {
+                    if (myAdd()) {
+                        var tr = $(".tr_content", $("#mytable"))[getContentCount() - 1];
+                        var tdi=0
+                        $.each($("td", tr), function (i2, n) {
+
+                            if ($(n).css("display") == "none") {
+                            } else {
+                                $("input:text", n).attr("value", content[i][tdi]);
+                                
+                                tdi = tdi + 1;
+                            }
+
+                            //$($("td", $(".tr_content", $("#mytable"))[getContentCount() - 1])[2]).css("display")
+                        });
+                    }
+                }
+                h = h + 1;
+            }
+
+        } catch (e) {
+            $.messager.alert('提示信息', "错误代号是:" + e,'info');
+        }
+
+    }
+
+    function myDr() {
+        var MyURL = "web_ls_drexcel.aspx?bt=(EXCEL导入系统)"
+        rtn = window.showModalDialog(MyURL, window, "dialogHeight: 500px; dialogWidth: 650px; help: No; status: No;");
+        if (rtn == null) {
+            $.messager.alert('提示信息', '未选中导入的数据！', 'info');
+        } else {
+            var ee = eval('(' + rtn + ')');
+            var ksh = ee.h.ksh;
+            var zhs = ee.h.zhs;
+            var content = ee.content;
+            if (ksh >= 1) {
+                readExcel(ksh, zhs, content);
+            }
+        }
+    }
+</script>

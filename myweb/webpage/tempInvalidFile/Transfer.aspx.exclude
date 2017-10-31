@@ -1,0 +1,22 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Transfer.aspx.cs" Inherits="main" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script language="javascript" type="text/javascript">
+        function myhelp(id) {
+            var url = "m_myhelp.aspx?id=" + id;
+            window.showModalDialog(url, "", "location:No;status:No;help:No;dialogWidth:800px;dialogHeight:600px;scroll:no;");
+        }
+
+    </script>
+</head>
+<body style=" width:800px; height: 600px;">
+    <form id="form1" runat="server" onsubmit="return false">
+    <div id="transfer_menu" runat="server" >        
+       
+    </div>
+    </form>
+</body>
+</html>
