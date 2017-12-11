@@ -1,6 +1,7 @@
 packages
 .vs
-
+homepage/Bin/
+myweb/Bin/
 Library/EI.WebEdit/bin
 Library/EI.WebEdit/obj
 Library/FM.Business/bin
@@ -21,3 +22,4 @@ Library/Service.Util/bin
 Library/Service.Util/obj
 Library/WeixinUtil/bin
 Library/WeixinUtil/obj
+myweb/logs/
