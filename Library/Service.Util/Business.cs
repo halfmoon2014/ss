@@ -552,10 +552,13 @@ namespace Service.Util
         public string web_fb_menu()
         {
             string str_sql = "select * from v_user_conn ;" +
-                "select a.* from v_menu a  ";
+                "";
             SqlCommandString sqlstring = new SqlCommandString();
             DAL.DALInterface execObj = new DAL.DALInterface(null, connstr.GetMbConn());
-            DataSet ds = execObj.SubmitTextDataSet(str_sql);
+            DataTable userConn = execObj.SubmitTextDataSet(str_sql).Tables[0];
+
+            DataTable menu = this.execObj.SubmitTextDataSet("select a.* from v_menu a ").Tables[0];
+             
 
             string error = "";
             string upstr = "";
@@ -565,13 +568,13 @@ namespace Service.Util
             execObj.SetConnectionString(connstr.GetCreateLinkServerConnetStringInBLL(this.tzid));
             DataSet dsexit = execObj.SubmitTextDataSet(str_sql);
 
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            foreach (DataRow dr in userConn.Rows)
             {
                 try
                 {
                     #region 发布菜单SQL
                     /*清*/
-                    upstr = " alter table tb_menu disable trigger trtb_menu; select * into #tb_menubak from tb_menu ; delete from tb_menu  ;alter table tb_menu enable trigger trtb_menu;";
+                    upstr = "  select * into #sys_menubak from sys_menu ; ";
 
                     if (dsexit.Tables[0].Select("SRV_NAME='" + dr["tzmc"].ToString() + "无用" + "'").Length <= 0)
                     {//如果不存在连接  ,创建链接服务器   
@@ -581,23 +584,27 @@ namespace Service.Util
                         execObj.SetConnectionString(connstr.GetCreateLinkServerConnetStringInBLL(this.tzid));
                         execObj.SubmitTextInt(str_sql);
                         //SqlHelper.ExecuteScalar(db.GetTzDb(CSession.Get("tzid")), CommandType.Text, str_sql);
-                    }
-
-                    upstr += "  SET IDENTITY_INSERT tb_menu ON  ";
-                    foreach (DataRow dr1 in ds.Tables[1].Rows)
+                    }                    
+                    upstr += "SELECT * INTO #sys_menu FROM sys_menu  WHERE 1=2;";
+                    upstr += "SET IDENTITY_INSERT #sys_menu ON";
+                    foreach (DataRow dr1 in menu.Rows)
                     {
-                        upstr += "  INSERT tb_menu ([id],[xh],[text],[jb],[ssid],[cmd],[mj],[alone],[ty],[bz],[sysdel],[sysdeltime],[help],[webid]) ";
+                        upstr += "  INSERT #sys_menu ([id],[xh],[text],[jb],[ssid],[cmd],[mj],[alone],[ty],[bz],[sysdel],[sysdeltime],sadel,sadeltime,[help],[webid]) ";
                         upstr += "  values ";
                         upstr += "  ('" + dr1["id"].ToString().Replace("'", "''") + "','" + dr1["xh"].ToString().Replace("'", "''") + "','"
                             + dr1["text"].ToString().Replace("'", "''") + "','" + dr1["jb"].ToString().Replace("'", "''") + "','"
                             + dr1["ssid"].ToString().Replace("'", "''") + "','" + dr1["cmd"].ToString().Replace("'", "''") + "','"
                             + dr1["mj"].ToString().Replace("'", "''") + "','" + dr1["alone"].ToString().Replace("'", "''") + "','" + dr1["ty"].ToString().Replace("'", "''") + "','"
                             + dr1["bz"].ToString().Replace("'", "''") + "','" + dr1["sysdel"].ToString().Replace("'", "''") + "','"
-                            + dr1["sysdeltime"].ToString().Replace("'", "''") + "','" + dr1["help"].ToString().Replace("'", "''") + "','" + dr1["webid"].ToString().Replace("'", "''") + "')";
+                            + dr1["sysdeltime"].ToString().Replace("'", "''") + "','0','1900/1/1 0:00:00','"
+                            + dr1["help"].ToString().Replace("'", "''") + "','" + dr1["webid"].ToString().Replace("'", "''") + "')";
                     }
-                    upstr += " update a set a.ty=b.ty,a.alone=b.alone from tb_menu a inner join #tb_menubak b on a.id=b.id where a.id=b.id ";
-                    upstr += " SET IDENTITY_INSERT tb_menu OFF ";
+                    upstr += " update a SET a.xh=b.xh,a.text=b.text,a.jb=b.jb,a.ssid=b.ssid,a.cmd=b.cmd,a.mj=b.mj,a.bz=b.bz,a.sysdel=b.sysdel,a.sysdeltime=b.sysdeltime,a.sadel=b.sadel,a.sadeltime=b.sadeltime,a.help=b.help,a.webid=b.webid "
+                        +"FROM sys_menu a  INNER join #sys_menu b ON a.id=b.id";
 
+                    //upstr += " update a set a.ty=b.ty,a.alone=b.alone from sys_menu a inner join #sys_menubak b on a.id=b.id where a.id=b.id ";
+                    upstr += " SET IDENTITY_INSERT #sys_menu OFF ";
+                    
 
                     #endregion
                     string conn = "";
