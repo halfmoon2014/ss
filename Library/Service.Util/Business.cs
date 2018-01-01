@@ -331,8 +331,14 @@ namespace Service.Util
             Parm[0].Value = wid;
             Parm[1] = new SqlParameter("@USERID", System.Data.SqlDbType.Int);
             Parm[1].Value = this.userid;
-
-            int r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ", Parm);
+            int r = 0;
+            try
+            {
+                 r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ", Parm);
+            }catch(System.Exception e)
+            {
+                r = 0;
+            }
             if (r > 0)
             {
                 return "true";
@@ -413,9 +419,8 @@ namespace Service.Util
         /// <returns></returns>
         public string web_fb(string wid)
         {
-            string str_sql = "select * from v_user_conn ;" +
-                "/*select a.* from v_tbinfo a inner join v_wid b on a.id=b.tbid where b.id=" + wid + "*/;" +
-                "select zd.* from v_tbzd zd  inner join v_tbinfo a on zd.ssview=a.id inner join v_wid b on a.id=b.tbid where b.id=" + wid + " ;" +
+            string str_sql = "select * from v_user_conn where mbtag=1 ;" +                
+                "select zd.* from v_tbzd zd   where zd.webid=" + wid + " ;" +
                 "select * from v_wid where id=" + wid + " ;" +
                 "select * from v_wid_layout where webid=" + wid + ";";
             DAL.DALInterface execObj = new DAL.DALInterface(null, connstr.GetMbConn());
@@ -432,8 +437,8 @@ namespace Service.Util
                 {
                     #region 发布页面SQL
                     /*清*/
-                    upstr = " /*alter table tb_tbinfo disable trigger trtb_tbinfo;  delete from v_tbinfo where id=" + ds.Tables[1].Rows[0]["id"].ToString() + ";alter table tb_tbinfo enable trigger trtb_tbinfo;*/";
-                    upstr += " alter table tb_tbzd disable trigger trtb_tbzd; delete from v_tbzd where ssview=" + ds.Tables[1].Rows[0]["id"].ToString() + ";alter table tb_tbzd enable trigger trtb_tbzd;";
+                    upstr = " ";
+                    upstr += " alter table tb_tbzd disable trigger trtb_tbzd; delete from v_tbzd where webid=" + wid + ";alter table tb_tbzd enable trigger trtb_tbzd;";
                     upstr += "alter table tb_wid disable trigger trtb_wid; delete from v_wid where id=" + wid + ";alter table tb_wid enable trigger trtb_wid;";
                     upstr += " alter table tb_wid_layout disable trigger trtb_wid_layout ; delete from v_wid_layout where webid=" + wid + ";alter table tb_wid_layout enable trigger trtb_wid_layout";
 
@@ -482,7 +487,7 @@ namespace Service.Util
                     upstr += "  INSERT v_wid (id,sysdel,sysdeltime,[name],[sql],[sql_2],[mxgl],[mxhgl],[mxhord],[mxhsql],[mxsql],[fwsql],[mxly],[mrcx],[orderby],[PageSize],[JS],[myadd],[insertcmd],[updatecmd],[deletecmd],[wwidth],[wheight],[wbdll],[classNamespace],[className],[methodName],[DllPath],[onlycx],[Userid],[help],[guid],[lx]) ";
                     upstr += "  values ";
                     upstr += "  ('" + ds.Tables[2].Rows[0]["id"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["sysdel"].ToString().Replace("'", "''") + "','"
-                        + ds.Tables[2].Rows[0]["sysdeltime"].ToString().Replace("'", "''") + "',"
+                        + ds.Tables[2].Rows[0]["sysdeltime"].ToString().Replace("'", "''") + "','"
 
                         + ds.Tables[2].Rows[0]["name"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["sql"].ToString().Replace("'", "''") + "','"
                         + ds.Tables[2].Rows[0]["sql_2"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["mxgl"].ToString().Replace("'", "''") + "','"
@@ -490,7 +495,7 @@ namespace Service.Util
                         + ds.Tables[2].Rows[0]["mxhsql"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["mxsql"].ToString().Replace("'", "''") + "','"
                         + ds.Tables[2].Rows[0]["fwsql"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["mxly"].ToString().Replace("'", "''") + "','"
 
-                        + "'" + ds.Tables[2].Rows[0]["mrcx"].ToString().Replace("'", "''") + "','"
+                        + ds.Tables[2].Rows[0]["mrcx"].ToString().Replace("'", "''") + "','"
                         + ds.Tables[2].Rows[0]["orderby"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["PageSize"].ToString().Replace("'", "''") + "','"
                         + ds.Tables[2].Rows[0]["js"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["myadd"].ToString().Replace("'", "''") + "','"
                         + ds.Tables[2].Rows[0]["insertcmd"].ToString().Replace("'", "''") + "','" + ds.Tables[2].Rows[0]["updatecmd"].ToString().Replace("'", "''") + "','"
@@ -551,7 +556,7 @@ namespace Service.Util
         /// <returns></returns>
         public string web_fb_menu()
         {
-            string str_sql = "select * from v_user_conn ;" +
+            string str_sql = "select * from v_user_conn where systag=1 ;" +
                 "";
             SqlCommandString sqlstring = new SqlCommandString();
             DAL.DALInterface execObj = new DAL.DALInterface(null, connstr.GetMbConn());
@@ -604,7 +609,9 @@ namespace Service.Util
 
                     //upstr += " update a set a.ty=b.ty,a.alone=b.alone from sys_menu a inner join #sys_menubak b on a.id=b.id where a.id=b.id ";
                     upstr += " SET IDENTITY_INSERT #sys_menu OFF ";
-                    
+                    upstr += " SET IDENTITY_INSERT sys_menu on ";
+                    upstr += " INSERT sys_menu ([id],[xh],[text],[jb],[ssid],[cmd],[mj],[alone],[ty],[bz],[sysdel],[sysdeltime],sadel,sadeltime,[help],[webid])  SELECT a.[id],a.[xh],a.[text],a.[jb],a.[ssid],a.[cmd],a.[mj],a.[alone],a.[ty],a.[bz],a.[sysdel],a.[sysdeltime],a.sadel,a.sadeltime,a.[help],a.[webid] FROM #sys_menu  a   left JOIN sys_menu b ON a.id=b.id  WHERE b.id IS NULL  ";
+                    upstr += " SET IDENTITY_INSERT sys_menu OFF ";
 
                     #endregion
                     string conn = "";
