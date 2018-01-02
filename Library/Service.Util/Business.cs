@@ -34,7 +34,7 @@ namespace Service.Util
             SqlParameter[] Parm = new SqlParameter[1];
             Parm[0] = new SqlParameter("@tbname", System.Data.SqlDbType.VarChar, 4000);
             Parm[0].Value = value1;
-            this.execObj.SubmitStoredProcedureDataSet("p_AUTOVIEW", null, Parm);
+            this.execObj.SubmitStoredProcedureDataSet("p_AUTOVIEW", Parm);
             return "true";
         }
 
