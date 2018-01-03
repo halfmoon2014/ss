@@ -6,6 +6,11 @@ using System.Data.SqlClient;
 using Newtonsoft.Json;
 
 using Service.Util.Modal;
+using Newtonsoft.Json.Serialization;
+using System;
+using System.Reflection;
+using System.Linq;
+
 namespace Service.Util
 {
     public class Business
@@ -808,7 +813,9 @@ namespace Service.Util
         public string UpSYJZdwh(string data)
         {
             StringBuilder sql = new StringBuilder();
+            
             SYJZdwhEdit root = JsonConvert.DeserializeObject<SYJZdwhEdit>(data);
+            string mlLink = this.connstr.GetMbLinkname();
             foreach (SYJZdwh zd in root.row)
             {
                 if (zd.Mark == 1)
@@ -816,7 +823,7 @@ namespace Service.Util
                     if (zd.Id == 0)
                     {
                         sql.Append(" insert v_tbzd (ywname, zwname, ord, width, webid, visible, readonly, type,  sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, prtname) ");
-                        sql.Append("select '" + zd.Ywname + "', '" + zd.Zwname + "', '" + zd.Ord + "', '" + zd.Width + "', a.id, '" + zd.Visible + "', '" + zd.Readonly + "', '" + zd.Type + "','" + zd.Sx + "', '" + zd.Bz + "','" + zd.Showzero + "','" + zd.Event + "','" + zd.Btnvalue + "','" + zd.Showmrrq + "','" + zd.Hj + "','" + zd.Hbltname + "','" + zd.Px + "','" + zd.Prtname + "' from mb.dbo.v_wid a where a.id='" + zd.Wid + "';");
+                        sql.Append("select '" + zd.Ywname + "', '" + zd.Zwname + "', '" + zd.Ord + "', '" + zd.Width + "', a.id, '" + zd.Visible + "', '" + zd.Readonly + "', '" + zd.Type + "','" + zd.Sx + "', '" + zd.Bz + "','" + zd.Showzero + "','" + zd.Event + "','" + zd.Btnvalue + "','" + zd.Showmrrq + "','" + zd.Hj + "','" + zd.Hbltname + "','" + zd.Px + "','" + zd.Prtname + "' from "+ mlLink + "v_wid a where a.id='" + zd.Wid + "';");
                     }
                     else
                     {
@@ -837,4 +844,5 @@ namespace Service.Util
 
 
     }
+
 }

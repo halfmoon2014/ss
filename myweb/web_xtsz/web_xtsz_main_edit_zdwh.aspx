@@ -332,7 +332,7 @@
             zwname = sr("zwname", i);
             ord = sr("ord", i); if (ord == "") { ord = "0"; }
             width = sr("width", i); if (width == "") { width = "0"; }
-            id = sr("id", i);
+            id = sr("id", i);if(id==""){id="0";}
             visible = sr("visible", i);
             if (visible == "") { visible = "0"; }
             readonly = sr("readonly", i);
