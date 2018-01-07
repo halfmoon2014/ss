@@ -593,6 +593,7 @@
             dheight = $.trim(myVale("dheight", i).attr("value"));
             if (dheight == "") { dheight = "0"; }
             id = $.trim(myVale("id", i).attr("value"));
+			if(id==""){id="0";}
             visible = $.trim(myVale("visible", i).attr("checked") == "checked" ? "1" : "0");
             readonly = $.trim(myVale("readonly", i).attr("checked") == "checked" ? "1" : "0");
             type = $.trim(myVale("type", i).attr("value"));
