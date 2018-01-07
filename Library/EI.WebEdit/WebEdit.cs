@@ -127,15 +127,17 @@ namespace EI.Web
             ltree.Append("<ul style='padding-left: 0px;'><li><div>" + sjy + "</div></li></ul>");
             ltree.Append("<ul style='padding-left: 0px;'><li><div>" + zdwh + "</div></li></ul>");
             ltree.Append("<ul style='padding-left: 0px;'><li><div>" + js + "</div></li></ul>");
-            ltree.Append("</div>");
-
-            ltree.Append("<div title=\"DIV布局\" style=\"padding:10px;overflow:auto;\">");
             ltree.Append("<ul style='padding-left: 0px;'><li><div>" + t1 + "</div></li><li><div>" + b1 + "</div></li><li><div>" + l1 + "</div></li><li><div>" + r1 + "</div></li><li><div>" + c1 + "</div></li></ul>");
-            ltree.Append("</div>");
-
-            ltree.Append("<div title=\"布局面板\" style=\"padding:10px;overflow:auto;\">");
             ltree.Append("<ul style='padding-left: 0px;'><li><div>" + z + "</div></li></ul>");
             ltree.Append("</div>");
+
+            //ltree.Append("<div title=\"DIV布局\" style=\"padding:10px;overflow:auto;\">");
+            //ltree.Append("<ul style='padding-left: 0px;'><li><div>" + t1 + "</div></li><li><div>" + b1 + "</div></li><li><div>" + l1 + "</div></li><li><div>" + r1 + "</div></li><li><div>" + c1 + "</div></li></ul>");
+            //ltree.Append("</div>");
+
+            //ltree.Append("<div title=\"布局面板\" style=\"padding:10px;overflow:auto;\">");
+            //ltree.Append("<ul style='padding-left: 0px;'><li><div>" + z + "</div></li></ul>");
+            //ltree.Append("</div>");
 
             ltree.Append("</div>");
 

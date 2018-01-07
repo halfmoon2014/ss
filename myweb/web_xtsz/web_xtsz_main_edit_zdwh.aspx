@@ -332,25 +332,21 @@
             zwname = sr("zwname", i);
             ord = sr("ord", i); if (ord == "") { ord = "0"; }
             width = sr("width", i); if (width == "") { width = "0"; }
-            id = sr("id", i);
+            id = sr("id", i); if (id == "") { id = "0"; }
             visible = sr("visible", i);
             if (visible == "") { visible = "0"; }
             readonly = sr("readonly", i);
             if (readonly == "") { readonly = "0"; }
-            type = sr("type", i);
-            sx = sr("sx", i);
-            if (sx == "") { sx = "0"; }
+            type = sr("type", i); if (type == "") { type = "text";}
+            sx = sr("sx", i);if (sx == "") { sx = "0"; }
             bz = sr("bz", i);
-            showzero = sr("showzero", i);
-            if (showzero == "") { showzero = "0"; }
+            showzero = sr("showzero", i);if (showzero == "") { showzero = "0"; }
             event = sr("event", i);
             btnvalue = sr("btnvalue", i);
-            showmrrq = sr("showmrrq", i);
-            hj = sr("hj", i);
-            if (hj == "") { hj = "0"; }
+            showmrrq = sr("showmrrq", i); if (showmrrq == "") { showmrrq = "0"; }
+            hj = sr("hj", i); if (hj == "") { hj = "0"; }
             hbltname = sr("hbltname", i);
-            px = sr("px", i);
-            if (px == "") { px = "0"; }
+            px = sr("px", i);if (px == "") { px = "0"; }
             prtname = sr("prtname", i);
             var dataRow = {};
             if (sr("mark", i) == "") {
