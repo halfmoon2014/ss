@@ -698,7 +698,7 @@
                     var r = myAjaxData(data);
                     if (r.r == 'true') {
                         $.messager.alert('提示信息', '保存成功!', 'info', function () {
-                            $('#ok').linkbutton('enable');
+                            $('#ok').linkbutton('enable'); location.reload();
                         });
                     } else {
                         $.messager.alert('提示信息', '保存失败!', 'info', function () {

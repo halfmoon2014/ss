@@ -332,11 +332,7 @@
             zwname = sr("zwname", i);
             ord = sr("ord", i); if (ord == "") { ord = "0"; }
             width = sr("width", i); if (width == "") { width = "0"; }
-<<<<<<< HEAD
             id = sr("id", i); if (id == "") { id = "0"; }
-=======
-            id = sr("id", i);if(id==""){id="0";}
->>>>>>> 4470c356466c0fbac2a67180f6672715fb9be616
             visible = sr("visible", i);
             if (visible == "") { visible = "0"; }
             readonly = sr("readonly", i);
@@ -377,21 +373,7 @@
             dataRow.prtname = prtname;
             dataRow.wid = wid;
             dataRow.id = id;
-            data.row.push(dataRow);
-            //if (sr("mark", i) == "1") {
-            //    if (id.length == 0 || id == "0") {
-            //        str += " insert mb.dbo.v_tbzd (ywname, zwname, ord, width, webid, visible, readonly, type,  sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, prtname) "
-            //        str += "select '" + ywname + "', '" + zwname + "', '" + ord + "', '" + width + "', a.id, '" + visible + "', '" + readonly + "', '" + type + "','" + sx + "', '" + bz + "',"
-            //        str+="'" + showzero + "','" + event + "','" + btnvalue + "','" + showmrrq + "','" + hj + "','" + hbltname + "','" + px + "','" + prtname + "' from mb.dbo.v_wid a where a.id='" + wid + "';";
-
-            //    } else {
-            //        if (ywname == "" && zwname == "") {
-            //            str += " delete mb.dbo.v_tbzd  where id='" + id + "'; ";
-            //        } else {
-            //            str += " update mb.dbo.v_tbzd set ywname='" + ywname + "', zwname='" + zwname + "', ord='" + ord + "', width='" + width + "', visible='" + visible + "', readonly='" + readonly + "', type='" + type + "',  sx='" + sx + "', bz='" + bz + "', showzero='" + showzero + "', event='" + event + "', btnvalue='" + btnvalue + "', showmrrq='" + showmrrq + "', hj='" + hj + "', hbltname='" + hbltname + "', px='" + px + "', prtname='" + prtname + "'   where id='" + id + "'; ";
-            //        }
-            //    }
-            //}
+            data.row.push(dataRow);     
 
         }
 
@@ -399,26 +381,7 @@
             $.messager.alert('提示信息', '没有可更新的记录!', 'info', function () {
                 $('#ok').linkbutton('enable');
             });
-        } else {
-            //alert(str);
-            //return false;
-            //var r = myAjax(str);
-            //if (r == -1) {
-            //    $.messager.alert('提示信息', '连接失败!', 'info', function () {
-            //        $('#ok').linkbutton('enable');
-            //    });
-            //} else {
-            //    if (r.r == 'true') {
-            //        $.messager.alert('提示信息', '保存成功!', 'info', function () {
-            //            $('#ok').linkbutton('enable');
-            //            parent.closeTab("refresh", false);
-            //        });
-            //    } else {
-            //        $.messager.alert('提示信息', r.msg, 'info', function () {
-            //            $('#ok').linkbutton('enable');
-            //        });
-            //    }
-            //}
+        } else {           
             $.ajax({
                 type: 'post',
                 url: '../webuser/ws.asmx/UpSYJZdwh',
@@ -432,7 +395,7 @@
                     var r = myAjaxData(data);
                     if (r.r == 'true') {
                         $.messager.alert('提示信息', '保存成功!', 'info', function () {
-                            $('#ok').linkbutton('enable');
+                            $('#ok').linkbutton('enable'); location.reload();
                         });
                     } else {
                         $.messager.alert('提示信息', '保存失败!', 'info', function () {
