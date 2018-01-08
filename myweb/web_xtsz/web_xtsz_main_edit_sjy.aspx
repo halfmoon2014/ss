@@ -15,7 +15,7 @@
                 <table>
                     <tr>
                         <td>
-                            <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">保存</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" id="ok" accessKey="S">保存(S)</a>
                         </td>
                         <td id="fb" runat="server">
                         </td>
