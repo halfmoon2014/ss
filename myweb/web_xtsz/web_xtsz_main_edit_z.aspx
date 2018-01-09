@@ -7,9 +7,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <ctrl:DefaultHeader   ID="sysHead" runat="server" />
-    <script src="../javascripts/utils.js" type="text/javascript"></script>
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
     <script src="../javascripts/xtsz/xtsz.js" type="text/javascript"></script>
-    <script src="../javascripts/json2.js" type="text/javascript"></script>
+    <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
     <style type="text/css">
         tr.selectedhighlight 
         {            
@@ -53,79 +53,79 @@
             line-height: 19px;
             padding-right: 2px;
         }
-        .ord
+        .field_ord
         {
             width: 40px;
         }
-        .mc
+        .field_mc
         {
             width: 80px;
         }
-        .qwidth
+        .field_qwidth
         {
             width: 60px;
         }
-        .width
+        .field_width
         {
             width: 40px;
         }
-        .htmlid
+        .field_htmlid
         {
             width: 60px;
         }
-        .visible
+        .field_visible
         {
             width: 40px;
         }
-        .readonly
+        .field_readonly
         {
             width: 40px;
         }
-        .type
+        .field_type
         {
             width: 60px;
         }
-        .event
+        .field_event
         {
             width: 100px;
         }
-        .yy
+        .field_yy
         {
             width: 60px;
         }
-        .zb
+        .field_zb
         {
             width: 40px;
         }
-        .session
+        .field_session
         {
             width: 60px;
         }
-        .css0
+        .field_css0
         {
             width: 60px;
         }        
-        .css
+        .field_css
         {
             width: 60px;
         }        
-        .bz
+        .field_bz
         {
             width: 100px;
         }
-        .nwebid
+        .field_nwebid
         {
             width: 40px;
         }
-        .naspx
+        .field_naspx
         {
             width: 80px;
         }
-        .mrz
+        .field_mrz
         {
             width: 60px;
         }
-        .bds
+        .field_bds
         {
             width: 60px;
         }
@@ -136,7 +136,7 @@
         <table id="Table1" fit="true" >
             <tr>
                 <td >
-                    <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" id="ok" accesskey="s">保存(S)</a>
                 </td>
                 <td >
                     <a href="javascript:void(0)" class="easyui-linkbutton" id="fz">复制</a>
@@ -471,7 +471,7 @@
         $("#fz").bind("click", function () { fz_click(); });
         $("#fb").bind("click", function () { fb_click(); });
         $("[field]").each(function (i, n) {
-            var f = $(n).attr("field");
+            var f = "field_"+$(n).attr("field");
             $(n).addClass(f);
         });
 
@@ -551,7 +551,13 @@
             }
         }
     });
-    
+    function salert(title, text, type, fn) {
+        swal({
+            title: title,
+            text: text,
+            type: type,
+        }, fn);
+    }
     function sr(s, i) {
         return $.trim(myVale(s, i).attr("value").replace(/'/g, "''"));
     }
@@ -661,7 +667,7 @@
         }
 
         if (data.row.length == 0) {
-            $.messager.alert('提示信息', '没有可更新的记录!', 'info', function () {
+            salert('提示信息', '没有可更新的记录!', 'info', function () {
                 $('#ok').linkbutton('enable');
             });
         } else {
@@ -690,18 +696,18 @@
                 url: '../webuser/ws.asmx/UpSYJLayout',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    $.messager.alert('提示信息', '连接失败!', 'info', function () {
+                    salert('提示信息', '连接失败!', 'info', function () {
                         $('#ok').linkbutton('enable');
                     });
                 },
                 success: function (data) {
                     var r = myAjaxData(data);
                     if (r.r == 'true') {
-                        $.messager.alert('提示信息', '保存成功!', 'info', function () {
+                        salert('提示信息', '保存成功!', 'info', function () {
                             $('#ok').linkbutton('enable'); location.reload();
                         });
                     } else {
-                        $.messager.alert('提示信息', '保存失败!', 'info', function () {
+                        salert('提示信息', '保存失败!', 'info', function () {
                             $('#ok').linkbutton('enable');
                         });
                     }
@@ -729,10 +735,17 @@
 
     //fz
     function fz_click() {
-        var oldwid
-        $.messager.prompt("请复制要的wid", "", function (r) {
-            if (r) {
-                rFZ(r);
+      
+        swal({
+            title: "Copy",
+            text: "输入wid",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            inputPlaceholder: ""
+        }, function (inputValue) {
+            if (inputValue != "") {
+                rFZ(inputValue)
             }
         });
     }
@@ -744,20 +757,20 @@
                 url: '../webuser/ws.asmx/websj_fz_zd',
                 data: { wid: oldwid, newwid: newwid, bs: lx },
                 error: function (e) {
-                    $.messager.alert('提示信息', '连接失败!', 'info');
+                    salert('提示信息', '连接失败!', 'info');
                 },
                 success: function (data) {
                     var r = myAjaxData(data)
                     if (r.r == 'true') {
-                        $.messager.alert('提示信息', '复制成功!', 'info', function () { parent.closeTab("refresh", false); });
+                        salert('提示信息', '复制成功!', 'info', function () { parent.closeTab("refresh", false); });
                     } else {
-                        $.messager.alert('提示信息', '复制失败!', 'info');
+                        salert('提示信息', '复制失败!', 'info');
                     }
                 }
             })
 
         } else {
-            $.messager.alert('提示信息', '复制wid无效!', 'info');
+            salert('提示信息', '复制wid无效!', 'info');
         }
     }
 

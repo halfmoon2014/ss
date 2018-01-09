@@ -7,126 +7,131 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <ctrl:DefaultHeader ID="sysHead" runat="server" />
-    <script src="../javascripts/utils.js" type="text/javascript"></script>
-    <script src="../javascripts/xtsz/xtsz.js" type="text/javascript"></script>
-    
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
     <style type="text/css">
-        tr.selectedhighlight 
-        {            
+        tr.selectedhighlight {
             background-color: #654B24;
         }
-        tr.selectedhighlight input 
-        {
-            color: #FF0000;
+
+            tr.selectedhighlight input {
+                color: #FF0000;
+            }
+
+            tr.selectedhighlight select {
+                color: #FF0000;
+            }
+
+        .field_ord {
+            width: 40px;
         }
-        tr.selectedhighlight select
-        {
-            color: #FF0000;
+
+        .field_width {
+            width: 40px;
         }
-        .ord{ width:40px; }
-        .width{width:40px;}
-        .visible{width:40px;}
-        .readonly{width:40px;}
-        .sx{width:40px;}
-        .showzero{width:40px;}
-        .showmrrq{width:40px;}
-        .hj{width:40px;}
-        .px{width:40px;}
+
+        .field_visible {
+            width: 40px;
+        }
+
+        .field_readonly {
+            width: 40px;
+        }
+
+        .field_sx {
+            width: 40px;
+        }
+
+        .field_showzero {
+            width: 40px;
+        }
+
+        .field_showmrrq {
+            width: 40px;
+        }
+
+        .field_hj {
+            width: 40px;
+        }
+
+        .field_px {
+            width: 40px;
+        }
     </style>
 </head>
 <body id="bodyzdwh" class="easyui-layout">
-    <div region="north" style="height:30px;" border="false">
+    <div region="north" style="height: 100px" border="false">
         <table id="Table1" fit="true">
-            <tr  >
+            <tr>
                 <td>
-                    <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">保存</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" accesskey="s" id="ok">保存(S)</a>
                 </td>
                 <td>
                     <a href="javascript:void(0)" class="easyui-linkbutton" id="fz">复制</a>
                 </td>
-                <td id="fb" runat="server">
+                <td id="fb" runat="server"></td>
+                <td>
+                    <ul>
+                        <li>筛选,打印名称 功能还没有完成;</li>
+                        <li>合计=11会显示合计二字</li>
+                        <li>bz现在只用于作为select数据源</li>
+                        <li>显示默认日期只判断日期年份是否等于1900</li>
+                    </ul>
                 </td>
             </tr>
         </table>
-        <div style="color:Red"  >
-            <ul>
-            <li>筛选,打印名称 功能还没有完成;</li>
-            <li>合计=11会显示合计二字</li>      
-            <li>bz现在只用于作为select数据源</li>   
-            <li>显示默认日期只判断日期年份是否等于1900</li>   
-            </ul>
-        </div>
+
     </div>
-    <div region="center" border="false">        
+    <div region="center" border="false">
         <table id="zdwhtb">
             <tr class="tbth" rownum="1">
-                <td field="id" style="display: none">
-                    id
+                <td field="id" style="display: none">id
                 </td>
-                <td field="ywname">
-                    字段
+                <td field="ywname">字段
                 </td>
-                <td field="zwname">
-                    名称
+                <td field="zwname">名称
                 </td>
-                <td field="ord" >
-                    顺序
+                <td field="ord">顺序
                 </td>
-                <td field="width" >
-                    宽度
+                <td field="width">宽度
                 </td>
-                <td field="visible">
-                    显示
+                <td field="visible">显示
                 </td>
-                <td field="readonly" >
-                    只读
+                <td field="readonly">只读
                 </td>
-                <td field="type">
-                    类型
+                <td field="type">类型
                 </td>
-                <td field="sx" >
-                    筛选
+                <td field="sx">筛选
                 </td>
-                <td field="bz">
-                    备注
+                <td field="bz">备注
                 </td>
-                <td field="showzero" >
-                    显示数字0
+                <td field="showzero">显示数字0
                 </td>
-                <td field="event">
-                    事件
+                <td field="event">事件
                 </td>
-                <td field="btnvalue">
-                    按钮名称
+                <td field="btnvalue">按钮名称
                 </td>
-                <td field="showmrrq" >
-                    显示默认日期
+                <td field="showmrrq">显示默认日期
                 </td>
-                <td field="hj" >
-                    合计
+                <td field="hj">合计
                 </td>
-                <td field="hbltname">
-                    合并列头名称
+                <td field="hbltname">合并列头名称
                 </td>
-                <td field="px" >
-                    排序
+                <td field="px">排序
                 </td>
-                <td field="prtname">
-                    打印名称
+                <td field="prtname">打印名称
                 </td>
-                <td field="mark" style="display: none">
-                    mark
+                <td field="mark" style="display: none">mark
                 </td>
             </tr>
             <%                
-                int wid = int.Parse(Request.QueryString["wid"].ToString().Trim());                
+                int wid = int.Parse(Request.QueryString["wid"].ToString().Trim());
                 Business business = new Business(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid"));
                 DataTable dt = business.GetTbzd(wid).Tables[0];
                 if (dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                        %>
+            %>
             <tr class="tbbody" rownum="<%=i%>">
                 <td style="display: none">
                     <input type="text" onfocus="myselect(this)" field="id" value="<%= dt.Rows[i]["id"].ToString()%>" />
@@ -138,32 +143,32 @@
                     <input type="text" onfocus="myselect(this)" field="zwname" value="<%= HtmlCha(dt.Rows[i]["zwname"].ToString())%>" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="ord"  value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>"  />
+                    <input type="text" onfocus="myselect(this)" field="ord" value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)"  field="width" value="<%= HtmlCha(dt.Rows[i]["width"].ToString())%>" />
+                    <input type="text" onfocus="myselect(this)" field="width" value="<%= HtmlCha(dt.Rows[i]["width"].ToString())%>" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="visible" value="<%= HtmlCha(dt.Rows[i]["visible"].ToString())%>"  />
+                    <input type="text" onfocus="myselect(this)" field="visible" value="<%= HtmlCha(dt.Rows[i]["visible"].ToString())%>" />
                 </td>
                 <td>
                     <input type="text" onfocus="myselect(this)" field="readonly" value="<%= HtmlCha(dt.Rows[i]["readonly"].ToString())%>" />
                 </td>
                 <td>
                     <select onfocus="myselect(this)" field="type" mrz="">
-                        <option value="text" <%=(dt.Rows[i]["type"].ToString()=="text"  ?"selected":"") %> >text</option>
-                        <option value="select" <%=(dt.Rows[i]["type"].ToString()=="select"?"selected":"") %> >select</option>
-                        <option value="button" <%=(dt.Rows[i]["type"].ToString()=="button"?"selected":"") %> >button</option>
-                        <option value="checkbox" <%=(dt.Rows[i]["type"].ToString()=="checkbox"?"selected":"") %> >checkbox</option>
-                        <option value="textarea" <%=(dt.Rows[i]["type"].ToString()=="textarea"?"selected":"") %> >textarea</option>
-                        <option value="td" <%=(dt.Rows[i]["type"].ToString()=="td"?"selected":"") %> >td</option>
-                        <option value="a" <%=(dt.Rows[i]["type"].ToString()=="a"?"selected":"") %> >a</option>
-                        <option value="mx" <% =dt.Rows[i]["type"].ToString()=="mx" ?"selected":"" %> >mx</option>
-                        <option value="" <% =dt.Rows[i]["type"].ToString()==string.Empty ?"selected":"" %> ></option>
+                        <option value="text" <%=(dt.Rows[i]["type"].ToString()=="text"  ?"selected":"") %>>text</option>
+                        <option value="select" <%=(dt.Rows[i]["type"].ToString()=="select"?"selected":"") %>>select</option>
+                        <option value="button" <%=(dt.Rows[i]["type"].ToString()=="button"?"selected":"") %>>button</option>
+                        <option value="checkbox" <%=(dt.Rows[i]["type"].ToString()=="checkbox"?"selected":"") %>>checkbox</option>
+                        <option value="textarea" <%=(dt.Rows[i]["type"].ToString()=="textarea"?"selected":"") %>>textarea</option>
+                        <option value="td" <%=(dt.Rows[i]["type"].ToString()=="td"?"selected":"") %>>td</option>
+                        <option value="a" <%=(dt.Rows[i]["type"].ToString()=="a"?"selected":"") %>>a</option>
+                        <option value="mx" <% =dt.Rows[i]["type"].ToString()=="mx" ?"selected":"" %>>mx</option>
+                        <option value="" <% =dt.Rows[i]["type"].ToString()==string.Empty ?"selected":"" %>></option>
                     </select>
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="sx" value="<%= HtmlCha(dt.Rows[i]["sx"].ToString())%>"  />
+                    <input type="text" onfocus="myselect(this)" field="sx" value="<%= HtmlCha(dt.Rows[i]["sx"].ToString())%>" />
                 </td>
                 <td>
                     <input type="text" onfocus="myselect(this)" field="bz" value="<%= HtmlCha(dt.Rows[i]["bz"].ToString())%>" />
@@ -176,20 +181,20 @@
                     <input type="text" onfocus="myselect(this)" field="event" value="<%= HtmlCha(dt.Rows[i]["event"].ToString())%>" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)"  field="btnvalue" value="<%= HtmlCha(dt.Rows[i]["btnvalue"].ToString())%>" />
+                    <input type="text" onfocus="myselect(this)" field="btnvalue" value="<%= HtmlCha(dt.Rows[i]["btnvalue"].ToString())%>" />
                 </td>
                 <td>
                     <input type="text" onfocus="myselect(this)" field="showmrrq" value="<%= HtmlCha(dt.Rows[i]["showmrrq"].ToString())%>"
                         style="width: 40px" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="hj" value="<%= HtmlCha(dt.Rows[i]["hj"].ToString())%>"  />
+                    <input type="text" onfocus="myselect(this)" field="hj" value="<%= HtmlCha(dt.Rows[i]["hj"].ToString())%>" />
                 </td>
                 <td>
                     <input type="text" onfocus="myselect(this)" field="hbltname" value="<%= HtmlCha(dt.Rows[i]["hbltname"].ToString())%>" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="px" value="<%= HtmlCha(dt.Rows[i]["px"].ToString())%>"  />
+                    <input type="text" onfocus="myselect(this)" field="px" value="<%= HtmlCha(dt.Rows[i]["px"].ToString())%>" />
                 </td>
                 <td>
                     <input type="text" onfocus="myselect(this)" field="prtname" value="<%= HtmlCha(dt.Rows[i]["prtname"].ToString())%>" />
@@ -199,7 +204,7 @@
                 </td>
             </tr>
             <%
-}
+                    }
                 }
                 else
                 {
@@ -218,16 +223,16 @@
                     <input type="text" onfocus="myselect(this)" field="ord" value="" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="width" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="width" value="" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="visible" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="visible" value="" />
                 </td>
                 <td>
-                    <input type="text" onfocus="myselect(this)" field="readonly" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="readonly" value="" />
                 </td>
                 <td>
-                    <select field="type" mrz="" onfocus="myselect(this)" >
+                    <select field="type" mrz="" onfocus="myselect(this)">
                         <option value="text">text</option>
                         <option value="select">select</option>
                         <option value="button">button</option>
@@ -240,34 +245,34 @@
                     </select>
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="sx" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="sx" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="bz" value="" />
+                    <input type="text" onfocus="myselect(this)" field="bz" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="showzero" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="showzero" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="event" value="" />
+                    <input type="text" onfocus="myselect(this)" field="event" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="btnvalue" value="" />
+                    <input type="text" onfocus="myselect(this)" field="btnvalue" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="showmrrq" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="showmrrq" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="hj" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="hj" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="hbltname" value="" />
+                    <input type="text" onfocus="myselect(this)" field="hbltname" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="px" value=""  />
+                    <input type="text" onfocus="myselect(this)" field="px" value="" />
                 </td>
                 <td>
-                    <input type="text"  onfocus="myselect(this)" field="prtname" value="" />
+                    <input type="text" onfocus="myselect(this)" field="prtname" value="" />
                 </td>
                 <td style="display: none">
                     <input field="mark" type="text" />
@@ -280,6 +285,8 @@
     </div>
 </body>
 <input type="hidden" id="wid" runat="server" />
+<script src="../javascripts/xtsz/xtsz.js" type="text/javascript"></script>
+<script src="../javascripts/sweetalert/sweetalert.min.js"></script>
 </html>
 <script language="javascript" type="text/javascript">
     $(function () {
@@ -287,13 +294,13 @@
         $("#fz").bind("click", function () { fz_click(); });
         $("#fb").bind("click", function () { fb_click(); });
         $("[field]").each(function (i, n) {
-            var f = $(n).attr("field");
+            var f = "field_" + $(n).attr("field");
             $(n).addClass(f);
         });
         $("[field='ord']").bind('contextmenu', function (e) {
             var r = $(e.currentTarget).parent().parent().attr("rownum");
             var v = $(e.currentTarget).val();
-            for (var i = r; i < getRowNum(); i++) {
+            for (var i = r; i < getRowNum() ; i++) {
                 $("[field='ord']", $("[rownum=" + i + "]", $("#zdwhtb"))).attr("value", Number(v) + (Number(i) - Number(r)))
                 $("[field='mark']", $("[rownum=" + i + "]", $("#zdwhtb"))).attr("value", 1)
             }
@@ -301,6 +308,13 @@
         });
 
     });
+    function salert(title, text, type, fn) {
+        swal({
+            title: title,
+            text: text,
+            type: type,
+        }, fn);
+    }
     //行得到焦点,变色
     function myselect(obj) {
         //alert(g);
@@ -327,7 +341,7 @@
         var ywname, zwname, ord, width, id, visible, readonly, type, sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, prtname
         var data = {};
         data.row = new Array();
-        for (var i = 0; i < getRowNum(); i++) {
+        for (var i = 0; i < getRowNum() ; i++) {
             ywname = sr("ywname", i);
             zwname = sr("zwname", i);
             ord = sr("ord", i); if (ord == "") { ord = "0"; }
@@ -337,16 +351,16 @@
             if (visible == "") { visible = "0"; }
             readonly = sr("readonly", i);
             if (readonly == "") { readonly = "0"; }
-            type = sr("type", i); if (type == "") { type = "text";}
-            sx = sr("sx", i);if (sx == "") { sx = "0"; }
+            type = sr("type", i); if (type == "") { type = "text"; }
+            sx = sr("sx", i); if (sx == "") { sx = "0"; }
             bz = sr("bz", i);
-            showzero = sr("showzero", i);if (showzero == "") { showzero = "0"; }
+            showzero = sr("showzero", i); if (showzero == "") { showzero = "0"; }
             event = sr("event", i);
             btnvalue = sr("btnvalue", i);
             showmrrq = sr("showmrrq", i); if (showmrrq == "") { showmrrq = "0"; }
             hj = sr("hj", i); if (hj == "") { hj = "0"; }
             hbltname = sr("hbltname", i);
-            px = sr("px", i);if (px == "") { px = "0"; }
+            px = sr("px", i); if (px == "") { px = "0"; }
             prtname = sr("prtname", i);
             var dataRow = {};
             if (sr("mark", i) == "") {
@@ -355,8 +369,8 @@
                 dataRow.mark = sr("mark", i);
             }
             dataRow.ywname = ywname;
-            dataRow.zwname=zwname;
-            dataRow.ord=ord;
+            dataRow.zwname = zwname;
+            dataRow.ord = ord;
             dataRow.width = width;
             dataRow.visible = visible;
             dataRow.readonly = readonly;
@@ -373,32 +387,32 @@
             dataRow.prtname = prtname;
             dataRow.wid = wid;
             dataRow.id = id;
-            data.row.push(dataRow);     
+            data.row.push(dataRow);
 
         }
 
         if (data.row.length == 0) {
-            $.messager.alert('提示信息', '没有可更新的记录!', 'info', function () {
+            salert('提示信息', '没有可更新的记录!', 'info', function () {
                 $('#ok').linkbutton('enable');
             });
-        } else {           
+        } else {
             $.ajax({
                 type: 'post',
                 url: '../webuser/ws.asmx/UpSYJZdwh',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    $.messager.alert('提示信息', '连接失败!', 'info', function () {
+                    salert('提示信息', '连接失败!', 'info', function () {
                         $('#ok').linkbutton('enable');
                     });
                 },
                 success: function (data) {
                     var r = myAjaxData(data);
                     if (r.r == 'true') {
-                        $.messager.alert('提示信息', '保存成功!', 'info', function () {
+                        salert('提示信息', '保存成功!', 'info', function () {
                             $('#ok').linkbutton('enable'); location.reload();
                         });
                     } else {
-                        $.messager.alert('提示信息', '保存失败!', 'info', function () {
+                        salert('提示信息', '保存失败!', 'info', function () {
                             $('#ok').linkbutton('enable');
                         });
                     }
@@ -409,34 +423,41 @@
     }
     //fz
     function fz_click() {
-        var oldwid
-        $.messager.prompt("请复制要的wid", "", function (r) {
-            if (r) {
-                rFZ(r);
+        swal({
+            title: "Copy",
+            text: "输入wid",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            inputPlaceholder: ""
+        }, function (inputValue) {
+            if (inputValue != "") {
+                rFZ(inputValue)
             }
         });
     }
     function rFZ(oldwid) {
         var newwid = document.getElementById("wid").value;
         if (!isNaN(oldwid) && oldwid != "0" && oldwid != "") {
-            $.ajax({ type: 'post',
+            $.ajax({
+                type: 'post',
                 url: '../webuser/ws.asmx/websj_fz_zd',
                 data: { wid: oldwid, newwid: newwid, bs: 'zd' },
                 error: function (e) {
-                    $.messager.alert('提示信息', '连接失败!', 'info');
+                    salert('提示信息', '连接失败!', 'info');
                 },
                 success: function (data) {
                     var r = myAjaxData(data);
                     if (r.r == 'true') {
-                        $.messager.alert('提示信息', '复制成功!', 'info', function () { parent.closeTab("refresh", false); });
+                        salert('提示信息', '复制成功!', 'info', function () { parent.closeTab("refresh", false); });
                     } else {
-                        $.messager.alert('提示信息', '复制失败!', 'info');
+                        salert('提示信息', '复制失败!', 'info');
                     }
                 }
             })
 
         } else {
-            $.messager.alert('提示信息', '复制wid无效!', 'info');
+            salert('提示信息', '复制wid无效!', 'info');
         }
     }
 

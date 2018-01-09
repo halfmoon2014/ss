@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <ctrl:DefaultHeader  ID="sysHead" runat="server" />
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
 <body runat="server">
     <form runat="server">
@@ -13,7 +14,7 @@
                 <table>
                     <tr>
                         <td>
-                            <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">保存</a>
+                            <a href="javascript:void(0)" class="easyui-linkbutton" accessKey="S" id="ok">保存(S)</a>
                         </td>
                         <td><a href="javascript:void(0)" class="easyui-linkbutton" id="showtitp">提示</a></td>
                         <td id="fb" runat="server"></td>
@@ -59,6 +60,7 @@
     <input type="hidden" id="wid" runat="server" />
     </form>
 </body>
+    <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
 </html>
 <script>
 
@@ -67,6 +69,13 @@
         $("#fb").bind("click", function () { fb_click(); });
         $("#showtitp").bind("click", function () { showtitp_click(); });
     });
+    function salert(title, text, type, fn) {
+        swal({
+            title: title,
+            text: text,
+            type: type,
+        }, fn);
+    }
     //显示提示
     function showtitp_click() {
         $('#w').window('open');
@@ -80,18 +89,18 @@
             url: '../webuser/ws.asmx/sjy_upjs',
             data: { wid: wid, js: js },
             error: function (e) {
-                $.messager.alert('提示信息', '连接失败!', 'info', function () {
+                salert('提示信息', '连接失败!', 'info', function () {
                     $('#ok').linkbutton('enable');
                 });
             },
             success: function (data) {
                 var r = myAjaxData(data);
                 if (r.r == 'true') {
-                    $.messager.alert('提示信息', '保存成功!', 'info', function () {
+                    salert('提示信息', '保存成功!', 'info', function () {
                         $('#ok').linkbutton('enable');
                     });
                 } else {
-                    $.messager.alert('提示信息', '保存失败!', 'info', function () {
+                    salert('提示信息', '保存失败!', 'info', function () {
                         $('#ok').linkbutton('enable');
                     });
                 }

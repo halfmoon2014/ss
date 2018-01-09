@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <ctrl:DefaultHeader  ID="sysHead" runat="server" />
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
 <body runat="server">
     <form runat="server">
@@ -66,6 +67,7 @@
     <input type="hidden" id="wid" runat="server" />
     </form>
 </body>
+<script src="../javascripts/sweetalert/sweetalert.min.js"></script>
 </html>
 <script>
 
@@ -73,7 +75,13 @@
         $("#ok").bind("click", function () { ok_click(); });
         $("#fb").bind("click", function () { fb_click(); });
     });
-
+    function salert(title,text,type,fn) {
+        swal({
+            title: title,
+            text: text,
+            type: type,
+        }, fn);
+    }
     function ok_click() {
 
         $('#ok').linkbutton('disable');
@@ -87,20 +95,11 @@
         var mxhord = document.getElementById("mxhord").value;
         var mxhsql = document.getElementById("mxhsql").value;
         var sql_2 = document.getElementById("tbsql2").value;
-//        if (sql.length != 0 && name.length != 0) {
-//            $.messager.alert('提示信息', '视图与sql语句中只能填一项!', 'info', function () {
-//                $('#ok').linkbutton('enable');
-//            });
 
-//            /*} else if (sql.length == 0 && tbname.length == 0) {
-//            $.messager.alert('提示信息', '视图与sql语句中必填一项!', 'info');
-//            $('#ok').linkbutton('enable');
-//            return false;*/
-        //        } else 
         if (name.length == 0) {
-            $.messager.alert('提示信息', '中文名称一定要输入!', 'info', function () {
+            salert('提示信息', '中文名称一定要输入!', 'info', function () {
                 $('#ok').linkbutton('enable');
-            });
+            });            
 
         } else {
             var wid = document.getElementById("wid").value;
@@ -116,18 +115,18 @@
                 url: '../webuser/ws.asmx/sjy_up',
                 data: { wid: wid, value1: name,  value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly,sql_2:sql_2 },
                 error: function (e) {
-                    $.messager.alert('提示信息', '连接失败!', 'info', function () {
+                    salert('提示信息', '连接失败!', 'error', function () {
                         $('#ok').linkbutton('enable');
                     });
                 },
                 success: function (data) {
                     var r = myAjaxData(data);
-                    if (r.r == 'true') {
-                        $.messager.alert('提示信息', '保存成功!', 'info', function () {
+                    if (r.r == 'true') {                         
+                        salert('提示信息', '保存成功!', 'success', function () {
                             $('#ok').linkbutton('enable');
                         });
                     } else {
-                        $.messager.alert('提示信息', '保存失败!', 'info', function () {
+                        salert('提示信息', '保存失败!', 'error', function () {
                             $('#ok').linkbutton('enable');
                         });
                     }
@@ -136,6 +135,7 @@
         }
 
     }
+
     //放大
     function fd(obj) {
 

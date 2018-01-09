@@ -10,11 +10,11 @@ public partial class web_xtsz_web_xtsz_main_edit_zdwh : System.Web.UI.Page
         string db = ei.GetDataTag();
         if (db == "true")
         {
-            fb.InnerHtml = "<a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"fb\">发布</a>";
+            //fb.InnerHtml = "<a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"fb\">发布</a>";
         }
         else
         {
-            fb.InnerHtml = "&nbsp;";
+            //fb.InnerHtml = "&nbsp;";
         }
     }
     public string HtmlCha(string str)
