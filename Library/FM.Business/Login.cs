@@ -165,7 +165,12 @@ namespace FM.Business
                 #region 从母板中读取要更新的数据库对象,按名称和修改时间匹配,发现不存在名称或时间不一致的就更新掉
                 strSql = " select a.ctime,a.pname,REPLACE(a.definition,' mb.dbo.',' " + this.connstr.GetMbLinkname() + "') definition ,a.type from " + this.connstr.GetMbLinkname() + "v_v_ptoclient a   ";
                 strSql += " left join _V_ptoclient c on c.pname=a.pname where c.ctime is null or datediff(S,a.ctime,c.ctime)<>0 ;";
-                strSql += " select a.name as pname  from sys.all_objects a inner join sys.sql_modules b on a.object_id = b.object_id  where a.is_ms_shipped=0  ; ";
+                strSql += " select a.name as pname  from sys.all_objects a inner join sys.sql_modules b on a.object_id = b.object_id where a.is_ms_shipped=0  ; ";
+
+                //从主服务器上更新数据
+                strSql += " select a.ctime,a.pname,REPLACE(a.definition,' master.dbo.',' " + this.connstr.GetMasterLinkname() + "') definition ,a.type from " + this.connstr.GetMasterLinkname() + "v_v_ptoclient a   ";
+                strSql += " left join _V_ptoclient c on c.pname=a.pname where c.ctime is null or datediff(S,a.ctime,c.ctime)<>0 ;";                
+
                 DataSet dsp = this.execObj.SubmitTextDataSet(strSql, createServerLinkConnentString); 
                 
                 foreach (DataRow dr in dsp.Tables[0].Rows)
@@ -192,14 +197,10 @@ namespace FM.Business
                         }
                     }
                 }
-                #endregion
-                
+                #endregion   
+                             
                 #region 从主服务器上更新数据
-                strSql = " select a.ctime,a.pname,REPLACE(a.definition,' master.dbo.',' " + this.connstr.GetMasterLinkname() + "') definition ,a.type from " + this.connstr.GetMasterLinkname() + "v_v_ptoclient a   ";
-                strSql += " left join _V_ptoclient c on c.pname=a.pname where c.ctime is null or datediff(S,a.ctime,c.ctime)<>0 ;";
-                strSql += " select a.name as pname  from sys.all_objects a inner join sys.sql_modules b on a.object_id = b.object_id where a.is_ms_shipped=0   ; ";
-                dsp = this.execObj.SubmitTextDataSet(strSql, createServerLinkConnentString); ;
-                foreach (DataRow dr in dsp.Tables[0].Rows)
+                foreach (DataRow dr in dsp.Tables[2].Rows)
                 {
                     if (dr["type"].ToString().Trim().ToLower() == "p")
                     {//处理的存储过程

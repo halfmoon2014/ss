@@ -34,9 +34,11 @@ namespace FM.Business
                 DALInterface execObj = new DALInterface(null, connstr.GetConnString());
                 
                 DataSet ds = execObj.SubmitTextDataSet(sqlstring.TzData(SessionHandle.Get("userid")));
+                string div = "<div class=\"list - group tzlist\">{0}</div>";
                 if (ds.Tables[0].Rows.Count <= 0)
                 {//没有找到单据
-                    rstring[1] = "<table><tr><td>'无可选套账'</td></tr></table>";
+                    //rstring[1] = "<table><tr><td>'无可选套账'</td></tr></table>";
+                    rstring[1] = string.Format(div, "<a href=\"#\" class=\"list-group-item\">无可选套账</a>");
                 }
                 else
                 {
@@ -49,32 +51,51 @@ namespace FM.Business
                     }
                     else
                     {
-                        string str = "<table width='100%' height='100%' border='0' cellpadding='0' cellspacing='0' >";
-                        str += "<tr>";
-                        str += "<td align='center' align='center'>";
-                        str += "<table width='737' height='356' border='0' cellspacing='0' cellpadding='0'>";
-                        str += "<tr>";
-                        str += "<td width='40'>";
-                        str += "</td>";
-                        str += "<td align='center' align='center'>";
-                        str += "<br>";
-                        str += "<br>";
-                        str += "<br>";
-                        str += "<br>";
 
-                        str += "<table  align='center'>";
-                        str += "<tr style='height:30px'><td style='width: 14px;' > &nbsp;</td><td align='right'>&nbsp;</td><td align='left' style='width:80px'>可选套账</td><td align='left'>说明</td><td>&nbsp;</td></tr>";
+                        //string str = "<table width='100%' height='100%' border='0' cellpadding='0' cellspacing='0' >";
+                        //str += "<tr>";
+                        //str += "<td align='center' align='center'>";
+                        //str += "<table width='737' height='356' border='0' cellspacing='0' cellpadding='0'>";
+                        //str += "<tr>";
+                        //str += "<td width='40'>";
+                        //str += "</td>";
+                        //str += "<td align='center' align='center'>";
+                        //str += "<br>";
+                        //str += "<br>";
+                        //str += "<br>";
+                        //str += "<br>";
 
+                        //str += "<table  align='center'>";
+                        //str += "<tr style='height:30px'><td style='width: 14px;' > &nbsp;</td><td align='right'>&nbsp;</td><td align='left' style='width:80px'>可选套账</td><td align='left'>说明</td><td>&nbsp;</td></tr>";
+
+                        //foreach (DataRow dr in ds.Tables[0].Rows)
+                        //{
+                        //    string lm = dr["menu"].ToString().Trim();
+                        //    //默认主页为menu_
+                        //    lm = (lm == string.Empty ? mrmenu : lm);
+
+                        //    str += "<tr align='center'>";
+                        //    str += "<td style='width: 14px'> &nbsp;</td>";
+                        //    str += "<td align='right'>" + (ds.Tables[0].Rows.IndexOf(dr) + 1).ToString().Trim() + "</td>";
+                        //    str += "<td align='left'><a href='#' mylink=1  t=\"" + dr["tzid"].ToString().Trim() + "\" m=\"" + lm + "\" > " + dr["tzmc"].ToString().Trim() + "</a></td>";
+                        //    str += "<td align='left'>" + dr["sm"].ToString().Trim() + "</td>";
+                        //    str += "<td>&nbsp;</td>";
+                        //    str += "</tr>";
+                        //}
+                        //str += "</table></td></tr></table></td></tr> </table>";
+                        string tzHtml = "";
                         foreach (DataRow dr in ds.Tables[0].Rows)
                         {
                             string lm = dr["menu"].ToString().Trim();
                             //默认主页为menu_
                             lm = (lm == string.Empty ? mrmenu : lm);
 
-                            str += "<tr align='center'><td style='width: 14px'> &nbsp;</td><td align='right'>" + (ds.Tables[0].Rows.IndexOf(dr) + 1).ToString().Trim() + "</td><td align='left'><a href='#' mylink=1  t=\"" + dr["tzid"].ToString().Trim() + "\" m=\"" + lm + "\" > " + dr["tzmc"].ToString().Trim() + "</a></td><td align='left'>" + dr["sm"].ToString().Trim() + "</td><td>&nbsp;</td></tr>";
+                            tzHtml += "<a href=\"#\" mylink=1  t=\"" + dr["tzid"].ToString().Trim() + "\" m=\"" + lm + "\" class=\"list-group-item\">";
+                            tzHtml += "<h4 class=\"list -group-item-heading\">"+ dr["tzmc"].ToString().Trim() + "</h4>";
+                            tzHtml += "<p class=\"list -group-item-text\">"+ dr["sm"].ToString().Trim() + "</p>";
+                            tzHtml += "</a>";
                         }
-                        str += "</table></td></tr></table></td></tr> </table>";
-                        rstring[1] = str;
+                        rstring[1] = string.Format(div, tzHtml); ;
                     }
                 }
             }

@@ -61,7 +61,7 @@
   <appSettings>
     <!--页面样式-->
     <PageThemes>jqeui</PageThemes>
-    <Themes>pepper-grinder</Themes>
+    <Themes>ui-pepper-grinder</Themes>
     <!--end页面样式-->
   </appSettings>
 </Root>

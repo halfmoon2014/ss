@@ -51,7 +51,7 @@ public partial class main : System.Web.UI.Page
             parm.Value = parmUrl.Substring(0,parmUrl.Length-1);
         }
         wid.Value = Request.QueryString["wid"];
-        sysHead.TITLE = "打印:" + printTitle.InnerHtml;
+        sysHead.Title = "打印:" + printTitle.InnerHtml;
  
     }
 

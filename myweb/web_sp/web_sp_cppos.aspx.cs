@@ -33,7 +33,7 @@ public partial class web_ls_web_ls_cpdaxx : System.Web.UI.Page
         rq.Value = dt.ToString("yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo);
         if (Request.QueryString["title"] != null)
         {
-            sysHead.TITLE = Request.QueryString["title"].ToString().Trim();
+            sysHead.Title = Request.QueryString["title"].ToString().Trim();
         }
         
     }

@@ -6,7 +6,7 @@
 <%@ Import Namespace="Service.Util" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <ctrl:DefaultHeader   ID="sysHead" runat="server" />
+    <ctrl:DefaultHeader   id="sysHead" runat="server" />
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
     <script src="../javascripts/xtsz/xtsz.js" type="text/javascript"></script>
     <script src="../javascripts/sweetalert/sweetalert.min.js"></script>

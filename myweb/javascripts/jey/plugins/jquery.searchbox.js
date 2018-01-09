@@ -1,10 +1,10 @@
 /**
- * jQuery EasyUI 1.4.1
+ * EasyUI for jQuery 1.5.4
  * 
- * Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
+ * Copyright (c) 2009-2018 www.jeasyui.com. All rights reserved.
  *
- * Licensed under the GPL license: http://www.gnu.org/licenses/gpl.txt
- * To use it on other terms please contact us at info@jeasyui.com
+ * Licensed under the freeware license: http://www.jeasyui.com/license_freeware.php
+ * To use it on other terms please contact us: info@jeasyui.com
  *
  */
 (function($){
@@ -98,7 +98,7 @@ if(_17){
 _17.children("div.menu-item").each(function(){
 var _18=_17.menu("getItem",this);
 if(_18.name==_16){
-$(this).triggerHandler("click");
+$(this).trigger("click");
 return false;
 }
 });

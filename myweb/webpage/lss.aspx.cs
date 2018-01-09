@@ -23,10 +23,10 @@ public partial class lss : System.Web.UI.Page
         }
         else
         {
-            sysHead.WEBID = intWid;
+            sysHead.WebID = intWid;
             if (Request["title"] != null)
             {
-                sysHead.TITLE = Request["title"].ToString().Trim();
+                sysHead.Title = Request["title"].ToString().Trim();
             }
             StringBuilder innerHtml = new StringBuilder();
             StringBuilder cache = new StringBuilder();

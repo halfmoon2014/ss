@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <ctrl:DefaultHeader  ID="sysHead" runat="server" TITLE="收款" />
+    <ctrl:DefaultHeader  id="sysHead" runat="server" title="收款" />
     <link href="../css/mycss/myweb.css" rel="stylesheet" type="text/css" />
     <style>
         .info td

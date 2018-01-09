@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <ctrl:DefaultHeader  ID="sysHead" runat="server" TITLE="选择" />
+    <ctrl:DefaultHeader  id="sysHead" runat="server" title="选择" />
 </head>
 <body style="width: 200px">
     <form id="form1" runat="server">
