@@ -152,7 +152,7 @@ function getCtrlValue(n, iframeName) {
 
     if ($(n).attr("type") == "checkbox") {
         //单选框
-        return ($(n).attr("checked") != undefined ? 1 : 0)
+        return ($(n).is(':checked') ? 1 : 0)
     } else {
         var c_class = $(n).attr("class");
         if (c_class != undefined && c_class.indexOf("easyui-datebox") >= 0) {
@@ -165,7 +165,7 @@ function getCtrlValue(n, iframeName) {
             }
         } else {
             //文本
-            return $.trim($(n).attr("value"));
+            return $.trim($(n).val());
         }
     }
 

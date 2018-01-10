@@ -83,12 +83,12 @@ function fmOnKey(e, id) {
 
             $.each(cc.find("[id]"), function (i, n) {
                 var mykey = $(n).attr("id").replace(qkey, hkey)
-                if ($(n).attr("value") != undefined) {
+                if ($(n).val() != undefined) {
                     if ($(n).attr("type") == undefined || $(n).attr("type") != "button") {
-                        $(n).attr("value", "");
+                        $(n).val("");
                     }
                 }
-                if ($(n).attr("checked") != undefined) {
+                if ($(n).is(':checked')) {
                     $(n).removeAttr("checked");
                 }
                 if (n.childNodes[0] != undefined && n.childNodes[0].nodeName == "#text" && n.getElementsByTagName('*').length == 0) {
@@ -322,7 +322,7 @@ function myFormGet(key, m, v, mx, col) {
     } else {
         if (document.getElementById(skey).type != undefined) {
             if (document.getElementById(skey).type == "checkbox") {//取值的时候,只有0或1,
-                return ($("#" + skey).attr("checked") == undefined ? 0 : 1);
+                return ($("#" + skey).is(':checked') ==false ? 0 : 1);
             } else {
                 return $("#" + skey).val();
             }

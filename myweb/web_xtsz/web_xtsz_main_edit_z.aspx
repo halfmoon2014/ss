@@ -27,7 +27,6 @@
         {
             color: #FF0000;
         } 
-
         .zdwhtb
         {
             border-left-width: 0px;
@@ -146,7 +145,7 @@
             </tr>            
         </table>
         <div  >  
-        <textarea style=" width:95%;"  rows=9>
+        <textarea style="width:95%;"  rows=9>
             button类型的宽度取html宽度;css0样式指定[标题名称];css样式指定[htmlid]             
             session字典 处理顺序
             1.URL
@@ -474,7 +473,6 @@
             var f = "field_"+$(n).attr("field");
             $(n).addClass(f);
         });
-
         if (document.getElementById("lx").value == "z") {
             //布局面板
             var head = document.getElementById("zdwhtb").rows;
@@ -486,7 +484,6 @@
                         for (var m = 1; m <= getRowNum(); m++) {
                             head[m].cells[d].style.display = "none";
                         }
-
                     } catch (e) { }
                 }
             }
@@ -501,7 +498,6 @@
                         for (var m = 1; m <= getRowNum(); m++) {
                             head[m].cells[d].style.display = "none";
                         }
-
                     } catch (e) { }
                 }
             }
@@ -538,7 +534,6 @@
                 $("[field='td_southheight']", $("#cxtj")).attr("style", "display:none");
                 $("[field='td_northheight']", $("#cxtj")).attr("style", "display:none");
                 $("[field='td_eastwidth']", $("#cxtj")).attr("style", "display:none");
-
             } else if (document.getElementById("lx").value == "r") {
                 $("[field='southheight']", $("#cxtj")).parent().attr("style", "display:none");
                 $("[field='northheight']", $("#cxtj")).parent().attr("style", "display:none");
@@ -568,16 +563,12 @@
         var lx = document.getElementById("lx").value;
         var str = "";
         var css0,css, mrz, bds, ord, width, qwidth, id, mc, visible, htmlid, westwidth, eastwidth, northheight, southheight, dwidth, dheight, readonly, type, bz, nwebid, naspx, event, session, zb, yy;
-
         westwidth = $.trim(myVale("westwidth").val());
         if (westwidth == "") { westwidth = "0"; }
-
         eastwidth = $.trim(myVale("eastwidth").val());
         if (eastwidth == "") { eastwidth = "0"; }
-
         southheight = $.trim(myVale("southheight").val());
         if (southheight == "") { southheight = "0"; }
-
         northheight = $.trim(myVale("northheight").val());
         if (northheight == "") { northheight = "0"; }
         var data = {};        
@@ -587,13 +578,10 @@
             if (ord == "") { ord = "0"; }
             nwebid = $.trim(myVale("nwebid", i).val());
             if (nwebid == "") { nwebid = "0"; }
-
             width = $.trim(myVale("width", i).val());
             if (width == "") { width = "0"; }
-
             qwidth = $.trim(myVale("qwidth", i).val());
             if (qwidth == "") { qwidth = "0"; }
-
             dwidth = $.trim(myVale("dwidth", i).val());
             if (dwidth == "") { dwidth = "0"; }
             dheight = $.trim(myVale("dheight", i).val());
@@ -609,7 +597,6 @@
             mc = $.trim(myVale("mc", i).val());
             event = sr("event", i);
             session = sr("session", i);
-
             if (session.toLowerCase() == "userid" || session.toLowerCase() == "tzid" || session.toLowerCase() == "username") {                
                 alert('session 不能是 [userid]或[tzid]或[username] ');
                 $('#ok').linkbutton('enable');
@@ -619,6 +606,7 @@
             yy = sr("yy", i)
             naspx = sr("naspx", i);
             htmlid = $.trim(myVale("htmlid", i).val());
+            if (id == 0 && htmlid.length == 0) { continue;}
             mrz = sr("mrz", i);
             bds = sr("bds", i);
             var dataRow = {};
@@ -665,7 +653,6 @@
             //    }
             //}
         }
-
         if (data.row.length == 0) {
             salert('提示信息', '没有可更新的记录!', 'info', function () {
                 $('#ok').linkbutton('enable');
@@ -690,7 +677,6 @@
             //        });
             //    }
             //}
-
             $.ajax({
                 type: 'post',
                 url: '../webuser/ws.asmx/UpSYJLayout',
@@ -713,11 +699,8 @@
                     }
                 }
             })
-
         }
-
     }
-
     //行得到焦点,变色
     function myselect(obj) {
         //alert(g);
@@ -729,10 +712,8 @@
                 $(r).addClass("selectedhighlight");
             }
         });
-
         //$("#zdwhtb tr").eq(i-1)
     }
-
     //fz
     function fz_click() {
       
@@ -768,10 +749,8 @@
                     }
                 }
             })
-
         } else {
             salert('提示信息', '复制wid无效!', 'info');
         }
     }
-
 </script>
