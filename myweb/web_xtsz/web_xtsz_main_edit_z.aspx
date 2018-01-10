@@ -5,7 +5,7 @@
 <%@ Import Namespace="System.Data" %>
 <%@ Import Namespace="Service.Util" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head  runat="server">
     <ctrl:DefaultHeader   id="sysHead" runat="server" />
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
     <script src="../javascripts/xtsz/xtsz.js" type="text/javascript"></script>
@@ -559,7 +559,7 @@
         }, fn);
     }
     function sr(s, i) {
-        return $.trim(myVale(s, i).attr("value").replace(/'/g, "''"));
+        return $.trim(myVale(s, i).val().replace(/'/g, "''"));
     }
     //保存
     function ok_click() {
@@ -569,44 +569,44 @@
         var str = "";
         var css0,css, mrz, bds, ord, width, qwidth, id, mc, visible, htmlid, westwidth, eastwidth, northheight, southheight, dwidth, dheight, readonly, type, bz, nwebid, naspx, event, session, zb, yy;
 
-        westwidth = $.trim(myVale("westwidth").attr("value"));
+        westwidth = $.trim(myVale("westwidth").val());
         if (westwidth == "") { westwidth = "0"; }
 
-        eastwidth = $.trim(myVale("eastwidth").attr("value"));
+        eastwidth = $.trim(myVale("eastwidth").val());
         if (eastwidth == "") { eastwidth = "0"; }
 
-        southheight = $.trim(myVale("southheight").attr("value"));
+        southheight = $.trim(myVale("southheight").val());
         if (southheight == "") { southheight = "0"; }
 
-        northheight = $.trim(myVale("northheight").attr("value"));
+        northheight = $.trim(myVale("northheight").val());
         if (northheight == "") { northheight = "0"; }
         var data = {};        
         data.row = new Array();
         for (var i = 0; i < getRowNum(); i++) {            
-            ord = $.trim(myVale("ord", i).attr("value"));
+            ord = $.trim(myVale("ord", i).val());
             if (ord == "") { ord = "0"; }
-            nwebid = $.trim(myVale("nwebid", i).attr("value"));
+            nwebid = $.trim(myVale("nwebid", i).val());
             if (nwebid == "") { nwebid = "0"; }
 
-            width = $.trim(myVale("width", i).attr("value"));
+            width = $.trim(myVale("width", i).val());
             if (width == "") { width = "0"; }
 
-            qwidth = $.trim(myVale("qwidth", i).attr("value"));
+            qwidth = $.trim(myVale("qwidth", i).val());
             if (qwidth == "") { qwidth = "0"; }
 
-            dwidth = $.trim(myVale("dwidth", i).attr("value"));
+            dwidth = $.trim(myVale("dwidth", i).val());
             if (dwidth == "") { dwidth = "0"; }
-            dheight = $.trim(myVale("dheight", i).attr("value"));
+            dheight = $.trim(myVale("dheight", i).val());
             if (dheight == "") { dheight = "0"; }
-            id = $.trim(myVale("id", i).attr("value"));
+            id = $.trim(myVale("id", i).val());
 			if(id==""){id="0";}
-            visible = $.trim(myVale("visible", i).attr("checked") == "checked" ? "1" : "0");
-            readonly = $.trim(myVale("readonly", i).attr("checked") == "checked" ? "1" : "0");
-            type = $.trim(myVale("type", i).attr("value"));
+			visible = $.trim(myVale("visible", i).is(':checked') ? "1" : "0");
+			readonly = $.trim(myVale("readonly", i).is(':checked') ? "1" : "0");
+            type = $.trim(myVale("type", i).val());
             bz = sr("bz", i);
             css = sr("css", i);
             css0 = sr("css0", i);
-            mc = $.trim(myVale("mc", i).attr("value"));
+            mc = $.trim(myVale("mc", i).val());
             event = sr("event", i);
             session = sr("session", i);
 
@@ -615,10 +615,10 @@
                 $('#ok').linkbutton('enable');
                 return false;
             }
-            zb = $.trim(myVale("zb", i).attr("checked") == "checked" ? "1" : "0");
+            zb = $.trim(myVale("zb", i).is(':checked') ? "1" : "0");
             yy = sr("yy", i)
             naspx = sr("naspx", i);
-            htmlid = $.trim(myVale("htmlid", i).attr("value"));
+            htmlid = $.trim(myVale("htmlid", i).val());
             mrz = sr("mrz", i);
             bds = sr("bds", i);
             var dataRow = {};

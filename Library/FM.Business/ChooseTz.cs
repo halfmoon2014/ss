@@ -6,9 +6,9 @@ namespace FM.Business
 {
     public class ChooseTz
     {
-        
 
-        
+
+
         /// <summary>
         ///将当前选择的套账放入session 
         /// </summary>
@@ -32,9 +32,22 @@ namespace FM.Business
                 SqlCommandString sqlstring = new SqlCommandString();
                 ConnetString connstr = new ConnetString();
                 DALInterface execObj = new DALInterface(null, connstr.GetConnString());
-                
+
                 DataSet ds = execObj.SubmitTextDataSet(sqlstring.TzData(SessionHandle.Get("userid")));
-                string div = "<div class=\"list - group tzlist\">{0}</div>";
+                string div = 
+                    "<div class=\"form-signin\">" +
+                        "<div class=\"panel panel-default\">" +
+                            "<div class=\"panel-heading\">套账选择</div>" +
+                            "<div class=\"list-group tzlist\">{0}</div>" +
+                            "<div class=\"panel-footer\">" +
+                                    "<div class=\"checkbox\" style=\"text-align:right\">" +
+                                        "<label><input name=\"updata\" id=\"updata\" type = \"checkbox\" >权限更新</label >" +
+                                    "</div>" +
+                            "</div>" +
+                        "</div>" +
+                    "</div> ";
+
+
                 if (ds.Tables[0].Rows.Count <= 0)
                 {//没有找到单据
                     //rstring[1] = "<table><tr><td>'无可选套账'</td></tr></table>";
@@ -42,7 +55,7 @@ namespace FM.Business
                 }
                 else
                 {
-                    if (ds.Tables[0].Rows.Count == 1)
+                    if (ds.Tables[0].Rows.Count == -1)
                     {//只有一个套账的时候,直接进入,停用这个方式,后面会有影响
                         string tm = ds.Tables[0].Rows[0]["menu"].ToString();
                         rstring[1] = "webpage/" + (tm == string.Empty ? mrmenu : tm) + ".aspx";
@@ -91,8 +104,8 @@ namespace FM.Business
                             lm = (lm == string.Empty ? mrmenu : lm);
 
                             tzHtml += "<a href=\"#\" mylink=1  t=\"" + dr["tzid"].ToString().Trim() + "\" m=\"" + lm + "\" class=\"list-group-item\">";
-                            tzHtml += "<h4 class=\"list -group-item-heading\">"+ dr["tzmc"].ToString().Trim() + "</h4>";
-                            tzHtml += "<p class=\"list -group-item-text\">"+ dr["sm"].ToString().Trim() + "</p>";
+                            tzHtml += "<h4 class=\"list -group-item-heading\">" + dr["tzmc"].ToString().Trim() + "</h4>";
+                            tzHtml += "<p class=\"list -group-item-text\">" + dr["sm"].ToString().Trim() + "</p>";
                             tzHtml += "</a>";
                         }
                         rstring[1] = string.Format(div, tzHtml); ;

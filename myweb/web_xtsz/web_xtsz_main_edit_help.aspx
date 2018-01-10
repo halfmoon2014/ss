@@ -2,7 +2,7 @@
     Inherits="web_xtsz_web_xtsz_main_edit_help" %>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head  runat="server">
     <ctrl:DefaultHeader  id="sysHead" runat="server" />
 </head>
 <body runat="server">

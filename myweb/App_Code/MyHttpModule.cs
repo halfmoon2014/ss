@@ -61,7 +61,7 @@ public class MyHttpModule : IHttpModule
             log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
             #endregion
         }
-        else if (string.Compare(loginFileName, absolutePath) == 0)
+        else if (string.Compare(loginFileName, absolutePath,true) == 0)
         {
             #region 登陆页面
             log.WriteLog("MyHttpModule", "login");
@@ -75,7 +75,7 @@ public class MyHttpModule : IHttpModule
             }
             #endregion
         }
-        else if (string.Compare(chooseTzFileName, absolutePath) == 0)
+        else if (string.Compare(chooseTzFileName, absolutePath,true) == 0)
         {
             #region 套账页面
             if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
@@ -85,20 +85,24 @@ public class MyHttpModule : IHttpModule
                 {//超时重登陆
                     redirectURL = SessionHandle.Get("urlreferrer").ToString();
                     SessionHandle.Del("urlreferrer");
+                    application.Response.Redirect(redirectURL);
                 }
                 else
                 {
+                    //直接输入CHOOSETZ.ASPX地址
                     if (application.Request.UrlReferrer == null)
-                    {/*直接输入CHOOSETZ.ASPX地址*/
+                    {
                         redirectURL = SessionHandle.Get("menupage").ToString();
+                        application.Response.Redirect(redirectURL);
                     }
+                    //更改套账
                     else
-                    {/*更改套账*/
+                    {
                         SessionHandle.Del("tzid");
                         redirectURL = "~/choosetz.aspx";
                     }
                 }
-                application.Response.Redirect(redirectURL);
+                
             }
             else if (SessionHandle.Get("userid") == null)
             {
@@ -124,8 +128,11 @@ public class MyHttpModule : IHttpModule
                 }
                 else
                 {
-                    FM.Business.Login lg = new FM.Business.Login();
-                    lg.CreateDbLink();//设置业务服务器上的 连接 主服务与母板的LINK
+                    if (application.Context.Request.Form["updata"] != null)
+                    {
+                        FM.Business.Login lg = new FM.Business.Login();
+                        lg.CreateDbLink();//设置业务服务器上的 连接 主服务与母板的LINK
+                    }
                 }
             }
             else if (SessionHandle.Get("userid") == null)

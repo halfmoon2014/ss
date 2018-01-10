@@ -9,13 +9,14 @@ public partial class ChooseTz : System.Web.UI.Page
         
         FM.Business.ChooseTz tz = new FM.Business.ChooseTz();
         string[] mystring = tz.GetTzMenu("menu_");
-        if (mystring[0] == "Response")
-        {
-            Response.Redirect(mystring[1]);
-        } else 
-        {
-            chosstz.InnerHtml = mystring[1];
-        }    
+        container.InnerHtml = mystring[1];
+        //if (mystring[0] == "Response")
+        //{
+        //    Response.Redirect(mystring[1]);
+        //} else 
+        //{
+        //    container.InnerHtml = mystring[1];
+        //}
 
     }
 }

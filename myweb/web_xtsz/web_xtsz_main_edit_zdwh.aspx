@@ -5,7 +5,7 @@
 <%@ Import Namespace="MyTy" %>
 <%@ Import Namespace="Service.Util" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
+<head  runat="server">
     <ctrl:DefaultHeader id="sysHead" runat="server" />
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
     <style type="text/css">
@@ -331,7 +331,7 @@
     }
     //取页面上的值
     function sr(s, i) {
-        return $.trim(myVale(s, i).attr("value").replace(/'/g, "''"));
+        return $.trim(myVale(s, i).val().replace(/'/g, "''"));
     }
     //保存
     function ok_click() {

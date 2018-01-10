@@ -17,31 +17,22 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
             tzid = $(e.target).parent().attr("t");
             menu = $(e.target).parent().attr("m");
         }
-        //alert(tzid);
-        //return false;
-        gotz(tzid,menu);
+        gotz(tzid, menu);
+        return false;
+    });
 
-    })
-
-
-    //$("[mylink='1']").bind("click", function (e) {
-    //    gotz($(e.target).parent().attr("t"), $(e.target).parent().attr("m"));
-    //})
-
-    var gotz = function (tzid, menu) {
-        document.getElementById("tzid").value = tzid;
-        document.getElementById("menu").value = menu;
-
+    var gotz = function (tzid, menu) {        
         $.ajax({
             type: 'post',
             url: 'webuser/WebService.asmx/ChooseTz',
             data: { tzid: myweb.mySysDate(tzid) },
-            error: function () {
-            },
+            error: function () {},
             success: function (data) {
                 r = utils.myAjaxData(data);
                 if (r.r == "true") {
-                    window.location.href = "webpage/" + menu + ".aspx";
+                    document.forms[0].action = "webpage/" + menu + ".aspx"
+                    document.forms[0].submit();
+                    //window.location.href = "webpage/" + menu + ".aspx";
                 }
             }
         })
