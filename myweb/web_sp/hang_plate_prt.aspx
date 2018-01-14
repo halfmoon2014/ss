@@ -65,11 +65,7 @@
                     <td width="80" align="center">重量(斤)</td>
                     <td width="80" align="center">斤个数</td>
                     <td width="80" align="center">单价</td>
-                    <td width="60" align="center">金额</td>
-                   <%-- <td width="50" align="center">其他</td>
-                    <td width="60" align="center">总个数</td>
-                    <td width="60" align="center">油单价</td>
-                    <td width="130" align="center">油金额</td>--%>
+                    <td width="60" align="center">金额</td>                  
                     <td width="160" align="center">备注</td>
                 </tr>
                 <%
@@ -85,13 +81,9 @@
                     <td><%=dr["product"]%></td>
                     <td><%=dr["colour"]%></td>
                     <td><%=dr["weight"]%></td>
-                    <td><%=dr["count_pre_jin"]%></td>
+                    <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":dr["count_pre_jin"]) %></td>
                     <td><%=dr["price"]%></td>
-                    <td><%=dr["Amount"]%></td>
-              <%--      <td><%=dr["after_finish"]%></td>
-                    <td><%=dr["after_quantity"]%></td>
-                    <td><%=dr["after_price"]%></td>
-                    <td><%=dr["after_amt"]%></td>--%>
+                    <td><%=dr["Amount"]%></td>              
                     <td><%=dr["remark"]%></td>
                 </tr>
                 <%
