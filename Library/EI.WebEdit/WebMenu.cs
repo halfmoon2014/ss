@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Text;
 namespace EI.Web
 {
@@ -7,11 +8,11 @@ namespace EI.Web
     /// 菜单页关联类
     /// </summary>
     public class WebMenu
-    {       
-    
+    {
+
         public string GetCont(string userid, string tzid, string menuPage)
         {
-           
+
             FM.Business.Login lg = new FM.Business.Login();
             string userName = lg.GetUser(userid).Tables[0].Rows[0]["name"].ToString();
 
@@ -60,54 +61,46 @@ namespace EI.Web
             contextMenu.Append("<div id=\"exit\">退出</div>");
             contextMenu.Append("</div>");
             #endregion
-            
+
             string hidden = "<input type=\"hidden\"  id=\"username\" a=\"" + menuPage + "\" b=\"" + tzid + "\" value=\"" + userName + "\" />";
             return north + west + south + center + wait + contextMenu + hidden;
 
         }
-        /// <summary>
-        /// 创建菜单
-        /// </summary>
-        /// <returns></returns>
-        //public String CreateMenu()
-        //{
-        //    StringBuilder menuStr = new StringBuilder();
-        //    menuStr.Append(" <div data-options=\"region:'west',split:true,title:'目录'\" style=\"width:160px;padding:0px;\">");
-        //    StringBuilder tmpStr = new StringBuilder();
-        //    tmpStr.Append("<div class=\"easyui-accordion\" id=\"lmenu\" data-options=\"fit:true,border:false\" sytle=\"width:100%\">");
-        //    FM.Business.Menu menu = new FM.Business.Menu();
-        //    DataTable dt = menu.GetTopLM();
-        //    foreach (DataRow dr in dt.Rows)//1
-        //    {
-        //        tmpStr.Append("<div title=\"" + dr["text"].ToString() + "\" style=\"padding:10px;overflow:auto;\">");
-        //        if (Convert.ToInt32(dr["mj"]) == 1)//判断本级是否是末级了
-        //        {
-        //            tmpStr.Append("</div>");
-        //        }
-        //        else
-        //        {
-        //            DataTable dtNode = menu.GetMenu(dr["id"].ToString());
-        //            StringBuilder tmp = new StringBuilder();
-        //            foreach (DataRow drNode in dtNode.Rows)//2
-        //            {
-        //                tmp.Append("<li><div><a   href=\"#\" url=\"" + drNode["id"].ToString().Trim() + "\" class=\"nav\" >" + "<span class=\"icon icon-sys\" ></span>" + drNode["text"].ToString() + "</a></div></li>");
-        //            }
-        //            tmpStr.Append("<ul style='padding-left: 0px;'>" + tmp + "</ul></div>");
-        //        }
 
-        //    }
-        //    tmpStr.Append("</div>");
-        //    menuStr.Append(tmpStr + "</div>");
-        //    return menuStr.ToString();
-        //}
-        public String CreateMenuTree(string userid)
+        public string CreateMenuTree(string userid)
         {
             StringBuilder menuStr = new StringBuilder();
             menuStr.Append(" <div data-options=\"region:'west',split:true,title:'目录'\" style=\"width:160px;padding:0px;\">");
             StringBuilder tmpStr = new StringBuilder();
             FM.Business.Menu menu = new FM.Business.Menu();
-            DataTable dt = menu.GetTopLM(userid);
-            foreach (DataRow dr in dt.Rows)//1
+            //DataTable dt = menu.GetTopLM(userid);
+            DataSet ds = menu.GetUserMenu(userid);
+            DataTable dtMenu = ds.Tables[0];
+            DataTable dtUserMenu = ds.Tables[1];
+
+            var queryTopMenu =
+                from queryMenu in dtMenu.Select("jb=1").AsEnumerable()
+                from queryUserMenu in dtUserMenu.AsEnumerable()
+                where queryMenu.Field<int>("ID") == queryUserMenu.Field<int>("menuid")
+                select new
+                {
+                    id = queryMenu.Field<int>("id"),
+                    text = queryMenu.Field<string>("text"),
+                    mj = queryMenu.Field<int>("mj"),
+                    xh = queryMenu.Field<string>("xh")
+                };
+            queryTopMenu = queryTopMenu.OrderBy(s => s.xh);
+            DataTable dtTopMenu = new DataTable();
+            dtTopMenu.Columns.Add("id", typeof(int));
+            dtTopMenu.Columns.Add("text", typeof(string));
+            dtTopMenu.Columns.Add("mj", typeof(int));
+
+            foreach (var obj in queryTopMenu)
+            {
+                dtTopMenu.Rows.Add(obj.id, obj.text, obj.mj);
+            }
+
+            foreach (DataRow dr in dtTopMenu.Rows)
             {
                 tmpStr.Append("<li>");
                 tmpStr.Append("<span>" + dr["text"].ToString() + "</span>");
@@ -117,9 +110,10 @@ namespace EI.Web
                 }
                 else
                 {
-                    DataTable dtNode = menu.GetMenu(userid,dr["id"].ToString());
+                    //DataTable dtNode = menu.GetMenu(userid, dr["id"].ToString());
+                    DataTable dtNode = GetMenu(dr["id"].ToString(), dtMenu, dtUserMenu);
                     tmpStr.Append("<ul >");
-                    tmpStr.Append(CreateMenuSubTree(userid,dtNode));
+                    tmpStr.Append(CreateMenuSubTree(dtNode, dtMenu, dtUserMenu));
                     tmpStr.Append("</ul>");
                 }
                 tmpStr.Append("</li>");
@@ -128,7 +122,7 @@ namespace EI.Web
             return menuStr.ToString();
         }
 
-        public String CreateMenuSubTree(string userid,DataTable dtNode)
+        public string CreateMenuSubTree(DataTable dtNode, DataTable dtMenu, DataTable dtUserMenu)
         {
             StringBuilder substring = new StringBuilder();
             foreach (DataRow drNode in dtNode.Rows)
@@ -140,13 +134,65 @@ namespace EI.Web
                 else
                 {
                     FM.Business.Menu menu = new FM.Business.Menu();
-                    DataTable dtNodeNext = menu.GetMenu(userid,drNode["id"].ToString());
-                    substring.Append("<ul ><li><span>" + drNode["text"].ToString() + "</span></li>" + CreateMenuSubTree(userid,dtNodeNext) + "</ul>");
+                    //DataTable dtNodeNext = menu.GetMenu(userid, drNode["id"].ToString());
+                    DataTable dtNodeNext = GetMenu(drNode["id"].ToString(), dtMenu, dtUserMenu);
+                    substring.Append("<ul ><li><span>" + drNode["text"].ToString() + "</span></li>" + CreateMenuSubTree(dtNodeNext, dtMenu, dtUserMenu) + "</ul>");
                 }
             }
             return substring.ToString();
         }
 
+        public DataTable GetMenu(string menuID, DataTable dtMenu, DataTable dtUserMenu)
+        {
+            DataTable UserMenu = new DataTable();
+            UserMenu.Columns.Add("id", typeof(int));
+            UserMenu.Columns.Add("text", typeof(string));
+            UserMenu.Columns.Add("mj", typeof(int));
+            UserMenu.Columns.Add("xjmj", typeof(int));
+
+            var mjQuery = from t in dtMenu.Select("mj=1").AsEnumerable()
+                          group t by new { t1 = t.Field<int>("ssid") } into m
+                          select new
+                          {
+                              ssid = m.Key.t1,
+                              mj = m.Max(n => n.Field<int>("mj"))
+                          };
+
+            DataTable dtXJMJMenu = new DataTable();
+            dtXJMJMenu.Columns.Add("ssid", typeof(int));
+            dtXJMJMenu.Columns.Add("mj", typeof(int));
+            if (mjQuery.ToList().Count > 0)
+            {
+                mjQuery.ToList().ForEach(q =>
+                {
+                    Console.WriteLine(q.ssid + "," + q.mj);
+                    dtXJMJMenu.Rows.Add(q.ssid, q.mj);
+                });
+            }
+
+            var queryTopMenu =
+                from queryMenu in dtMenu.Select(" ssid=" + menuID).AsEnumerable()
+                join queryUserMenu in dtUserMenu.AsEnumerable() on queryMenu.Field<int>("ID") equals queryUserMenu.Field<int>("menuid")
+                join queryXJMJ in dtXJMJMenu.AsEnumerable() on queryMenu.Field<int>("ID") equals queryXJMJ.Field<int?>("ssid") into dtMJ
+                from queryXJMJ in dtMJ.DefaultIfEmpty()
+                select new
+                {
+                    id = queryMenu.Field<int>("id"),
+                    text = queryMenu.Field<string>("text"),
+                    mj = queryMenu.Field<int>("mj"),
+                    xjmj = queryXJMJ != null ? queryXJMJ.Field<int?>("mj") : 0,
+                    xh = queryMenu.Field<string>("xh")
+                };
+            queryTopMenu = queryTopMenu.OrderBy(s => s.xh);
+
+            foreach (var obj in queryTopMenu)
+            {
+                UserMenu.Rows.Add(obj.id, obj.text, obj.mj, obj.xjmj);
+            }
+
+            return UserMenu;
+
+        }
         /// <summary>
         /// 得到菜单北区域
         /// </summary>

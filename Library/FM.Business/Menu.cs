@@ -21,6 +21,15 @@ namespace FM.Business
 
         }
         /// <summary>
+        /// 用户菜单
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public DataSet GetUserMenu(string userid)
+        {
+            return execObj.SubmitTextDataSet(sqlstring.UserMenu(userid)); 
+        }
+        /// <summary>
         /// 得到非顶级菜单,指定SSID
         /// </summary>
         /// <param name="id"></param>

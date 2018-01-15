@@ -10,9 +10,20 @@ public partial class main : System.Web.UI.Page
     {        
         if (Application["errMsg"]!= null)
         {
-            string errMsg = Application["errMsg"].ToString();
+            string errMsg = Application["errMsg"].ToString();                               
             Application.Remove("errMsg");
-            error.InnerHtml = "错误信息:</br>&nbsp;&nbsp;&nbsp;&nbsp;<textarea id='textarea1'readonly style='width:100%;height:600px;border-width: 0px;' >" + errMsg + "</textarea>";
+            error.InnerHtml = errMsg;
+            String myScript = "<script type=\"text/javascript\">"+
+                "window.onload=function(){"+
+                "  try {"+
+                "      console.log(document.getElementById('error').value);"+
+                "  } catch (e) { "+
+                "     alert(e.message);"+
+                "  }"+
+                "};"+
+                "</script>";
+            Response.Write(myScript);            
+            //error.InnerHtml =errMsg ;
         }
         else
         {

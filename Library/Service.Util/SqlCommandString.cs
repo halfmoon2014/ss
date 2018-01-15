@@ -57,6 +57,11 @@ namespace Service.Util
             where a.ty=0 and  a.jb = 1  order by a.xh", userid);             
         }
 
+        public string UserMenu(string userid)
+        {
+            return string.Format(@"SELECT a.text,a.id,a.mj,ssid,a.ty,a.jb,a.xh FROM v_menu a where a.ty=0;SELECT v.menuid,v.userid FROM v_usermenu v WHERE v.userid={0}", userid);
+        }
+
         public string Menu(string userid, string id)
         {
             return string.Format(@"SELECT a.text,a.id,a.mj,isnull(b.mj,0) as xjmj 
