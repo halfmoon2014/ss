@@ -15,7 +15,7 @@
         <script src="javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <link href="css/loading/loading.css" rel="stylesheet" />
     <style type="text/css">
         body {
             padding-top: 40px;
@@ -24,7 +24,7 @@
         }
 
         .form-signin {
-            max-width: 330px;
+            max-width: 1000px;
             padding: 15px;
             margin: 0 auto;
         }

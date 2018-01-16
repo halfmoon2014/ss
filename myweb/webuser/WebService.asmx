@@ -17,7 +17,7 @@ using MyTy;
 [System.Web.Script.Services.ScriptService]
 public class WebService : System.Web.Services.WebService
 {
-    
+
     /// <summary>
     /// 用户登陆
     /// </summary>
@@ -32,19 +32,24 @@ public class WebService : System.Web.Services.WebService
         FM.Business.Login lg = new FM.Business.Login();
         return "{r:'" + lg.UserLogin(ur, ps) + "'}";
     }
-    
+
     /// <summary>
     /// 套账选择的时候使用
     /// </summary>
     /// <param name="tzid"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string ChooseTz(string tzid)
-    {        
+    public string ChooseTz(string tzid, string updata)
+    {
         FM.Business.ChooseTz ch = new FM.Business.ChooseTz();
-        ch.AddTzid(tzid);        
+        ch.AddTzid(tzid);
+        if (string.Compare(updata, "true") == 0)
+        {
+            FM.Business.Login lg = new FM.Business.Login();
+            lg.CreateDbLink();//设置业务服务器上的 连接 主服务与母板的LINK
+        }
         return "{r:'true'}";
-    }    
+    }
     /// <summary>
     /// 重置密码
     /// </summary>

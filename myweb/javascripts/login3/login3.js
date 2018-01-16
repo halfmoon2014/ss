@@ -1,11 +1,12 @@
 ﻿require.config({
     paths: {
         "jquery": "../jquery/1.12.4/jquery.min",
-        "utils": "../utilsA"
+        "utils": "../utilsA",
+        "myweb": "../myjs/mywebA"
     }
 })
 
-require(["jquery", "utils"], function ($, utils) {
+require(["jquery", "utils","myweb"], function ($, utils,myweb) {
 
     if (utils.getCookie("lur") != null) {
         $("#usr").attr("value", utils.getCookie("lur"))
@@ -33,11 +34,13 @@ require(["jquery", "utils"], function ($, utils) {
         var lps = $("#psw").val();
         if (lur != "" && lps != "") {
             $("#ok").attr("disabled", true);
+            myweb.showLoading();
             $.ajax({
                 type: 'post',
                 url: 'webuser/WebService.asmx/Login',
                 data: { ur: lur, ps: lps },
                 error: function () {
+                    myweb.hideLoading();
                     $("#ok").removeAttr("disabled");
                     $(".alert").show();
                     $("#msg").html("连接错误,请检查!");
@@ -50,6 +53,7 @@ require(["jquery", "utils"], function ($, utils) {
                         }
                         window.location.href = "ChooseTz.aspx";
                     } else {
+                        myweb.hideLoading();
                         $("#ok").removeAttr("disabled");
                         $(".alert").show();
                         $("#msg").html("登陆失败,请检查用户名与密码是否正确!");

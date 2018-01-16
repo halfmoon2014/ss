@@ -82,14 +82,14 @@ namespace EI.Web
                 from queryMenu in dtMenu.Select("jb=1").AsEnumerable()
                 from queryUserMenu in dtUserMenu.AsEnumerable()
                 where queryMenu.Field<int>("ID") == queryUserMenu.Field<int>("menuid")
+                orderby queryMenu["xh"]
                 select new
                 {
                     id = queryMenu.Field<int>("id"),
                     text = queryMenu.Field<string>("text"),
-                    mj = queryMenu.Field<int>("mj"),
-                    xh = queryMenu.Field<string>("xh")
+                    mj = queryMenu.Field<int>("mj")                    
                 };
-            queryTopMenu = queryTopMenu.OrderBy(s => s.xh);
+            
             DataTable dtTopMenu = new DataTable();
             dtTopMenu.Columns.Add("id", typeof(int));
             dtTopMenu.Columns.Add("text", typeof(string));
@@ -175,15 +175,14 @@ namespace EI.Web
                 join queryUserMenu in dtUserMenu.AsEnumerable() on queryMenu.Field<int>("ID") equals queryUserMenu.Field<int>("menuid")
                 join queryXJMJ in dtXJMJMenu.AsEnumerable() on queryMenu.Field<int>("ID") equals queryXJMJ.Field<int?>("ssid") into dtMJ
                 from queryXJMJ in dtMJ.DefaultIfEmpty()
+                orderby queryMenu["xh"]
                 select new
                 {
                     id = queryMenu.Field<int>("id"),
                     text = queryMenu.Field<string>("text"),
                     mj = queryMenu.Field<int>("mj"),
-                    xjmj = queryXJMJ != null ? queryXJMJ.Field<int?>("mj") : 0,
-                    xh = queryMenu.Field<string>("xh")
-                };
-            queryTopMenu = queryTopMenu.OrderBy(s => s.xh);
+                    xjmj = queryXJMJ != null ? queryXJMJ.Field<int?>("mj") : 0                    
+                };            
 
             foreach (var obj in queryTopMenu)
             {

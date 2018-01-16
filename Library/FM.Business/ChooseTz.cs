@@ -105,7 +105,7 @@ namespace FM.Business
 
                             tzHtml += "<a href=\"#\" mylink=1  t=\"" + dr["tzid"].ToString().Trim() + "\" m=\"" + lm + "\" class=\"list-group-item\">";
                             tzHtml += "<h4 class=\"list -group-item-heading\">" + dr["tzmc"].ToString().Trim() + "</h4>";
-                            tzHtml += "<p class=\"list -group-item-text\">" + dr["sm"].ToString().Trim() + "</p>";
+                            tzHtml += "<p class=\"list -group-item-text\" style=\"text-align:right\">" + dr["sm"].ToString().Trim() + "</p>";
                             tzHtml += "</a>";
                         }
                         rstring[1] = string.Format(div, tzHtml); ;

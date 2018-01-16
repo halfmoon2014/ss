@@ -125,15 +125,7 @@ public class MyHttpModule : IHttpModule
                     string gourl = SessionHandle.Get("urlreferrer").ToString();
                     SessionHandle.Del("urlreferrer");
                     application.Response.Redirect(gourl);
-                }
-                else
-                {
-                    if (application.Context.Request.Form["updata"] != null)
-                    {
-                        FM.Business.Login lg = new FM.Business.Login();
-                        lg.CreateDbLink();//设置业务服务器上的 连接 主服务与母板的LINK
-                    }
-                }
+                }                
             }
             else if (SessionHandle.Get("userid") == null)
             {

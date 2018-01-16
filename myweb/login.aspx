@@ -18,7 +18,7 @@
         <script src="javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- End of Libraries -->
-
+    <link href="css/loading/loading.css" rel="stylesheet" />
 </head>
 <body>
     <div id="container">

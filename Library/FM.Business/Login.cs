@@ -216,7 +216,7 @@ namespace FM.Business
                     System.DateTime ctime = (System.DateTime)dr["CTIME"];
                     if (name.Length == 0 || ctime.CompareTo((System.DateTime)name[0]["ctime"])!=0)
                     {
-                        if (dr["type"].ToString().Trim().ToLower() == "p")
+                        if (dr["type"].ToString().Trim().ToLower() == "p" || dr["type"].ToString().Trim().ToLower() == "tf")
                         {//处理的存储过程
                             if (targetSet.Tables[1].Select("pname='" + dr["pname"].ToString().Trim() + "'").Length > 0)
                             {//如果目标存在,就删除
