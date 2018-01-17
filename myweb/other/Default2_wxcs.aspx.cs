@@ -7,8 +7,8 @@ using weixin.util;
 public partial class Default2_wxcs : System.Web.UI.Page
 {
     const string Token = "nextstoken"; //你的token
-    string appid = "wxd6e90668ef7ec4db";//wx0819d1b345729875
-    string appsecret = "ac13cbd085ae51b2970c9a75c9f5c61a";
+    //string appid = "wxd6e90668ef7ec4db";//wx0819d1b345729875
+    //string appsecret = "ac13cbd085ae51b2970c9a75c9f5c61a";
     //测试公众号
     //string appid = "wx0819d1b345729875";
     //string appsecret = "ac13cbd085ae51b2970c9a75c9f5c61a"; 

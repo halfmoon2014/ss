@@ -2,6 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Web;
 namespace EI.Web
 {
     /// <summary>
@@ -9,10 +10,27 @@ namespace EI.Web
     /// </summary>
     public class WebMenu
     {
-
-        public string GetCont(string userid, string tzid, string menuPage)
+        
+        public WebMenu()
         {
+        
+            string ip = "";
+            if (HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
+            {
+                ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();  // Return real client IP.
+            }
+            else// not using proxy or can't get the Client IP
+            {
+                ip = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"].ToString(); //While it can't get the Client IP, it will return proxy IP.
+            }
+            Log(ip, "menu");
+        }
 
+        public string GetCont()
+        {            
+            string userid = MySession.SessionHandle.Get("userid");
+            string tzid = MySession.SessionHandle.Get("tzid");
+            string menuPage = MySession.SessionHandle.Get("menupage");
             FM.Business.Login lg = new FM.Business.Login();
             string userName = lg.GetUser(userid).Tables[0].Rows[0]["name"].ToString();
 
@@ -252,8 +270,9 @@ namespace EI.Web
         /// </summary>
         /// <param name="ssid"></param>
         /// <returns></returns>
-        public string GetContentMenu(string ssid)
+        public string GetContentMenu()
         {
+            string ssid = HttpContext.Current.Request.QueryString["url"].ToString();
             FM.Business.Menu mu = new FM.Business.Menu();
             DataTable dt = mu.GetContentMenu(ssid);
             int ls = 0;

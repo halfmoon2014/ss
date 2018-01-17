@@ -8,8 +8,8 @@ using System.Web.Security;
 public partial class Default2_wx : System.Web.UI.Page
 {
     const string Token = "eesjtoken"; //你的token
-    string appid = "";
-    string appsecret = "";
+    //string appid = "";
+    //string appsecret = "";
     protected void Page_Load(object sender, EventArgs e)
     {
         

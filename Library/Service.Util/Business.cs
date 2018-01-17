@@ -340,8 +340,9 @@ namespace Service.Util
             try
             {
                  r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ", Parm);
-            }catch(System.Exception e)
+            }catch(Exception e)
             {
+                Console.Write(e.Message);
                 r = 0;
             }
             if (r > 0)

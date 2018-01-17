@@ -12,9 +12,6 @@
     <link href="../css/menu_3.css" rel="stylesheet" type="text/css" />
     <!-- end of  Libraries -->
 </head>
-<!-- 
-使用JQUERY-EUI插件,默认不打开新窗口,但可配置 
--->
 <body id="menubody" runat="server" class="easyui-layout">
 </body>
 </html>

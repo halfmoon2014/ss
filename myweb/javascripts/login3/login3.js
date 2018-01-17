@@ -13,7 +13,11 @@ require(["jquery", "utils","myweb"], function ($, utils,myweb) {
         $("#psw").focus();
     } else {
         $("#usr").focus();
+    }    
+    if (utils.getCookie("rememberme") != null) {
+        $("#rememberme").prop('checked', true)        
     }
+
     $("#ok").click(function () {
         okClick();
     });
@@ -50,6 +54,10 @@ require(["jquery", "utils","myweb"], function ($, utils,myweb) {
                     if (r.r == "true") {
                         if ($("#rememberme").get(0).checked) {
                             utils.setCookie("lur", lur)
+                            utils.setCookie("rememberme", "true");
+                        } else {
+                            utils.delCookie("lur")
+                            utils.delCookie("rememberme");
                         }
                         window.location.href = "ChooseTz.aspx";
                     } else {

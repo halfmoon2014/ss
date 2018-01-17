@@ -201,6 +201,7 @@ namespace FM.Business
             }
             catch (System.Exception e)
             {
+                System.Console.Write(e.Message);
                 return false;
             }
 
@@ -245,6 +246,8 @@ namespace FM.Business
             }
             catch (System.Exception e)
             {
+
+                System.Console.Write(e.Message);
                 return false;
             }
         }
