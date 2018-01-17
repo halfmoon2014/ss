@@ -132,7 +132,7 @@
                     <td align="left" width="120">制单人:<%=ds.Tables[0].Rows[0]["createor"]%></td>
                     <td align="left" width="120">送货人:</td>
                     <td align="left" width="120">收货人:</td>
-                    <td>当前<%=w+1 %>页/总<%=pageCount %>页&nbsp;  一联存根(白) 二联客户(红) 三联结算(蓝)</td>
+                    <td>当前<%=w+1 %>页/总<%=pageCount %>页&nbsp;  一联存根(白) 二联客户(红) 三联结算(黄)</td>
                 </tr>
             </table>
         </div>
