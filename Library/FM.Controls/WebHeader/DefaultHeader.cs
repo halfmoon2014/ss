@@ -62,9 +62,12 @@ namespace FM.Controls
             else
             {
                 SetScript(string.Format("{0}/javascripts/jquery/1.12.4/jquery.min.js", HTMLHelper.GetWebVirtualUrl()));
+                if(string.Compare(absolutePath, "web_xtsz/web_xtsz_main_edit_sjy.aspx") == 0)
+                {//系统设置
 
+                }
                 //或者主题不是jqeui
-                if (string.Compare(pageThemes["PageThemes"], "jqeui") != 0)
+                else if (string.Compare(pageThemes["PageThemes"], "jqeui") != 0)
                 {
                     SetStyleSheet(string.Format("{0}/css/f1/main.css", HTMLHelper.GetWebVirtualUrl()));
                     SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", HTMLHelper.GetWebVirtualUrl()));
@@ -75,9 +78,7 @@ namespace FM.Controls
                 {
                     SetStyleSheet(string.Format("{0}/css/jey/{1}/easyui.css", HTMLHelper.GetWebVirtualUrl(), pageThemes["Themes"]));
                     SetStyleSheet(string.Format("{0}/css/jey/icon.css", HTMLHelper.GetWebVirtualUrl()));
-                    SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", HTMLHelper.GetWebVirtualUrl()));                    
-                    
-
+                    SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", HTMLHelper.GetWebVirtualUrl()));     
                     SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.min.js", HTMLHelper.GetWebVirtualUrl()));
                     //jquery easyui 日期格式化
                     SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.add.js", HTMLHelper.GetWebVirtualUrl()));
