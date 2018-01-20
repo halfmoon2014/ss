@@ -4,40 +4,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head  runat="server">
     <ctrl:DefaultHeader  id="sysHead" runat="server" />
+    <!-- Libraries -->
+    <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+    <link href="css/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <script src="../javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
+    <!--[if lt IE 9]>
+        <script src="../javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="../javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
-<body runat="server">
-    <form runat="server">
-    <table style="width: 100%; height: 100%">
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td>
-                            <a href="javascript:void(0)" class="easyui-linkbutton" accessKey="S" id="ok">保存(S)</a>
-                        </td>
-                        <td><a href="javascript:void(0)" class="easyui-linkbutton" id="showtitp">提示</a></td>
-                        <td id="fb" runat="server"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <ul>
-                    <li>js语句</li>
-                    <li>
-                        <textarea id="tbjs" rows="30" cols="120" runat="server" ></textarea></li>
-                </ul>
-            </td>
-        </tr>
-    </table>
-    <div id="w" class="easyui-window" data-options="closed:true,title:'titps'"
-        style="width: 800px; height: 600px; padding: 5px;">
-        <div class="easyui-layout" data-options="fit:true">
-            <div data-options="region:'center',border:false" style="padding: 10px; background: #fff;
-                border: 1px solid #ccc;">
-                <textarea style=" width:95%;height:95%">
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#jsnavbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+            </div>
+            <div id="jsnavbar" class="navbar-collapse collapse">  
+                <form class="navbar-form navbar-left">
+                    <div class="btn-group" role="toolbar" id="btnGroup" runat="server" aria-label="操作按钮">
+                      <button type="button" class="btn btn-default" id="ok" accesskey="s" aria-label="保存" >保存(S)</button>
+                      <button type="button" class="btn btn-default" id="showtitp"  aria-label="提示" >提示</button>
+                      <button type="button" class="btn btn-default" id="fb" runat="server" aria-label="发布">发布</button>                      
+                    </div>
+                </form>  
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="form-group" id="formts" style="display:none" >
+            <label for="ts">提示</label>
+            <textarea class="form-control" rows="2" runat="server" id="ts">
                     //打开模态窗口
                     openModal(url, "", "", function (r) {                      
                         if (r == "ok") { 
@@ -51,61 +57,18 @@
                     onLoadSuccessTree(node, data, treeId);
                     //单击树
                     onClickTree(node,treeId)
-                </textarea>
-                <br />
-                <br />                
-            </div>           
+            </textarea>
+        </div>
+        <div class="form-group">
+            <label for="tbjs">js语句</label>
+            <textarea class="form-control" rows="2" runat="server" id="tbjs"></textarea>
         </div>
     </div>
-    <input type="hidden" id="wid" runat="server" />
-    </form>
+    <!-- /container -->
+    <input type="hidden" id="wid" runat="server" />  
 </body>
-    <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
+<script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
+<script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
+<script src="../javascripts/sweetalert/sweetalert.min.js"></script>
+<script data-main="js/web_xtsz_main_edit_js" src="../javascripts/require.js"></script>
 </html>
-<script>
-
-    $(function () {
-        $("#ok").bind("click", function () { ok_click(); });
-        $("#fb").bind("click", function () { fb_click(); });
-        $("#showtitp").bind("click", function () { showtitp_click(); });
-    });
-    function salert(title, text, type, fn) {
-        swal({
-            title: title,
-            text: text,
-            type: type,
-        }, fn);
-    }
-    //显示提示
-    function showtitp_click() {
-        $('#w').window('open');
-    }
-    function ok_click() {        
-        $('#ok').linkbutton('disable');
-        var js = mySysDate(document.getElementById("tbjs").value);
-        var wid = mySysDate(document.getElementById("wid").value);
-
-        $.ajax({ type: 'post',
-            url: '../webuser/ws.asmx/sjy_upjs',
-            data: { wid: wid, js: js },
-            error: function (e) {
-                salert('提示信息', '连接失败!', 'info', function () {
-                    $('#ok').linkbutton('enable');
-                });
-            },
-            success: function (data) {
-                var r = myAjaxData(data);
-                if (r.r == 'true') {
-                    salert('提示信息', '保存成功!', 'info', function () {
-                        $('#ok').linkbutton('enable');
-                    });
-                } else {
-                    salert('提示信息', '保存失败!', 'info', function () {
-                        $('#ok').linkbutton('enable');
-                    });
-                }
-            }
-        })
-    }
-
-</script>

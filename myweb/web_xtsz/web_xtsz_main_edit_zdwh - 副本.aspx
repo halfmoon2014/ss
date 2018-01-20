@@ -105,28 +105,28 @@
                 %>
                 <tr class="tbbody" rownum="<%=i%>">
                     <td style="display: none">
-                        <input type="text"  field="id" value="<%= dt.Rows[i]["id"].ToString()%>" />
+                        <input type="text" onfocus="myselect(this)" field="id" value="<%= dt.Rows[i]["id"].ToString()%>" />
                     </td>
                     <td>
-                        <input type="text"  field="ywname" value="<%=HtmlCha(dt.Rows[i]["ywname"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="ywname" value="<%=HtmlCha(dt.Rows[i]["ywname"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="zwname" value="<%= HtmlCha(dt.Rows[i]["zwname"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="zwname" value="<%= HtmlCha(dt.Rows[i]["zwname"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="ord" value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="ord" value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="width" value="<%= HtmlCha(dt.Rows[i]["width"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="width" value="<%= HtmlCha(dt.Rows[i]["width"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="visible" value="<%= HtmlCha(dt.Rows[i]["visible"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="visible" value="<%= HtmlCha(dt.Rows[i]["visible"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="readonly" value="<%= HtmlCha(dt.Rows[i]["readonly"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="readonly" value="<%= HtmlCha(dt.Rows[i]["readonly"].ToString())%>" />
                     </td>
                     <td>
-                        <select  field="type" mrz="">
+                        <select onfocus="myselect(this)" field="type" mrz="">
                             <option value="text" <%=(dt.Rows[i]["type"].ToString()=="text"  ?"selected":"") %>>text</option>
                             <option value="select" <%=(dt.Rows[i]["type"].ToString()=="select"?"selected":"") %>>select</option>
                             <option value="button" <%=(dt.Rows[i]["type"].ToString()=="button"?"selected":"") %>>button</option>
@@ -139,34 +139,36 @@
                         </select>
                     </td>
                     <td>
-                        <input type="text"  field="sx" value="<%= HtmlCha(dt.Rows[i]["sx"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="sx" value="<%= HtmlCha(dt.Rows[i]["sx"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="bz" value="<%= HtmlCha(dt.Rows[i]["bz"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="bz" value="<%= HtmlCha(dt.Rows[i]["bz"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="showzero" value="<%= HtmlCha(dt.Rows[i]["showzero"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="showzero" value="<%= HtmlCha(dt.Rows[i]["showzero"].ToString())%>"
+                            style="width: 40px" />
                     </td>
                     <td>
-                        <input type="text"  field="event" value="<%= HtmlCha(dt.Rows[i]["event"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="event" value="<%= HtmlCha(dt.Rows[i]["event"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="btnvalue" value="<%= HtmlCha(dt.Rows[i]["btnvalue"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="btnvalue" value="<%= HtmlCha(dt.Rows[i]["btnvalue"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="showmrrq" value="<%= HtmlCha(dt.Rows[i]["showmrrq"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="showmrrq" value="<%= HtmlCha(dt.Rows[i]["showmrrq"].ToString())%>"
+                            style="width: 40px" />
                     </td>
                     <td>
-                        <input type="text"  field="hj" value="<%= HtmlCha(dt.Rows[i]["hj"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="hj" value="<%= HtmlCha(dt.Rows[i]["hj"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="hbltname" value="<%= HtmlCha(dt.Rows[i]["hbltname"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="hbltname" value="<%= HtmlCha(dt.Rows[i]["hbltname"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="px" value="<%= HtmlCha(dt.Rows[i]["px"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="px" value="<%= HtmlCha(dt.Rows[i]["px"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="prtname" value="<%= HtmlCha(dt.Rows[i]["prtname"].ToString())%>" />
+                        <input type="text" onfocus="myselect(this)" field="prtname" value="<%= HtmlCha(dt.Rows[i]["prtname"].ToString())%>" />
                     </td>
                     <td style="display: none">
                         <input field="mark" type="text" />
@@ -183,25 +185,25 @@
                         <input type="text" field="id" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="ywname" value="" />
+                        <input type="text" onfocus="myselect(this)" field="ywname" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="zwname" value="" />
+                        <input type="text" onfocus="myselect(this)" field="zwname" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="ord" value="" />
+                        <input type="text" onfocus="myselect(this)" field="ord" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="width" value="" />
+                        <input type="text" onfocus="myselect(this)" field="width" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="visible" value="" />
+                        <input type="text" onfocus="myselect(this)" field="visible" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="readonly" value="" />
+                        <input type="text" onfocus="myselect(this)" field="readonly" value="" />
                     </td>
                     <td>
-                        <select field="type" mrz="" >
+                        <select field="type" mrz="" onfocus="myselect(this)">
                             <option value="text">text</option>
                             <option value="select">select</option>
                             <option value="button">button</option>
@@ -214,34 +216,34 @@
                         </select>
                     </td>
                     <td>
-                        <input type="text"  field="sx" value="" />
+                        <input type="text" onfocus="myselect(this)" field="sx" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="bz" value="" />
+                        <input type="text" onfocus="myselect(this)" field="bz" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="showzero" value="" />
+                        <input type="text" onfocus="myselect(this)" field="showzero" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="event" value="" />
+                        <input type="text" onfocus="myselect(this)" field="event" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="btnvalue" value="" />
+                        <input type="text" onfocus="myselect(this)" field="btnvalue" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="showmrrq" value="" />
+                        <input type="text" onfocus="myselect(this)" field="showmrrq" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="hj" value="" />
+                        <input type="text" onfocus="myselect(this)" field="hj" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="hbltname" value="" />
+                        <input type="text" onfocus="myselect(this)" field="hbltname" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="px" value="" />
+                        <input type="text" onfocus="myselect(this)" field="px" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="prtname" value="" />
+                        <input type="text" onfocus="myselect(this)" field="prtname" value="" />
                     </td>
                     <td style="display: none">
                         <input field="mark" type="text" />
@@ -249,14 +251,13 @@
                 </tr>
                 <%}%>
             </table>
-        </div>
+        </div> 
 
     </div>
     <!-- /container -->
     <input type="hidden" id="wid" runat="server" />
 </body>
-<script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
-<script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
+<script src="../javascripts/xtsz/xtsz.js" type="text/javascript"></script>
 <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
 <script data-main="js/web_xtsz_main_edit_zdwh" src="../javascripts/require.js"></script>
 </html>

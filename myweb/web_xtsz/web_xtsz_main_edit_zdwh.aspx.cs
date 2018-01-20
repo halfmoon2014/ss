@@ -7,14 +7,9 @@ public partial class web_xtsz_web_xtsz_main_edit_zdwh : System.Web.UI.Page
         wid.Value = Request.QueryString["wid"].ToString().Trim();
         
         Business ei = new Business(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid"));
-        string db = ei.GetDataTag();
-        if (db == "true")
+        if (string.Compare(ei.GetDataTag(), "true") != 0)
         {
-            //fb.InnerHtml = "<a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" id=\"fb\">发布</a>";
-        }
-        else
-        {
-            //fb.InnerHtml = "&nbsp;";
+            btnGroup.Controls.Remove(fb);
         }
     }
     public string HtmlCha(string str)

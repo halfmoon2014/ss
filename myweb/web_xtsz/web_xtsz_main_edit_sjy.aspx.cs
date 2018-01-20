@@ -35,7 +35,7 @@ public partial class web_xtsz_web_xtsz_main_edit_sjy : System.Web.UI.Page
 
         if (string.Compare(ei.GetDataTag(), "true") != 0)
         {
-            btnGroup.Controls.Remove(li_fb);
+            btnGroup.Controls.Remove(fb);
         }
     }
 }

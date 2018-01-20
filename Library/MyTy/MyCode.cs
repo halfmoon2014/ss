@@ -61,10 +61,14 @@ namespace MyTy
             {//模块页
                 path = "/Root/WebFile/SysModulePage/FileName";
             }
-            else if (string.Compare(checkType, "SysXTSZ", true) == 0)
-            {//模块页
-                path = "/Root/WebFile/SysXTSZ/FileName";
-            }            
+            else if (string.Compare(checkType, "SysXTSZ&JQY", true) == 0)
+            {//平台设计页,需要jqy
+                path = "/Root/WebFile/SysXTSZ/JQY/FileName";
+            }
+            else if (string.Compare(checkType, "SysXTSZ&Ordinary", true) == 0)
+            {//平台设计页
+                path = "/Root/WebFile/SysXTSZ/Ordinary/FileName";
+            }
             else if (string.Compare(checkType, "NoLimitUrl", true) == 0)
             {
                 path = "/Root/NoLimitUrl/Site";

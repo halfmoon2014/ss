@@ -25,9 +25,13 @@ namespace FM.Controls
                 DataTable dt = pr.GetPosConfig(MySession.SessionHandle.Get("tzid")).Tables[0];
                 if (dt.Rows.Count != 0) { this.Title = dt.Rows[0]["pos_name"].ToString(); }
             }
-                       
+
             //登陆页,套账选择页
-            if (myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz") || myCode.CheckPageType(absolutePath, "SysXTSZ")) {SetJqueryScript();}
+            if (myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz")|| myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary")) { SetJqueryScript(); }
+            else if (myCode.CheckPageType(absolutePath, "SysXTSZ&JQY")) {
+                SetJqueryScript();
+                SetJQEUI(pageThemes["Themes"]);
+            }
             else if (myCode.CheckPageType(absolutePath, "MenuPage"))
             {
                 SetJqueryScript();
@@ -47,7 +51,7 @@ namespace FM.Controls
                     SETProgressDefender();
                 }
                 //或者主题不是jqeui
-                else if(string.Compare(pageThemes["PageThemes"], "jqeui") != 0)
+                else if (string.Compare(pageThemes["PageThemes"], "jqeui") != 0)
                 {
                     SetJqueryScript();
                     SetStyleSheet(string.Format("{0}/css/f1/main.css", HTMLHelper.GetWebVirtualUrl()));

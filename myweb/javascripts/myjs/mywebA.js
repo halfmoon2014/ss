@@ -52,10 +52,6 @@
             body[0].removeChild(overlay);
         });
     }
-    return {
-        showLoading: showLoading,
-        hideLoading: hideLoading
-    };
 
     /*
     *前台传递到后台,URL的参数 编码格式,与之对应通用反编码
@@ -67,6 +63,15 @@
     var unMySysDate = function (str) {
         return decodeURIComponent(str);
     };
+
+    return {
+        showLoading: showLoading,
+        hideLoading: hideLoading,
+        mySysDate: mySysDate,
+        unMySysDate: unMySysDate
+    };
+
+
     /*
     *url地址
     */

@@ -1,0 +1,48 @@
+﻿
+tr.selectedhighlight {
+    /*background-color: #654B24;*/
+}
+
+    tr.selectedhighlight input {
+        color: #FF0000;
+    }
+
+    tr.selectedhighlight select {
+        color: #FF0000;
+    }
+
+.field_ord {
+    width: 40px;
+}
+
+.field_width {
+    width: 40px;
+}
+
+.field_visible {
+    width: 40px;
+}
+
+.field_readonly {
+    width: 40px;
+}
+
+.field_sx {
+    width: 40px;
+}
+
+.field_showzero {
+    width: 80px;
+}
+
+.field_showmrrq {
+    width: 80px;
+}
+
+.field_hj {
+    width: 40px;
+}
+
+.field_px {
+    width: 40px;
+}

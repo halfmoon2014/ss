@@ -146,7 +146,7 @@ namespace EI.Web
             center.Append("<div id=\"tabs\" class=\"easyui-tabs\"  fit=\"true\" border=\"false\" >");
             center.Append("<div title=\"主页\" style=\"padding:20px;overflow:auto;\" id=\"home\">");
 
-            string strReadFilePath = @path + "\\webinfo.txt";
+            string strReadFilePath = @path + "\\webinfo.ext";
             StreamReader m_streamReader = new StreamReader(strReadFilePath, Encoding.Default);
 
             //使用StreamReader类来读取文件  

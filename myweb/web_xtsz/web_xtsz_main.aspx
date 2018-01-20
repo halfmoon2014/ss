@@ -11,7 +11,6 @@
 </html>
 <script type="text/javascript">
     $(function () {
-
         $('#leftmenu').tree({
             url: 'web_xtsz_main.ashx?type=GetTree'
         });

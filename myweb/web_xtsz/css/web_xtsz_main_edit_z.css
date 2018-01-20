@@ -1,0 +1,91 @@
+﻿tr.selectedhighlight {
+    /*background-color: #654B24;*/
+}
+
+    tr.selectedhighlight input {
+        color: #FF0000;
+    }
+
+    tr.selectedhighlight select {
+        color: #FF0000;
+    }
+
+    tr.selectedhighlight checkb {
+        color: #FF0000;
+    }
+
+.field_ord {
+    width: 40px;
+}
+
+.field_mc {
+    width: 80px;
+}
+
+.field_qwidth {
+    width: 60px;
+}
+
+.field_width {
+    width: 40px;
+}
+
+.field_htmlid {
+    width: 60px;
+}
+
+.field_visible {
+    width: 40px;
+}
+
+.field_readonly {
+    width: 40px;
+}
+
+.field_type {
+    width: 60px;
+}
+
+.field_event {
+    width: 100px;
+}
+
+.field_yy {
+    width: 60px;
+}
+
+.field_zb {
+    width: 40px;
+}
+
+.field_session {
+    width: 60px;
+}
+
+.field_css0 {
+    width: 60px;
+}
+
+.field_css {
+    width: 60px;
+}
+
+.field_bz {
+    width: 100px;
+}
+
+.field_nwebid {
+    width: 40px;
+}
+
+.field_naspx {
+    width: 80px;
+}
+
+.field_mrz {
+    width: 60px;
+}
+
+.field_bds {
+    width: 60px;
+}
