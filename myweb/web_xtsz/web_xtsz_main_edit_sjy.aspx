@@ -16,12 +16,7 @@
     <![endif]-->
     <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
-    <style type="text/css">
-        .input-group-addon-customer {
-            background-color: transparent;
-            border-width: 0px;
-        }
-    </style>
+    
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -144,8 +139,7 @@
         }, fn);
     }
     function ok_click() {
-
-        $('#ok').linkbutton('disable');
+        $('#ok').attr('disable','disable');
         var sql = document.getElementById("tbsql").value;
         var fwsql = document.getElementById("fwsql").value;
         var name = document.getElementById("name").value;
@@ -158,13 +152,12 @@
         var sql_2 = document.getElementById("tbsql2").value;
 
         if (name.length == 0) {
-            salert('提示信息', '中文名称一定要输入!', 'info', function () {
-                $('#ok').linkbutton('enable');
+            salert('提示信息', '中文名称一定要输入!', 'info', function () {                
+                $('#ok').removeAttr("disable")
             });
 
         } else {
             var wid = document.getElementById("wid").value;
-
             var mrcx = (document.getElementById("mrcx").checked ? "1" : "0");
             var myadd = (document.getElementById("myadd").checked ? "1" : "0");
             var orderby = document.getElementById("orderby").value;
@@ -178,18 +171,18 @@
                 data: { wid: wid, value1: name, value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly, sql_2: sql_2 },
                 error: function (e) {
                     salert('提示信息', '连接失败!', 'error', function () {
-                        $('#ok').linkbutton('enable');
+                        $('#ok').removeAttr("disable")
                     });
                 },
                 success: function (data) {
                     var r = myAjaxData(data);
                     if (r.r == 'true') {
                         salert('提示信息', '保存成功!', 'success', function () {
-                            $('#ok').linkbutton('enable');
+                            $('#ok').removeAttr("disable")
                         });
                     } else {
                         salert('提示信息', '保存失败!', 'error', function () {
-                            $('#ok').linkbutton('enable');
+                            $('#ok').removeAttr("disable")
                         });
                     }
                 }
