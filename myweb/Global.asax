@@ -15,7 +15,7 @@
 
     void Application_Error(object sender, EventArgs e)
     {
-        //在出现未处理的错误时运行的代码  
+        //在出现未处理的错误时运行的代码
         Exception exception = Server.GetLastError();
         string errorMsg = "";
         MyTy.Log log = new MyTy.Log();
@@ -31,7 +31,7 @@
             System.Data.DataSet ds = lg.GetUser(MySession.SessionHandle.Get("userid").ToString().Trim());
             if (ds.Tables[0].Rows[0]["platform_edit_permission"].ToString().Trim() == "1")
             {
-                errorMsg = (exception.InnerException == null ? "" : exception.InnerException.Message+"\r\n") + exception.Message + "\r\n" + exception.StackTrace;
+                errorMsg = (exception.InnerException == null ? "" : exception.InnerException.Message + "\r\n") + exception.Message + "\r\n" + exception.StackTrace;
             }
             else
             {
@@ -39,14 +39,13 @@
             }
         }
         //string errorFile=@"../webpage/error.aspx";
-        Application.Add("errMsg", errorMsg);      
-          
+        Application.Add("errMsg", errorMsg);
+
         if (System.IO.File.Exists(Server.MapPath("~/webpage/error.aspx")))
         {
             Server.Transfer("~/webpage/error.aspx");
         }
         Server.ClearError();
-
     }
 
     void Session_Start(object sender, EventArgs e)
@@ -63,5 +62,5 @@
         //设置为 StateServer 或 SQLServer，则不会引发该事件。
 
     }
-       
+
 </script>

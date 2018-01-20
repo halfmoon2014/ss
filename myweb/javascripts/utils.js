@@ -38,21 +38,21 @@ function getUserBrowser() {
         return "unKnow";
     }
 }
-/*
-Javascript 操作select控件大全（新增、修改、删除、选中、清空、判断存在等） 
-Posted on 2007-08-08 14:56 礼拜一 阅读(82638) 评论(40) 编辑 收藏  
-1判断select选项中 是否存在Value="paraValue"的Item 
-2向select选项中 加入一个Item 
-3从select选项中 删除一个Item 
-4删除select中选中的项 
-5修改select选项中 value="paraValue"的text为"paraText" 
-6设置select中text="paraText"的第一个Item为选中 
-7设置select中value="paraValue"的Item为选中 
-8得到select的当前选中项的value 
-9得到select的当前选中项的text 
-10得到select的当前选中项的Index 
-11清空select的项 
-js 代码*/
+
+//Javascript 操作select控件大全（新增、修改、删除、选中、清空、判断存在等） 
+//Posted on 2007-08-08 14:56 礼拜一 阅读(82638) 评论(40) 编辑 收藏  
+//1判断select选项中 是否存在Value="paraValue"的Item 
+//2向select选项中 加入一个Item 
+//3从select选项中 删除一个Item 
+//4删除select中选中的项 
+//5修改select选项中 value="paraValue"的text为"paraText" 
+//6设置select中text="paraText"的第一个Item为选中 
+//7设置select中value="paraValue"的Item为选中 
+//8得到select的当前选中项的value 
+//9得到select的当前选中项的text 
+//10得到select的当前选中项的Index 
+//11清空select的项 
+//js 代码
 // 1.判断select选项中 是否存在Value="paraValue"的Item        
 function jsSelectIsExitItem(objSelect, objItemValue) {
     var isExit = false;
@@ -89,10 +89,7 @@ function jsRemoveItemFromSelect(objSelect, objItemValue) {
                 break;
             }
         }
-        $.messager.alert('提示信息', '成功删除', 'info');
-    } else {
-        $.messager.alert('提示信息', '成功删除', 'info');
-    }
+    } 
 }
 
 
@@ -116,11 +113,7 @@ function jsUpdateItemToSelect(objSelect, objItemText, objItemValue) {
                 break;
             }
         }
-        $.messager.alert('提示信息', '成功修改', 'info');
-    } else {
-
-        $.messager.alert('提示信息', '成功修改', 'info');
-    }
+    } 
 }
 
 // 6.设置select中text="paraText"的第一个Item为选中        
@@ -136,11 +129,10 @@ function jsSelectItemByValue(objSelect, objItemText) {
     }
     //Show出结果        
     if (isExit) {
-
-        $.messager.alert('提示信息', '成功选中', 'info');
+        return true;
     } else {
 
-        $.messager.alert('提示信息', '该select中 不存在该项', 'info');
+        return false;
     }
 }
 

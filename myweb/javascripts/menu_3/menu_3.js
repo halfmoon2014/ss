@@ -34,7 +34,7 @@ function myhelp(id) {
     //window.showModalDialog(url, "", "location:No;status:No;help:No;dialogWidth:800px;dialogHeight:600px;scroll:no;"); return false;
 }
 
-/*main选项卡*/
+//main选项卡
 function addMainTab(subtitle, url) {
     if (checkSession() == false) {
         var o = new Object();
@@ -49,6 +49,7 @@ function addMainTab(subtitle, url) {
     }
 
 }
+
 function goAddMainTab(subtitle, url) {
     if ($('#tabs').tabs('exists', subtitle)) {
         $('#tabs').tabs('select', subtitle);
@@ -72,6 +73,7 @@ function goAddMainTab(subtitle, url) {
         }
     }
 }
+
 function createMainFrame(url) {
     //href: "content_menu3.ashx?url=" + url
 
@@ -100,6 +102,7 @@ function createMainFrame(url) {
     }*/
     return '<iframe  scrolling="auto" frameborder="0"  allowtransparency=true  src="content_menu3.aspx?url=' + url + '" style="width:100%;height:100%;"></iframe>';
 }
+
 /* end main选项卡*/
 /*选项卡*/
 function addTab(subtitle, url, obj) {
@@ -118,6 +121,7 @@ function addTab(subtitle, url, obj) {
         goAddTab(subtitle, url, alone);
     }
 }
+
 function goAddTab(subtitle, url, alone) {
     if (subtitle != undefined) {
         url = (url.indexOf("?") >= 0 ? url + "&" : url + "?") + "title=" + encodeURIComponent(subtitle);
@@ -146,12 +150,11 @@ function goAddTab(subtitle, url, alone) {
         window.open(url);
     }
 }
+
 function createFrame(url) {
     return '<iframe  scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
 }
-/* end 选项卡*/
-
-
+//end 选项卡
 function tabTitleEven() {
     /*双击关闭TAB选项卡*/
     $(".tabs-inner").dblclick(function () {
@@ -174,6 +177,7 @@ function tabTitleEven() {
         return false;
     });
 }
+
 /*
 *右键菜单 只初始化
 */
@@ -185,6 +189,7 @@ function tabMenuInit() {
     });
     return false;
 }
+
 function tabMenuEven(action) {
     //首页
     var onlyOpenTitle = $(document.getElementById("home")).panel('options').title;
@@ -268,7 +273,7 @@ function tabMenuEven(action) {
     }
 }
 
-/*等待框*/
+//等待框
 function waitOff() {
     $("#Loading").fadeOut("normal", function () {
         $(this).remove();
@@ -280,6 +285,7 @@ $.parser.onComplete = function () {
     if (pc) clearTimeout(pc);
     pc = setTimeout(waitOff, 1000);
 }
+
 /*
 *修改密码
 */
@@ -292,6 +298,7 @@ function myChangmm() {
         var r = openModal("../webpage/lss.aspx?wid=143", "", "dialogWidth=300px;dialogHeight=400px");
     }
 }
+
 /*
 *用户注消
 *清空SESSION
@@ -312,6 +319,7 @@ function window_onunload(type) {
         }
     });
 }
+
 /*
 *关闭浏览器FF跳转空页
 */

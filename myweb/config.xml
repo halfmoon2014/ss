@@ -26,7 +26,6 @@
     <Site>other/default2.aspx</Site>
     <Site>other/eng.aspx</Site>
     <Site>longPollingData.aspx</Site>
-    
   </NoLimitUrl>
   <WebFile>
     <Login>
@@ -57,6 +56,18 @@
       <!--模块页-->
       <FileName>webpage/lss.aspx</FileName>
     </SysModulePage>
+    <SysXTSZ>
+      <!--系统设置页-->
+      <FileName>web_xtsz/web_xtsz_creattb.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main_add.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main_edit.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main_edit_help.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main_edit_js.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main_edit_sjy.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main_edit_z.aspx</FileName>
+      <FileName>web_xtsz/web_xtsz_main_edit_zdwh.aspx</FileName>
+    </SysXTSZ>
   </WebFile>
   <appSettings>
     <!--页面样式-->

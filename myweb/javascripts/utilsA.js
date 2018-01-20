@@ -13,8 +13,8 @@
         return Ver;
     };
 
-    var getUserBrowser = function () {
-        // 获取浏览器类型。
+    // 获取浏览器类型。
+    var getUserBrowser = function () {        
         var browserName = navigator.userAgent.toLowerCase();
         if (/msie/i.test(browserName) && !/opera/.test(browserName)) {
 
@@ -85,11 +85,8 @@
                     objSelect.options.remove(i);
                     break;
                 }
-            }
-            return true;
-        } else {
-            return false;
-        }
+            }            
+        } 
     };
 
     // 4.删除select中选中的项    
@@ -137,22 +134,21 @@
         }
     };
 
-    /*   
+       
     // 7.设置select中value="paraValue"的Item为选中    
-    document.all.objSelect.value = objItemValue;    
+    //document.all.objSelect.value = objItemValue;    
            
     // 8.得到select的当前选中项的value    
-    var currSelectValue = document.all.objSelect.value;    
+    //var currSelectValue = document.all.objSelect.value;    
            
     // 9.得到select的当前选中项的text    
-    var currSelectText = document.all.objSelect.options[document.all.objSelect.selectedIndex].text;    
+    //var currSelectText = document.all.objSelect.options[document.all.objSelect.selectedIndex].text;    
            
     // 10.得到select的当前选中项的Index    
-    var currSelectIndex = document.all.objSelect.selectedIndex;    
+    //var currSelectIndex = document.all.objSelect.selectedIndex;    
            
     // 11.清空select的项    
-    document.all.objSelect.options.length = 0;   
-    */
+    //document.all.objSelect.options.length = 0;   
 
     var replacetsf = function (str) {
         str = str.replace(/</g, "<");
@@ -163,9 +159,7 @@
         return str;
     };
 
-    /*
-    *判断是否为数字
-    */
+    //判断是否为数字    
     var isNum = function (s) {
         if (s != null && s != "") {
             return !isNaN(s);
@@ -173,9 +167,7 @@
         return false;
     };
 
-    /*
-    *cookie设置
-    */
+    //cookie设置
     var setCookie = function (name, value)//两个参数，一个是cookie的名子，一个是值
     {
         var Days = 30; //此 cookie 将被保存 30 天
@@ -184,9 +176,7 @@
         document.cookie = name + "=" + value + ";expires=" + exp.toGMTString();
     };
 
-    /*
-    *获取cookies
-    */
+    //获取cookies    
     var getCookie = function (name)//取cookies函数        
     {
         var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
@@ -194,9 +184,7 @@
 
     };
 
-    /*
-    *删除cookie
-    */
+    //删除cookie
     var delCookie = function (name) {
         var exp = new Date();
         exp.setTime(exp.getTime() - 1);
@@ -204,9 +192,7 @@
         if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
     };
 
-    /*
-    *取URL参数中的信息
-    */
+    //取URL参数中的信息
     var request = function (paras) {
         var url = location.href;
         var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
@@ -222,9 +208,7 @@
         }
     };
 
-    /*
-    *处理ajax返回值
-    */
+    //处理ajax返回值
     var myAjaxData = function (data) {
         var mydata;
         if (window.DOMParser) {
@@ -237,9 +221,7 @@
         return eval("(" + mydata + ")");
     };
 
-    /*
-    *Post方式提交表单
-    */
+    //Post方式提交表单
     var postNewWin = function (url, jsonObj) {
         var postUrl = url;
         var iframe = document.getElementById("postDataIframe");
@@ -269,9 +251,7 @@
         iframe.contentWindow.document.getElementById("postDataForm").submit();
     };
 
-    /*
-    *Post方式提交表单
-    */
+    //Post方式提交表单
     var postNewWin2 = function (action, data) {
         var form;
         if (document.getElementById("postDataForm") == null) {
@@ -288,9 +268,7 @@
         form.html(input).appendTo("body").css('display', 'none').submit();
     };
 
-    /*
-    *随机数
-    */
+    //随机数
     var randomKey = function () {
         var hex = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
         var t = '';

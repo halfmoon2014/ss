@@ -1,8 +1,6 @@
-﻿/*
-'全局数组
-'二维数组表示（wid,内容）
-'publicHeadList 表头信息
-*/
+﻿//全局数组
+//二维数组表示（wid,内容）
+//PUBLICWEBARRAY 表头信息
 if (typeof (PUBLICWEBARRAY) == "undefined") {
     var PUBLICWEBARRAY = new Array();
 }
@@ -34,7 +32,7 @@ function addPublicWebArray(v1, v2) {
 
     }
 }
-/* end 全局数组*/
+//全局数组end
 
 //得到表头元素
 function getHeadList(headerTableId) {
@@ -62,6 +60,7 @@ function getHeadList(headerTableId) {
 
     return myJson;
 }
+
 //键盘事件
 //当表格可保存时,向下新增一行
 //下移一行
@@ -130,6 +129,7 @@ function fmOnKey(e, id) {
         }
     }
 }
+
 //提取查找字符串前面所有的字符
 function getFront(mainStr, searchStr) {
     foundOffset = mainStr.indexOf(searchStr);
@@ -138,6 +138,7 @@ function getFront(mainStr, searchStr) {
     }
     return mainStr.substring(0, foundOffset);
 }
+
 //提取查找字符串后面的所有字符
 function getEnd(mainStr, searchStr) {
     foundOffset = mainStr.indexOf(searchStr);
@@ -179,6 +180,7 @@ function getHeaderTableId(v) {
         return ("table_Header_" + v);
     }
 }
+
 //得到表体ID
 function getContentTableId(v) {
     if (v == null) {
@@ -193,7 +195,6 @@ function getContentTableId(v) {
 }
 
 //刷新本页面
-
 function myFormRefresh() {
     loadInfo();
 }
@@ -201,6 +202,7 @@ function myFormRefresh() {
 function myFormRowsTotal() {
     return $("#" + getContentTableId() + " tr").length;
 }
+
 function myFormCellsTotal() {
     //表格列数    
     return $("#" + getContentTableId() + " tr").eq(0).children("td").length - 1; //有一列是&nbsp;
@@ -215,6 +217,7 @@ function myHj(key, v, mx, col) {
         return myHjSet(key, v, mx, col);
     }
 }
+
 function myHjGet(key, v, mx, col) {
     var tdskey;
     if (mx == "cm") {
@@ -230,6 +233,7 @@ function myHjGet(key, v, mx, col) {
     }
 
 }
+
 function myHjSet(key, v, mx, col) {
     var tdskey;
     if (mx == "cm") {
@@ -257,6 +261,7 @@ function myForm(key, m, v, mx, col) {
         return myFormSet(key, m, v, mx, col);
     }
 }
+
 //赋值
 function myFormSet(key, m, v, mx, col) {
     var skey; var tdskey;
@@ -297,6 +302,7 @@ function myFormSet(key, m, v, mx, col) {
 
     }
 }
+
 //获取值
 //v=null or v=undefined
 //mx="mx"获取尺码控件值,col=列序
@@ -399,7 +405,6 @@ function myCheckSessionQuery() {
     }
 }
 
-
 //json格式
 //{
 // 'myinfo' : 
@@ -436,6 +441,7 @@ function getCm(col) {
     });
     return h_arr;
 }
+
 //根据尺码组,列位置,尺码组名 得对应的尺码id
 function getCmid(h_arr, cmzbid, colorder) {
     var r = -1;
@@ -572,6 +578,7 @@ function sysFindSortAdd() {
         }
     }
 }
+
 //筛选事件-筛选里的关系事件
 function sysFindSortAndOr() {
     var args = sysFindSortAndOr.arguments;
@@ -600,12 +607,14 @@ function sysFindSortAndOr() {
         }
     }
 }
+
 //筛选事件-判断最后一个是否是并且或者而且
 function sysFindSortao(jg) {
     var reg = new RegExp(" ", "g"); //创建正则RegExp对象
     if (jg.replace(reg, "").lastIndexOf("并且") == jg.replace(reg, "").length - 2 || jg.replace(reg, "").lastIndexOf("或者") == jg.replace(reg, "").length - 2)
     { return 1; } else { return -1; }
 }
+
 //筛选事件-清除
 function sysFindSortclear() {
     $("#SysFindSort_jg").val("");
@@ -652,6 +661,7 @@ function myDefaultOperate(Etype) {
     window.open(url);*/
 
 }
+
 //打印-页面
 function mySysPrtConfig() {
 //    var div_SysFindSort = $("#div_SysFindSort");
@@ -667,10 +677,12 @@ function mySysPrtConfig() {
     $('#div_SysWindow').window('open');
     $("#SysPrtCount").focus();
 }
+
 //打印-隐藏打印设置
 function hideMySysPrtConfigSort() {
     $("#div_SysPrtConfigSort").hide();
 }
+
 function execSysPrtConfigt() {
     if (IsNum($("#SysPrtCount").val()) == true && $("#SysPrtCount").val() != '0') {
         $("#pageSize").val($("#SysPrtCount").val());
@@ -679,6 +691,7 @@ function execSysPrtConfigt() {
 
     }
 }
+
 //字段排序
 function mySysPx(obj, zd) {
 

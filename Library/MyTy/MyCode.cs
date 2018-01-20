@@ -33,43 +33,43 @@ namespace MyTy
         /// <param name="FileName">当前请求页面,相对于根目录路径</param>
         /// <param name="checkType">需要判断的类型</param>
         /// <returns></returns>
-        public bool CheckMenuPage(string FileName,string checkType)
+        public bool CheckPageType(string FileName,string checkType)
         {
             string xml = HttpContext.Current.Server.MapPath("~/config.xml");
             string path="";
-            if (System.String.Compare(checkType, "MenuPage", true) == 0)
+            if (string.Compare(checkType, "MenuPage", true) == 0)
             {//菜单页
                 path = "/Root/WebFile/MenuPage/FileName";
             }
-            else if (System.String.Compare(checkType, "PrintPage", true) == 0)
+            else if (string.Compare(checkType, "PrintPage", true) == 0)
             {//打印页
                 path = "/Root/WebFile/PrintPage/FileName";
             }
-            else if (System.String.Compare(checkType, "ExcelPage", true) == 0)
+            else if (string.Compare(checkType, "ExcelPage", true) == 0)
             {//导EXCEL页面
                 path = "/Root/WebFile/ExcelPage/FileName";
             }
-            else if (System.String.Compare(checkType, "Login", true) == 0)
+            else if (string.Compare(checkType, "Login", true) == 0)
             {//登陆页
                 path = "/Root/WebFile/Login/FileName";
             }
-            else if (System.String.Compare(checkType, "ChooseTz", true) == 0)
+            else if (string.Compare(checkType, "ChooseTz", true) == 0)
             {//套账选择页
                 path = "/Root/WebFile/ChooseTz/FileName";
             }
-            else if (System.String.Compare(checkType, "SysModulePage", true) == 0)
+            else if (string.Compare(checkType, "SysModulePage", true) == 0)
             {//模块页
                 path = "/Root/WebFile/SysModulePage/FileName";
             }
-            
-            if (MyTy.ConfigReader.CheckInnerText(xml, path, FileName))
+            else if (string.Compare(checkType, "SysXTSZ", true) == 0)
+            {//模块页
+                path = "/Root/WebFile/SysXTSZ/FileName";
+            }            
+            else if (string.Compare(checkType, "NoLimitUrl", true) == 0)
             {
-                return true;
+                path = "/Root/NoLimitUrl/Site";
             }
-            else
-            {
-                return false;
-            }
+            return ConfigReader.CheckInnerText(xml, path, FileName);
         }
         /// <summary>
         /// 返回页面样式配置

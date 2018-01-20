@@ -48,6 +48,7 @@ public class MyHttpModule : IHttpModule
     {
         HttpApplication application = (HttpApplication)httpApplication;
         Log log = new Log();
+        MyCode myCode = new MyCode();
         //获取服务器上 ASP.NET 应用程序的虚拟应用程序根路径
         string applicationPath = application.Context.Request.ApplicationPath.ToString().Trim();
         string absolutePath = application.Context.Request.Url.AbsolutePath.Remove(0, applicationPath.Length);
@@ -55,13 +56,13 @@ public class MyHttpModule : IHttpModule
         string loginFileName = ConfigReader.Read(xml, "/Root/WebFile/Login/FileName", "");
         string chooseTzFileName = ConfigReader.Read(xml, "/Root/WebFile/ChooseTz/FileName", "");
         LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("", "", "Application_AcquireRequestState", absolutePath));
-        if (ConfigReader.CheckInnerText(xml, "/Root/NoLimitUrl/Site", absolutePath))
+        if (myCode.CheckPageType(absolutePath, "NoLimitUrl"))
         {
             #region 不受session控制的页面
             log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
             #endregion
         }
-        else if (string.Compare(loginFileName, absolutePath,true) == 0)
+        else if (myCode.CheckPageType(absolutePath, "Login"))
         {
             #region 登陆页面
             log.WriteLog("MyHttpModule", "login");
@@ -75,7 +76,7 @@ public class MyHttpModule : IHttpModule
             }
             #endregion
         }
-        else if (string.Compare(chooseTzFileName, absolutePath,true) == 0)
+        else if (myCode.CheckPageType(absolutePath, "ChooseTz"))
         {
             #region 套账页面
             if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
@@ -109,9 +110,8 @@ public class MyHttpModule : IHttpModule
                 application.Response.Redirect("~/" + loginFileName);
             }
             #endregion
-
         }
-        else if (ConfigReader.CheckInnerText(xml, "/Root/WebFile/MenuPage/FileName", absolutePath))
+        else if (myCode.CheckPageType(absolutePath, "MenuPage"))
         {
             #region 如果是主页
             //保存获取当前主页!

@@ -1449,8 +1449,7 @@ namespace EI.Web
         /// <returns></returns>
         public string GetCenterHtml()
         {
-            return "<div id=\"divPager\" ></div>" +
-                   "<script type=\"text/javascript\" src=\"../AjaxHandler/ProcPager.js\"></script>";
+            return "<div id=\"divPager\" ></div>";
 
         }
         /// <summary>
