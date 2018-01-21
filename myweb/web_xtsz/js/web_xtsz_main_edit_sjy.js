@@ -15,13 +15,7 @@ require(["jquery", "utils"], function ($, utils) {
     utils.autoTextarea(document.getElementById("mxhsql"), 12);  
     utils.autoTextarea(document.getElementById("mxsql"), 12); 
     
-    var salert = function (title, text, type, fn) {
-        swal({
-            title: title,
-            text: text,
-            type: type,
-        }, fn);
-    }
+  
     var ok_click = function () {
         $('#ok').attr('disabled', 'disabled');
         var sql = document.getElementById("tbsql").value;
@@ -36,7 +30,7 @@ require(["jquery", "utils"], function ($, utils) {
         var sql_2 = document.getElementById("tbsql2").value;
 
         if (name.length == 0) {
-            salert('提示信息', '中文名称一定要输入!', 'info', function () {
+            utils.sAlert('中文名称一定要输入!', true, function () {
                 $('#ok').removeAttr("disabled")
             });
 
@@ -54,18 +48,18 @@ require(["jquery", "utils"], function ($, utils) {
                 url: '../webuser/ws.asmx/sjy_up',
                 data: { wid: wid, value1: name, value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly, sql_2: sql_2 },
                 error: function (e) {
-                    salert('提示信息', '连接失败!', 'error', function () {
+                    utils.sAlert('连接失败!', true, function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        salert('提示信息', '保存成功!', 'success', function () {
+                        utils.sAlert('保存成功!', true, function () {
                             $('#ok').removeAttr("disabled")
                         });
                     } else {
-                        salert('提示信息', '保存失败!', 'error', function () {
+                        utils.sAlert('保存失败!', true, function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }

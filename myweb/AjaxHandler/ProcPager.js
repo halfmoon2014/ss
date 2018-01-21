@@ -255,13 +255,17 @@ function myHjSet(key, v, mx, col) {
 function myForm(key, m, v, mx, col) {
     if (v == undefined || v == null) {
         //抓取控件值
-        return myFormGet(key, m, v, mx, col);
+        return myFormGet(key, m, mx, col);
     } else {
         //赋控件值
         return myFormSet(key, m, v, mx, col);
     }
 }
-
+//取控件对象
+function getForm(key, m, mx, col) {
+    //抓取控件值
+    return myFormGet(key, m, mx, col,'getObj');
+}
 //赋值
 function myFormSet(key, m, v, mx, col) {
     var skey; var tdskey;
@@ -306,9 +310,8 @@ function myFormSet(key, m, v, mx, col) {
 //获取值
 //v=null or v=undefined
 //mx="mx"获取尺码控件值,col=列序
-function myFormGet(key, m, v, mx, col) {
-    var skey; var tdskey;
-
+function myFormGet(key, m, mx, col,type) {
+    var skey; var tdskey; var returnValue; var returnObj;
     if (mx == "cm") {
         skey = "table_" + $("#wid").val() + "_" + m + "_" + key + "_" + col;
         tdskey = "table_td_" + $("#wid").val() + "_" + m + "_" + key + "_" + col;
@@ -320,24 +323,26 @@ function myFormGet(key, m, v, mx, col) {
     }
     if ($("#" + skey).length == 0) {
         if ($("#" + tdskey).length == 0) {
-            return null;
+            returnValue = null; returnObj == null;
         } else {
-            return $.trim($("#" + tdskey).html());
-
+            returnValue = $.trim($("#" + tdskey).html());
+            returnObj = $("#" + tdskey);
         }
     } else {
         if (document.getElementById(skey).type != undefined) {
             if (document.getElementById(skey).type == "checkbox") {//取值的时候,只有0或1,
-                return ($("#" + skey).is(':checked') ==false ? 0 : 1);
+                returnValue = ($("#" + skey).is(':checked') == false ? 0 : 1);
+                returnObj = $("#" + skey);
             } else {
-                return $("#" + skey).val();
+                returnValue = $("#" + skey).val();
+                returnObj = $("#" + skey);
             }
         } else {
-            return $("#" + skey).val();
+            returnValue = $("#" + skey).val();
+            returnObj = $("#" + skey);
         }
-
     }
-
+    return (type=="getObj"?returnObj:returnValue);
 }
 
 //分页过程

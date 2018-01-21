@@ -38,13 +38,13 @@ require(["jquery", "utils","myweb"], function ($, utils,myweb) {
         var lps = $("#psw").val();
         if (lur != "" && lps != "") {
             $("#ok").attr("disabled", true);
-            myweb.showLoading();
+            utils.showLoading();
             $.ajax({
                 type: 'post',
                 url: 'webuser/WebService.asmx/Login',
                 data: { ur: lur, ps: lps },
                 error: function () {
-                    myweb.hideLoading();
+                    utils.hideLoading();
                     $("#ok").removeAttr("disabled");
                     $(".alert").show();
                     $("#msg").html("连接错误,请检查!");
@@ -61,7 +61,7 @@ require(["jquery", "utils","myweb"], function ($, utils,myweb) {
                         }
                         window.location.href = "ChooseTz.aspx";
                     } else {
-                        myweb.hideLoading();
+                        utils.hideLoading();
                         $("#ok").removeAttr("disabled");
                         $(".alert").show();
                         $("#msg").html("登陆失败,请检查用户名与密码是否正确!");

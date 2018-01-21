@@ -22,13 +22,13 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
     });
 
     var gotz = function (tzid, menu) {
-        myweb.showLoading();
+        utils.showLoading();
         $.ajax({
             type: 'post',
             url: 'webuser/WebService.asmx/ChooseTz',
             data: { tzid: tzid, updata: $("#updata").is(':checked') },
             error: function () {
-                myweb.hideLoading();
+                utils.hideLoading();
             },
             success: function (data) {
                 r = utils.myAjaxData(data);

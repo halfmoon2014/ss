@@ -8,13 +8,7 @@
 })
 require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
 
-    var salert = function (title, text, type, fn) {
-        swal({
-            title: title,
-            text: text,
-            type: type,
-        }, fn);
-    }
+   
     //行得到焦点,变色
     var myselect = function (obj) {
         //alert(g);
@@ -92,7 +86,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         }
 
         if (data.row.length == 0) {
-            salert('提示信息', '没有可更新的记录!', 'info', function () {
+            utils.sAlert('没有可更新的记录!', true, function () {
                 $('#ok').removeAttr("disabled")
             });
         } else {
@@ -101,19 +95,19 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                 url: '../webuser/ws.asmx/UpSYJZdwh',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    salert('提示信息', '连接失败!', 'info', function () {
+                    utils.sAlert('连接失败!', true, function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        salert('提示信息', '保存成功!', 'info', function () {
+                        utils.sAlert('保存成功!', true, function () {
                             $('#ok').removeAttr("disabled");
                             location.reload();
                         });
                     } else {
-                        salert('提示信息', '保存失败!', 'info', function () {
+                        utils.sAlert('保存失败!', true, function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }
@@ -145,20 +139,20 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                 url: '../webuser/ws.asmx/websj_fz_zd',
                 data: { wid: oldwid, newwid: newwid, bs: 'zd' },
                 error: function (e) {
-                    salert('提示信息', '连接失败!', 'info');
+                    utils.sAlert('连接失败!');
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        salert('提示信息', '复制成功!', 'info', function () { parent.closeTab("refresh", false); });
+                        utils.sAlert('复制成功!', true, function () { parent.closeTab("refresh", false); });
                     } else {
-                        salert('提示信息', '复制失败!', 'info');
+                        utils.sAlert('复制失败!');
                     }
                 }
             })
 
         } else {
-            salert('提示信息', '复制wid无效!', 'info');
+            utils.sAlert('复制wid无效!');
         }
     }
 

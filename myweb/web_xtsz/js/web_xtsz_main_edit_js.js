@@ -10,14 +10,7 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
     $("#ok").bind("click", function () { ok_click(); });
     $("#fb").bind("click", function () { fb_click(); });
     $("#showtitp").bind("click", function () { showtitp_click(); });  
-
-    var salert = function (title, text, type, fn) {
-        swal({
-            title: title,
-            text: text,
-            type: type,
-        }, fn);
-    }
+ 
     //显示提示
     var showtitp_click = function () {
         var show = $('#formts').css('display');
@@ -38,18 +31,18 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
             url: '../webuser/ws.asmx/sjy_upjs',
             data: { wid: wid, js: js },
             error: function (e) {
-                salert('提示信息', '连接失败!', 'info', function () {
+                utils.sAlert( '连接失败!', true, function () {
                     $('#ok').removeAttr("disabled")
                 });
             },
             success: function (data) {
                 var r = utils.myAjaxData(data);
                 if (r.r == 'true') {
-                    salert('提示信息', '保存成功!', 'info', function () {
+                    utils.sAlert('保存成功!', true, function () {
                         $('#ok').removeAttr("disabled")
                     });
                 } else {
-                    salert('提示信息', '保存失败!', 'info', function () {
+                    utils.sAlert('保存失败!', true, function () {
                         $('#ok').removeAttr("disabled")
                     });
                 }
