@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <!-- sysHead -->
-    <ctrl:DefaultHeader Title="账套选择" ID="sysHead" runat="server" />
+    <ctrlHeader:DefaultHeader Title="账套选择" ID="sysHead" runat="server" />
     <!-- End of sysHead -->
 
     <!-- Libraries -->

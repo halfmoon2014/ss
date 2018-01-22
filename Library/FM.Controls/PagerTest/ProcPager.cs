@@ -1,10 +1,7 @@
-﻿using System;
-using System.Data;
-using System.DataBase;
-using MyTy;
-using FM.Components;
+﻿using FM.Components;
+using System;
 using System.Collections.Specialized;
-using FM.Controls;
+using System.Data;
 
 namespace FM.Controls.Pager
 {
@@ -17,6 +14,7 @@ namespace FM.Controls.Pager
         {
             pagerArgumentsInit();
         }
+
         public void pagerArgumentsInit()
         {
             pagerArguments.loadMark = HTMLHelper.QueryStringInt("loadmark");
@@ -26,7 +24,6 @@ namespace FM.Controls.Pager
                 pagerArguments.currentPageIndex = 1;
             }
             pagerArguments.wid = HTMLHelper.QueryStringInt("wid");
-
 
             NameValueCollection requestParameters = HTMLHelper.GetParameters();
             foreach (string key in requestParameters.Keys)
@@ -57,7 +54,7 @@ namespace FM.Controls.Pager
                     {
                         pagerArguments.prtFlag = (requestParameters[key] == "sysPrint" ? true : pagerArguments.prtFlag);
                         pagerArguments.excelFlag = (requestParameters[key] == "sysExcel" ? true : pagerArguments.excelFlag);
-                    }                    
+                    }
                     else if (key == "loadmark")
                     {
                         pagerArguments.loadMark = int.Parse(requestParameters[key]);
@@ -80,26 +77,27 @@ namespace FM.Controls.Pager
                 pagerArguments.currentPageIndex = 1;
                 pagerArguments.pageSize = 999999999;
             }
-            pagerArguments.formParm.Add("@userid",MySession.SessionHandle.Get("userid").ToString().Trim());
+            pagerArguments.formParm.Add("@userid", MySession.SessionHandle.Get("userid").ToString().Trim());
             pagerArguments.formParm.Add("@tzid", MySession.SessionHandle.Get("tzid").ToString().Trim());
             FM.Business.Login lg = new FM.Business.Login();
-            pagerArguments.formParm.Add("@username", lg.GetUser(MySession.SessionHandle.Get("userid")).Tables[0].Rows[0]["name"].ToString()); 
-        }     
+            pagerArguments.formParm.Add("@username", lg.GetUser(MySession.SessionHandle.Get("userid")).Tables[0].Rows[0]["name"].ToString());
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
             GetDate();
             base.DataBind();
-
         }
+
         /// <summary>
         /// 获取相关数据源
         /// </summary>
         public override void GetDate()
         {
-            FM.Business.ProcPager inf = new FM.Business.ProcPager();            
+            FM.Business.ProcPager inf = new FM.Business.ProcPager();
             int mxcxTag = 0;// 是否默认查询
-            DataSet widConfig = inf.GetTableRecord("v_wid", "id=" + pagerArguments.wid);//得到wid 对应信息               
+            DataSet widConfig = inf.GetTableRecord("v_wid", "id=" + pagerArguments.wid);//得到wid 对应信息
 
             if (pagerArguments.orderBy == string.Empty)
             {
@@ -116,25 +114,25 @@ namespace FM.Controls.Pager
             }
 
             mxcxTag = Convert.ToInt32(widConfig.Tables[0].Rows[0]["mrcx"]);
-            this.addNewRowPermission = Convert.ToInt32(widConfig.Tables[0].Rows[0]["myadd"]) == 0 ? false : true;  
-           
+            this.addNewRowPermission = Convert.ToInt32(widConfig.Tables[0].Rows[0]["myadd"]) == 0 ? false : true;
+
             //是否存在尺码标识;
             int cmDetailsTag = 0;
-            inf.GetHeadlineData(pagerArguments.wid, pagerArguments.filterColumn,ref this.headlineData, ref this.detailsColumns,  ref cmDetailsTag);
+            inf.GetHeadlineData(pagerArguments.wid, pagerArguments.filterColumn, ref this.headlineData, ref this.detailsColumns, ref cmDetailsTag);
 
             //mrcx=0 首次不查
             //loadMark=0 不是第一次加载
             if (mxcxTag == 1 || pagerArguments.loadMark == 0)
             {
-                int recordCount = 0;//总记录数 
-                inf.GetProcList(pagerArguments.wid, this.detailsColumns, pagerArguments.orderBy, pagerArguments.currentPageIndex, pagerArguments.pageSize, pagerArguments.formParm,  pagerArguments.filterRow,ref recordCount, ref this.columnDataType, ref this.totalDetailsData, ref this.detailsSql,ref this.detailsData, ref this.cmDetailsData);
+                int recordCount = 0;//总记录数
+                inf.GetProcList(pagerArguments.wid, this.detailsColumns, pagerArguments.orderBy, pagerArguments.currentPageIndex, pagerArguments.pageSize, pagerArguments.formParm, pagerArguments.filterRow, ref recordCount, ref this.columnDataType, ref this.totalDetailsData, ref this.detailsSql, ref this.detailsData, ref this.cmDetailsData);
                 //获取分页存储过程返回的数据
                 pagerArguments.recordCount = recordCount;
             }
 
             if (cmDetailsTag == 1)
             {
-                inf.GetCmDetails(pagerArguments.wid,this.detailsSql,pagerArguments.formParm, ref this.cmDetailsData, ref this.cmHeadlineData, ref this.masterCmRelation, ref this.masterSlaveKey, ref this.detailCmRelation );
+                inf.GetCmDetails(pagerArguments.wid, this.detailsSql, pagerArguments.formParm, ref this.cmDetailsData, ref this.cmHeadlineData, ref this.masterCmRelation, ref this.masterSlaveKey, ref this.detailCmRelation);
             }
         }
     }

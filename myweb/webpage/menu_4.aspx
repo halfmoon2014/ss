@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">    
-    <ctrl:DefaultHeader  ID="sysHead" runat="server" TITLE="Default" />   
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="Default" />   
     <script src="../javascripts/menu_4/menu_4.js" type="text/javascript"></script>
     <link href="../css/menu_4.css" rel="stylesheet" type="text/css" />
 </head>

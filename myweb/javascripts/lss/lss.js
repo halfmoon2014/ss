@@ -2,7 +2,7 @@
 /*
 *系统模块
 */
-$(function () {
+$(function () {    
     //loadMark 标识是否是第一次加载.首次不查的情况下,不用加载数据
     var loadMark = 1;
     if ($("#wid").attr("IsEasyLayout") == "1" && $("#divPager").length > 0) {

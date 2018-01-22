@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
    
-    <ctrl:DefaultHeader  id="sysHead" runat="server" title="新增" />
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="新增" />
 </head>
 <body>
     <form id="form1" runat="server">

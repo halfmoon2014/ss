@@ -2,7 +2,7 @@
 <html>
 <head id="Head1" runat="server">
    
-    <ctrl:DefaultHeader   ID="sysHead" TITLE="首页" runat="server" />
+    <ctrlHeader:DefaultHeader   ID="sysHead" TITLE="首页" runat="server" />
     <script language="javascript" type="text/javascript" src="javascripts/default/Default.js"></script>
     <style type="text/css" >
         body

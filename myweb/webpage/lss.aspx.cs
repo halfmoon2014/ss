@@ -48,6 +48,7 @@ public partial class lss : System.Web.UI.Page
             innerHtml.Append(layout.HtmlMark);
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");
             innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\" value=\"" + username + "\" />");
+            innerHtml.Append("<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>");
             CacheTools.Insert(intWid.ToString(), userid.ToString(), innerHtml);
             //}
             //else

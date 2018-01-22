@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.IO;
 using System.Net;
 using System.Text;
-using System.IO;
-using FM.Controls.Pager;
-using System.Collections.Specialized;
+using System.Web;
+
 public partial class webpage_ProcPager_SysExcel : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-    
-
         FM.Controls.FMPager fm = new FM.Controls.FMPager();
         fm = new FM.Controls.Pager.ProcPager();
         fm.GetDate();
         printForm.InnerHtml = "<div><table class=\"title_prt\"><tr><td id=\"excelTitle\">" + Request.Params["title"] + "</td></tr></table></div>" +
-            "<div id=\"divPager\"  >"+fm.Html()+"</div>";       
+            "<div id=\"divPager\"  >" + fm.Html() + "</div>";
 
         Response.Clear();
         Response.Buffer = true;
@@ -28,9 +21,10 @@ public partial class webpage_ProcPager_SysExcel : System.Web.UI.Page
         Response.ContentEncoding = System.Text.Encoding.UTF8;
         Response.ContentType = "application/ms-excel";
         this.EnableViewState = false;
-
     }
-    #region  向Url发送post请求,返回网站响应内容
+
+    #region 向Url发送post请求,返回网站响应内容
+
     /// <summary>
     /// 向Url发送post请求,返回网站响应内容
     /// </summary>
@@ -48,7 +42,7 @@ public partial class webpage_ProcPager_SysExcel : System.Web.UI.Page
         HttpWebRequest requestScore = (HttpWebRequest)WebRequest.Create(uriStr);
         StringBuilder postContent = new StringBuilder();
         Encoding myEncoding = Encoding.GetEncoding("utf-8");
-        // + parm+ "filterRow:\"" + filterRow + "\",prtFlag:\"sysprt\",orderBy:\"" + orderBy + "\",pageSize:\"" + pageSize 
+        // + parm+ "filterRow:\"" + filterRow + "\",prtFlag:\"sysprt\",orderBy:\"" + orderBy + "\",pageSize:\"" + pageSize
 
         postContent.Append(HttpUtility.UrlEncode("message", myEncoding));
         postContent.Append("=");
@@ -79,10 +73,8 @@ public partial class webpage_ProcPager_SysExcel : System.Web.UI.Page
             postContent.Append(HttpUtility.UrlEncode(HttpUtility.UrlEncode(Request.QueryString["parm"].Split(',')[i].Split(':')[1], myEncoding)));
         }
 
-
         byte[] data = Encoding.ASCII.GetBytes(postContent.ToString());
         requestScore.Method = "Post";
-
 
         requestScore.Headers.Add("Cookie", Request.Headers["Cookie"]);
 
@@ -106,7 +98,6 @@ public partial class webpage_ProcPager_SysExcel : System.Web.UI.Page
         {
             throw ex;
             //responseSorce = (HttpWebResponse)ex.Response;//得到请求网站的详细错误提示
-
         }
 
         requestScore.Abort();
@@ -114,5 +105,5 @@ public partial class webpage_ProcPager_SysExcel : System.Web.UI.Page
         return content;
     }
 
-    #endregion
+    #endregion 向Url发送post请求,返回网站响应内容
 }

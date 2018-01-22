@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <script type="text/javascript">
+        window.onload = function () {
+            var dialog = document.getElementById('myDialog');
+            document.getElementById('show').onclick = function () {
+                document.getElementById("_iframe").src = "/webpage/lss.aspx?wid=207&title=%E6%8C%82%E9%95%80%E8%BD%A6%E9%97%B4";
+                dialog.showModal();
+            };
+
+        }
+
+    </script>
+</head>
+<body>
+    <dialog id="myDialog">
+        <iframe style="width:1000px;height:800px" id="_iframe" frameborder="0" src=""></iframe>
+    </dialog>
+    <input type="text" />
+    <button id="show">Show Dialog</button>
+</body>
+</html>

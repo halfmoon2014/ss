@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">    
     <!-- sysHead --> 
-    <ctrl:DefaultHeader  ID="sysHead" runat="server" TITLE="menu_3" />
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="menu_3" />
     <!-- end of sysHead -->
     <!-- Libraries --> 
     <script src="../javascripts/menu_3/menu_3.js" type="text/javascript"></script>

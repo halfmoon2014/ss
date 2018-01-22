@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">    
-    <ctrl:DefaultHeader  WEBID="0" ID="sysHead" runat="server" TITLE="Default" />
+    <ctrlHeader:DefaultHeader  WEBID="0" ID="sysHead" runat="server" TITLE="Default" />
 </head>
 <body class="easyui-layout" id="bd" runat="server" >  
     <div data-options="region:'north',title:'North Title',split:true" style="height:100px;">1</div>  

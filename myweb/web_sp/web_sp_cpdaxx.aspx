@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     
-    <ctrl:DefaultHeader  id="sysHead" runat="server" title="产品参数" />
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="产品参数" />
 </head>
 <body style="width: 200px">
     <form id="form1" runat="server">

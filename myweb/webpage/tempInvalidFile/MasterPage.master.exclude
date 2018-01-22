@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>    
-    <ctrl:DefaultHeader WEBID="0" ID="sysHead"  runat="server" TITLE="Default"   />        
+    <ctrlHeader:DefaultHeader WEBID="0" ID="sysHead"  runat="server" TITLE="Default"   />        
 </head>
 <body onload="MySysOnload()">    
     <!-- 通用打印报表选择 -->

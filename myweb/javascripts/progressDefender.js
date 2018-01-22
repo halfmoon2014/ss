@@ -148,7 +148,7 @@ function sessionOk(callFun) {
             type: 'post',
             url: '../webuser/ws.asmx/reload',
             async: false,
-            data: { value1: mySysDate(usr), value2: mySysDate(pw), a: mySysDate(a), b: mySysDate(b) },
+            data: { value1: (usr), value2: (pw), a: (a), b: (b) },
             error: function (e) { err = e; },
             success: function (data) {
                 r = myAjaxData(data);
@@ -160,7 +160,7 @@ function sessionOk(callFun) {
                     $('#ok').linkbutton('enable');
                     $('#esc').linkbutton('enable');
                     $("#session_psw").val("");
-                    $('#div_SysSession').hide(); console.log("aa");
+                    $('#div_SysSession').hide(); 
                     if (typeof (callFun) == "function") {
                         callFun();
                     }

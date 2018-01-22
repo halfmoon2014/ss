@@ -3,7 +3,7 @@ using System.Web.UI;
 using System.Collections.Generic;
 using FM.Components;
 using System.Data;
-namespace FM.Controls
+namespace FM.Controls.Header
 {
     public class Header : Control
     {

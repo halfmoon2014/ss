@@ -103,7 +103,7 @@ namespace FM.Business
                             //默认主页为menu_
                             lm = (lm == string.Empty ? mrmenu : lm);
 
-                            tzHtml += "<a href=\"#\" mylink=1  t=\"" + dr["tzid"].ToString().Trim() + "\" m=\"" + lm + "\" class=\"list-group-item\">";
+                            tzHtml += "<a href=\"#\" mylink=1  t=\"" + dr["tzid"].ToString().Trim() + "\" m=\"" + lm + "\" class=\"list-group-item\" accesskey=\""+(ds.Tables[0].Rows.IndexOf(dr)+1)+"\" >";
                             tzHtml += "<h4 class=\"list -group-item-heading\">" + dr["tzmc"].ToString().Trim() + "</h4>";
                             tzHtml += "<p class=\"list -group-item-text\" style=\"text-align:right\">" + dr["sm"].ToString().Trim() + "</p>";
                             tzHtml += "</a>";

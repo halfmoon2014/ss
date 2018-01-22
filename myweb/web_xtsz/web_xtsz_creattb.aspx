@@ -5,7 +5,7 @@
 <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">    
-    <ctrl:DefaultHeader  id="sysHead" runat="server" />
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
 </head>
 <script language="javascript" type="text/javascript">
     function mypic() {

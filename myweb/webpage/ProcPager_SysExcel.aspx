@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<ctrl:DefaultHeader PAGETYPE="excel" ID="sysHead" runat="server" TITLE="Default"   /> 
+    <ctrlHeader:DefaultHeader PageType="excel" ID="sysHead" runat="server" Title="Default" /> 
 </head>
 <body>
     <form id="printForm" runat="server"> 

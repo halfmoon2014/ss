@@ -867,12 +867,14 @@ namespace EI.Web
                     #region
                     string htmlid = (dr["htmlid"].ToString().Trim() == string.Empty ? "" : " id=\"" + dr["htmlid"].ToString().Trim() + "\" ");
                     string visible = "";
-                    string width = "";
+                    string width = "";string inputWidth = "";
                     string qwidth = "";
 
                     if (dr["visible"].ToString().Trim() == "1")
                     {
                         width = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        //4px是控件的border
+                        inputWidth = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + (int.Parse(dr["width"].ToString().Trim())-4) + "px; ");
                         qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
@@ -889,7 +891,7 @@ namespace EI.Web
                         yy = "yy=\"" + dr["yy"].ToString().Trim() + "\" bds=\"" + bds + "\"";
                     }
                     tdHtml += "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \" ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
-                    tdHtml += "<td style=\"" + visible + "\" innerctrl=\"text\" ><input style=\"" + width + " ; " + dr["css"].ToString().Trim() + "\" " + yy + " type=\"text\"" + htmlid + " " + sevent + sreadonly + " value=\"" + defaultValue + "\" />";
+                    tdHtml += "<td style=\"" + visible+ width + "\" innerctrl=\"text\" ><input style=\""+ inputWidth+ dr["css"].ToString().Trim() + "\" " + yy + " type=\"text\"" + htmlid + " " + sevent + sreadonly + " value=\"" + defaultValue + "\" />";
                     tdHtml += "</td>";
                     #endregion
                 }
@@ -1499,8 +1501,8 @@ namespace EI.Web
             DataSet ds = lg.GetUser(this.userid);
             if (ds.Tables[0].Rows[0]["platform_edit_permission"].ToString().Trim() == "1")
             {
-                return "<div style=\" text-align:right;  margin-left: 20px; margin-right: 20px;\" ><span onclick=\"myxtsz_main_edit()\">Edit Console</span></div>"
-                 + "<script language=\"javascript\">function myxtsz_main_edit(){ var url=\"../web_xtsz/web_xtsz_main_edit.aspx?wid=" + intWid.ToString() + "&title=\"+mySysDate(document.title)+\"  \"; window.open(url); }</script>";
+                return "<div style=\" text-align:right;  margin-left: 20px; margin-right: 20px;\" ><span onclick=\"var url='../web_xtsz/web_xtsz_main_edit.aspx?wid=" + intWid.ToString() + "&title=\'+mySysDate(document.title); window.open(url);\">Edit Console</span></div>";
+                 
             }
             else
             {

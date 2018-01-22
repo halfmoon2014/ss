@@ -4,7 +4,7 @@ using System.Web;
 using FM.Components;
 using System.Collections.Generic;
 
-namespace FM.Controls
+namespace FM.Controls.Header
 {
     public class DefaultHeader : Header, IHttpHandler
     {

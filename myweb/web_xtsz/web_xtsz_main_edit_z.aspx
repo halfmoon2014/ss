@@ -6,7 +6,7 @@
 <%@ Import Namespace="Service.Util" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <ctrl:DefaultHeader ID="sysHead" runat="server" />
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
     <!-- Libraries -->
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
