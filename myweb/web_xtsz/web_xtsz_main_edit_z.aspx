@@ -10,7 +10,7 @@
     <!-- Libraries -->
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
-    <link href="css/sticky-footer-navbar.css" rel="stylesheet" />
+    <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
 
     <script src="../javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
     <!--[if lt IE 9]>

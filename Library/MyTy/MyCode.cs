@@ -73,6 +73,14 @@ namespace MyTy
             {
                 path = "/Root/NoLimitUrl/Site";
             }
+            else if (string.Compare(checkType, "Other&JQY", true) == 0)
+            {//没分类,需要jqy
+                path = "/Root/WebFile/Other/JQY/FileName";
+            }
+            else if (string.Compare(checkType, "Other&Ordinary", true) == 0)
+            {//没分类
+                path = "/Root/WebFile/Other/Ordinary/FileName";
+            }
             return ConfigReader.CheckInnerText(xml, path, FileName);
         }
         /// <summary>

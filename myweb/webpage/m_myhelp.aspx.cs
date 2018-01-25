@@ -7,7 +7,7 @@ public partial class webpage_m_myhelp : System.Web.UI.Page
     {
         EI.Web.WebMenu mu = new EI.Web.WebMenu();         
         DataTable dt = mu.GetHelp(Request.QueryString["id"].ToString().Trim()).Tables[0];
-        myid.Value = Request.QueryString["id"].ToString().Trim();        
-        TextArea1.InnerText = dt.Rows[0]["help"].ToString();
+        myid.Value = Request.QueryString["id"].ToString().Trim();
+        helpText.InnerText = dt.Rows[0]["help"].ToString();
     }
 }

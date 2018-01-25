@@ -2,85 +2,56 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head  runat="server">
-    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
-</head>
-<script language="javascript" type="text/javascript">
-    $(function () {
-        $("#ok").bind("click", function () { mysave(); });
-        $("#esc").bind("click", function () { window.close(); });
-    });
-    function mysave() {
-        var reg = new RegExp("\r\n", "g");
-        var help = mySysDate(document.getElementById("TextArea1").value);
-        var myid = document.getElementById("myid").value;
-        $('#ok').linkbutton('disable');
-
-        $.ajax({ type: 'post',
-            url: '../webuser/ws.asmx/helpup',
-            data: { value1: help, value2: myid },
-            error: function (e) {
-
-                $.messager.alert('提示信息', '连接失败', 'info', function () {
-                    $('#ok').linkbutton('enable');
-                });
-            },
-            success: function (data) {
-                var r = myAjaxData(data);
-                if (r.r == 'true') {
-                    $.messager.alert('提示信息', '保存成功', 'info', function () {
-                        $('#ok').linkbutton('enable');
-                    });
-
-                } else {
-                    $.messager.alert('提示信息', '保存失败', 'info', function () {
-                        $('#ok').linkbutton('enable');
-                    });
-                }
-            }
-        })
-
-    }
-</script>
 <head runat="server">
-    <title></title>
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" title="帮助文档" />
+    <!-- Libraries -->
+    <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+    <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <script src="../javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
+    <!--[if lt IE 9]>
+        <script src="../javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="../javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- End of Libraries -->
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
 <body>
-    <input type="hidden" id="myid" runat="server" />
-    <form id="form1" runat="server">
-    <div>
-        <table width="100%" cellspacing="0" cellpadding="0">
-            <tr>
-                <td align="right">
-                    <table>
-                        <tr>
-                            <td width="64" valign="middle">
-                                <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">保存</a>
-                            </td>
-                            <td width="64" valign="middle">
-                                <a href="javascript:void(0)" class="easyui-linkbutton" id="esc">退出</a>
-                            </td>
-                            <td>
-                                &nbsp;
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td align="center">
-                    <table style="width: 100%; height: 100%">
-                        <tr>
-                            <td>
-                                <textarea id="TextArea1" rows="300" cols="20" runat="server" style="width: 100%;
-                                    height: 550px"></textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#jsnavbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+            </div>
+            <div id="jsnavbar" class="navbar-collapse collapse">
+                <form class="navbar-form navbar-left">
+                    <div class="btn-group" role="toolbar" id="btnGroup" runat="server" aria-label="操作按钮">
+                        <button type="button" class="btn btn-default" id="ok" accesskey="s" aria-label="保存">保存(S)</button>
+                        <button type="button" class="btn btn-default" id="esc" aria-label="退出">退出</button>                        
+                    </div>
+                </form>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div class="container-fluid">
+    
+        <div class="form-group">
+            <label for="helpText">manual</label>
+            <textarea class="form-control" rows="2" runat="server" id="helpText"></textarea>
+        </div>
     </div>
-    </form>
+    <!-- /container -->
+
+    <input type="hidden" id="myid" runat="server" />
+    <script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
+    <script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
+    <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
+    <script data-main="../javascripts/userhelp/userhelp" src="../javascripts/require.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
+    <ctrlHeader:DefaultHeader ID="sysHead" runat="server" title="菜单内容"/>
     <!-- Libraries -->
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
@@ -19,14 +19,11 @@
             background-color:transparent;
             border:none;
         }
-     
     </style>
 </head>
 <body style="background-color: transparent;">
-    <form id="content_menu3_form1" runat="server">
-        <div id="content_menu3_mydiv" runat="server">
-        </div>
-    </form>
+    <div id="content_menu3_mydiv" class="container" runat="server">
+    </div>
     <script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
     <script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
     <script type="text/javascript">

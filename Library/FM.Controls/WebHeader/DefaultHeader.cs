@@ -27,8 +27,11 @@ namespace FM.Controls.Header
             }
 
             //登陆页,套账选择页
-            if (myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz")|| myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary")) { SetJqueryScript(); }
-            else if (myCode.CheckPageType(absolutePath, "SysXTSZ&JQY")) {
+            if (myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz")
+                || myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary") || myCode.CheckPageType(absolutePath, "Other&Ordinary")) {
+                SetJqueryScript();
+            }
+            else if (myCode.CheckPageType(absolutePath, "SysXTSZ&JQY")|| myCode.CheckPageType(absolutePath, "Other&JQY")) {
                 SetJqueryScript();
                 SetJQEUI(pageThemes["Themes"]);
             }
