@@ -10,10 +10,10 @@ namespace EI.Web
     /// </summary>
     public class WebMenu
     {
-        
+
         public WebMenu()
         {
-        
+
             string ip = "";
             if (HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
             {
@@ -27,7 +27,7 @@ namespace EI.Web
         }
 
         public string GetCont()
-        {            
+        {
             string userid = MySession.SessionHandle.Get("userid");
             string tzid = MySession.SessionHandle.Get("tzid");
             string menuPage = MySession.SessionHandle.Get("menupage");
@@ -105,9 +105,9 @@ namespace EI.Web
                 {
                     id = queryMenu.Field<int>("id"),
                     text = queryMenu.Field<string>("text"),
-                    mj = queryMenu.Field<int>("mj")                    
+                    mj = queryMenu.Field<int>("mj")
                 };
-            
+
             DataTable dtTopMenu = new DataTable();
             dtTopMenu.Columns.Add("id", typeof(int));
             dtTopMenu.Columns.Add("text", typeof(string));
@@ -199,8 +199,8 @@ namespace EI.Web
                     id = queryMenu.Field<int>("id"),
                     text = queryMenu.Field<string>("text"),
                     mj = queryMenu.Field<int>("mj"),
-                    xjmj = queryXJMJ != null ? queryXJMJ.Field<int?>("mj") : 0                    
-                };            
+                    xjmj = queryXJMJ != null ? queryXJMJ.Field<int?>("mj") : 0
+                };
 
             foreach (var obj in queryTopMenu)
             {
@@ -272,44 +272,44 @@ namespace EI.Web
         /// <returns></returns>
         public string GetContentMenu()
         {
-            string ssid = HttpContext.Current.Request.QueryString["url"].ToString();
             FM.Business.Menu mu = new FM.Business.Menu();
-            DataTable dt = mu.GetContentMenu(ssid);
-            int ls = 0;
-            string sls = "";
-            string outs = ""; string alone = "";
-            if (dt.Rows.Count > 0)
+            DataTable menuDT = mu.GetContentMenu(HttpContext.Current.Request.QueryString["url"].ToString());                       
+            string helpString = "<span class=\"glyphicon glyphicon-book\" aria-hidden=\"true\"></span>";
+            StringBuilder rowString = new StringBuilder();
+            if (menuDT.Rows.Count > 0)
             {
-                outs = "<table class='home_table' width='100%'><tr>";
-
-                foreach (DataRow dr in dt.Rows)//1
+                var mjQuery = from t in menuDT.AsEnumerable()
+                              group t by new { t1 = t.Field<string>("ls") } into m
+                              select new
+                              {
+                                  ls = m.Key.t1
+                              };
+                int listCount=mjQuery.ToList().Count;
+                string  col_md_num = "";
+                if (listCount==1|| listCount == 2|| listCount == 3|| listCount == 4|| listCount == 6)
                 {
-                    string url = "href=\"#\"";
-                    string webid = dr["webid"].ToString().Trim();
-                    alone = dr["alone"].ToString().Trim();
-                    if (dr["cmd"].ToString().Trim() != string.Empty)
+                    col_md_num = "col-xs-12 col-md-" + (12 / listCount).ToString();
+                }else if (listCount == 5)
+                {
+                    col_md_num = "col-xs-12 col-md-2";
+                }else 
+                {
+                    col_md_num = "col-xs-12 col-md-1";
+                }                
+                mjQuery.ToList().ForEach(q =>
+                {
+                    string htmlUL = "<div class=\"{1}\"><ul class=\"list-group\">{0}</ul></div>";
+                    StringBuilder htmlLS = new StringBuilder();
+                    foreach (DataRow dr in menuDT.Select("ls='"+ q.ls + "'"))//
                     {
-                        url += " onclick=parent.addTab(\"" + dr["text"].ToString().Trim() + "\",\"" + dr["cmd"].ToString().Trim() + "\",this)";
+                        htmlLS .Append( string.Format("<li class=\"list-group-item\" alone={2} cmd=\"{3}\" menuID=\"{4}\" >{0} <a style='text-decoration:none' href=\"#\">{1}</a></li>",
+                            helpString,  dr["text"].ToString().Trim(), dr["alone"].ToString().Trim(), dr["cmd"].ToString().Trim(), dr["id"].ToString().Trim()));
                     }
-
-                    if (sls != dr["ls"].ToString().Trim())
-                    {
-                        ls += 1;
-                        sls = dr["ls"].ToString().Trim();
-                        if (ls != 1) { outs += "</table></td>"; }
-                        outs += "<td style='vertical-align:top'>";
-                        outs += "<table><tr><td><input type='image'  src='../images/menu2_myhelp.png' onclick='parent.myhelp(" + dr["id"].ToString().Trim() + ");return false;' /></td><td><a  alone=" + alone + " style='text-decoration:none'" + url + " >" + dr["text"].ToString().Trim() + "</a></td></tr>";
-                        //<a href='#' onclick='myhelp(" + dr["id"].ToString().Trim() + ")' >
-                    }
-                    else
-                    {
-                        outs += "<tr><td><input type='image' src='../images/menu2_myhelp.png' onclick='parent.myhelp(" + dr["id"].ToString().Trim() + ");return false;'  /></td><td><a alone=" + alone + " style='text-decoration:none'" + url + " >" + dr["text"].ToString().Trim() + "</a></td></tr>";
-                    }
-
-                }
-                outs += "</table></td></tr></table>";
+                    rowString.Append(string.Format(htmlUL, htmlLS, col_md_num));
+                });
+                
             }
-            return outs;
+            return string.Format("<div class=\"row\">{0}</div>", rowString);
         }
         /// <summary>
         /// 记录菜单打开的时间

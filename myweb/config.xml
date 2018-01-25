@@ -63,7 +63,8 @@
         <FileName>web_xtsz/web_xtsz_main.aspx</FileName>
       </JQY>
       <Ordinary>
-        <FileName>web_xtsz/web_xtsz_creattb.aspx</FileName>                
+        <FileName>webpage/content_menu3.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_creattb.aspx</FileName>
         <FileName>web_xtsz/web_xtsz_main_add.aspx</FileName>
         <FileName>web_xtsz/web_xtsz_main_edit_help.aspx</FileName>
         <FileName>web_xtsz/web_xtsz_main_edit_js.aspx</FileName>
