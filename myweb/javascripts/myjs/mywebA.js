@@ -38,7 +38,7 @@
             //新窗口特性
             varoptions = (varoptions == undefined ? "" : varoptions)
 
-            if (getUserBrowser() == "Chrome") {
+            if (browser.versions.webKit) {
                 //将回调函数放入当前窗体的属性中,用于子窗口调用
                 //缺点是要控制一次只能打开一个子窗口
                 if (callback != undefined) { window.callback = callback; }
@@ -68,7 +68,7 @@
     *兼容chrome 因为没有模态窗口,chrome 使用open 打开新窗口,所以在关闭的时候注意执行父窗口的函数
     */
     var myWindowClose = function (returnvalue) {
-        if (getUserBrowser() == "Chrome") {
+        if (browser.versions.webKit) {
             //用来关闭chrome窗口时标识关闭的动作是否使用浏览器自带的关闭按钮
             //任何关闭的动作都会响应onunload事件
             window.onunloadtag = true;
@@ -82,7 +82,7 @@
     *用于使用平台脚本打开窗口的情况
     */
     window.onunload = function () {
-        if (getUserBrowser() == "Chrome") {
+        if (browser.versions.webKit) {
             if (window.onunloadtag != true) {
                 //判断window.opener是否存在,因为这是个通用JS,所以有些窗口不是通过平台脚本打开的
                 (window.opener && window.opener.callback != undefined) ? window.opener.callback(null) : "";

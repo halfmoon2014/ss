@@ -289,14 +289,8 @@ $.parser.onComplete = function () {
 /*
 *修改密码
 */
-function myChangmm() {
-    if (checkSession() == false) {
-        reLoad(function () {
-            var r = openModal('../webpage/lss.aspx?wid=143', '', 'dialogWidth=300px;dialogHeight=400px');
-        });
-    } else {
-        var r = openModal("../webpage/lss.aspx?wid=143", "", "dialogWidth=300px;dialogHeight=400px");
-    }
+function passwordModify() {
+    var r = openModal('../webpage/lss.aspx?wid=143', '', 'dialogWidth=300px;dialogHeight=400px');
 }
 
 /*
@@ -304,7 +298,8 @@ function myChangmm() {
 *清空SESSION
 */
 function window_onunload(type) {
-    $.ajax({ type: 'post',
+    $.ajax({
+        type: 'post',
         url: '../webuser/ws.asmx/SessionEnd',
         async: false,
         data: {},
@@ -324,15 +319,15 @@ function window_onunload(type) {
 *关闭浏览器FF跳转空页
 */
 function closeWebPage() {
-    if (getUserBrowser() == "IE") {
-        if (getBrowserVer() == "6.0") {
+    if (browser.versions.trident) {
+        if (browser.versions.ver == "6.0") {
             window.opener = null; window.close();
         }
         else {
             window.open('', '_top'); window.top.close();
         }
     }
-    else if (getUserBrowser() == "Firefox") {
+    else if (browser.versions.gecko) {
         window.location.href = 'about:blank ';
         //window.history.go(-2);
     }

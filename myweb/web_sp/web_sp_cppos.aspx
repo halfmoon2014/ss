@@ -275,7 +275,7 @@
         }
 
         document.body.onkeydown = function () {
-            if (getUserBrowser() == "IE") {                
+            if (browser.versions.trident) {
                 if (window.event.keyCode == 13) {
                     var srcid = "";
                     if (window.event.srcElement != null && window.event.srcElement.id != null) {

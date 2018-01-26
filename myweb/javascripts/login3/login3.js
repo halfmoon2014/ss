@@ -23,7 +23,7 @@ require(["jquery", "utils","myweb"], function ($, utils,myweb) {
     });
     $("#psw").bind("keydown", function (event) {
         var keyn;
-        if (utils.getUserBrowser() == "IE") {
+        if (utils.browser.versions.trident) {
             keyn = event.keyCode;
         } else if (event.which) {
             keyn = event.which;

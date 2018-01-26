@@ -78,7 +78,7 @@ function okClick() {
 function onKey(e) {
 
     var keyn;
-    if (getUserBrowser() == "IE") {
+    if (browser.versions.trident) {
         keyn = e.keyCode; 
     } else if (e.which) {
         keyn = e.which;

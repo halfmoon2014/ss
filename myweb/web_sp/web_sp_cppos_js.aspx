@@ -121,7 +121,7 @@
         * E(e).prevent();阻止时间默认行为
         */
         var E = function (e) {
-            e = (getUserBrowser() == "IE") || e;
+            e = (browser.versions.trident) || e;
             return {
                 stop: function () {
                     if (e && e.stopPropagation) e.stopPropagation();
@@ -139,7 +139,7 @@
             $("#fkfs").focus();
             $(document).keypress(function (e) {
                 var key = "";
-                if (getUserBrowser() == "IE") {
+                if (browser.versions.trident) {
                     key = e.keyCode;
                 } else if (e.which) {
                     key = e.which;

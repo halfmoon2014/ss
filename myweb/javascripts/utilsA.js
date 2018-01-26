@@ -7,33 +7,51 @@
     };
 
     // 获 取 浏 览器 版 本
-    var getBrowserVer = function () {
-        var br = navigator.userAgent.toLowerCase();
-        var Ver = (br.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [0, '0'])[1];
-        return Ver;
-    };
+    //var getBrowserVer = function () {
+    //    var br = navigator.userAgent.toLowerCase();
+    //    var Ver = (br.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [0, '0'])[1];
+    //    return Ver;
+    //};
 
     // 获取浏览器类型。
-    var getUserBrowser = function () {        
-        var browserName = navigator.userAgent.toLowerCase();
-        if (/msie/i.test(browserName) && !/opera/.test(browserName)) {
+    //var getUserBrowser = function () {        
+    //    var browserName = navigator.userAgent.toLowerCase();
+    //    if (/msie/i.test(browserName) && !/opera/.test(browserName)) {
 
-            return "IE";
-        } else if (/firefox/i.test(browserName)) {
+    //        return "IE";
+    //    } else if (/firefox/i.test(browserName)) {
 
-            return "Firefox";
-        } else if (/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName)) {
+    //        return "Firefox";
+    //    } else if (/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName)) {
 
-            return "Chrome";
-        } else if (/opera/i.test(browserName)) {
+    //        return "Chrome";
+    //    } else if (/opera/i.test(browserName)) {
 
-            return "Opera";
-        } else if (/webkit/i.test(browserName) && !(/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName))) {
+    //        return "Opera";
+    //    } else if (/webkit/i.test(browserName) && !(/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName))) {
 
-            return "Safari";
-        } else {
-            return "unKnow";
-        }
+    //        return "Safari";
+    //    } else {
+    //        return "unKnow";
+    //    }
+    //};
+    var browser = {
+        versions: function () {
+            var u = window.navigator.userAgent;
+            return {
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+                iPad: u.indexOf('iPad') > -1, //是否为iPad
+                webApp: u.indexOf('Safari') == -1,//是否为web应用程序，没有头部与底部
+                weixin: u.indexOf('MicroMessenger') == -1 //是否为微信浏览器
+            };
+        }()
     };
 
     //Javascript 操作select控件大全（新增、修改、删除、选中、清空、判断存在等） 
@@ -431,9 +449,8 @@
     }
 
     return {
-        forDight: forDight,
-        getBrowserVer: getBrowserVer,
-        getUserBrowser: getUserBrowser,
+        forDight: forDight,        
+        browser: browser,
         jsSelectIsExitItem: jsSelectIsExitItem,
         jsAddItemToSelect: jsAddItemToSelect,
         jsRemoveItemFromSelect: jsRemoveItemFromSelect,

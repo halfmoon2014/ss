@@ -19,7 +19,7 @@ $(function () {
 *IE回车换TAB
 */
 $("body").keydown(function () {
-    if (getUserBrowser() == "IE") {
+    if (browser.versions.trident) {
         if (window.event.keyCode == 13) {
             window.event.keyCode = 9;
         }

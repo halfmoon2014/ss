@@ -81,7 +81,8 @@ namespace EI.Web
             #endregion
 
             string hidden = "<input type=\"hidden\"  id=\"username\" a=\"" + menuPage + "\" b=\"" + tzid + "\" value=\"" + userName + "\" />";
-            return north + west + south + center + wait + contextMenu + hidden;
+            string platDialog="<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>";
+            return north + west + south + center + wait + contextMenu + hidden+ platDialog;
 
         }
 
@@ -221,7 +222,7 @@ namespace EI.Web
             DataTable dt = menu.GetTzInfo();
             string strrq = DateTime.Now.ToString("d");
             FM.Business.Login lg = new FM.Business.Login();
-            string m_top_title = "[<a href='../ChooseTz.aspx' class='a_top'  style='text-decoration:none' target='_parent' >切换套账</a>] 当前系统:" + dt.Rows[0]["tzmc"].ToString() + userName + " &nbsp;日期:" + strrq + "&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"myChangmm()\" >修改密码</a>]&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"window_onunload(0)\" >用户注销</a>]&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"window_onunload(-1)\" >退出系统</a>]&nbsp;&nbsp;";
+            string m_top_title = "[<a href='../ChooseTz.aspx' class='a_top'  style='text-decoration:none' target='_parent' >切换套账</a>] 当前系统:" + dt.Rows[0]["tzmc"].ToString() + userName + " &nbsp;日期:" + strrq + "&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"passwordModify()\" >修改密码</a>]&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"window_onunload(0)\" >用户注销</a>]&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"window_onunload(-1)\" >退出系统</a>]&nbsp;&nbsp;";
 
             StringBuilder tmp = new StringBuilder();
             tmp.Append("<table width=\"98%\" height=\"98%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" >");

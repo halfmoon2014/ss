@@ -8,37 +8,54 @@ function ForDight(Dight, How) {
 /*
 *获取浏览器版本号
 */
-function getBrowserVer() {
-    var br = navigator.userAgent.toLowerCase();
-    var Ver = (br.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [0, '0'])[1];
-    return Ver;
-
-}
+//function getBrowserVer() {
+//    var br = navigator.userAgent.toLowerCase();
+//    var Ver = (br.match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [0, '0'])[1];
+//    return Ver;
+//}
 /*
 * 获取浏览器类型。
 */
-function getUserBrowser() {
-    var browserName = navigator.userAgent.toLowerCase();
-    if (/msie/i.test(browserName) && !/opera/.test(browserName)) {
+//function getUserBrowser() {
+//    var browserName = navigator.userAgent.toLowerCase();
+//    if (/msie/i.test(browserName) && !/opera/.test(browserName)) {
 
-        return "IE";
-    } else if (/firefox/i.test(browserName)) {
+//        return "IE";
+//    } else if (/firefox/i.test(browserName)) {
 
-        return "Firefox";
-    } else if (/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName)) {
+//        return "Firefox";
+//    } else if (/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName)) {
 
-        return "Chrome";
-    } else if (/opera/i.test(browserName)) {
+//        return "Chrome";
+//    } else if (/opera/i.test(browserName)) {
 
-        return "Opera";
-    } else if (/webkit/i.test(browserName) && !(/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName))) {
+//        return "Opera";
+//    } else if (/webkit/i.test(browserName) && !(/chrome/i.test(browserName) && /webkit/i.test(browserName) && /mozilla/i.test(browserName))) {
 
-        return "Safari";
-    } else {
-        return "unKnow";
-    }
-}
-
+//        return "Safari";
+//    } else {
+//        return "unKnow";
+//    }
+//}
+var browser = {
+    versions: function () {
+        var u = window.navigator.userAgent;
+        return {
+            trident: u.indexOf('Trident') > -1, //IE内核
+            presto: u.indexOf('Presto') > -1, //opera内核
+            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+            iPad: u.indexOf('iPad') > -1, //是否为iPad
+            webApp: u.indexOf('Safari') == -1,//是否为web应用程序，没有头部与底部
+            weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+            ver: (navigator.userAgent.toLowerCase().match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [0, '0'])[1]
+        };
+    }()
+};
 //Javascript 操作select控件大全（新增、修改、删除、选中、清空、判断存在等） 
 //Posted on 2007-08-08 14:56 礼拜一 阅读(82638) 评论(40) 编辑 收藏  
 //1判断select选项中 是否存在Value="paraValue"的Item 

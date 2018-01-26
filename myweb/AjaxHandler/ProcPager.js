@@ -66,7 +66,7 @@ function getHeadList(headerTableId) {
 //下移一行
 function fmOnKey(e, id) {
     var keyn;
-    if (getUserBrowser() == "IE") {
+    if (browser.versions.trident) {
         keyn = e.keyCode;
     } else if (e.which) {
         keyn = e.which;
