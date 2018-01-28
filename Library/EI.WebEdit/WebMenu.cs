@@ -303,7 +303,7 @@ namespace EI.Web
                     StringBuilder htmlLS = new StringBuilder();
                     foreach (DataRow dr in menuDT.Select("ls='"+ q.ls + "'"))//
                     {
-                        htmlLS .Append( string.Format("<li class=\"list-group-item\" alone={2} cmd=\"{3}\" menuID=\"{4}\" >{0} <a  href=\"#\">{1}</a></li>",
+                        htmlLS .Append( string.Format("<li class=\"list-group-item menulist\" alone={2} cmd=\"{3}\" menuID=\"{4}\" >{0} <a  href=\"#\">{1}</a></li>",
                             helpString,  dr["text"].ToString().Trim(), dr["alone"].ToString().Trim(), dr["cmd"].ToString().Trim(), dr["id"].ToString().Trim()));
                     }
                     rowString.Append(string.Format(htmlUL, htmlLS, col_md_num));

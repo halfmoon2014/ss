@@ -23,6 +23,9 @@
             text-decoration:none;
             color:#333;
         }
+        .menulist span{
+            cursor:help;
+        }
         
     </style>
 </head>
