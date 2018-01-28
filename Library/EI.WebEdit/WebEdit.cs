@@ -13,6 +13,7 @@ namespace EI.Web
         private string tzid;
         private string userid;
         private string username;
+        private bool IsMobileBrowser;
         Business business;
         public WebEdit(string tzid, string userid, string username)
         {
@@ -28,8 +29,9 @@ namespace EI.Web
         /// <param name="intWid">key</param>
         /// <param name="requestParameter">数据</param>
         /// <returns>LayOut对象</returns>
-        public Modal.Html WebLayOut(int intWid, Dictionary<string, NameValueCollection> requestParameter)
+        public Modal.Html WebLayOut(int intWid, Dictionary<string, NameValueCollection> requestParameter,bool IsMobileBrowser)
         {
+            this.IsMobileBrowser = IsMobileBrowser;
             Modal.Html layout = new Modal.Html();
             /*等待框*/
             FM.Business.Help help = new FM.Business.Help();
@@ -810,7 +812,9 @@ namespace EI.Web
         /// <returns></returns>
         public string CreateTable(string tablebTag, DataTable divInLayoutDataTable, Dictionary<string, NameValueCollection> requestParameter, Dictionary<string, string> sessionKey, DataSet divDataSet)
         {
-            string tdHtml = ""; string mrz; string mrzSql;
+            string mrz; string mrzSql;
+            List<string> tdList = new List<string>();
+
             foreach (System.Data.DataRow dr in divInLayoutDataTable.Select("substring(ord,1,1)='" + tablebTag + "'"))
             {
 
@@ -890,9 +894,10 @@ namespace EI.Web
                         string bds = dr["bds"].ToString().Trim();
                         yy = "yy=\"" + dr["yy"].ToString().Trim() + "\" bds=\"" + bds + "\"";
                     }
-                    tdHtml += "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \" ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
+                    string tdHtml = "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \" ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
                     tdHtml += "<td style=\"" + visible+ width + "\" innerctrl=\"text\" ><input style=\""+ inputWidth+ dr["css"].ToString().Trim() + "\" " + yy + " type=\"text\"" + htmlid + " " + sevent + sreadonly + " value=\"" + defaultValue + "\" />";
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
                 else if (dr["type"].ToString().Trim() == "select")
@@ -928,9 +933,10 @@ namespace EI.Web
                         string bds = dr["bds"].ToString().Trim();
                         yy = "yy=\"" + dr["yy"].ToString().Trim() + "\" bds=\"" + bds + "\"";
                     }
-                    tdHtml += "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"   ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
+                    string tdHtml = "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"   ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
                     tdHtml += "<td style=\"" + visible + "\" innerctrl=\"select\" ><select   style=\"" + width + ";" + dr["css"].ToString().Trim() + "\" " + yy + htmlid + " " + sevent + sreadonly + "  >" + OPTION + "</select>";
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
                 else if (dr["type"].ToString().Trim() == "button")
@@ -954,8 +960,9 @@ namespace EI.Web
                     string htmlid = (dr["htmlid"].ToString().Trim() == string.Empty ? "" : " id=\"" + dr["htmlid"].ToString().Trim() + "\" ");
 
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " disabled=\"disabled\" " : "");
-                    tdHtml += "<td style=\"" + visible + "\" innerctrl=\"button\" ><input type=\"button\"  style=\"" + width + ";" + dr["css"].ToString().Trim() + "\"" + htmlid + sreadonly + " value=\"" + dr["mc"].ToString().Trim() + "\" " + sevent + " />";
+                    string tdHtml = "<td style=\"" + visible + "\" innerctrl=\"button\" ><input type=\"button\"  style=\"" + width + ";" + dr["css"].ToString().Trim() + "\"" + htmlid + sreadonly + " value=\"" + dr["mc"].ToString().Trim() + "\" " + sevent + " />";
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
                 else if (dr["type"].ToString().Trim() == "checkbox")
@@ -985,9 +992,10 @@ namespace EI.Web
                         string bds = dr["bds"].ToString().Trim();
                         yy = " yy=\"" + dr["yy"].ToString().Trim() + "\" bds=\"" + bds + "\" ";
                     }
-                    tdHtml += "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"  ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
+                    string tdHtml = "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"  ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
                     tdHtml += "<td style=\"" + visible + "\" innerctrl=\"checkbox\" ><input style=\"" + width + ";" + dr["css"].ToString().Trim() + "\"  " + yy + " type=\"checkbox\" " + htmlid + sevent + sreadonly + defaultValue + " />";
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
                 else if (dr["type"].ToString().Trim() == "textarea")
@@ -1016,17 +1024,19 @@ namespace EI.Web
                         string bds = dr["bds"].ToString().Trim();
                         yy = "yy=\"" + dr["yy"].ToString().Trim() + "\" bds=\"" + bds + "\"";
                     }
-                    tdHtml += "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"   ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
+                    string tdHtml = "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"   ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
                     tdHtml += "<td style=\"" + visible + "\" innerctrl=\"textarea\" >" + "<textarea " + yy + " style=\"" + width + ";" + dr["css"].ToString().Trim() + "\" " + htmlid + sreadonly + sevent + ">" + defaultValue + "</textarea>";
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
                 else if (dr["type"].ToString().Trim() == "td")
                 {
                     #region
                     string qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " style=\"width:" + dr["qwidth"].ToString().Trim() + "px;text-align:right;" + dr["css0"].ToString().Trim() + "\" ");
-                    tdHtml += "<td " + qwidth + " >" + dr["mc"].ToString().Trim();
+                    string tdHtml = "<td " + qwidth + " >" + dr["mc"].ToString().Trim();
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
                 else if (dr["type"].ToString().Trim() == "a")
@@ -1046,9 +1056,10 @@ namespace EI.Web
                     }
                     string sevent = dr["event"].ToString().Trim();
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " disabled=\"disabled\" " : "");
-                    tdHtml += "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"   ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
+                    string tdHtml = "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"   ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
                     tdHtml += "<td style=\"" + visible + "\" innerctrl=\"a\" >" + "<a href=\"#\" " + sevent + sreadonly + " style=\"" + width + ";" + dr["css"].ToString().Trim() + "\" >" + dr["mc"].ToString().Trim() + "</a>";
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
 
@@ -1079,15 +1090,28 @@ namespace EI.Web
                         yy = "yy=\"" + dr["yy"].ToString().Trim() + "\" bds=\"" + bds + "\"";
                     }
 
-                    tdHtml += "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"  ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
+                    string tdHtml = "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"  ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
                     tdHtml += "<td style=\"" + visible + "\" innerctrl=\"date\" ><input class=\"easyui-datebox\" " + htmlid + "  data-options=\"formatter:formatDate\" value=\"" + defaultValue + "\"  " + yy + " style=\"" + width + ";" + dr["css"].ToString().Trim() + "\" />  ";
                     //h += "<td style=\"" + visible + "\" ><input style=\"" + width + "\" " + yy + " type=\"text\"" + htmlid + " " + sevent + sreadonly + " value=\"" + v + "\" />";
                     tdHtml += "</td>";
+                    tdList.Add(tdHtml);
                     #endregion
                 }
 
             }
-            return "<table style=\"table-layout:fixed\" parameters='upload' class=\"c_head_tb\"><tr>" + tdHtml + "<td>&nbsp;</td></tr></table>";
+            if (IsMobileBrowser)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach(string k in tdList)
+                {
+                    sb.Append(string.Format("<table style=\"table-layout:fixed\" parameters='upload' class=\"c_head_tb\"><tr>{0}</tr></table>", k));
+                }
+                return sb.ToString();
+            }
+            else
+            {
+                return string.Format("<table style=\"table-layout:fixed\" parameters='upload' class=\"c_head_tb\"><tr>{0}<td>&nbsp;</td></tr></table>", string.Join("", tdList.ToArray()));
+            }
         }
 
         public ClientTable _CreateTable(string tablebTag, DataTable divInLayoutDataTable)
