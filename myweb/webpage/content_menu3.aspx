@@ -19,10 +19,15 @@
             background-color:transparent;
             border:none;
         }
+        #content_menu3_mydiv a {
+            text-decoration:none;
+            color:#333;
+        }
+        
     </style>
 </head>
 <body style="background-color: transparent;">
-    <div id="content_menu3_mydiv" class="container" runat="server">
+    <div id="content_menu3_mydiv" class="container-fluid" runat="server">
     </div>
     <script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
     <script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
