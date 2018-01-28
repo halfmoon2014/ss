@@ -43,8 +43,9 @@ public partial class lss : System.Web.UI.Page
             //得到URL参数        
             requestParameter.Add("QueryString", Request.QueryString);
             requestParameter.Add("Form", Request.Form);
-
-            Html layout = webEdit.WebLayOut(intWid, requestParameter);
+            MyTy.Utils utils = new MyTy.Utils();
+            
+            Html layout = webEdit.WebLayOut(intWid, requestParameter, utils.IsMobileBrowser(Request));
             innerHtml.Append(layout.HtmlMark);
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");
             innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\" value=\"" + username + "\" />");
