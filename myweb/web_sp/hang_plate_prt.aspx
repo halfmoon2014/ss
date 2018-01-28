@@ -18,7 +18,7 @@
 </head>
 <body>
     <%        
-        int pageSize = 6;
+        int pageSize = 12;
         int pageTotal = ds.Tables[1].Rows.Count;
         double f = pageTotal * 1.0 / pageSize;
 
@@ -29,48 +29,46 @@
             int z = w;
 
     %>
-
-    <div style="width: 18cm" class="break">
-        <div id="title">
+    <div style="width: 20.5cm" class="break">
+        <div id="title" style="margin-top:30px;">
             <table style="margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
                 <tr align="center">
                     <td style="font-weight: bold; font-size: 10pt; width: 8%; text-decoration: underline"></td>
-                    <td style="font-weight: bold; font-size: 16pt; width: 28%; text-decoration: underline" align="center">晋&nbsp;丰&nbsp;五&nbsp;金&nbsp;电&nbsp;镀</td>
-                    <td style="font-weight: bold; font-size: 10pt; width: 5%; text-decoration: underline">单据号:<%=ds.Tables[0].Rows[0]["number"]%></td>
+                    <td style="font-weight: bold; font-size: 24pt; width: 28%;" align="center">晋&nbsp;丰&nbsp;五&nbsp;金&nbsp;电&nbsp;镀</td>
+                    <td style="font-weight: bold; font-size: 12pt; width: 5%; ">单据号:<%=ds.Tables[0].Rows[0]["number"]%></td>
                     <td width="60" style="font-weight: bold; width: 5%; text-decoration: underline"></td>
                 </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center">电话:0595-83288176 传真:0595-83289176</td>
-                    <td colspan="2">【送货单】</td>
+                <tr style="padding-top:10px">
+                    <td colspan="2" style="text-align: center;font-size:18px;">电话:0595-83288176 传真:0595-83289176</td>
+                    <td colspan="2" style="text-align: center; font-size: 18px;">【送货单】</td>
                 </tr>
             </table>
-
         </div>
 
-        <div id="head">
-            <table style="font-size: 9pt; margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
-                <tr height="25">
-                    <td align="left" width="230">客户名称:<%=ds.Tables[0].Rows[0]["khmc"]%></td>
+        <div id="head" style="margin-top:10px;">
+            <table style="font-size: 12pt; margin-left: 1px;" cellspacing="0" cellpadding="0" border="0" >
+                <tr>
+                    <td align="left" width="100">&nbsp;</td>
+                    <td align="left" width="500">客户名称:<%=ds.Tables[0].Rows[0]["khmc"]%></td>
                     <td align="left" width="200">日期:<%=ds.Tables[0].Rows[0]["BizDate"]%></td>
                 </tr>
             </table>
         </div>
 
-        <div id="content">
-           
-            <table cellspacing="0" bordercolor="black" border="1" style="font-size: 9pt; border-left-color: black; border-bottom-color: black; border-top-color: black; border-collapse: collapse; border-right-color: black; margin-left: 1px; font-size: 9pt; width: 18cm">
-                <tr align="center">
-                    <td width="170" align="center">产品型号</td>
+        <div id="content" style="margin-top:10px;">
+            <table cellspacing="0" bordercolor="black" border="1" style="font-size: 12pt; border-left-color: black; border-bottom-color: black; border-top-color: black; border-collapse: collapse; border-right-color: black; margin-left: 1px; ">
+                <tr align="center" style="font-weight: bold; line-height: 30px;">
+                    <td width="200" align="center">产品型号</td>
                     <td width="150">颜色</td>
                     <td width="80" align="center">重量(斤)</td>
                     <td width="80" align="center">斤个数</td>
                     <td width="80" align="center">单价</td>
-                    <td width="60" align="center">金额</td>                  
+                    <td width="100" align="center">金额</td>                  
                     <td width="160" align="center">备注</td>
                 </tr>
                 <%
                     decimal pageCurrentTotal = 0;
-                    for (int t = w * pageSize; t <= w * pageSize + 5; t++)
+                    for (int t = w * pageSize; t <= w * pageSize + pageSize-1; t++)
                     {
                         if (t + 1 <= pageTotal)
                         {
@@ -80,10 +78,10 @@
                 <tr>
                     <td><%=dr["product"]%></td>
                     <td><%=dr["colour"]%></td>
-                    <td><%=dr["weight"]%></td>
-                    <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":dr["count_pre_jin"]) %></td>
-                    <td><%=dr["price"]%></td>
-                    <td><%=dr["Amount"]%></td>              
+                    <td><%=string.Format("{0:#.##}",dr["weight"])%></td>
+                    <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:#.##}",dr["count_pre_jin"]) ) %></td>
+                    <td><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:#.##}",dr["price"]))%></td>
+                    <td><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:#.###}",dr["Amount"]))%></td>              
                     <td><%=dr["remark"]%></td>
                 </tr>
                 <%
@@ -107,13 +105,13 @@
                     }
 
                 %>
-                <tr>
+                <tr style="line-height:30px; font-weight:bold;">
                     <td colspan="5" style="text-align:right" >合计金额:</td>
                     
-                    <td colspan="2"><%=pageCurrentTotal %></td>                  
+                    <td colspan="2"><%=string.Format("{0:#.##}",pageCurrentTotal) %></td>                  
                    
                 </tr>
-                <tr>
+ <%--               <tr>
                 <td colspan="7" style="height:80px;">
                     <table>
                         <tr>
@@ -122,12 +120,12 @@
                         </tr>
                     </table>
                 </td>
-                </tr>
+                </tr>--%>
             </table>
         </div>
 
-        <div id="footer" >
-            <table style="font-size: 9pt; margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
+        <div id="footer" style="margin-top:10px;" >
+            <table style="font-size: 11pt; margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
                 <tr height="25">
                     <td align="left" width="120">制单人:<%=ds.Tables[0].Rows[0]["createor"]%></td>
                     <td align="left" width="120">送货人:</td>
