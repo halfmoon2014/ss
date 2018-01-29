@@ -46,10 +46,10 @@
         </div>
 
         <div id="head" style="margin-top:10px;">
-            <table style="font-size: 12pt; margin-left: 1px;" cellspacing="0" cellpadding="0" border="0" >
+            <table style="font-size: 14pt; margin-left: 1px;" cellspacing="0" cellpadding="0" border="0" >
                 <tr>
-                    <td align="left" width="100">&nbsp;</td>
-                    <td align="left" width="500">客户名称:<%=ds.Tables[0].Rows[0]["khmc"]%></td>
+                  
+                    <td align="left" width="600">客户名称:<%=ds.Tables[0].Rows[0]["khmc"]%></td>
                     <td align="left" width="200">日期:<%=ds.Tables[0].Rows[0]["BizDate"]%></td>
                 </tr>
             </table>
@@ -79,9 +79,9 @@
                     <td><%=dr["product"]%></td>
                     <td><%=dr["colour"]%></td>
                     <td><%=string.Format("{0:#.##}",dr["weight"])%></td>
-                    <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:#.##}",dr["count_pre_jin"]) ) %></td>
-                    <td><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:#.##}",dr["price"]))%></td>
-                    <td><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:#.###}",dr["Amount"]))%></td>              
+                    <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["count_pre_jin"]) ) %></td>
+                    <td><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:0.###}",dr["price"]))%></td>
+                    <td style="text-align:right"><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:0.###}",dr["Amount"]))%></td>              
                     <td><%=dr["remark"]%></td>
                 </tr>
                 <%
@@ -108,7 +108,7 @@
                 <tr style="line-height:30px; font-weight:bold;">
                     <td colspan="5" style="text-align:right" >合计金额:</td>
                     
-                    <td colspan="2"><%=string.Format("{0:#.##}",pageCurrentTotal) %></td>                  
+                    <td colspan="2"><%=string.Format("{0:0.###}",pageCurrentTotal) %></td>                  
                    
                 </tr>
  <%--               <tr>

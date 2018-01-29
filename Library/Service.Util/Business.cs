@@ -518,12 +518,12 @@ namespace Service.Util
                     upstr += "  SET IDENTITY_INSERT tb_wid_layout ON  ";
                     foreach (DataRow dr4 in ds.Tables[3].Rows)
                     {
-                        upstr += "  INSERT v_wid_layout (id,sysdel,sysdeltime, [webid],[lx],[mc],[ord],[type],[qwidth],[width],[visible],[readonly],[event],[bz],[nwebid],[htmlid],[eastwidth],[westwidth],[northheight],[southheight],[dwidth],[dheight],[naspx],[yy],[session],[zb],css,css0,[mrz],[bds]) ";
+                        upstr += "  INSERT v_wid_layout (id,sysdel,sysdeltime, [webid],[lx],[mc],[ord],[mobileord],[type],[qwidth],[width],[visible],[readonly],[event],[bz],[nwebid],[htmlid],[eastwidth],[westwidth],[northheight],[southheight],[dwidth],[dheight],[naspx],[yy],[session],[zb],css,css0,[mrz],[bds]) ";
                         upstr += "  values ";
                         upstr += "  ('" + dr4["id"].ToString().Replace("'", "''") + "','" + dr4["sysdel"].ToString().Replace("'", "''") + "','"
                             + dr4["sysdeltime"].ToString().Replace("'", "''") + "','" + dr4["webid"].ToString().Replace("'", "''") + "','"
                             + dr4["lx"].ToString().Replace("'", "''") + "','" + dr4["mc"].ToString().Replace("'", "''") + "','"
-                            + dr4["ord"].ToString().Replace("'", "''") + "','" + dr4["type"].ToString().Replace("'", "''") + "','"
+                            + dr4["ord"].ToString().Replace("'", "''") + "','"+ dr4["mobileord"].ToString().Replace("'", "''") + "','" + dr4["type"].ToString().Replace("'", "''") + "','"
                             + dr4["qwidth"].ToString().Replace("'", "''") + "','" + dr4["width"].ToString().Replace("'", "''") + "','"
                             + dr4["visible"].ToString().Replace("'", "''") + "','" + dr4["readonly"].ToString().Replace("'", "''") + "','"
                             + dr4["event"].ToString().Replace("'", "''") + "','" + dr4["bz"].ToString().Replace("'", "''") + "','"
@@ -790,8 +790,8 @@ namespace Service.Util
                     }
                     else
                     {
-                        sql.Append(" insert v_wid_layout ( css0,css, mrz,bds,webid,lx, mc,ord, width,qwidth, westwidth,eastwidth, northheight, southheight, dwidth, dheight, visible, readonly, type,   bz,nwebid, event, yy,zb,session,naspx,htmlid) ");
-                        sql.Append("values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "', '" + layout.Width + "','" + layout.Qwidth + "','" + layout.Westwidth + "','" + layout.Eastwidth + "', '" + layout.Northheight + "', '" + layout.Southheight + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
+                        sql.Append(" insert v_wid_layout ( css0,css, mrz,bds,webid,lx, mc,ord,mobileord, width,qwidth, westwidth,eastwidth, northheight, southheight, dwidth, dheight, visible, readonly, type,   bz,nwebid, event, yy,zb,session,naspx,htmlid) ");
+                        sql.Append("values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "','"+layout.MobileOrd+"', '" + layout.Width + "','" + layout.Qwidth + "','" + layout.Westwidth + "','" + layout.Eastwidth + "', '" + layout.Northheight + "', '" + layout.Southheight + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
                     }
 
                 }
@@ -803,7 +803,7 @@ namespace Service.Util
                     }
                     else
                     {
-                        sql.Append(" update v_wid_layout  set css0='" + layout.Css0 + "', css='" + layout.Css + "',mrz='" + layout.Mrz + "',bds='" + layout.Bds + "',mc='" + layout.Mc + "', htmlid='" + layout.Htmlid + "',ord='" + layout.Ord + "', width='" + layout.Width + "',qwidth='" + layout.Qwidth + "',westwidth='" + layout.Westwidth + "',eastwidth='" + layout.Eastwidth + "', northheight='" + layout.Northheight + "',southheight='" + layout.Southheight + "' ,dwidth='" + layout.Dwidth + "', dheight='" + layout.Dheight + "', visible='" + layout.Visible + "', readonly='" + layout.Readonly + "', type='" + layout.Type + "',   bz='" + layout.Bz + "',nwebid='" + layout.Nwebid + "',  event='" + layout.Event + "', yy='" + layout.Yy + "',zb='" + layout.Zb + "',session='" + layout.Session + "',naspx='" + layout.Naspx + "'   where id='" + layout.Id + "'; ");
+                        sql.Append(" update v_wid_layout  set css0='" + layout.Css0 + "', css='" + layout.Css + "',mrz='" + layout.Mrz + "',bds='" + layout.Bds + "',mc='" + layout.Mc + "', htmlid='" + layout.Htmlid + "',ord='" + layout.Ord + "',mobileord='"+layout.MobileOrd+"', width='" + layout.Width + "',qwidth='" + layout.Qwidth + "',westwidth='" + layout.Westwidth + "',eastwidth='" + layout.Eastwidth + "', northheight='" + layout.Northheight + "',southheight='" + layout.Southheight + "' ,dwidth='" + layout.Dwidth + "', dheight='" + layout.Dheight + "', visible='" + layout.Visible + "', readonly='" + layout.Readonly + "', type='" + layout.Type + "',   bz='" + layout.Bz + "',nwebid='" + layout.Nwebid + "',  event='" + layout.Event + "', yy='" + layout.Yy + "',zb='" + layout.Zb + "',session='" + layout.Session + "',naspx='" + layout.Naspx + "'   where id='" + layout.Id + "'; ");
                     }
                 }
             }

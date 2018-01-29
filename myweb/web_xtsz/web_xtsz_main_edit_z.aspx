@@ -49,7 +49,7 @@
     <div class="container-fluid">
         <div class="form-group" id="formts" style="display: none">
             <label for="ts">提示</label>
-            <textarea style="width: 100%;" id="textarea1" rows="1">
+            <textarea style="width: 100%;" id="helpTextarea" rows="1">
             button类型的宽度取html宽度;css0样式指定[标题名称];css样式指定[htmlid]             
             session字典 处理顺序
             1.URL
@@ -70,48 +70,46 @@
             [引用][表达式]用于ajax请求数据的时候,也只作用于此
         </textarea>
         </div>
-        
-
         <%             
             int wid = int.Parse(Request.QueryString["wid"].ToString().Trim());
             string lx = Request.QueryString["lx"].ToString().Trim();
             Business business = new Business(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid"));
             DataTable dt = business.GetTbLayOut(wid, lx).Tables[0];
         %>
-        <div class="table-responsive">
-        <table id="cxtj" class="  table table-bordered" style="table-layout: fixed">
-            <tr>
-                <td field="td_westwidth" style="width: 100px">Div布局-左宽
-                </td>
-                <td>
-                    <input type="text" field="westwidth" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["westwidth"].ToString()) %> " />
-                </td>
-                <td field="td_eastwidth" style="width: 100px">Div布局-右宽
-                </td>
-                <td>
-                    <input type="text" field="eastwidth" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["eastwidth"].ToString()) %> " />
-                </td>
-                <td field="td_northheight" style="width: 100px">Div布局-上高
-                </td>
-                <td>
-                    <input type="text" field="northheight" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["northheight"].ToString())%> " />
-                </td>
-                <td field="td_southheight" style="width: 100px">Div布局-下高
-                </td>
-                <td>
-                    <input type="text" field="southheight" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["southheight"].ToString())%> " />
-                </td>
-                <td>&nbsp;
-                </td>
-            </tr>
-        </table>
+        <div id="cxtj" class="container-fluid">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="westwidth" field="td_westwidth" class="col-md-2 control-label">Div布局-左宽</label>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" id="westwidth" field="westwidth" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["westwidth"].ToString()) %>">
+                    </div>
+                    <label for="eastwidth" field="td_eastwidth" class="col-md-2 control-label">Div布局-右宽</label>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" id="eastwidth" field="eastwidth" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["eastwidth"].ToString()) %>">
+                    </div>
+
+                    <label for="northheight" field="td_northheight" class="col-md-2 control-label">Div布局-上高</label>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" id="northheight" field="northheight" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["northheight"].ToString()) %>">
+                    </div>
+
+                    <label for="southheight" field="td_southheight" class="col-md-2 control-label">Div布局-下高</label>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" id="southheight" field="southheight" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["southheight"].ToString()) %>">
+                    </div>
+
+                </div>
+            </form>
         </div>
+
         <div class="table-responsive">
             <table id="zdwhtb" class="  table table-bordered">
                 <tr class="tbth" rownum="1">
                     <td field="id" style="display: none">id
                     </td>
                     <td field="ord">排布
+                    </td>
+                    <td field="mobileord">mobile
                     </td>
                     <td field="mc">标题名称
                     </td>
@@ -164,31 +162,34 @@
                 %>
                 <tr class="tbbody" rownum="<%=i%>">
                     <td style="display: none">
-                        <input type="text" field="id"  value="<%= HtmlCha(dt.Rows[i]["id"].ToString())%>" />
+                        <input type="text" field="id" value="<%= HtmlCha(dt.Rows[i]["id"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text" field="ord"  value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
+                        <input type="text" field="ord" value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text" field="mc"  value="<%= HtmlCha(dt.Rows[i]["mc"].ToString())%>" />
+                        <input type="text" field="mobileord" value="<%= HtmlCha(dt.Rows[i]["mobileord"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text" field="qwidth"  value="<%= HtmlCha(dt.Rows[i]["qwidth"].ToString())%>" />
+                        <input type="text" field="mc" value="<%= HtmlCha(dt.Rows[i]["mc"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text" field="htmlid"  value="<%= HtmlCha(dt.Rows[i]["htmlid"].ToString())%>" />
+                        <input type="text" field="qwidth" value="<%= HtmlCha(dt.Rows[i]["qwidth"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text" field="width"  value="<%= dt.Rows[i]["width"].ToString()%>" />
+                        <input type="text" field="htmlid" value="<%= HtmlCha(dt.Rows[i]["htmlid"].ToString())%>" />
                     </td>
                     <td>
-                        <input field="visible" type="checkbox"  <%=(dt.Rows[i]["visible"].ToString()=="0"?"":"checked") %> />
+                        <input type="text" field="width" value="<%= dt.Rows[i]["width"].ToString()%>" />
                     </td>
                     <td>
-                        <input field="readonly" type="checkbox"  <%=(dt.Rows[i]["readonly"].ToString()=="0"?"":"checked") %> />
+                        <input field="visible" type="checkbox" <%=(dt.Rows[i]["visible"].ToString()=="0"?"":"checked") %> />
                     </td>
                     <td>
-                        <select  field="type" mrz="">
+                        <input field="readonly" type="checkbox" <%=(dt.Rows[i]["readonly"].ToString()=="0"?"":"checked") %> />
+                    </td>
+                    <td>
+                        <select field="type" mrz="">
                             <option value="text" <%=(dt.Rows[i]["type"].ToString()=="text"   ?"selected":"") %>>text</option>
                             <option value="select" <%=(dt.Rows[i]["type"].ToString()=="select"?"selected":"") %>>select</option>
                             <option value="button" <%=(dt.Rows[i]["type"].ToString()=="button"?"selected":"") %>>button</option>
@@ -202,43 +203,43 @@
                         </select>
                     </td>
                     <td>
-                        <input type="text"  field="event" value="<%= HtmlCha(dt.Rows[i]["event"].ToString())%>" />
+                        <input type="text" field="event" value="<%= HtmlCha(dt.Rows[i]["event"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="yy" value="<%= HtmlCha(dt.Rows[i]["yy"].ToString())%>" />
+                        <input type="text" field="yy" value="<%= HtmlCha(dt.Rows[i]["yy"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="bds" value="<%= HtmlCha(dt.Rows[i]["bds"].ToString())%>" />
+                        <input type="text" field="bds" value="<%= HtmlCha(dt.Rows[i]["bds"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="mrz" value="<%= HtmlCha(dt.Rows[i]["mrz"].ToString())%>" />
+                        <input type="text" field="mrz" value="<%= HtmlCha(dt.Rows[i]["mrz"].ToString())%>" />
                     </td>
                     <td>
-                        <input field="zb"  type="checkbox" <%=(dt.Rows[i]["zb"].ToString()=="0"?"":"checked") %> />
+                        <input field="zb" type="checkbox" <%=(dt.Rows[i]["zb"].ToString()=="0"?"":"checked") %> />
                     </td>
                     <td>
-                        <input type="text"  field="session" value="<%= HtmlCha(dt.Rows[i]["session"].ToString())%>" />
+                        <input type="text" field="session" value="<%= HtmlCha(dt.Rows[i]["session"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="css0" value="<%= HtmlCha(dt.Rows[i]["css0"].ToString())%>" />
+                        <input type="text" field="css0" value="<%= HtmlCha(dt.Rows[i]["css0"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="css" value="<%= HtmlCha(dt.Rows[i]["css"].ToString())%>" />
+                        <input type="text" field="css" value="<%= HtmlCha(dt.Rows[i]["css"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="bz" value="<%= HtmlCha(dt.Rows[i]["bz"].ToString())%>" />
+                        <input type="text" field="bz" value="<%= HtmlCha(dt.Rows[i]["bz"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="nwebid" value="<%= dt.Rows[i]["nwebid"].ToString()%>" />
+                        <input type="text" field="nwebid" value="<%= dt.Rows[i]["nwebid"].ToString()%>" />
                     </td>
                     <td>
-                        <input type="text"  field="naspx" value="<%= HtmlCha(dt.Rows[i]["naspx"].ToString())%>" />
+                        <input type="text" field="naspx" value="<%= HtmlCha(dt.Rows[i]["naspx"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text"  field="dwidth" value="<%= dt.Rows[i]["dwidth"].ToString()%>" />
+                        <input type="text" field="dwidth" value="<%= dt.Rows[i]["dwidth"].ToString()%>" />
                     </td>
                     <td>
-                        <input type="text"  field="dheight" value="<%= HtmlCha(dt.Rows[i]["dheight"].ToString())%>" />
+                        <input type="text" field="dheight" value="<%= HtmlCha(dt.Rows[i]["dheight"].ToString())%>" />
                     </td>
                     <td style="display: none">
                         <input field="mark" type="text" />
@@ -255,28 +256,31 @@
                         <input type="text" field="id" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="ord" value="" />
+                        <input type="text" field="ord" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="mc" value="" />
+                        <input type="text" field="mobileord" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="qwidth" value="" />
+                        <input type="text" field="mc" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="htmlid" value="" />
+                        <input type="text" field="qwidth" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="width" value="" />
+                        <input type="text" field="htmlid" value="" />
                     </td>
                     <td>
-                        <input field="visible"  type="checkbox" />
+                        <input type="text" field="width" value="" />
                     </td>
                     <td>
-                        <input field="readonly"  type="checkbox" />
+                        <input field="visible" type="checkbox" />
                     </td>
                     <td>
-                        <select field="type" mrz="" >
+                        <input field="readonly" type="checkbox" />
+                    </td>
+                    <td>
+                        <select field="type" mrz="">
                             <option value="text">text</option>
                             <option value="select">select</option>
                             <option value="button">button</option>
@@ -290,43 +294,43 @@
                         </select>
                     </td>
                     <td>
-                        <input type="text"  field="event" value="" />
+                        <input type="text" field="event" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="yy" value="" />
+                        <input type="text" field="yy" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="bds" value="" />
+                        <input type="text" field="bds" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="mrz" value="" />
+                        <input type="text" field="mrz" value="" />
                     </td>
                     <td>
-                        <input type="checkbox"  field="zb" />
+                        <input type="checkbox" field="zb" />
                     </td>
                     <td>
-                        <input type="text"  field="session" value="" />
+                        <input type="text" field="session" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="css0" value="" />
+                        <input type="text" field="css0" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="css" value="" />
+                        <input type="text" field="css" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="bz" value="" />
+                        <input type="text" field="bz" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="nwebid" value="" />
+                        <input type="text" field="nwebid" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="naspx" value="" />
+                        <input type="text" field="naspx" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="dwidth" value="" />
+                        <input type="text" field="dwidth" value="" />
                     </td>
                     <td>
-                        <input type="text"  field="dheight" value="" />
+                        <input type="text" field="dheight" value="" />
                     </td>
                     <td style="display: none">
                         <input field="mark" type="text" />

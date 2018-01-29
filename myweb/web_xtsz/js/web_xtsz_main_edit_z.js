@@ -18,7 +18,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         var wid = document.getElementById("wid").value;
         var lx = document.getElementById("lx").value;
         var str = "";
-        var css0, css, mrz, bds, ord, width, qwidth, id, mc, visible, htmlid, westwidth, eastwidth, northheight, southheight, dwidth, dheight, readonly, type, bz, nwebid, naspx, event, session, zb, yy;
+        var css0, css, mrz, bds, ord,mobileord, width, qwidth, id, mc, visible, htmlid, westwidth, eastwidth, northheight, southheight, dwidth, dheight, readonly, type, bz, nwebid, naspx, event, session, zb, yy;
         westwidth = $.trim(xtsz.myVale("westwidth").val());
         if (westwidth == "") { westwidth = "0"; }
         eastwidth = $.trim(xtsz.myVale("eastwidth").val());
@@ -32,6 +32,8 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         for (var i = 0; i < xtsz.getRowNum() ; i++) {
             ord = $.trim(xtsz.myVale("ord", i).val());
             if (ord == "") { ord = "0"; }
+            mobileord = $.trim(xtsz.myVale("mobileord", i).val());
+            if (mobileord == "") { mobileord = "0"; }
             nwebid = $.trim(xtsz.myVale("nwebid", i).val());
             if (nwebid == "") { nwebid = "0"; }
             width = $.trim(xtsz.myVale("width", i).val());
@@ -75,6 +77,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             dataRow.lx = lx;
             dataRow.mc = mc;
             dataRow.ord = ord;
+            dataRow.mobileord = mobileord;
             dataRow.width = width;
             dataRow.qwidth = qwidth;
             dataRow.westwidth = westwidth;
@@ -189,7 +192,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         } else {
             $('#formts').show();
             //使用了bootstrap样式,需要增加12的高度            
-            utils.autoTextarea(document.getElementById("textarea1"), 12);// 调用
+            utils.autoTextarea(document.getElementById("helpTextarea"), 12);// 调用
         }
     }
     xtsz.init();

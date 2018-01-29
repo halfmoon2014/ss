@@ -17,7 +17,9 @@
 .field_ord {
     width: 40px;
 }
-
+.field_mobileord {
+    width: 40px;
+}
 .field_mc {
     width: 80px;
 }

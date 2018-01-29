@@ -72,7 +72,7 @@
         <!-- Main component for a primary marketing message or call to action -->
         <div class="form-group">
             <label for="fwsql">方位sql</label>
-            <textarea class="form-control" ondblclick="fd(this)" rows="2" onpropertychange="this.style.posHeight=this.scrollHeight" runat="server" id="fwsql"></textarea>                
+            <textarea class="form-control" ondblclick="fd(this)" rows="2"  runat="server" id="fwsql"></textarea>                
         </div>
         <div class="form-group">
             <label for="tbsql">sql语句</label>

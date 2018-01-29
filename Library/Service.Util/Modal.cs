@@ -16,6 +16,7 @@ namespace Service.Util.Modal
         string lx;
         string mc;
         string ord;
+        string mobileOrd;
         int width;
         int qwidth;
         int westwidth;
@@ -139,7 +140,18 @@ namespace Service.Util.Modal
                 ord = value;
             }
         }
+        public string MobileOrd
+        {
+            get
+            {
+                return mobileOrd;
+            }
 
+            set
+            {
+                mobileOrd = value;
+            }
+        }
         public int Width
         {
             get
