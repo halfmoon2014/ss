@@ -68,8 +68,7 @@ namespace EI.Web
             // class=\"easyui-tree\" data-options=\"url:'web_xtsz_main.ashx?type=GetTree'\"
             ltree.Append("<ul id=\"leftmenu\"   ></ul> ");//class=\"easyui-tree\" data-options=\"url:web_xtsz_main.aspx/GetTree\"
             center.Append("<div data-options=\"region:'center',title:''\"  style=\"padding:0px;\">");
-
-
+            
             ctable.Append(" <div  class=\"easyui-layout\" data-options=\"fit:true\" > <div data-options=\"region:'north',split:true\" style=\"height:30px;padding:0px;\">");
             ctable.Append("分类:<select id=\"lx\" >" + GetCTableLx() + " </select>wid:<input type='text' style='width:40px' id='wid' />名称:<input type='text' style='width:80px' id='myname' />js:<input type='text' id='js' />sql:<input type='text' id='sql' /> <input type=\"button\" value=\"查询\" onclick=\"getCx()\" />");
             ctable.Append("</div>");
@@ -80,8 +79,8 @@ namespace EI.Web
 
             /*等待框*/
             FM.Business.Help help = new FM.Business.Help();
-
-            return west.ToString() + ltree.ToString() + "</div>" + center.ToString() + ctable.ToString() + "</div>" + help.GetWait();
+            string platDialog = "<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>";
+            return west.ToString() + ltree.ToString() + "</div>" + center.ToString() + ctable.ToString() + "</div>" + help.GetWait()+ platDialog;
         }
 
         /// <summary>

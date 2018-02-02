@@ -122,7 +122,7 @@ function FBLink(wid, name) {
 function gridAdd() {
     if ($('#leftmenu').tree("getSelected") != null && $('#leftmenu').tree("getSelected").attributes != undefined) {
         if ($('#leftmenu').tree("getSelected").attributes.type != null && $('#leftmenu').tree("getSelected").attributes.type == "user") {//如果是用户而不是部门树
-            openModal("web_xtsz_main_add.aspx?zt=add&userid=" + $('#leftmenu').tree("getSelected").id, "", "dialogWidth=300px;dialogHeight=200px;", function (t) {
+            openModal("web_xtsz_main_add.aspx?zt=add&userid=" + $('#leftmenu').tree("getSelected").id, "", "dialogWidth=600px;dialogHeight=400px;", function (t) {
                 if (t == "ok") {
                     $('#ctable').datagrid("reload");
                 }
@@ -144,8 +144,8 @@ function gridEdit() {
                 var userid = $('#leftmenu').tree("getSelected").id;
                 var mc = mySysDate(mys.name);
                 var lx = mySysDate(mys.lx);
-                openModal("web_xtsz_main_add.aspx?zt=edit&userid=" + userid + "&wid=" + mys.wid + "&lx=" + lx + "&mc=" + mc, "", "dialogWidth=300px;dialogHeight=200px;", function (r) {
-                    if (t == "ok") {
+                openModal("web_xtsz_main_add.aspx?zt=edit&userid=" + userid + "&wid=" + mys.wid + "&lx=" + lx + "&mc=" + mc, "", "dialogWidth=600px;dialogHeight=400px;", function (r) {
+                    if (r == "ok") {
                         $('#ctable').datagrid("reload");
                     }
                 });

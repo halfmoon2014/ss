@@ -1,4 +1,4 @@
-﻿define(['jquery'], function ($) {
+﻿define(['jquery', 'utils'], function ($, utils) {
     /*
     *前台传递到后台,URL的参数 编码格式,与之对应通用反编码
     *用来编码URL中的参数
@@ -10,10 +10,33 @@
         return decodeURIComponent(str);
     };
 
+    /*
+    *用于使用平台脚本打开窗口的情况
+    *兼容chrome 因为没有模态窗口,chrome 使用open 打开新窗口,所以在关闭的时候注意执行父窗口的函数
+    */
+    var myWindowClose = function (returnvalue) {
+        if (utils.browser.versions.webKit) {
+            //用来关闭chrome窗口时标识关闭的动作是否使用浏览器自带的关闭按钮
+            //任何关闭的动作都会响应onunload事件
+            if ("张茂洪" == "张茂洪") {
+                parent.document.getElementById("platDialog").close();
+                (parent.window.platDialogCallback != undefined) ? parent.window.platDialogCallback(returnvalue) : "";
+                parent.document.getElementById("platIframe").src = "about:blank";
+            } else {
+                window.onunloadtag = true;
+                (window.opener && window.opener.callback != undefined) ? window.opener.callback(returnvalue) : "";
+                window.close();
+            }
+        } else {
+            window.returnValue = returnvalue
+        }
+        window.close()
+    };
    
     return {   
         mySysDate: mySysDate,
-        unMySysDate: unMySysDate        
+        unMySysDate: unMySysDate,
+        myWindowClose: myWindowClose
     };
 
 
@@ -63,21 +86,7 @@
         }
 
     };
-    /*
-    *用于使用平台脚本打开窗口的情况
-    *兼容chrome 因为没有模态窗口,chrome 使用open 打开新窗口,所以在关闭的时候注意执行父窗口的函数
-    */
-    var myWindowClose = function (returnvalue) {
-        if (browser.versions.webKit) {
-            //用来关闭chrome窗口时标识关闭的动作是否使用浏览器自带的关闭按钮
-            //任何关闭的动作都会响应onunload事件
-            window.onunloadtag = true;
-            (window.opener.callback != undefined) ? window.opener.callback(returnvalue) : "";
-        } else {
-            window.returnValue = returnvalue
-        }
-        window.close()
-    };
+
     /*
     *用于使用平台脚本打开窗口的情况
     */

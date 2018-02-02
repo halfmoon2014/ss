@@ -2,7 +2,7 @@
     paths: {
         "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
         "utils": "../../javascripts/utilsA",
-        "myweb": "../../javascripts/myjs/mywebA",
+        "myweb": "../../javascripts/myjs/mywebA"
     }
 })
 require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
