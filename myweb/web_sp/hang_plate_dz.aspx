@@ -8,29 +8,48 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <style type="text/css" media="print">
-        .break {
+       .break {
             page-break-after: always;
         }
-        .hiddenTD{
-            border-left: 1px solid #fffafa00; border-right: 1px solid #fffafa00;
-        }
-        .hiddenTR{
-            border: 1px solid #fffafa00;
-        }
-    </style>
-    <style type="text/css">
+
         table, table tr th, table tr td {
             border: 1px solid #252525;
         }
 
-        table {          
+        table {
             border-collapse: collapse;
             padding: 2px;
         }
-                .hiddenTD{
-            border-left: 1px solid #fffafa00; border-right: 1px solid #fffafa00;
+
+        .hiddenTD {
+            border-left: 1px solid #fffafa00;
+            border-right: 1px solid #fffafa00;
         }
-        .hiddenTR{
+
+        .hiddenTR {
+            border: 1px solid #fffafa00;
+        }
+    </style>
+    <style type="text/css">
+        .break {
+            page-break-after: always;
+        }
+
+        table, table tr th, table tr td {
+            border: 1px solid #252525;
+        }
+
+        table {
+            border-collapse: collapse;
+            padding: 2px;
+        }
+
+        .hiddenTD {
+            border-left: 1px solid #fffafa00;
+            border-right: 1px solid #fffafa00;
+        }
+
+        .hiddenTR {
             border: 1px solid #fffafa00;
         }
     </style>
@@ -42,7 +61,7 @@
         foreach (DataRow khDR in khDT.Rows)
         {
             decimal totalAmount = 0;
-            if(detailDT.Select("khmc='" + khDR["khmc"] + "'", "djlxmc").Length == 0)
+            if (detailDT.Select("khmc='" + khDR["khmc"] + "'", "djlxmc").Length == 0)
             {
                 continue;
             }
@@ -110,7 +129,7 @@
         %>
     </table>
     <%
-      }
+        }
     %>
 </body>
 </html>
