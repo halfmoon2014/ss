@@ -1,15 +1,34 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Web.UI;
+
 public partial class web_sp_hang_plate_prt : System.Web.UI.Page
 {
     public DataSet ds;
     public string ksrq;
     public string jsrq;
+    public string khmc;
     protected void Page_Load(object sender, EventArgs e)
     {
         string khmcs = Request.Form["khmcs"].ToString();
         ksrq = Request.Form["ksrq"].ToString();
         jsrq = Request.Form["jsrq"].ToString();
+        int isExcel = 0;
+        if (!string.IsNullOrEmpty(Request.Form["isExcel"]))
+        {
+            isExcel =int.Parse( Request.Form["isExcel"].ToString());
+        }
+        if (isExcel == 1)
+        {
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" + DateTime.
+            Now.ToString("yyyyMMdd") + ".xls");
+            Response.ContentEncoding = System.Text.Encoding.UTF8;
+            Response.ContentType = "application/ms-excel";
+            this.EnableViewState = false;
+        }
         string str_sql = "";
         if (string.IsNullOrEmpty(khmcs))
         {
@@ -31,7 +50,32 @@ public partial class web_sp_hang_plate_prt : System.Web.UI.Page
         " select khmc from #khmc; "+
         " drop table #khmc ;drop table #zb;";
         FM.Business.Help hp = new FM.Business.Help();
-        ds = hp.ExecuteDataset(string.Format(str_sql,khmcs,ksrq,jsrq));             
+        ds = hp.ExecuteDataset(string.Format(str_sql,khmcs,ksrq,jsrq));
+        //List <Control> trCtl = new List<Control>();
+        //List<Control> tdCtl = new List<Control>();
+        //foreach (Control control in this.Controls)
+        //{
+        //    AttributeCollection htmlControl = ((System.Web.UI.HtmlControls.HtmlControl)control).Attributes;
+        //    foreach (string key in htmlControl.Keys)
+        //    {
+        //        if (htmlControl[key] == "hiddenTR")
+        //        {
+        //            trCtl.Add(control);
+        //        }else if (htmlControl[key] == "hiddenTD")
+        //        {
+        //            tdCtl.Add(control);
+        //        }
+        //    }
+        //}
+        //foreach(Control control in trCtl)
+        //{
+        //    ((System.Web.UI.HtmlControls.HtmlControl)control).Style["border"] = "1px solid #fffafa00";
+        //}
+        //foreach (Control control in tdCtl)
+        //{
+        //    ((System.Web.UI.HtmlControls.HtmlControl)control).Style["border-left"] = "1px solid #fffafa00";
+        //    ((System.Web.UI.HtmlControls.HtmlControl)control).Style["border-right"] = "1px solid #fffafa00";
+        //}
     }
     public string WriteKHDJTotal(string djlxmc,decimal totalAmount)
     {

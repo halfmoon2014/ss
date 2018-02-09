@@ -10,30 +10,9 @@
     <style type="text/css" media="print">
        .break {
             page-break-after: always;
-        }
-
-        table, table tr th, table tr td {
-            border: 1px solid #252525;
-        }
-
-        table {
-            border-collapse: collapse;
-            padding: 2px;
-        }
-
-        .hiddenTD {
-            border-left: 1px solid #fffafa00;
-            border-right: 1px solid #fffafa00;
-        }
-
-        .hiddenTR {
-            border: 1px solid #fffafa00;
-        }
+        }       
     </style>
-    <style type="text/css">
-        .break {
-            page-break-after: always;
-        }
+    <style type="text/css">     
 
         table, table tr th, table tr td {
             border: 1px solid #252525;
@@ -61,32 +40,31 @@
         foreach (DataRow khDR in khDT.Rows)
         {
             decimal totalAmount = 0;
+            
             if (detailDT.Select("khmc='" + khDR["khmc"] + "'", "djlxmc").Length == 0)
-            {
+            {//没记录
                 continue;
             }
             DataTable singDetailDT = detailDT.Select("khmc='" + khDR["khmc"] + "'", "djlxmc").CopyToDataTable();
     %>
-    <table style="font-size: 12pt;">
-        <tr align="center" style="font-weight: bold; font-size: 24pt; line-height: 30px;">
-            <td colspan="8" class="hiddenTR">晋丰五金电镀挂镀对账单</td>
+    <table style="font-size: 12pt;"class="break">
+        <tr style=" text-align:center; font-weight: bold; font-size: 24pt; line-height: 30px;">
+            <td colspan="8"   class="hiddenTR">晋丰五金电镀挂镀对账单</td>
         </tr>
         <tr style="font-weight: bold; font-size: 18pt; line-height: 30px;">
-            <td colspan="4" class="hiddenTD">客户名称:<%=khDR["khmc"] %></td>
-            <td class="hiddenTD">&nbsp;</td>
-            <td class="hiddenTD">&nbsp;</td>
-            <td class="hiddenTD">&nbsp;</td>
-            <td class="hiddenTD">单位:元</td>
+            <td colspan="6"  class="hiddenTD">客户名称:<%=khDR["khmc"] %></td>
+            
+            <td colspan="2" class="hiddenTD">单位:元</td>
         </tr>
         <tr style="font-weight: bold; line-height: 30px;">
             <td style="width: 100px;">日期</td>
             <td style="width: 100px;">单号</td>
-            <td width="200" align="center">产品型号</td>
-            <td width="150">颜色</td>
-            <td width="80" align="center">重量(斤)</td>
-            <td width="80" align="center">斤个数</td>
-            <td width="80" align="center">单价</td>
-            <td width="100" align="center">金额</td>
+            <td style="width:200px;text-align:center" >产品型号</td>
+            <td style="width:150px;" >颜色</td>
+            <td style="width:80px;text-align:center" >重量(斤)</td>
+            <td style="width:80px;text-align:center">斤个数</td>
+            <td style="width:80px;text-align:center">单价</td>
+            <td style="width:100px;text-align:center">金额</td>
         </tr>
         <%
             foreach (DataRow dr in singDetailDT.Rows)
