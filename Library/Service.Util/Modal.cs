@@ -488,6 +488,8 @@ namespace Service.Util.Modal
         /// 
         /// </summary>
         public string Prtname { get; set; }
+
+        public string Format { get; set; }
         /// <summary>
         /// 
         /// </summary>

@@ -14,6 +14,11 @@ public partial class web_sp_hang_plate_prt : System.Web.UI.Page
         string khmcs = Request.Form["khmcs"].ToString();
         ksrq = Request.Form["ksrq"].ToString();
         jsrq = Request.Form["jsrq"].ToString();
+        string where = "";
+        if ( string.Compare(Request.Form["isCash"].ToString() , "@",true)!=0)
+        {
+            where = " and a.iscash=" + Request.Form["isCash"].ToString();
+        }
         int isExcel = 0;
         if (!string.IsNullOrEmpty(Request.Form["isExcel"]))
         {
@@ -32,25 +37,25 @@ public partial class web_sp_hang_plate_prt : System.Web.UI.Page
         string str_sql = "";
         if (string.IsNullOrEmpty(khmcs))
         {
-            str_sql = " SELECT khmc INTO #khmc  FROM v_sp_xskhda; ";
+            str_sql = " SELECT khmc INTO #khmc  FROM v_sp_xskhda ; ";
         }
         else
         {
             str_sql = " SELECT value AS khmc INTO #khmc  FROM SplitToTable('{0}',','); ";
         }
-        str_sql += "select a.djlx,a.id,x.khmc,a.remark,r.name createor, convert(varchar(10),a.BizDate ,120) BizDate,a.create_date,a.number,a.customer_id,a.createor_id,x.khdm,a.Audit_Status into #zb" +
+        str_sql += "select a.djlx,a.id,x.id khid,a.remark,r.name createor, convert(varchar(10),a.BizDate ,120) BizDate,a.create_date,a.number,a.customer_id,a.createor_id,x.khdm,a.Audit_Status into #zb" +
         " from _v_hang_plate a" +
         " inner join v_sp_xskhda x on a.customer_id = x.id" +
         " INNER JOIN v_user r ON r.id = a.createor_id" +
-        " inner join #khmc k on k.khmc=x.khmc and DATEDIFF(DAY,'{1}',a.BizDate)>=0 and DATEDIFF(DAY,a.BizDate,'{2}')>=0  ;" +
-
-        " SELECT  zb.khmc,zb.BizDate,zb.number,a.product,a.colour,a.weight,a.count_pre_jin ,a.price,case zb.djlx when 410 then '滚镀' else '挂镀' end djlxmc, CASE ZB.DJLX WHEN  410 THEN CONVERT( DECIMAL(12,2), a.price*a.weight,2) ELSE  CONVERT( DECIMAL(12,2), a.price*a.weight*a.count_pre_jin,2) END  Amount," +
+        " inner join #khmc k on k.khmc=x.khmc " +
+        " where DATEDIFF(DAY,'{1}',a.BizDate)>=0 and DATEDIFF(DAY,a.BizDate,'{2}')>=0 {3} ;" +
+        " SELECT zb.khid,zb.BizDate,zb.number,a.product,a.colour,a.weight,a.count_pre_jin ,a.price,case zb.djlx when 410 then '滚镀' else '挂镀' end djlxmc, CASE ZB.DJLX WHEN  410 THEN CONVERT( DECIMAL(12,2), a.price*a.weight,2) ELSE  CONVERT( DECIMAL(12,2), a.price*a.weight*a.count_pre_jin,2) END  Amount," +
         " a.remark,a.after_finish,after_quantity = a.weight * a.count_pre_jin ,a.after_price,CONVERT(DECIMAL(12, 2), a.after_price * a.weight * a.count_pre_jin, 2) after_amt" +
         " FROM _v_hang_plate_detail a INNER JOIN #zb ZB ON ZB.ID=A.ID; " +
-        " select khmc from #khmc; "+
+        " select a.khmc,b.khdm,b.id from #khmc a inner join v_sp_xskhda b on a.khmc=b.khmc order by case  when  ISNUMERIC(b.khdm) = 1 AND CHARINDEX(',', b.khdm) = 0 AND CHARINDEX('\', b.khdm) = 0 then  CAST(b.khdm AS INT) else 0 end; " +
         " drop table #khmc ;drop table #zb;";
         FM.Business.Help hp = new FM.Business.Help();
-        ds = hp.ExecuteDataset(string.Format(str_sql,khmcs,ksrq,jsrq));
+        ds = hp.ExecuteDataset(string.Format(str_sql,khmcs,ksrq,jsrq, where));
         //List <Control> trCtl = new List<Control>();
         //List<Control> tdCtl = new List<Control>();
         //foreach (Control control in this.Controls)

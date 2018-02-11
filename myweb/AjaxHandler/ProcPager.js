@@ -64,7 +64,7 @@ function getHeadList(headerTableId) {
 //键盘事件
 //当表格可保存时,向下新增一行
 //下移一行
-function fmOnKey(e, id) {
+function fmOnKey(e, id,addNew) {
     var keyn;
     if (browser.versions.trident) {
         keyn = e.keyCode;
@@ -74,9 +74,8 @@ function fmOnKey(e, id) {
     var rownum = Number($("#" + id).parent().attr("rownum"));
     if (keyn == 40) {//向下箭头
         var qkey = "_" + $("#wid").val() + "_" + rownum;
-
         var hkey = "_" + $("#wid").val() + "_" + (rownum + 1);
-        if (myFormRowsTotal() == rownum + 1) {//最后一行就是新增
+        if (myFormRowsTotal() == rownum + 1 && addNew==1) {//最后一行就是新增
             var cc = $("#" + id).parent().clone(true);
             $(cc).attr("rownum", (rownum + 1));
 

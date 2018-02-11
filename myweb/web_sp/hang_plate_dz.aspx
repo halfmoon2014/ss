@@ -41,23 +41,23 @@
         {
             decimal totalAmount = 0;
             
-            if (detailDT.Select("khmc='" + khDR["khmc"] + "'", "djlxmc").Length == 0)
+            if (detailDT.Select("khid='" + khDR["id"] + "'", "djlxmc").Length == 0)
             {//没记录
                 continue;
             }
-            DataTable singDetailDT = detailDT.Select("khmc='" + khDR["khmc"] + "'", "djlxmc").CopyToDataTable();
+            DataTable singDetailDT = detailDT.Select("khid='" + khDR["id"] + "'", "djlxmc").CopyToDataTable();
     %>
     <table style="font-size: 12pt;"class="break">
         <tr style=" text-align:center; font-weight: bold; font-size: 24pt; line-height: 30px;">
             <td colspan="8"   class="hiddenTR">晋丰五金电镀挂镀对账单</td>
         </tr>
         <tr style="font-weight: bold; font-size: 18pt; line-height: 30px;">
-            <td colspan="6"  class="hiddenTD">客户名称:<%=khDR["khmc"] %></td>
+            <td colspan="6"  class="hiddenTD">客户名称:<%=khDR["khmc"].ToString()+"("+khDR["khdm"].ToString()+")" %></td>
             
             <td colspan="2" class="hiddenTD">单位:元</td>
         </tr>
         <tr style="font-weight: bold; line-height: 30px;">
-            <td style="width: 100px;">日期</td>
+            <td style="width: 120px;">日期</td>
             <td style="width: 100px;">单号</td>
             <td style="width:200px;text-align:center" >产品型号</td>
             <td style="width:150px;" >颜色</td>
@@ -76,10 +76,10 @@
             <td><%=dr["number"]%></td>
             <td><%=dr["product"]%></td>
             <td><%=dr["colour"]%></td>
-            <td><%=string.Format("{0:#.##}",dr["weight"])%></td>
-            <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["count_pre_jin"]) ) %></td>
-            <td><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:0.###}",dr["price"]))%></td>
-            <td style="text-align: right"><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:0.###}",dr["Amount"]))%></td>
+            <td style="text-align: right"><%=string.Format("{0:#.##}",dr["weight"])%></td>
+            <td style="text-align: right"><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["count_pre_jin"]) ) %></td>
+            <td style="text-align: right"><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:0.###}",dr["price"]))%></td>
+            <td style="text-align: right"><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:0.##}",dr["Amount"]))%></td>
         </tr>
         <%
                 if (singDetailDT.Rows.IndexOf(dr) + 1 == singDetailDT.Rows.Count)

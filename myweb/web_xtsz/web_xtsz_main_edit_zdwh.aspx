@@ -89,6 +89,8 @@
                     </td>
                     <td field="px">排序
                     </td>
+                    <td field="format">format
+                    </td>
                     <td field="prtname">打印名称
                     </td>
                     <td field="mark" style="display: none">mark
@@ -166,6 +168,9 @@
                         <input type="text"  field="px" value="<%= HtmlCha(dt.Rows[i]["px"].ToString())%>" />
                     </td>
                     <td>
+                        <input type="text"  field="format" value="<%= HtmlCha(dt.Rows[i]["format"].ToString())%>" />
+                    </td>
+                    <td>
                         <input type="text"  field="prtname" value="<%= HtmlCha(dt.Rows[i]["prtname"].ToString())%>" />
                     </td>
                     <td style="display: none">
@@ -239,6 +244,9 @@
                     </td>
                     <td>
                         <input type="text"  field="px" value="" />
+                    </td>
+                    <td>
+                        <input type="text"  field="format" value="" />
                     </td>
                     <td>
                         <input type="text"  field="prtname" value="" />

@@ -28,47 +28,47 @@ namespace FM.Controls
         protected static readonly string navigateDisableLinkFmt = "<li><a href=\"#\">{0}</a></li>";
         protected static readonly string navigateGotoFmt = "<div prtNoprint=true  prtdisappear=true class=\"fr\">转到第&nbsp;<input type=\"text\" style=\"width: 40px;\" value=\"{1}\" onblur=\"{0}(this.value);\" />&nbsp;页</div>";
         public FMPagerArguments pagerArguments = new FMPagerArguments();
-        
+
         /// <summary>
         /// 页头数据源
         /// </summary>
         public DataTable headlineData = new DataTable();
-        
+
         /// <summary>
         /// 页内容数据源
         /// </summary>
         public DataTable detailsData = new DataTable();
-        
+
         /// <summary>
         /// 页内容数总据源
         /// </summary>
         public DataTable totalDetailsData = new DataTable();
-             
+
         /// <summary>
         /// 到表字段属性
         /// </summary>
         public DataTable columnDataType = new DataTable();
-                
+
         /// <summary>
         /// 主数据源的SQL代码
         /// </summary>
         public string detailsSql = "";
-        
+
         /// <summary>
         /// 明细数据源
         /// </summary>
         public DataTable cmDetailsData = new DataTable();
-        
+
         /// <summary>
         /// 页头尺码
         /// </summary>
         public DataTable cmHeadlineData = new DataTable();
-        
+
         /// <summary>
         /// 主表与尺码的关联
         /// </summary>
         public string masterCmRelation = "";
-        
+
         /// <summary>
         /// 主表与明细的关联
         /// </summary>
@@ -90,7 +90,7 @@ namespace FM.Controls
         //public string tbname = "";
         //后台数据每列列宽之合
         //public int tbWidth = 0;
-        
+
         /// <summary>
         /// 打印的时候,如果下拉框的值,不需要重复读取数据库
         /// </summary>
@@ -100,14 +100,14 @@ namespace FM.Controls
         /// 记录查询所有列
         /// </summary>
         public string detailsColumns = "";
-        
+
         /// <summary>
         /// 是否允许向下移动
         /// </summary>
         public bool addNewRowPermission = false;
         public System.Collections.Specialized.NameValueCollection requestFormParm;
 
-        public FMPager(){}
+        public FMPager() { }
 
         public override void DataBind()
         {
@@ -129,15 +129,15 @@ namespace FM.Controls
             string Html = "<div>" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>";
             Html += "<div>" + this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData) + "</div>";
             Html += "<div>" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>";
-    //        string Html = "<div class=\"easyui-layout\" data-options=\"fit:true\">"+
-    //"<div region=\"north\" border=\"false\" style=\"background:#B3DFDA;\">" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>" +
-    //"<div region=\"south\" border=\"false\" style=\"background:#A9FACD;\">" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>" +
-    //"<div region=\"center\" >" + this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData) + "</div>" +
-    //"</div>";
+            //        string Html = "<div class=\"easyui-layout\" data-options=\"fit:true\">"+
+            //"<div region=\"north\" border=\"false\" style=\"background:#B3DFDA;\">" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>" +
+            //"<div region=\"south\" border=\"false\" style=\"background:#A9FACD;\">" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>" +
+            //"<div region=\"center\" >" + this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData) + "</div>" +
+            //"</div>";
             return Html;
 
         }
-        public virtual void GetDate(){}
+        public virtual void GetDate() { }
         /// <summary>
         /// 得到内容页
         /// tr.rownum td.field td.innerctrl
@@ -201,7 +201,7 @@ namespace FM.Controls
                         if (dr_h["type"].ToString().Trim() == "mx")
                         {
                             #region 尺码
-                            for (int i = 0; i < 50; i++)
+                            for (int i = 0; i < 999; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
@@ -216,13 +216,24 @@ namespace FM.Controls
                                         //处理默认属性,如0值不显示,日期空值不显示等
                                         if ((dr1.Table.Columns["sl"].DataType.ToString().ToUpper().IndexOf("INT") >= 0 || dr1.Table.Columns["sl"].DataType.ToString().ToUpper().IndexOf("DECIMAL") >= 0 || dr1.Table.Columns["sl"].DataType.ToString().ToUpper().IndexOf("FLOAT") >= 0) && dr_h["showzero"].ToString().Trim() == "0")
                                         {//判断是否是数值 ,且设置不显示0
-                                            if (drcn != "" && Convert.ToDecimal(drcn) == 0) { drcn = ""; }
+                                            if (drcn != "" && Convert.ToDecimal(drcn) == 0)
+                                            {
+                                                drcn = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(dr_h["format"].ToString().Trim()) && !string.IsNullOrEmpty(drcn))
+                                                {
+                                                    drcn = string.Format(dr_h["format"].ToString().Trim(), Convert.ToDecimal(drcn));
+                                                }
+                                            }
                                         }
+
 
                                     }
                                     #endregion
 
-                                    GetWebContentControlId(webid, dt.Rows.IndexOf(dr), dr_h["ywname"].ToString().Trim() + "_" + i, ref  lid, ref  lputid);
+                                    GetWebContentControlId(webid, dt.Rows.IndexOf(dr), dr_h["ywname"].ToString().Trim() + "_" + i, ref lid, ref lputid);
 
                                     if (dr_h["visible"].ToString().Trim() == "0")
                                     {
@@ -241,7 +252,6 @@ namespace FM.Controls
                                         #region
                                         string itype = "";
                                         string linput = "";
-
                                         string myevent = "";
                                         GetWebContentControlEvent(dr_h["event"].ToString().Trim(), dr_h["ywname"].ToString().Trim() + "_" + i, drcn, dr_h["type"].ToString().Trim(), dt.Rows.IndexOf(dr), ref myevent);
 
@@ -265,7 +275,7 @@ namespace FM.Controls
 
                                         }
                                         str += "<td gfield='" + dr_h["ywname"].ToString().Trim() + "' field='" + dr_h["ywname"].ToString().Trim() + "_" + i + "' innerctrl='" + dr_h["type"].ToString().Trim() + "' " +
-                                            (this.addNewRowPermission == true && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "onkeydown='fmOnKey(event,id)' " : "") + stywidth + lid + "> " + linput + "</td>";
+                                             "onkeydown='fmOnKey(event,id,"+ (this.addNewRowPermission && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "1" : "0") + ")' " + stywidth + lid + "> " + linput + "</td>";
                                         #endregion
                                     }
                                 }
@@ -287,7 +297,7 @@ namespace FM.Controls
                                     #region 得到TD ID 与TD下字控件ID
                                     string lputid = "";
                                     string lid = "";
-                                    GetWebContentControlId(webid, dt.Rows.IndexOf(dr), cn, ref  lid, ref  lputid);
+                                    GetWebContentControlId(webid, dt.Rows.IndexOf(dr), cn, ref lid, ref lputid);
                                     #endregion
 
                                     string drcn = MyTy.Utils.HtmlCha(dr[cn].ToString().Trim());//数据原始值
@@ -300,13 +310,26 @@ namespace FM.Controls
                                         //数字型字段,但是空值,就要先判断是否是数字
                                         if (us.IsNumber(drcn))
                                         {
-                                            if (Convert.ToDecimal(drcn) == 0) { drcn = ""; }
+                                            if (Convert.ToDecimal(drcn) == 0)
+                                            {
+                                                drcn = "";
+                                            }
+                                            else
+                                            {
+                                                if (!string.IsNullOrEmpty(dr_h["format"].ToString().Trim()) && !string.IsNullOrEmpty(drcn))
+                                                {
+                                                    drcn = string.Format(dr_h["format"].ToString().Trim(), Convert.ToDecimal(drcn));
+                                                }
+                                            }
                                         }
+
                                     }
                                     if ((tydr[0]["data_type"].ToString() == "datetime" || tydr[0]["data_type"].ToString() == "date") && dr_h["showmrrq"].ToString().Trim() == "0")
                                     {//判断是否是日期 ,且设置不显示"1900-01-01"
                                         if (drcn.Substring(0, 4) == "1900") { drcn = ""; }
                                     }
+
+
                                     #endregion
 
 
@@ -355,7 +378,7 @@ namespace FM.Controls
 
                                                 linput = "<input " + itype + mydisable + myevent + stywidth + lputid + " />";
                                                 break;
-                                                #endregion
+                                            #endregion
                                             case "select":
                                                 #region
                                                 itype = dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_select_d\" " : " class=\"style_Content_td_select_e\" ";
@@ -374,7 +397,7 @@ namespace FM.Controls
                                                         + OPTION + "</SELECT>";
                                                 }
                                                 break;
-                                                #endregion
+                                            #endregion
                                             case "button":
                                                 #region
                                                 itype = " type=\"button\" "
@@ -390,7 +413,7 @@ namespace FM.Controls
                                                        + lputid + "value=\"" + dr_h["btnvalue"].ToString().Trim() + "\" />";
                                                 }
                                                 break;
-                                                #endregion
+                                            #endregion
                                             case "td":
                                                 #region
                                                 if (dr_h["bz"].ToString() != string.Empty)
@@ -406,7 +429,7 @@ namespace FM.Controls
                                                     linput = drcn;
                                                 }
                                                 break;
-                                                #endregion
+                                            #endregion
                                             case "a":
                                                 #region
                                                 if (pagerArguments.prtFlag || pagerArguments.excelFlag)
@@ -420,7 +443,7 @@ namespace FM.Controls
                                                     linput = "<a href=\"#\" class=\"style_Content_td_a_d\"  " + lputid + myevent + "> " + drcn + "</a>";
                                                 }
                                                 break;
-                                                #endregion
+                                            #endregion
                                             case "textarea":
                                                 #region
                                                 if (pagerArguments.prtFlag || pagerArguments.excelFlag)
@@ -454,7 +477,7 @@ namespace FM.Controls
                                                         break;
                                                     }
                                                 }
-                                                #endregion
+                                            #endregion
                                             default:
                                                 #region
                                                 //默认为文本
@@ -474,7 +497,7 @@ namespace FM.Controls
                                                 #endregion
                                         };
                                         str += "<td field='" + cn + "' innerctrl='" + dr_h["type"].ToString().Trim() + "' " +
-                                            (this.addNewRowPermission == true && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "onkeydown='fmOnKey(event,id)' " : "") + stywidth + lid + "> " + linput + "</td>";
+                                             "onkeydown='fmOnKey(event,id,"+ (this.addNewRowPermission && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "1" : "0") + ")' "  + stywidth + lid + "> " + linput + "</td>";
 
                                         #endregion
                                     }
@@ -549,7 +572,7 @@ namespace FM.Controls
                     if (sour.IndexOf("@tzid") > 0)
                     {
                         sour = sour.Replace("@tzid", MySession.SessionHandle.Get("tzid").ToString().Trim());
-                    }                    
+                    }
                     FM.Business.Help execObj = new FM.Business.Help();
                     dt = execObj.ExecuteDataset(sour).Tables[0];
                 }
@@ -627,7 +650,7 @@ namespace FM.Controls
                         if (this.cmord[i] != null && this.cmord[i] != "")
                         {
                             string lid = ""; string lputid = "";
-                            GetWebContentControlId(webid, 0, dr_h["ywname"].ToString().Trim() + "_" + i, ref  lid, ref  lputid);
+                            GetWebContentControlId(webid, 0, dr_h["ywname"].ToString().Trim() + "_" + i, ref lid, ref lputid);
                             string myevent = "";
                             GetWebContentControlEvent(dr_h["event"].ToString().Trim(), dr_h["ywname"].ToString().Trim() + "_" + i, "", dr_h["type"].ToString().Trim(), 0, ref myevent);
                             string myreadonly = (dr_h["readonly"].ToString().Trim() == "1" ? " readonly='readonly' " : " ");
@@ -651,7 +674,7 @@ namespace FM.Controls
                                     linput = "<input " + itype + myreadonly + myevent + stywidth + lputid + "/>";
                                 }
                                 str += "<td gfield='" + dr_h["ywname"].ToString().Trim() + "' field='" + dr_h["ywname"].ToString().Trim() + "_" + i + "' innerctrl='" + dr_h["type"].ToString().Trim() + "'  "
-                + (this.addNewRowPermission == true ? "onkeydown=\"fmOnKey(event,id)\" " : "") + stywidth + lid + "> " + linput + "</td>";
+                + "onkeydown=\"fmOnKey(event,id,"+ (this.addNewRowPermission ? "1" : "0") + ")\" " + stywidth + lid + "> " + linput + "</td>";
                             }
                         }
                     }
@@ -669,7 +692,7 @@ namespace FM.Controls
                             //begin得到TD ID 与 TD内元素ID
                             string lputid = "";
                             string lid = "";
-                            GetWebContentControlId(webid, 0, cn, ref  lid, ref  lputid);
+                            GetWebContentControlId(webid, 0, cn, ref lid, ref lputid);
                             //end得到TD ID 与 TD内元素ID
 
                             if (dr_h["visible"].ToString().Trim() == "0")
@@ -738,7 +761,7 @@ namespace FM.Controls
                                     #endregion
                                 }
                                 str += "<td field='" + cn + "' innerctrl='" + dr_h["type"].ToString().Trim() + "'  "
-                                    + (this.addNewRowPermission == true ? "onkeydown=\"fmOnKey(event,id)\" " : "") + stywidth + lid + "> " + linput + "</td>";
+                                    +  "onkeydown=\"fmOnKey(event,id,"+ (this.addNewRowPermission ? "1" : "0") + ")\" "  + stywidth + lid + "> " + linput + "</td>";
                                 #endregion
                             }
                         }
@@ -789,7 +812,7 @@ namespace FM.Controls
                     {
                         if (dr["type"].ToString().Trim() == "mx")
                         {
-                            for (int i = 0; i < 50; i++)
+                            for (int i = 0; i < 999; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
@@ -815,7 +838,7 @@ namespace FM.Controls
                         string cmstr = "";
                         if (dr["hj"].ToString().Trim() == "1" && cm.Rows.Count > 0)
                         {
-                            for (int i = 0; i < 50; i++)
+                            for (int i = 0; i < 999; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
@@ -825,13 +848,18 @@ namespace FM.Controls
                                     {//判断是否是数值 ,且设置不显示0
                                         if (linput != "" && Convert.ToDecimal(linput) == 0) { linput = ""; }
                                     }
+                                    if (!string.IsNullOrEmpty(dr["format"].ToString().Trim()) && !string.IsNullOrEmpty(linput))
+                                    {//如果设置了format
+                                        linput = string.Format(dr["format"].ToString().Trim(), Convert.ToDecimal(linput));
+                                    }
+
                                     cmstr += "<td  style='width:" + Convert.ToInt32(dr["width"]) + "px' id=\"" + lid_cm + "_" + i + "\" > " + linput + "</td>";
                                 }
                             }
                         }
                         else
                         {//没有满足计算汇总的数据条件等
-                            for (int i = 0; i < 50; i++)
+                            for (int i = 0; i < 999; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
@@ -845,13 +873,17 @@ namespace FM.Controls
                     }
                     else
                     {
-                        #region
+                        #region 普通字段
                         if (dr["hj"].ToString().Trim() == "1" && totalDetailsData.Rows.Count > 0)
                         {
                             linput = totalDetailsData.Compute("sum(" + drname + ")", "").ToString();
                             if (dr["showzero"].ToString().Trim() == "0")
                             {//判断是否是数值 ,且设置不显示0
                                 if (Convert.ToDecimal(linput) == 0) { linput = ""; }
+                            }
+                            if (!string.IsNullOrEmpty(dr["format"].ToString().Trim()) && !string.IsNullOrEmpty(linput))
+                            {////如果设置了format
+                                linput = string.Format(dr["format"].ToString().Trim(), Convert.ToDecimal(linput));
                             }
                         }
                         else if (dr["hj"].ToString().Trim() == "11")
@@ -1250,7 +1282,7 @@ namespace FM.Controls
         /// <param name="cm_g">用来保存有几种不可的尺码组</param>
         /// <param name="minl"></param>
         /// <param name="maxl"></param>
-        public void GetMaxCmlen(DataTable DataHeadCm, ref  List<string> cm_g, ref int minl, ref int maxl)
+        public void GetMaxCmlen(DataTable DataHeadCm, ref List<string> cm_g, ref int minl, ref int maxl)
         {
 
             foreach (DataRow dr in DataHeadCm.Rows)
@@ -1644,7 +1676,7 @@ namespace FM.Controls
             return Join(First, Second, f1, s1);
 
         }
-        
+
     }
 
 }
