@@ -29,8 +29,8 @@
             int z = w;
 
     %>
-    <div style="width: 20.5cm" class="break">
-        <div id="title" style="margin-top:30px;">
+    <div style="width: 20cm" class="break">
+        <div id="title" style="margin-top:10px;">
             <table style="margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
                 <tr align="center">
                     <td style="font-weight: bold; font-size: 10pt; width: 8%; text-decoration: underline"></td>
