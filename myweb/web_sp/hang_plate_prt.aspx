@@ -78,7 +78,7 @@
                 <tr>
                     <td><%=dr["product"]%></td>
                     <td><%=dr["colour"]%></td>
-                    <td><%=string.Format("{0:#.##}",dr["weight"])%></td>
+                    <td><%=string.Format("{0:0.##}",dr["weight"])%></td>
                     <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["count_pre_jin"]) ) %></td>
                     <td><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:0.###}",dr["price"]))%></td>
                     <td style="text-align:right"><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:0.###}",dr["Amount"]))%></td>              
