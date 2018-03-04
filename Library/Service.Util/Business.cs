@@ -473,7 +473,7 @@ namespace Service.Util
                     upstr += "  SET IDENTITY_INSERT tb_tbzd ON  ";
                     foreach (DataRow dr2 in ds.Tables[1].Rows)
                     {
-                        upstr += "  INSERT v_tbzd (id,sysdel,sysdeltime,[ywname],[zwname],[ord],[width],[webid],[visible],[readonly],[type],[sx],[bz],[showzero],[event],[btnvalue],[showmrrq],[hj],[hbltname],[px],[prtname]) ";
+                        upstr += "  INSERT v_tbzd (id,sysdel,sysdeltime,[ywname],[zwname],[ord],[width],[webid],[visible],[readonly],[type],[sx],[bz],[showzero],[event],[btnvalue],[showmrrq],[hj],[hbltname],[px],[format],[prtname]) ";
                         upstr += "  values ";
                         upstr += "  ('" + dr2["id"].ToString().Replace("'", "''") + "','" + dr2["sysdel"].ToString().Replace("'", "''") + "','"
                             + dr2["sysdeltime"].ToString().Replace("'", "''") + "','" + dr2["ywname"].ToString().Replace("'", "''") + "','"
@@ -485,7 +485,7 @@ namespace Service.Util
                             + dr2["showzero"].ToString().Replace("'", "''") + "','" + dr2["event"].ToString().Replace("'", "''") + "','"
                             + dr2["btnvalue"].ToString().Replace("'", "''") + "','" + dr2["showmrrq"].ToString().Replace("'", "''") + "','"
                             + dr2["hj"].ToString().Replace("'", "''") + "','" + dr2["hbltname"].ToString().Replace("'", "''") + "','"
-                            + dr2["px"].ToString().Replace("'", "''") + "','" + dr2["prtname"].ToString().Replace("'", "''") + "')";
+                            + dr2["px"].ToString().Replace("'", "''") + "','"+ dr2["format"].ToString().Replace("'", "''") + "','" + dr2["prtname"].ToString().Replace("'", "''") + "')";
                     }
                     upstr += " SET IDENTITY_INSERT tb_tbzd OFF ";
 
@@ -823,8 +823,8 @@ namespace Service.Util
                 {
                     if (zd.Id == 0)
                     {
-                        sql.Append(" insert v_tbzd (ywname, zwname, ord, width, webid, visible, readonly, type,  sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, prtname) ");
-                        sql.Append("select '" + zd.Ywname + "', '" + zd.Zwname + "', '" + zd.Ord + "', '" + zd.Width + "', a.id, '" + zd.Visible + "', '" + zd.Readonly + "', '" + zd.Type + "','" + zd.Sx + "', '" + zd.Bz + "','" + zd.Showzero + "','" + zd.Event + "','" + zd.Btnvalue + "','" + zd.Showmrrq + "','" + zd.Hj + "','" + zd.Hbltname + "','" + zd.Px + "','" + zd.Prtname + "' from "+ mlLink + "v_wid a where a.id='" + zd.Wid + "';");
+                        sql.Append(" insert v_tbzd (ywname, zwname, ord, width, webid, visible, readonly, type,  sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, format,prtname) ");
+                        sql.Append("select '" + zd.Ywname + "', '" + zd.Zwname + "', '" + zd.Ord + "', '" + zd.Width + "', a.id, '" + zd.Visible + "', '" + zd.Readonly + "', '" + zd.Type + "','" + zd.Sx + "', '" + zd.Bz + "','" + zd.Showzero + "','" + zd.Event + "','" + zd.Btnvalue + "','" + zd.Showmrrq + "','" + zd.Hj + "','" + zd.Hbltname + "','" + zd.Px + "','"+zd.Format+"','" + zd.Prtname + "' from "+ mlLink + "v_wid a where a.id='" + zd.Wid + "';");
                     }
                     else
                     {
@@ -834,7 +834,7 @@ namespace Service.Util
                         }
                         else
                         {
-                            sql.Append(" update v_tbzd set ywname='" + zd.Ywname + "', zwname='" + zd.Zwname + "', ord='" + zd.Ord + "', width='" + zd.Width + "', visible='" + zd.Visible + "', readonly='" + zd.Readonly + "', type='" + zd.Type + "',  sx='" + zd.Sx + "', bz='" + zd.Bz + "', showzero='" + zd.Showzero + "', event='" + zd.Event + "', btnvalue='" + zd.Btnvalue + "', showmrrq='" + zd.Showmrrq + "', hj='" + zd.Hj + "', hbltname='" + zd.Hbltname + "', px='" + zd.Px + "', prtname='" + zd.Prtname + "'   where id='" + zd.Id + "'; ");
+                            sql.Append(" update v_tbzd set ywname='" + zd.Ywname + "', zwname='" + zd.Zwname + "', ord='" + zd.Ord + "', width='" + zd.Width + "', visible='" + zd.Visible + "', readonly='" + zd.Readonly + "', type='" + zd.Type + "',  sx='" + zd.Sx + "', bz='" + zd.Bz + "', showzero='" + zd.Showzero + "', event='" + zd.Event + "', btnvalue='" + zd.Btnvalue + "', showmrrq='" + zd.Showmrrq + "', hj='" + zd.Hj + "', hbltname='" + zd.Hbltname + "', px='" + zd.Px + "', format='"+zd.Format+"',prtname='" + zd.Prtname + "'   where id='" + zd.Id + "'; ");
                         }
                     }
                 }

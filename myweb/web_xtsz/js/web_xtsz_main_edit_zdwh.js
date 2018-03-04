@@ -32,7 +32,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         $('#ok').attr('disabled', 'disabled');
         var wid = document.getElementById("wid").value;
         var str = "";
-        var ywname, zwname, ord, width, id, visible, readonly, type, sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, prtname
+        var ywname, zwname, ord, width, id, visible, readonly, type, sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, prtname,format
         var data = {};
         data.row = new Array();
         for (var i = 0; i < xtsz.getRowNum() ; i++) {
@@ -56,6 +56,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             hbltname = sr("hbltname", i);
             px = sr("px", i); if (px == "") { px = "0"; }
             prtname = sr("prtname", i);
+            format = sr("format", i);
             var dataRow = {};
             if (sr("mark", i) == "") {
                 dataRow.mark = 0;
@@ -79,6 +80,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             dataRow.hbltname = hbltname;
             dataRow.px = px;
             dataRow.prtname = prtname;
+            dataRow.format = format;
             dataRow.wid = wid;
             dataRow.id = id;
             data.row.push(dataRow);
