@@ -81,8 +81,8 @@ namespace EI.Web
             #endregion
 
             string hidden = "<input type=\"hidden\"  id=\"username\" a=\"" + menuPage + "\" b=\"" + tzid + "\" value=\"" + userName + "\" />";
-            string platDialog="<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>";
-            return north + west + south + center + wait + contextMenu + hidden+ platDialog;
+            string platDialog = "<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>";
+            return north + west + south + center + wait + contextMenu + hidden + platDialog;
 
         }
 
@@ -222,7 +222,20 @@ namespace EI.Web
             DataTable dt = menu.GetTzInfo();
             string strrq = DateTime.Now.ToString("d");
             FM.Business.Login lg = new FM.Business.Login();
-            string m_top_title = "[<a href='../ChooseTz.aspx' class='a_top'  style='text-decoration:none' target='_parent' >切换套账</a>] 当前系统:" + dt.Rows[0]["tzmc"].ToString() + userName + " &nbsp;日期:" + strrq + "&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"passwordModify()\" >修改密码</a>]&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"window_onunload(0)\" >用户注销</a>]&nbsp;&nbsp;[<a href=\"#\" class='a_top'  onclick=\"window_onunload(-1)\" >退出系统</a>]&nbsp;&nbsp;";
+            string m_top_title = "[<a href='../ChooseTz.aspx' class='a_top'  style='text-decoration:none' target='_parent' >切换套账</a>]"
+                + "&nbsp;&nbsp;"
+                + "当前系统:" + dt.Rows[0]["tzmc"].ToString()
+                + "-"
+                + userName
+                //+ "&nbsp;"
+                //+ "日期:" + strrq
+                + "&nbsp;&nbsp;"
+                + "[<a href=\"#\" class='a_top'  onclick=\"passwordModify()\" >修改密码</a>]"
+                + "&nbsp;&nbsp;"
+                + "[<a href=\"#\" class='a_top'  onclick=\"window_onunload(0)\" >用户注销</a>]"
+                //+ "&nbsp;&nbsp;"
+                //+ "[<a href=\"#\" class='a_top'  onclick=\"window_onunload(-1)\" >退出系统</a>]"
+                + "&nbsp;&nbsp;";
 
             StringBuilder tmp = new StringBuilder();
             tmp.Append("<table width=\"98%\" height=\"98%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" >");
@@ -274,7 +287,7 @@ namespace EI.Web
         public string GetContentMenu()
         {
             FM.Business.Menu mu = new FM.Business.Menu();
-            DataTable menuDT = mu.GetContentMenu(HttpContext.Current.Request.QueryString["url"].ToString());                       
+            DataTable menuDT = mu.GetContentMenu(HttpContext.Current.Request.QueryString["url"].ToString());
             string helpString = "<span class=\"glyphicon glyphicon-book\" aria-hidden=\"true\"></span>";
             StringBuilder rowString = new StringBuilder();
             if (menuDT.Rows.Count > 0)
@@ -285,30 +298,32 @@ namespace EI.Web
                               {
                                   ls = m.Key.t1
                               };
-                int listCount=mjQuery.ToList().Count;
-                string  col_md_num = "";
-                if (listCount==1|| listCount == 2|| listCount == 3|| listCount == 4|| listCount == 6)
+                int listCount = mjQuery.ToList().Count;
+                string col_md_num = "";
+                if (listCount == 1 || listCount == 2 || listCount == 3 || listCount == 4 || listCount == 6)
                 {
                     col_md_num = "col-xs-12 col-md-" + (12 / listCount).ToString();
-                }else if (listCount == 5)
+                }
+                else if (listCount == 5)
                 {
                     col_md_num = "col-xs-12 col-md-2";
-                }else 
+                }
+                else
                 {
                     col_md_num = "col-xs-12 col-md-1";
-                }                
+                }
                 mjQuery.ToList().ForEach(q =>
                 {
                     string htmlUL = "<div class=\"{1}\"><ul class=\"list-group\">{0}</ul></div>";
                     StringBuilder htmlLS = new StringBuilder();
-                    foreach (DataRow dr in menuDT.Select("ls='"+ q.ls + "'"))//
+                    foreach (DataRow dr in menuDT.Select("ls='" + q.ls + "'"))//
                     {
-                        htmlLS .Append( string.Format("<li class=\"list-group-item menulist\" alone={2} cmd=\"{3}\" menuID=\"{4}\" >{0} <a  href=\"#\">{1}</a></li>",
-                            helpString,  dr["text"].ToString().Trim(), dr["alone"].ToString().Trim(), dr["cmd"].ToString().Trim(), dr["id"].ToString().Trim()));
+                        htmlLS.Append(string.Format("<li class=\"list-group-item menulist\" alone={2} cmd=\"{3}\" menuID=\"{4}\" >{0} <a  href=\"#\">{1}</a></li>",
+                            helpString, dr["text"].ToString().Trim(), dr["alone"].ToString().Trim(), dr["cmd"].ToString().Trim(), dr["id"].ToString().Trim()));
                     }
                     rowString.Append(string.Format(htmlUL, htmlLS, col_md_num));
                 });
-                
+
             }
             return string.Format("<div class=\"row\">{0}</div>", rowString);
         }

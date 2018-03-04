@@ -332,8 +332,9 @@ function closeWebPage() {
         //window.history.go(-2);
     }
     else {
-        window.opener = null;
-        window.open('', '_self', '');
+        //window.opener = null;
+        window.location.href = "about:blank";
+        //window.open('', '_self', '');
         window.close();
     }
 }
