@@ -11,7 +11,7 @@ public partial class web_sp_hang_plate_prt : System.Web.UI.Page
         " inner join v_sp_xskhda x on a.customer_id = x.id" +
         " INNER JOIN v_user r ON r.id = a.createor_id" +
         " where a.id = {0};" +
-        " SELECT a.mxid,a.product,a.colour,a.weight,a.count_pre_jin ,a.price , CASE ZB.DJLX WHEN  410 THEN CONVERT( DECIMAL(12,2), a.price*a.weight,2) ELSE  CONVERT( DECIMAL(12,2), a.price*a.weight*a.count_pre_jin,2) END  Amount," +
+        " SELECT after_quantity=a.weight*a.count_pre_jin,a.mxid,a.product,a.colour,a.weight,a.count_pre_jin ,a.price , CASE ZB.DJLX WHEN  410 THEN CONVERT( DECIMAL(12,2), a.price*a.weight,2) ELSE  CONVERT( DECIMAL(12,2), a.price*a.weight*a.count_pre_jin,2) END  Amount," +
         " a.remark,a.after_finish,after_quantity = a.weight * a.count_pre_jin ,a.after_price,CONVERT(DECIMAL(12, 2), a.after_price * a.weight * a.count_pre_jin, 2) after_amt" +
         " FROM _v_hang_plate_detail a INNER JOIN _v_hang_plate ZB ON ZB.ID=A.ID " +
         " where a.id = {0}";

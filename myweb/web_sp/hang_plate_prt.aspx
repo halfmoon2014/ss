@@ -62,9 +62,10 @@
                     <td width="150">颜色</td>
                     <td width="80" align="center">重量(斤)</td>
                     <td width="80" align="center">斤个数</td>
+                    <td width="80" align="center">件数</td>
                     <td width="80" align="center">单价</td>
                     <td width="100" align="center">金额</td>                  
-                    <td width="160" align="center">备注</td>
+                    <td width="80" align="center">备注</td>
                 </tr>
                 <%
                     decimal pageCurrentTotal = 0;
@@ -80,6 +81,7 @@
                     <td><%=dr["colour"]%></td>
                     <td><%=string.Format("{0:0.##}",dr["weight"])%></td>
                     <td><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["count_pre_jin"]) ) %></td>
+                    <td><%=(decimal.Parse(dr["after_quantity"].ToString())==0?"":string.Format("{0:0.###}",dr["after_quantity"]))%></td>
                     <td><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:0.###}",dr["price"]))%></td>
                     <td style="text-align:right"><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:0.###}",dr["Amount"]))%></td>              
                     <td><%=dr["remark"]%></td>
@@ -97,7 +99,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    
+                    <td></td>
                 </tr>
                 <%
                         }
@@ -106,7 +108,7 @@
 
                 %>
                 <tr style="line-height:30px; font-weight:bold;">
-                    <td colspan="5" style="text-align:right" >合计金额:</td>
+                    <td colspan="7" style="text-align:right" >合计金额:</td>
                     
                     <td colspan="2"><%=string.Format("{0:0.###}",pageCurrentTotal) %></td>                  
                    
