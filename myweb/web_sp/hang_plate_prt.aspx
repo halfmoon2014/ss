@@ -33,10 +33,10 @@
         <div id="title" style="margin-top:10px;">
             <table style="margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
                 <tr align="center">
-                    <td style="font-weight: bold; font-size: 10pt; width: 8%; text-decoration: underline"></td>
-                    <td style="font-weight: bold; font-size: 24pt; width: 28%;" align="center">晋&nbsp;丰&nbsp;五&nbsp;金&nbsp;电&nbsp;镀</td>
-                    <td style="font-weight: bold; font-size: 12pt; width: 5%; ">单据号:<%=ds.Tables[0].Rows[0]["number"]%></td>
-                    <td width="60" style="font-weight: bold; width: 5%; text-decoration: underline"></td>
+                    <td style=" font-size: 10pt; width: 8%; text-decoration: underline"></td>
+                    <td style=" font-size: 24pt; width: 28%;" align="center">晋&nbsp;丰&nbsp;五&nbsp;金&nbsp;电&nbsp;镀</td>
+                    <td style=" font-size: 12pt; width: 5%; ">单据号:<%=ds.Tables[0].Rows[0]["number"]%></td>
+                    <td width="60" style=" width: 5%; text-decoration: underline"></td>
                 </tr>
                 <tr style="padding-top:10px">
                     <td colspan="2" style="text-align: center;font-size:18px;">电话:0595-83288176 传真:0595-83289176</td>
@@ -57,7 +57,7 @@
 
         <div id="content" style="margin-top:10px;">
             <table cellspacing="0" bordercolor="black" border="1" style="font-size: 12pt; border-left-color: black; border-bottom-color: black; border-top-color: black; border-collapse: collapse; border-right-color: black; margin-left: 1px; ">
-                <tr align="center" style="font-weight: bold; line-height: 30px;">
+                <tr align="center" style=" line-height: 30px;">
                     <td width="200" align="center">产品型号</td>
                     <td width="150">颜色</td>
                     <td width="80" align="center">重量(斤)</td>
@@ -107,7 +107,7 @@
                     }
 
                 %>
-                <tr style="line-height:30px; font-weight:bold;">
+                <tr style="line-height:30px; ">
                     <td colspan="7" style="text-align:right" >合计金额:</td>
                     
                     <td colspan="2"><%=string.Format("{0:0.###}",pageCurrentTotal) %></td>                  
