@@ -151,4 +151,6 @@
     </div>
     </div>    
 </body>
+<script src="../javascripts/utils.js"></script>
+<script src="../javascripts/myjs/myweb.js"></script>
 </html>
