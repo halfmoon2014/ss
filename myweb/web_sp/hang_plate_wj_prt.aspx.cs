@@ -11,7 +11,7 @@ public partial class web_sp_hang_plate_prt : System.Web.UI.Page
         " inner join v_sp_xskhda x on a.customer_id = x.id" +
         " INNER JOIN v_user r ON r.id = a.createor_id" +
         " where a.id = {0};" +
-        " SELECT a.unit,a.name, a.mxid,a.product,a.colour,a.weight,a.count_pre_jin ,a.price ,  a.price*a.weight Amount," +        
+        " SELECT a.unit,a.name, a.mxid,a.product,a.colour,a.weight,a.count_pre_jin ,a.price ,  a.price*a.weight Amount" +        
         " FROM _v_hang_plate_detail a INNER JOIN _v_hang_plate ZB ON ZB.ID=A.ID " +
         " where a.id = {0}";
         FM.Business.Help hp = new FM.Business.Help();
