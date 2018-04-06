@@ -1,19 +1,30 @@
 ﻿tr.selectedhighlight {
-    /*background-color: #654B24;*/
+    background-color: #337ab7;
 }
 
-    tr.selectedhighlight input {
-        color: #FF0000;
+    /*tr.selectedhighlight input {
+        color: #0441f3;
     }
 
     tr.selectedhighlight select {
-        color: #FF0000;
+        color: #0441f3;
     }
 
     tr.selectedhighlight checkb {
-        color: #FF0000;
-    }
-
+        color: #0441f3;
+    }*/
+.tbbody > td   {
+    
+}
+.tbbody > td > input {
+    width:100%;
+    border-left-width: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
 .field_ord {
     width: 40px;
 }
@@ -22,10 +33,12 @@
 }
 .field_mc {
     width: 80px;
+    color: red;
 }
 
 .field_qwidth {
     width: 60px;
+    color: red;
 }
 
 .field_width {
@@ -34,6 +47,7 @@
 
 .field_htmlid {
     width: 60px;
+    color:red;
 }
 
 .field_visible {

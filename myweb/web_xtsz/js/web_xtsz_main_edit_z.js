@@ -204,9 +204,9 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
     $("#ok").bind("click", function () { ok_click(); });
     $("#fz").bind("click", function () { fz_click(); });
     $("#fb").bind("click", function () { fb_click(); });
-    $("[field]").each(function (i, n) {
-        var f = "field_" + $(n).attr("field");
-        $(n).addClass(f);
+    $("[field]", $(".tbbody")).each(function (i, n) {
+        //var f = "field_" + $(n).attr("field");
+        //$(n).width("100%");
     });
 
     if (document.getElementById("lx").value == "z") {

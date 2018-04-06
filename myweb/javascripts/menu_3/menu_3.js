@@ -25,12 +25,28 @@
     //        console.log(1); 
     //    });
 
+    $("#menubody").layout({
+        onCollapse: function (a) {
+           // console.log("onCollapse");
+        },
+        onExpand: function (a) {
+         //   console.log("onExpand");
+        }
+    });
+
 });
 
 function myhelp(id) {
     var url = "m_myhelp.aspx?id=" + id;
+    var name = '帮助文档';                            //网页名称 
+    var iWidth = 800;                          //弹出窗口的宽度; 
+    var iHeight = 600;                         //弹出窗口的高度; 
+    //获得窗口的垂直位置 
+    var iTop = (window.screen.availHeight - 30 - iHeight) / 2;
+    //获得窗口的水平位置 
+    var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
     //chrome没有模态,先改为打开非模态
-    window.open(url, "帮助文档", "height=600,width=800", "");
+    window.open(url, name, 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no');
     //window.showModalDialog(url, "", "location:No;status:No;help:No;dialogWidth:800px;dialogHeight:600px;scroll:no;"); return false;
 }
 
@@ -77,29 +93,30 @@ function goAddMainTab(subtitle, url) {
 function createMainFrame(url) {
     //href: "content_menu3.ashx?url=" + url
 
-    /*20130607改为AJAX调用,20130609停用,因为SESSION超时不好处理
-    var myurl = url;
-    var r = "";
-    var error = "";
-    $.ajax({ type: 'post',
-    url: 'content_menu3.aspx?url=' + myurl,
-    data: {},
-    async: false,
-    error: function (e) {
+    ////20130607改为AJAX调用, 20130609停用, 因为SESSION超时不好处理
+    //var myurl = url;
+    //var r = "";
+    //var error = "";
+    //$.ajax({
+    //    type: 'post',
+    //    url: 'content_menu3.aspx?url=' + myurl,
+    //    data: {},
+    //    async: false,
+    //    error: function (e) {
 
-    error = e;
-    },
-    success: function (data) {
-    r = data;
-    }
-    })
-    if (error == "") {
-    return r;
-    } else {
-    $.messager.alert('提示信息', '连接失败!', 'info', function () {
-    return "";
-    });
-    }*/
+    //        error = e;
+    //    },
+    //    success: function (data) {
+    //        r = data;
+    //    }
+    //})
+    //if (error == "") {
+    //    return r;
+    //} else {
+    //    $.messager.alert('提示信息', '连接失败!', 'info', function () {
+    //        return "";
+    //    });
+    //}
     return '<iframe  scrolling="auto" frameborder="0"  allowtransparency=true  src="content_menu3.aspx?url=' + url + '" style="width:100%;height:100%;"></iframe>';
 }
 

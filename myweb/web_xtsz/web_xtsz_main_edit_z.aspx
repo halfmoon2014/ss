@@ -79,21 +79,21 @@
         <div id="cxtj" class="container-fluid">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="westwidth" field="td_westwidth" class="col-md-2 control-label">Div布局-左宽</label>
+                    <label for="westwidth" field="td_westwidth" class="col-md-1 control-label">Div布局-左宽</label>
                     <div class="col-md-1">
                         <input type="text" class="form-control" id="westwidth" field="westwidth" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["westwidth"].ToString()) %>">
                     </div>
-                    <label for="eastwidth" field="td_eastwidth" class="col-md-2 control-label">Div布局-右宽</label>
+                    <label for="eastwidth" field="td_eastwidth" class="col-md-1 control-label">Div布局-右宽</label>
                     <div class="col-md-1">
                         <input type="text" class="form-control" id="eastwidth" field="eastwidth" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["eastwidth"].ToString()) %>">
                     </div>
 
-                    <label for="northheight" field="td_northheight" class="col-md-2 control-label">Div布局-上高</label>
-                    <div class="col-md-1">
+                    <label for="northheight" field="td_northheight" class="col-md-1 control-label">Div布局-上高</label>
+                    <div class="col-md-1"">
                         <input type="text" class="form-control" id="northheight" field="northheight" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["northheight"].ToString()) %>">
                     </div>
 
-                    <label for="southheight" field="td_southheight" class="col-md-2 control-label">Div布局-下高</label>
+                    <label for="southheight" field="td_southheight" class="col-md-1 control-label">Div布局-下高</label>
                     <div class="col-md-1">
                         <input type="text" class="form-control" id="southheight" field="southheight" value="<%= HtmlCha(dt.Rows.Count==0?"0":dt.Rows[0]["southheight"].ToString()) %>">
                     </div>
@@ -103,53 +103,53 @@
         </div>
 
         <div class="table-responsive">
-            <table id="zdwhtb" class="  table table-bordered">
+            <table id="zdwhtb" class="table table-bordered">
                 <tr class="tbth" rownum="1">
                     <td field="id" style="display: none">id
                     </td>
-                    <td field="ord">排布
+                    <td field="ord" class="field_ord" >排布
                     </td>
-                    <td field="mobileord">mobile
+                    <td field="mobileord" class="field_mobileord">mobile
                     </td>
-                    <td field="mc">标题名称
+                    <td field="mc" class="field_mc" >标题名称
                     </td>
-                    <td field="qwidth">标题宽度
+                    <td field="qwidth" class="field_qwidth">标题宽度
                     </td>
-                    <td field="htmlid">htmlid
+                    <td field="htmlid" class="field_htmlid">htmlid
                     </td>
-                    <td field="width">html宽度
+                    <td field="width" class="field_width">html宽度
                     </td>
-                    <td field="visible">可见
+                    <td field="visible" class="field_visible">可见
                     </td>
-                    <td field="readonly">只读
+                    <td field="readonly" class="field_readonly">只读
                     </td>
-                    <td field="type">类型
+                    <td field="type" class="field_type">类型
                     </td>
-                    <td field="event">事件
+                    <td field="event" class="field_event">事件
                     </td>
-                    <td field="yy">引用
+                    <td field="yy" class="field_yy">引用
                     </td>
-                    <td field="bds">表达式
+                    <td field="bds" class="field_bds">表达式
                     </td>
-                    <td field="mrz">默认值
+                    <td field="mrz" class="field_mrz">默认值
                     </td>
-                    <td field="zb">后台字段
+                    <td field="zb" class="field_zb">后台字段
                     </td>
-                    <td field="session">session
+                    <td field="session" class="field_session">session
                     </td>
-                    <td field="css0">css0
+                    <td field="css0" class="field_css0">css0
                     </td>
-                    <td field="css">css
+                    <td field="css" class="field_css">css
                     </td>
-                    <td field="bz">备注
+                    <td field="bz" class="field_bz">备注
                     </td>
-                    <td field="nwebid">下级webid
+                    <td field="nwebid" class="field_nwebid">下级webid
                     </td>
-                    <td field="naspx">下级aspx
+                    <td field="naspx" class="field_naspx">下级aspx
                     </td>
-                    <td field="dwidth">复-宽度
+                    <td field="dwidth" class="field_dwidth">复-宽度
                     </td>
-                    <td field="dheight">复-高度
+                    <td field="dheight" class="field_dheight">复-高度
                     </td>
                     <td field="mark" style="display: none">mark
                     </td>
@@ -165,7 +165,7 @@
                         <input type="text" field="id" value="<%= HtmlCha(dt.Rows[i]["id"].ToString())%>" />
                     </td>
                     <td>
-                        <input type="text" field="ord" value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
+                        <input type="text"  field="ord" value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
                     </td>
                     <td>
                         <input type="text" field="mobileord" value="<%= HtmlCha(dt.Rows[i]["mobileord"].ToString())%>" />

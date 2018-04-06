@@ -33,13 +33,15 @@
                     <div id="title" style="margin-top: 10px;">
                         <table style="margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
                             <tr align="center">
-                                <td rowspan="3" style="width: 10%"></td>
+                                <td rowspan="3" style="width: 10%">
+                                    <img src="hongjie.jpg" style="width:80px;" />
+                                </td>
                                 <td colspan="2" style="font-size: 24pt; width: 28%;" align="center">鸿&nbsp;杰&nbsp;五&nbsp;金&nbsp;厂&nbsp;<送货单></td>
                                 <td colspan="2" style="font-size: 12pt; width: 5%;">№<%=ds.Tables[0].Rows[0]["number"]%></td>
 
                             </tr>
                             <tr>
-                                <td colspan="4" style="text-align: center; font-size: 18px;"></td>
+                                <td colspan="4" style="line-height:2px;border-color: #000000; text-align: center; border-bottom-style:solid; border-top-style:solid;border-top-width: medium; border-bottom-width: medium">&nbsp;</td>
                             </tr>
                             <tr>
                                 <td colspan="4" style="text-align: center; font-size: 13px;">地址:石狮市宝盖镇仑后村一区128号 电话:0595-88982766 传真:0595-88782966 QQ:2796049693</td>
@@ -51,7 +53,7 @@
                         <table style="font-size: 14pt; margin-left: 1px;" cellspacing="0" cellpadding="0" border="0">
                             <tr>
 
-                                <td align="left" width="600">收货地址:<%=ds.Tables[0].Rows[0]["khmc"]%></td>
+                                <td align="left" width="600">收货地址:<%=ds.Tables[0].Rows[0]["dz"]%></td>
                                 <td align="left" width="200">日期:<%=ds.Tables[0].Rows[0]["BizDate"]%></td>
                             </tr>
                         </table>
@@ -62,7 +64,7 @@
                             <tr align="center" style="line-height: 30px;">
                                 <td width="80" align="center">货号</td>
                                 <td width="300" align="center">名称及规格</td>
-                                <td width="80">颜色</td>
+                                <td width="120">颜色</td>
                                 <td width="80" align="center">单位</td>
                                 <td width="80" align="center">数量</td>
                                 <td width="80" align="center">单价</td>
@@ -109,7 +111,7 @@
                             %>
                             <tr style="line-height: 30px;">
                                 <td style="text-align: right">合计金额</td>
-                                <td colspan="5" style="text-align: right"><%=string.Format("{0:0.###}",pageCurrentTotal) %></td>
+                                <td colspan="5" style="text-align: right"><%=CmycurD(string.Format("{0:0.###}",pageCurrentTotal)," ") %></td>
 
                                 <td colspan="2"></td>
 

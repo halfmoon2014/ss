@@ -776,6 +776,11 @@ namespace Service.Util
             return myrs + (utmp == string.Empty ? "" : ",\"children\":[ " + utmp.Substring(0, utmp.Length - 1) + "] ") + "},";
         }
 
+        /// <summary>
+        /// 更新查询区字段
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public string UpSYJLayout(string data)
         {
             StringBuilder sql = new StringBuilder();
@@ -784,7 +789,10 @@ namespace Service.Util
             {
                 if (layout.Id == 0)
                 {
-                    if (layout.Ord.Length == 0 && layout.Qwidth == 0 && layout.Mc.Length == 0)
+                    //如果是隐藏控件那么只有htmlid
+                    //如果是占位那么只有Qwidth
+                    //如果是查询按钮只有mc
+                    if (layout.Htmlid.Length == 0 && layout.Qwidth == 0 && layout.Mc.Length == 0)
                     {
 
                     }
@@ -797,7 +805,7 @@ namespace Service.Util
                 }
                 else
                 {
-                    if (layout.Ord == "0" && layout.Qwidth == 0 && layout.Mc == "")
+                    if (layout.Htmlid.Length == 0 && layout.Qwidth == 0 && layout.Mc.Length == 0)
                     {
                         sql.Append(" delete v_wid_layout  where id='" + layout.Id + "'; ");
                     }

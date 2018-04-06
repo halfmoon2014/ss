@@ -89,7 +89,7 @@ namespace EI.Web
         public string CreateMenuTree(string userid)
         {
             StringBuilder menuStr = new StringBuilder();
-            menuStr.Append(" <div data-options=\"region:'west',split:true,title:'目录'\" style=\"width:160px;padding:0px;\">");
+            menuStr.Append(" <div data-options=\"region:'west',split:true,hideCollapsedContent:false,title:'目录'\" style=\"width:160px;padding:0px;\">");
             StringBuilder tmpStr = new StringBuilder();
             FM.Business.Menu menu = new FM.Business.Menu();
             //DataTable dt = menu.GetTopLM(userid);
