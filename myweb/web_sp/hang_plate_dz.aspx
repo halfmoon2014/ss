@@ -84,7 +84,7 @@
             <tr>
                 <td><%=dr["BizDate"]%></td>
                 <td><%=dr["number"]%></td>
-                <td><%=dr["product"]%></td>
+                <td style="vnd.ms-excel.numberformat:@"><%=dr["product"]%></td>
                 <td><%=dr["colour"]%></td>
                 <td style="text-align: right"><%=string.Format("{0:#.##}",dr["weight"])%></td>
                 <td style="text-align: right"><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["count_pre_jin"]) ) %></td>
