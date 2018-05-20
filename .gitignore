@@ -4,6 +4,9 @@ homepage/Bin/
 myweb/Bin/
 Library/EI.WebEdit/bin
 Library/EI.WebEdit/obj
+Library/DTO/bin
+Library/DTO/obj
+Library/DTO/Properties/
 Library/FM.Business/bin
 Library/FM.Business/obj
 Library/FM.Components/bin

@@ -13,11 +13,10 @@ public partial class main : System.Web.UI.Page
     
     protected void Page_Load(object sender, EventArgs e)
     {
-        FM.Controls.FMPager fm = new FM.Controls.FMPager();
-        fm = new FM.Controls.Pager.ProcPager();
+        FM.Controls.FMPager fm = new FM.Controls.Pager.ProcPager();
 
         fm.GetDate();
-        MyDivTable.InnerHtml = fm.Html();
+        MyDivTable.InnerHtml = fm.Html().Data.Html;
         string parmUrl = "";
         foreach (string key in Request.Params.Keys)
         {

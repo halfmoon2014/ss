@@ -58,6 +58,10 @@
     <Compile Include="WebHeader\DefaultHeader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{d73e1422-9e97-4dc5-a32f-b86489f9d67a}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FM.Business\FM.Business.csproj">
       <Project>{2FBC01BB-BCCA-4EBC-9236-31DB5C819EDA}</Project>
       <Name>FM.Business</Name>

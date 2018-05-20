@@ -9,6 +9,9 @@ using System.Data;
 using System.Text.RegularExpressions;
 
 using System.Collections.Generic;
+using DTO;
+using MyTy;
+
 namespace FM.Controls
 {
     /// <summary>
@@ -116,25 +119,27 @@ namespace FM.Controls
             Control repeater = FindRepeater(Page);
             HtmlContainerControl MyRepeater = (HtmlContainerControl)FindRepeater(Page);
 
-            MyRepeater.InnerHtml = Html();
+            MyRepeater.InnerHtml = Html().Data.Html;
             ChildControlsCreated = false;
 
         }
-        public string Html()
+        public Result<PageHtml> Html()
         {
+            PageHtml pageHtml = new PageHtml();
             //string str = "<table ><tr><td>"+"<div  class='fmheadclass'   >" + this.GetHeadHtml(this.DataHead, this.WebId.ToString().Trim()) + "</div></td></tr><tr><td class='hc_tdclass'><div  class='fmcontentclass' " + fmcontentclass + "   >" + this.GetContentHtml(this.DataSource, this.DataHead, this.WebId.ToString().Trim()) + "</div></td></tr><tr><td>" + hj + "</td></tr></table>";
             //int divw = (this.tbWidth + this.vcols * 5 + this.scolwidth);
             //string str = "<ol style='list-style-type:none'><li><div  class='fmheadclass' style='width:" + divw.ToString().Trim() + "px'  >" + this.GetHeadHtml(this.DataHead, this.WebId.ToString().Trim()) + "</div></li>" + "<li><div  class='fmcontentclass' style='width:" + (divw + 5).ToString().Trim() + "px' " + fmcontentclass + "   >" + this.GetContentHtml(this.DataSource, this.DataHead, this.WebId.ToString().Trim()) + "</div></li>" + "<li><div class='fmheadclass' style='width:" + divw.ToString().Trim() + "px' >" + hj + "</div></li></ol>";
 
-            string Html = "<div>" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>";
-            Html += "<div>" + this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData) + "</div>";
-            Html += "<div>" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>";
+            pageHtml.Html = "<div>" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>"
+            + "<div>" + this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData) + "</div>"
+            + "<div>" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>";
             //        string Html = "<div class=\"easyui-layout\" data-options=\"fit:true\">"+
             //"<div region=\"north\" border=\"false\" style=\"background:#B3DFDA;\">" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>" +
             //"<div region=\"south\" border=\"false\" style=\"background:#A9FACD;\">" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>" +
             //"<div region=\"center\" >" + this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData) + "</div>" +
             //"</div>";
-            return Html;
+            pageHtml.ColumnCount = this.headlineData.Select("visible=1").Length;
+            return ResultUtil<PageHtml>.success(pageHtml);
 
         }
         public virtual void GetDate() { }
@@ -149,7 +154,7 @@ namespace FM.Controls
         public string GetContentHtml(DataTable dt, DataTable dt_h, string webid, string mxhord, string mxgl, DataTable DataMx, string mxhgl, DataTable DataHeadCm)
         {
 
-            string str = "";
+            StringBuilder strBuild = new StringBuilder();
             MyTy.Utils us = new MyTy.Utils();
             if (dt == null || dt.Rows.Count == 0)
             {
@@ -167,7 +172,7 @@ namespace FM.Controls
 
                 foreach (DataRow dr in dt.Rows)// 每行
                 {
-                    str += "<tr rownum=\"" + dt.Rows.IndexOf(dr) + "\">";
+                    strBuild.Append("<tr rownum=\"" + dt.Rows.IndexOf(dr) + "\">");
                     #region 隐藏的标记列,用于标记此行数据是否被变动过
                     string flag_lid = " id='table_td_" + webid + "_" + dt.Rows.IndexOf(dr) + "_flag' ";
                     string flag = " id='table_" + webid + "_" + dt.Rows.IndexOf(dr) + "_flag' ";
@@ -176,7 +181,7 @@ namespace FM.Controls
                     }
                     else
                     {
-                        str += "<td style='display:none' field='flag' innerctrl='flag' " + flag_lid + " ><input type='hidden' " + flag + "value='0'/></td>";
+                        strBuild.Append("<td style='display:none' field='flag' innerctrl='flag' " + flag_lid + " ><input type='hidden' " + flag + "value='0'/></td>");
                     }
                     #endregion
                     #region 分解主表与明细关系
@@ -243,7 +248,7 @@ namespace FM.Controls
                                         }
                                         else
                                         {
-                                            str += "<td gfield='" + dr_h["ywname"].ToString().Trim() + "' field='" + dr_h["ywname"].ToString().Trim() + "_" + i + "' innerctrl='hidden' style='display:none' " + lid + " ><input type='hidden' " + lputid + " value=\"" + drcn + "\"/></td>";
+                                            strBuild.Append("<td gfield='" + dr_h["ywname"].ToString().Trim() + "' field='" + dr_h["ywname"].ToString().Trim() + "_" + i + "' innerctrl='hidden' style='display:none' " + lid + " ><input type='hidden' " + lputid + " value=\"" + drcn + "\"/></td>");
                                         }
                                         #endregion
                                     }
@@ -274,8 +279,8 @@ namespace FM.Controls
                                                + lputid + "value=\"" + drcn + "\" />";
 
                                         }
-                                        str += "<td gfield='" + dr_h["ywname"].ToString().Trim() + "' field='" + dr_h["ywname"].ToString().Trim() + "_" + i + "' innerctrl='" + dr_h["type"].ToString().Trim() + "' " +
-                                             "onkeydown='fmOnKey(event,id,"+ (this.addNewRowPermission && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "1" : "0") + ")' " + stywidth + lid + "> " + linput + "</td>";
+                                        strBuild.Append("<td gfield='" + dr_h["ywname"].ToString().Trim() + "' field='" + dr_h["ywname"].ToString().Trim() + "_" + i + "' innerctrl='" + dr_h["type"].ToString().Trim() + "' " +
+                                             "onkeydown='fmOnKey(event,id," + (this.addNewRowPermission && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "1" : "0") + ")' " + stywidth + lid + "> " + linput + "</td>");
                                         #endregion
                                     }
                                 }
@@ -286,226 +291,217 @@ namespace FM.Controls
                         else
                         {
                             #region
-                            for (int j = 0; j < cols; j++)
-                            {
-                                string cn = dt.Columns[j].ColumnName.Trim();//列名
+                            string cn = dr_h["ywname"].ToString().Trim();//列名                                 
+                            #region
 
-                                if (dr_h["ywname"].ToString().Trim() == cn)
+                            #region 得到TD ID 与TD下字控件ID
+                            string lputid = "";
+                            string lid = "";
+                            GetWebContentControlId(webid, dt.Rows.IndexOf(dr), cn, ref lid, ref lputid);
+                            #endregion
+
+                            string drcn = MyTy.Utils.HtmlCha(dr[cn].ToString().Trim());//数据原始值
+
+                            #region  根据数据原始值和设置,是否显示0或默认日期处理
+                            DataRow[] tydr = this.columnDataType.Select("column_name='" + cn + "'");
+                            //处理默认属性,如0值不显示,日期空值不显示等
+                            if ((tydr[0]["data_type"].ToString().ToUpper().IndexOf("INT") >= 0 || tydr[0]["data_type"].ToString().ToUpper().IndexOf("DECIMAL") >= 0 || tydr[0]["data_type"].ToString().ToUpper().IndexOf("FLOAT") >= 0) && dr_h["showzero"].ToString().Trim() == "0")
+                            {//判断是否是数值 ,且设置不显示0
+                             //数字型字段,但是空值,就要先判断是否是数字
+                                if (us.IsNumber(drcn))
                                 {
-                                    #region
-
-                                    #region 得到TD ID 与TD下字控件ID
-                                    string lputid = "";
-                                    string lid = "";
-                                    GetWebContentControlId(webid, dt.Rows.IndexOf(dr), cn, ref lid, ref lputid);
-                                    #endregion
-
-                                    string drcn = MyTy.Utils.HtmlCha(dr[cn].ToString().Trim());//数据原始值
-
-                                    #region  根据数据原始值和设置,是否显示0或默认日期处理
-                                    DataRow[] tydr = this.columnDataType.Select("column_name='" + cn + "'");
-                                    //处理默认属性,如0值不显示,日期空值不显示等
-                                    if ((tydr[0]["data_type"].ToString().ToUpper().IndexOf("INT") >= 0 || tydr[0]["data_type"].ToString().ToUpper().IndexOf("DECIMAL") >= 0 || tydr[0]["data_type"].ToString().ToUpper().IndexOf("FLOAT") >= 0) && dr_h["showzero"].ToString().Trim() == "0")
-                                    {//判断是否是数值 ,且设置不显示0
-                                        //数字型字段,但是空值,就要先判断是否是数字
-                                        if (us.IsNumber(drcn))
-                                        {
-                                            if (Convert.ToDecimal(drcn) == 0)
-                                            {
-                                                drcn = "";
-                                            }
-                                            else
-                                            {
-                                                if (!string.IsNullOrEmpty(dr_h["format"].ToString().Trim()) && !string.IsNullOrEmpty(drcn))
-                                                {
-                                                    drcn = string.Format(dr_h["format"].ToString().Trim(), Convert.ToDecimal(drcn));
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                    if ((tydr[0]["data_type"].ToString() == "datetime" || tydr[0]["data_type"].ToString() == "date") && dr_h["showmrrq"].ToString().Trim() == "0")
-                                    {//判断是否是日期 ,且设置不显示"1900-01-01"
-                                        if (drcn.Substring(0, 4) == "1900") { drcn = ""; }
-                                    }
-
-
-                                    #endregion
-
-
-                                    if (dr_h["visible"].ToString().Trim() == "0")
+                                    if (Convert.ToDecimal(drcn) == 0)
                                     {
-                                        #region 如果是隐藏字段
-                                        if (pagerArguments.prtFlag || pagerArguments.excelFlag)
-                                        {//打印的时候隐藏列不显示
-                                        }
-                                        else
-                                        {
-                                            str += "<td field='" + cn + "' innerctrl='hidden' style='display:none' " + lid + " ><input type='hidden' " + lputid + " value=\"" + drcn + "\"/></td>";
-                                        }
-                                        #endregion
+                                        drcn = "";
                                     }
                                     else
                                     {
-                                        #region
-                                        //元素控件的类型
-                                        string itype = "";
-
-                                        //td之间的innerHtml
-                                        string linput = "";
-
-                                        #region 事件,可将定义的value 转为真实的值,,row 转为行号
-                                        string myevent = "";
-                                        GetWebContentControlEvent(dr_h["event"].ToString().Trim(), cn, drcn, dr_h["type"].ToString().Trim(), dt.Rows.IndexOf(dr), ref myevent);
-                                        #endregion
-
-                                        //控制控件只读1.字段属性只读
-                                        string myreadonly = (dr_h["readonly"].ToString().Trim() == "1" ? " readonly='readonly' " : " ");
-
-                                        //控制控件失效1.字段属性只读,2.打印时候
-                                        //有些控件只有失效,没有只读
-                                        string mydisable = (dr_h["readonly"].ToString().Trim() == "1" || pagerArguments.prtFlag || pagerArguments.excelFlag ? " disabled='disabled' " : " ");
-
-                                        //td内字控件的宽度
-                                        string stywidth = " style='width:" + Convert.ToInt32(dr_h["width"]) + "px'";
-
-                                        switch (dr_h["type"].ToString().Trim())
+                                        if (!string.IsNullOrEmpty(dr_h["format"].ToString().Trim()) && !string.IsNullOrEmpty(drcn))
                                         {
-                                            case "checkbox":
-                                                #region
-                                                itype = " type=\"checkbox\" " + (drcn == "1" ? "checked=\"true\" " : "")
-                                                    + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_checkbox_d\" " : " class=\"style_Content_td_checkbox_e\" ");
-
-                                                linput = "<input " + itype + mydisable + myevent + stywidth + lputid + " />";
-                                                break;
-                                            #endregion
-                                            case "select":
-                                                #region
-                                                itype = dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_select_d\" " : " class=\"style_Content_td_select_e\" ";
-
-                                                //得到下拉框内容,如果是打印状态,只输出一个值
-                                                string OPTION = GetOption(drcn, dr_h["bz"].ToString().Trim(), pagerArguments.prtFlag || pagerArguments.excelFlag);
-
-                                                if (pagerArguments.prtFlag || pagerArguments.excelFlag)
-                                                {//如果是打印
-                                                    linput = OPTION;
-                                                }
-                                                else
-                                                {
-                                                    linput = "<select " + itype + mydisable + myevent + stywidth
-                                                        + lputid + ">"
-                                                        + OPTION + "</SELECT>";
-                                                }
-                                                break;
-                                            #endregion
-                                            case "button":
-                                                #region
-                                                itype = " type=\"button\" "
-                                                    + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_button_d\" " : " class=\"style_Content_td_buttont_e\" ");
-                                                if (pagerArguments.prtFlag || pagerArguments.excelFlag)
-                                                {//如果是打印
-                                                    linput = dr_h["btnvalue"].ToString().Trim();
-                                                }
-                                                else
-                                                {
-                                                    linput = "<input " + itype
-                                                       + mydisable + myevent + stywidth
-                                                       + lputid + "value=\"" + dr_h["btnvalue"].ToString().Trim() + "\" />";
-                                                }
-                                                break;
-                                            #endregion
-                                            case "td":
-                                                #region
-                                                if (dr_h["bz"].ToString() != string.Empty)
-                                                {
-                                                    //如果备注有值,当成下拉框处理,取出其中的值
-                                                    //查询的时候会用到 khid  select khid,khmc from khb
-                                                    //这个目前是可以规避掉
-                                                    string OPTIONtd = GetOption(drcn, dr_h["bz"].ToString().Trim(), true);
-                                                    linput = OPTIONtd;
-                                                }
-                                                else
-                                                {
-                                                    linput = drcn;
-                                                }
-                                                break;
-                                            #endregion
-                                            case "a":
-                                                #region
-                                                if (pagerArguments.prtFlag || pagerArguments.excelFlag)
-                                                {
-                                                    //如果是打印
-                                                    //linput = "<span " + stywidth + ">" + drcn + "</span>";
-                                                    linput = drcn;
-                                                }
-                                                else
-                                                {
-                                                    linput = "<a href=\"#\" class=\"style_Content_td_a_d\"  " + lputid + myevent + "> " + drcn + "</a>";
-                                                }
-                                                break;
-                                            #endregion
-                                            case "textarea":
-                                                #region
-                                                if (pagerArguments.prtFlag || pagerArguments.excelFlag)
-                                                {//如果是打印
-                                                    linput = drcn;
-                                                    break;
-                                                }
-                                                else
-                                                {
-                                                    if (drcn != string.Empty)
-                                                    {
-                                                        itype = "textarea "
-                                                            + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_textarea_d\" " : " class=\"style_Content_td_textarea_e\" ");
-
-                                                        linput = "<" + itype
-                                                           + myreadonly + myevent + stywidth
-                                                           + lputid + ">" + drcn + "</textarea>";
-                                                        break;
-                                                    }
-                                                    else
-                                                    {
-                                                        //如果是空值,使用textarea会不美观
-                                                        //使用text控件
-                                                        //不换为td 这样可以输入值!
-                                                        itype = " type=\"text\" "
-                                                            + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_text_d\" " : " class=\"style_Content_td_text_e\" ");
-
-                                                        linput = "<input " + itype
-                                                           + myreadonly + myevent + stywidth
-                                                           + lputid + "value=\"" + drcn + "\" />";
-                                                        break;
-                                                    }
-                                                }
-                                            #endregion
-                                            default:
-                                                #region
-                                                //默认为文本
-                                                itype = " type=\"text\" "
-                                                    + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_text_d\" " : " class=\"style_Content_td_text_e\" ");
-                                                if (pagerArguments.prtFlag || pagerArguments.excelFlag)
-                                                {//如果是打印                                                
-                                                    linput = drcn;
-                                                }
-                                                else
-                                                {
-                                                    linput = "<input " + itype
-                                                       + myreadonly + myevent + stywidth
-                                                       + lputid + "value=\"" + drcn + "\" />";
-                                                }
-                                                break;
-                                                #endregion
-                                        };
-                                        str += "<td field='" + cn + "' innerctrl='" + dr_h["type"].ToString().Trim() + "' " +
-                                             "onkeydown='fmOnKey(event,id,"+ (this.addNewRowPermission && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "1" : "0") + ")' "  + stywidth + lid + "> " + linput + "</td>";
-
-                                        #endregion
+                                            drcn = string.Format(dr_h["format"].ToString().Trim(), Convert.ToDecimal(drcn));
+                                        }
                                     }
-                                    #endregion
                                 }
 
-
                             }
+                            if ((tydr[0]["data_type"].ToString() == "datetime" || tydr[0]["data_type"].ToString() == "date") && dr_h["showmrrq"].ToString().Trim() == "0")
+                            {//判断是否是日期 ,且设置不显示"1900-01-01"
+                                if (drcn.Substring(0, 4) == "1900") { drcn = ""; }
+                            }
+
+
+                            #endregion
+
+
+                            if (dr_h["visible"].ToString().Trim() == "0")
+                            {
+                                #region 如果是隐藏字段
+                                if (pagerArguments.prtFlag || pagerArguments.excelFlag)
+                                {//打印的时候隐藏列不显示
+                                }
+                                else
+                                {
+                                    strBuild.Append("<td field='" + cn + "' innerctrl='hidden' style='display:none' " + lid + " ><input type='hidden' " + lputid + " value=\"" + drcn + "\"/></td>");
+                                }
+                                #endregion
+                            }
+                            else
+                            {
+                                #region
+                                //元素控件的类型
+                                string itype = "";
+
+                                //td之间的innerHtml
+                                string linput = "";
+
+                                #region 事件,可将定义的value 转为真实的值,,row 转为行号
+                                string myevent = "";
+                                GetWebContentControlEvent(dr_h["event"].ToString().Trim(), cn, drcn, dr_h["type"].ToString().Trim(), dt.Rows.IndexOf(dr), ref myevent);
+                                #endregion
+
+                                //控制控件只读1.字段属性只读
+                                string myreadonly = (dr_h["readonly"].ToString().Trim() == "1" ? " readonly='readonly' " : " ");
+
+                                //控制控件失效1.字段属性只读,2.打印时候
+                                //有些控件只有失效,没有只读
+                                string mydisable = (dr_h["readonly"].ToString().Trim() == "1" || pagerArguments.prtFlag || pagerArguments.excelFlag ? " disabled='disabled' " : " ");
+
+                                //td内字控件的宽度
+                                string stywidth = " style='width:" + Convert.ToInt32(dr_h["width"]) + "px'";
+
+                                switch (dr_h["type"].ToString().Trim())
+                                {
+                                    case "checkbox":
+                                        #region
+                                        itype = " type=\"checkbox\" " + (drcn == "1" ? "checked=\"true\" " : "")
+                                            + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_checkbox_d\" " : " class=\"style_Content_td_checkbox_e\" ");
+
+                                        linput = "<input " + itype + mydisable + myevent + stywidth + lputid + " />";
+                                        break;
+                                    #endregion
+                                    case "select":
+                                        #region
+                                        itype = dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_select_d\" " : " class=\"style_Content_td_select_e\" ";
+
+                                        //得到下拉框内容,如果是打印状态,只输出一个值
+                                        string OPTION = GetOption(drcn, dr_h["bz"].ToString().Trim(), pagerArguments.prtFlag || pagerArguments.excelFlag);
+
+                                        if (pagerArguments.prtFlag || pagerArguments.excelFlag)
+                                        {//如果是打印
+                                            linput = OPTION;
+                                        }
+                                        else
+                                        {
+                                            linput = "<select " + itype + mydisable + myevent + stywidth
+                                                + lputid + ">"
+                                                + OPTION + "</SELECT>";
+                                        }
+                                        break;
+                                    #endregion
+                                    case "button":
+                                        #region
+                                        itype = " type=\"button\" "
+                                            + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_button_d\" " : " class=\"style_Content_td_buttont_e\" ");
+                                        if (pagerArguments.prtFlag || pagerArguments.excelFlag)
+                                        {//如果是打印
+                                            linput = dr_h["btnvalue"].ToString().Trim();
+                                        }
+                                        else
+                                        {
+                                            linput = "<input " + itype
+                                               + mydisable + myevent + stywidth
+                                               + lputid + "value=\"" + dr_h["btnvalue"].ToString().Trim() + "\" />";
+                                        }
+                                        break;
+                                    #endregion
+                                    case "td":
+                                        #region
+                                        if (dr_h["bz"].ToString() != string.Empty)
+                                        {
+                                            //如果备注有值,当成下拉框处理,取出其中的值
+                                            //查询的时候会用到 khid  select khid,khmc from khb
+                                            //这个目前是可以规避掉
+                                            string OPTIONtd = GetOption(drcn, dr_h["bz"].ToString().Trim(), true);
+                                            linput = OPTIONtd;
+                                        }
+                                        else
+                                        {
+                                            linput = drcn;
+                                        }
+                                        break;
+                                    #endregion
+                                    case "a":
+                                        #region
+                                        if (pagerArguments.prtFlag || pagerArguments.excelFlag)
+                                        {
+                                            //如果是打印
+                                            //linput = "<span " + stywidth + ">" + drcn + "</span>";
+                                            linput = drcn;
+                                        }
+                                        else
+                                        {
+                                            linput = "<a href=\"#\" class=\"style_Content_td_a_d\"  " + lputid + myevent + "> " + drcn + "</a>";
+                                        }
+                                        break;
+                                    #endregion
+                                    case "textarea":
+                                        #region
+                                        if (pagerArguments.prtFlag || pagerArguments.excelFlag)
+                                        {//如果是打印
+                                            linput = drcn;
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            if (drcn != string.Empty)
+                                            {
+                                                itype = "textarea "
+                                                    + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_textarea_d\" " : " class=\"style_Content_td_textarea_e\" ");
+
+                                                linput = "<" + itype
+                                                   + myreadonly + myevent + stywidth
+                                                   + lputid + ">" + drcn + "</textarea>";
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                //如果是空值,使用textarea会不美观
+                                                //使用text控件
+                                                //不换为td 这样可以输入值!
+                                                itype = " type=\"text\" "
+                                                    + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_text_d\" " : " class=\"style_Content_td_text_e\" ");
+
+                                                linput = "<input " + itype
+                                                   + myreadonly + myevent + stywidth
+                                                   + lputid + "value=\"" + drcn + "\" />";
+                                                break;
+                                            }
+                                        }
+                                    #endregion
+                                    default:
+                                        #region
+                                        //默认为文本
+                                        itype = " type=\"text\" "
+                                            + (dr_h["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_text_d\" " : " class=\"style_Content_td_text_e\" ");
+                                        if (pagerArguments.prtFlag || pagerArguments.excelFlag)
+                                        {//如果是打印                                                
+                                            linput = drcn;
+                                        }
+                                        else
+                                        {
+                                            linput = "<input " + itype
+                                               + myreadonly + myevent + stywidth
+                                               + lputid + "value=\"" + drcn + "\" />";
+                                        }
+                                        break;
+                                        #endregion
+                                };
+                                strBuild.Append("<td field='" + cn + "' innerctrl='" + dr_h["type"].ToString().Trim() + "' " +
+                                     "onkeydown='fmOnKey(event,id," + (this.addNewRowPermission && !pagerArguments.prtFlag && !pagerArguments.excelFlag ? "1" : "0") + ")' " + stywidth + lid + "> " + linput + "</td>");
+
+                                #endregion
+                            }
+                            #endregion
                             #endregion
                         }
                     }
@@ -513,12 +509,12 @@ namespace FM.Controls
                     #region 最后一个补充控件
                     if (pagerArguments.prtFlag || pagerArguments.excelFlag)
                     {
-                        str += "</tr>";
+                        strBuild.Append("</tr>");
                     }
                     else
                     {
                         //如果不是打印输入最后一个,自动升长!
-                        str += "<td field='nbsp' innerctrl='nbsp' id='table_td_" + webid + "_" + dt.Rows.IndexOf(dr) + "_nbsp' >&nbsp;</td></tr>";
+                        strBuild.Append("<td field='nbsp' innerctrl='nbsp' id='table_td_" + webid + "_" + dt.Rows.IndexOf(dr) + "_nbsp' >&nbsp;</td></tr>");
                     }
                     #endregion
 
@@ -526,7 +522,7 @@ namespace FM.Controls
                 //return "<Table id='table_Content_" + webid + "' runat='server' class='style_Content' style='width: " + (this.tbWidth + this.vcols * 5 + this.scolwidth).ToString().Trim() + "px'> " + str + "</table>";
                 //string kdwidth = (this.PrtFlag == "sysprt" ? "style='width: " + (this.tbWidth + this.vcols * 5).ToString().Trim() + "px' " : "");//如果是打印请固定表格的宽度
                 string kdwidth = "";
-                return "<Table m='post' id=\"table_Content_" + webid + "\" runat=\"server\" class=\"style_Content\" " + kdwidth + " > " + str + "</table>";
+                return "<Table m='post' id=\"table_Content_" + webid + "\" runat=\"server\" class=\"style_Content\" " + kdwidth + " > " + strBuild.ToString() + "</table>";
                 #endregion
 
             }
@@ -674,7 +670,7 @@ namespace FM.Controls
                                     linput = "<input " + itype + myreadonly + myevent + stywidth + lputid + "/>";
                                 }
                                 str += "<td gfield='" + dr_h["ywname"].ToString().Trim() + "' field='" + dr_h["ywname"].ToString().Trim() + "_" + i + "' innerctrl='" + dr_h["type"].ToString().Trim() + "'  "
-                + "onkeydown=\"fmOnKey(event,id,"+ (this.addNewRowPermission ? "1" : "0") + ")\" " + stywidth + lid + "> " + linput + "</td>";
+                + "onkeydown=\"fmOnKey(event,id," + (this.addNewRowPermission ? "1" : "0") + ")\" " + stywidth + lid + "> " + linput + "</td>";
                             }
                         }
                     }
@@ -761,7 +757,7 @@ namespace FM.Controls
                                     #endregion
                                 }
                                 str += "<td field='" + cn + "' innerctrl='" + dr_h["type"].ToString().Trim() + "'  "
-                                    +  "onkeydown=\"fmOnKey(event,id,"+ (this.addNewRowPermission ? "1" : "0") + ")\" "  + stywidth + lid + "> " + linput + "</td>";
+                                    + "onkeydown=\"fmOnKey(event,id," + (this.addNewRowPermission ? "1" : "0") + ")\" " + stywidth + lid + "> " + linput + "</td>";
                                 #endregion
                             }
                         }
