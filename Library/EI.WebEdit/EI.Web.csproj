@@ -56,6 +56,10 @@
       <Project>{2FBC01BB-BCCA-4EBC-9236-31DB5C819EDA}</Project>
       <Name>FM.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{d73e1422-9e97-4dc5-a32f-b86489f9d67a}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MySession\MySession.csproj">
       <Project>{9b5099c2-2797-42d1-b4b9-224df66f21f3}</Project>
       <Name>MySession</Name>

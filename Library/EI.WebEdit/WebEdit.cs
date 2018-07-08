@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Text;
 using Service.Util;
 using EI.Widget;
+using DTO;
 namespace EI.Web
 {
     public class WebEdit
@@ -29,7 +30,7 @@ namespace EI.Web
         /// <param name="intWid">key</param>
         /// <param name="requestParameter">数据</param>
         /// <returns>LayOut对象</returns>
-        public Modal.Html WebLayOut(int intWid, Dictionary<string, NameValueCollection> requestParameter,bool IsMobileBrowser)
+        public Modal.Html WebLayOut(int intWid, HtmlParameter requestParameter,bool IsMobileBrowser)
         {
             this.IsMobileBrowser = IsMobileBrowser;
             Modal.Html layout = new Modal.Html();
@@ -326,14 +327,14 @@ namespace EI.Web
         /// <param name="intWid"></param>
         /// <param name="requestParameter">请求中的所有参数</param>
         /// <returns></returns>
-        public string EasyLayout(int intWid, Dictionary<string, NameValueCollection> requestParameter)
+        public string EasyLayout(int intWid, HtmlParameter requestParameter)
         {
             //上下左右中,五个
             Dictionary<string, string> pz = new Dictionary<string, string> { { "t", "north" }, { "l", "west" }, { "c", "center" }, { "r", "east" }, { "b", "south" } };
             string easyHtmlMark = "";
             #region 取得div上的数据源            
 
-            NameValueCollection queryString = requestParameter["QueryString"];
+            NameValueCollection queryString = requestParameter.QueryString;
             //获取查询区sql语句            
             DataSet fwSqlDataSet = business.GetWebFwSql(intWid);
             string divSql = "";
@@ -345,29 +346,34 @@ namespace EI.Web
             //处理所有平台上的session字段
             //如果url传参就使用url参数值,否则取默认值(默认值替换只允许替换url里的)
             Dictionary<string, string> sessionKey = new Dictionary<string, string>();
+            sessionKey.Add("@userid", this.userid);
+            sessionKey.Add("@tzid", this.tzid);
+            FM.Business.Login lg = new FM.Business.Login();
+            sessionKey.Add("@username", this.username);
+
             System.Data.DataSet divSessionDataSet = business.GetLayout(intWid, "allwz");
             foreach (DataRow dr in divSessionDataSet.Tables[0].Rows)
             {
-                if (dr["session"].ToString() != string.Empty)
+                //报表配置的session
+                string session = dr["session"].ToString();
+
+                if ( !string.IsNullOrEmpty(session))
                 {//如果存在session
-                    if (!sessionKey.ContainsKey(dr["session"].ToString()))
+                    if (!sessionKey.ContainsKey(session))
                     {//session唯一                        
-                        if (queryString[dr["session"].ToString().Replace("@", "")] == null)
+                        if (string.IsNullOrEmpty(queryString[session.Replace("@", "")]))
                         {//如果sql没有包含参数
-                            sessionKey.Add(dr["session"].ToString(), GetMrz(dr["mrz"].ToString(), queryString));
+                            sessionKey.Add(session, GetMrz(dr["mrz"].ToString(), queryString));
                         }
                         else
                         {
-                            sessionKey.Add(dr["session"].ToString(), queryString[dr["session"].ToString().Replace("@", "")]);
+                            sessionKey.Add(session, queryString[session.Replace("@", "")]);
                         }
 
                     }
                 }
             }
-            sessionKey.Add("@userid", this.userid);
-            sessionKey.Add("@tzid", this.tzid);
-            FM.Business.Login lg = new FM.Business.Login();
-            sessionKey.Add("@username", this.username);
+
             foreach (string key in sessionKey.Keys)
             {
                 //如果有给值                    
@@ -385,20 +391,19 @@ namespace EI.Web
             #region 循环五个方位,得到对应方位上的html标签
             foreach (string key in pz.Keys)
             {
-                Dictionary<string, string> divDic = DivInEasyLayOut(intWid, divSessionDataSet, key, requestParameter, sessionKey, divDataSet);
-
-                string htmlMark = divDic["htmlmark"];
+                HtmlContent htmlContent = DivInEasyLayOut(intWid, divSessionDataSet, key, requestParameter, sessionKey, divDataSet);
+                string htmlMark = htmlContent.Htmlmark;
 
                 if (htmlMark != string.Empty)
                 {
                     string tmpCssStyle = "data-options=\"fit:true\"";
                     if (key == "l" || key == "r")
                     {//左可以得到宽度
-                        tmpCssStyle = (divDic["width"] != string.Empty && divDic["width"] != "0" ? "style=\"width:" + divDic["width"] + "px\"" : tmpCssStyle);
+                        tmpCssStyle = (htmlContent.Width==0 ? "style=\"width:" + htmlContent.Width.ToString() + "px\"" : tmpCssStyle);
                     }
                     else if (key == "t" || key == "b")
                     {//上,下可以得到高度
-                        tmpCssStyle = (divDic["height"] != string.Empty && divDic["height"] != "0" ? "style=\"height:" + divDic["height"] + "px\"" : tmpCssStyle);
+                        tmpCssStyle = (htmlContent .Height==0? "style=\"height:" + htmlContent.Height.ToString() + "px\"" : tmpCssStyle);
                     }
 
                     htmlMark = "<div id=\"" + pz[key] + "\" data-options=\"region:'" + pz[key] + "',split:false,border:false \" " + tmpCssStyle + "  >"
@@ -528,10 +533,9 @@ namespace EI.Web
         /// <param name="sessionKey"></param>
         /// <param name="divDataSet"></param>
         /// <returns></returns>
-        public Dictionary<string, string> DivInEasyLayOut(int wid, DataSet divSessionDataSet, string type, Dictionary<string, NameValueCollection> requestParameter, Dictionary<string, string> sessionKey, DataSet divDataSet)
-        {
-            string htmlMark = ""; int divHeight = 0; int divWidth = 0;
-
+        public HtmlContent DivInEasyLayOut(int wid, DataSet divSessionDataSet, string type, HtmlParameter requestParameter, Dictionary<string, string> sessionKey, DataSet divDataSet)
+        {            
+            HtmlContent htmlContent = new HtmlContent();
             //得到的这个数据源一定要排序好!后面会使用到排序算法
             //排序按lx,ord
 
@@ -545,33 +549,25 @@ namespace EI.Web
                 divInLayoutDataTable.ImportRow(row);
             }
 
-            //获取查询区sql语句
-            DataSet fwSqlDataSet = business.GetWebFwSql(wid);
-            string divSql = "";
-            if (fwSqlDataSet.Tables[0].Rows.Count != 0)
-            {
-                divSql = fwSqlDataSet.Tables[0].Rows[0]["fwsql"].ToString();
-            }
-
             if (divInLayoutDataTable.Rows.Count != 0)
             {
                 //方位上一定要有数据,不然就是空!
                 #region 获取方位上面的高or宽
                 if (string.Compare(type, "l") == 0)
                 {
-                    divWidth = int.Parse(divInLayoutDataTable.Rows[0]["westwidth"].ToString().Trim());
+                    htmlContent.Width = int.Parse(divInLayoutDataTable.Rows[0]["westwidth"].ToString().Trim());
                 }
                 else if (string.Compare(type, "r") == 0)
                 {
-                    divWidth = int.Parse(divInLayoutDataTable.Rows[0]["eastwidth"].ToString().Trim());
+                    htmlContent.Width = int.Parse(divInLayoutDataTable.Rows[0]["eastwidth"].ToString().Trim());
                 }
                 else if (string.Compare(type, "t") == 0)
                 {
-                    divHeight = int.Parse(divInLayoutDataTable.Rows[0]["northheight"].ToString().Trim());
+                    htmlContent.Height = int.Parse(divInLayoutDataTable.Rows[0]["northheight"].ToString().Trim());
                 }
                 else if (string.Compare(type, "b") == 0)
                 {
-                    divHeight = int.Parse(divInLayoutDataTable.Rows[0]["southheight"].ToString().Trim());
+                    htmlContent.Height = int.Parse(divInLayoutDataTable.Rows[0]["southheight"].ToString().Trim());
                 }
                 #endregion
 
@@ -593,16 +589,16 @@ namespace EI.Web
                     {
                         url = url + "?";
                     }
-                    foreach (string key in requestParameter["QueryString"].Keys)
+                    foreach (string key in requestParameter.QueryString.Keys)
                     {
                         //如果下级是wid,那么wid这个参数就要修改
                         if (divInLayoutDataTable.Rows[0]["naspx"].ToString() != string.Empty || (int.Parse(divInLayoutDataTable.Rows[0]["nwebid"].ToString().Trim()) != 0 && key.ToLower() != "wid"))
                         {
-                            url += "&" + key + "=" + requestParameter["QueryString"][key] + "&";
+                            url += "&" + key + "=" + requestParameter.QueryString[key] + "&";
                         }
                     }
                     url = url.Substring(0, url.Length - 1);
-                    htmlMark = "<iframe id=\"" + ifid + "\" scrolling=\"auto\" frameborder=\"0\"  src=\"" + url + "\"  style=\"width:100%;height:100%;\" " + "></iframe>";
+                    htmlContent.Htmlmark = "<iframe id=\"" + ifid + "\" scrolling=\"auto\" frameborder=\"0\"  src=\"" + url + "\"  style=\"width:100%;height:100%;\" " + "></iframe>";
                     #endregion
 
                 }
@@ -621,14 +617,14 @@ namespace EI.Web
                     {
                         width = (divInLayoutDataTable.Rows[0]["width"].ToString().Trim() == string.Empty ? " " : " width:" + divInLayoutDataTable.Rows[0]["width"].ToString().Trim() + "px; ");
                     }
-                    htmlMark = "<div style=\"" + visible + width + "\"><a  href=\"#\" style=\"text-decoration: none;\" onclick=\"reloadTree('" + htmlid + "')\">[刷新]</a>&nbsp;<a  href=\"#\" style=\"text-decoration: none;\" onclick=\"collapseAllTree('" + htmlid + "')\">[折叠]</a>&nbsp;<a  href=\"#\" style=\"text-decoration: none;\" onclick=\"expandAllTree('" + htmlid + "')\">[展开]</a></div>" +
+                    htmlContent.Htmlmark = "<div style=\"" + visible + width + "\"><a  href=\"#\" style=\"text-decoration: none;\" onclick=\"reloadTree('" + htmlid + "')\">[刷新]</a>&nbsp;<a  href=\"#\" style=\"text-decoration: none;\" onclick=\"collapseAllTree('" + htmlid + "')\">[折叠]</a>&nbsp;<a  href=\"#\" style=\"text-decoration: none;\" onclick=\"expandAllTree('" + htmlid + "')\">[展开]</a></div>" +
                         "<div style=\"" + visible + width + "\"><ul id=\"" + htmlid + "\"></ul></div>";
-                    htmlMark += "<script type=\"text/javascript\" src=\"../javascripts/myjs/myeasyuitree.js\"></script>";
-                    htmlMark += "<script language=\"javascript\" type=\"text/javascript\"> $(function(){loadTree('" + htmlid + "',\"" + bz + "\");});</script>";
-                    if (type == "l" && divInLayoutDataTable.Rows[0]["westwidth"].ToString().Trim() != "0") { divWidth = int.Parse(divInLayoutDataTable.Rows[0]["westwidth"].ToString().Trim()); }//取左边那个的宽度
-                    if (type == "l" && divInLayoutDataTable.Rows[0]["eastwidth"].ToString().Trim() != "0") { divWidth = int.Parse(divInLayoutDataTable.Rows[0]["eastwidth"].ToString().Trim()); }//取左边那个的宽度
-                    if (type == "t" && divInLayoutDataTable.Rows[0]["northheight"].ToString().Trim() != "0") { divHeight = int.Parse(divInLayoutDataTable.Rows[0]["northheight"].ToString().Trim()); }//取上边那个的高度
-                    if (type == "b" && divInLayoutDataTable.Rows[0]["southheight"].ToString().Trim() != "0") { divHeight = int.Parse(divInLayoutDataTable.Rows[0]["southheight"].ToString().Trim()); }//取下边那个的高度
+                    htmlContent.Htmlmark += "<script type=\"text/javascript\" src=\"../javascripts/myjs/myeasyuitree.js\"></script>";
+                    htmlContent.Htmlmark += "<script language=\"javascript\" type=\"text/javascript\"> $(function(){loadTree('" + htmlid + "',\"" + bz + "\");});</script>";
+                    if (type == "l" && divInLayoutDataTable.Rows[0]["westwidth"].ToString().Trim() != "0") { htmlContent.Width = int.Parse(divInLayoutDataTable.Rows[0]["westwidth"].ToString().Trim()); }//取左边那个的宽度
+                    if (type == "l" && divInLayoutDataTable.Rows[0]["eastwidth"].ToString().Trim() != "0") { htmlContent.Width = int.Parse(divInLayoutDataTable.Rows[0]["eastwidth"].ToString().Trim()); }//取左边那个的宽度
+                    if (type == "t" && divInLayoutDataTable.Rows[0]["northheight"].ToString().Trim() != "0") { htmlContent.Height = int.Parse(divInLayoutDataTable.Rows[0]["northheight"].ToString().Trim()); }//取上边那个的高度
+                    if (type == "b" && divInLayoutDataTable.Rows[0]["southheight"].ToString().Trim() != "0") { htmlContent.Height = int.Parse(divInLayoutDataTable.Rows[0]["southheight"].ToString().Trim()); }//取下边那个的高度
                     #endregion
                 }
                 else
@@ -637,7 +633,7 @@ namespace EI.Web
 
                     if (divInLayoutDataTable.Rows.Count > 0)
                     {
-                        htmlMark += CreatDiv(divInLayoutDataTable, requestParameter, sessionKey, divDataSet);
+                        htmlContent.Htmlmark += CreatDiv(divInLayoutDataTable,  sessionKey, divDataSet);
                     }
                     #endregion
                 }
@@ -649,10 +645,10 @@ namespace EI.Web
                 {
                     //如果中间的是表格,而不是布局的话初始占位div
                     //否则就是单记录形式
-                    htmlMark = GetCenterHtml();
+                    htmlContent.Htmlmark = GetCenterHtml();
                 }
             }
-            return new Dictionary<string, string> { { "htmlmark", htmlMark }, { "width", divWidth.ToString() }, { "height", divHeight.ToString() } }; ;
+            return htmlContent;
         }
 
 
@@ -767,7 +763,7 @@ namespace EI.Web
         /// <param name="divWidth"></param>
         /// <param name="divHeight"></param>
         /// <returns></returns>
-        public string CreatDiv(DataTable divInLayoutDataTable, Dictionary<string, NameValueCollection> requestParameter, Dictionary<string, string> sessionKey, DataSet divDataSet)
+        public string CreatDiv(DataTable divInLayoutDataTable,  Dictionary<string, string> sessionKey, DataSet divDataSet)
         {
 
             string tablebTag = "";
@@ -777,7 +773,7 @@ namespace EI.Web
                 if (tablebTag != dr["ord"].ToString().Trim().Substring(0, 1))
                 {
                     tablebTag = dr["ord"].ToString().Trim().Substring(0, 1);
-                    tableHtml.Append(CreateTable(tablebTag, divInLayoutDataTable, requestParameter, sessionKey, divDataSet));
+                    tableHtml.Append(CreateTable(tablebTag, divInLayoutDataTable,  sessionKey, divDataSet));
                 }
 
             }
@@ -809,7 +805,7 @@ namespace EI.Web
         /// <param name="divWidth"></param>
         /// <param name="divHeight"></param>
         /// <returns></returns>
-        public string CreateTable(string tablebTag, DataTable divInLayoutDataTable, Dictionary<string, NameValueCollection> requestParameter, Dictionary<string, string> sessionKey, DataSet divDataSet)
+        public string CreateTable(string tablebTag, DataTable divInLayoutDataTable,  Dictionary<string, string> sessionKey, DataSet divDataSet)
         {
             string mrz; string mrzSql;
             List<string> tdList = new List<string>();
@@ -1539,7 +1535,7 @@ namespace EI.Web
         /// </summary>
         /// <param name="dt"></param>
         /// <returns></returns>
-        public string MultipleLayout(DataTable frameLayout, Dictionary<string, System.Collections.Specialized.NameValueCollection> requestParameter)
+        public string MultipleLayout(DataTable frameLayout, HtmlParameter requestParameter)
         {
 
             Dictionary<string, string> pz = new Dictionary<string, string> { { "t", "north" }, { "l", "west" }, { "c", "center" }, { "r", "east" }, { "b", "south" } };
@@ -1548,7 +1544,7 @@ namespace EI.Web
              * 处理组合布局框架中的,URL传值没成功2013-4-24
              * 将URL参数构造传入下级页面中
              */
-            System.Collections.Specialized.NameValueCollection queryString = requestParameter["QueryString"];
+            System.Collections.Specialized.NameValueCollection queryString = requestParameter.QueryString;
             string urlQueryString = "";
             foreach (string key in queryString.Keys)
             {

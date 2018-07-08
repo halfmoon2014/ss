@@ -4,6 +4,8 @@ using EI.Web;
 using EI.Web.Modal;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using DTO;
+
 public partial class lss : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -39,13 +41,13 @@ public partial class lss : System.Web.UI.Page
             //if (1 == 1/*cache==null*/)
             //{
             WebEdit webEdit = new WebEdit(tzid.ToString(), userid.ToString(), username);
-            Dictionary<string, NameValueCollection> requestParameter = new Dictionary<string, NameValueCollection>();
-            //得到URL参数        
-            requestParameter.Add("QueryString", Request.QueryString);
-            requestParameter.Add("Form", Request.Form);
+           
+            HtmlParameter htmlParameter = new HtmlParameter();
+            htmlParameter.QueryString = Request.QueryString;
+            htmlParameter.Form = Request.Form;
             MyTy.Utils utils = new MyTy.Utils();
             
-            Html layout = webEdit.WebLayOut(intWid, requestParameter, utils.IsMobileBrowser(Request));
+            Html layout = webEdit.WebLayOut(intWid, htmlParameter, utils.IsMobileBrowser(Request));
             innerHtml.Append(layout.HtmlMark);
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");
             innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\" value=\"" + username + "\" />");
