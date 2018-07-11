@@ -13,7 +13,7 @@ namespace FM.Components
         /// </summary>
         public static string GetWebVirtualUrl()
         {
-            string url = string.Format("{0}://{1}{2}/", (HttpContext.Current.Request.IsSecureConnection?"https":"http"), HttpContext.Current.Request.Url.Authority, HttpRuntime.AppDomainAppVirtualPath);
+            string url = string.Format("{0}://{1}{2}/", (HttpContext.Current.Request.IsSecureConnection ? "https" : "http"), HttpContext.Current.Request.Url.Authority, HttpRuntime.AppDomainAppVirtualPath);
             if (url.EndsWith("/"))
             {
                 url = url.Substring(0, url.Length - 1);
@@ -27,25 +27,28 @@ namespace FM.Components
         /// </summary>
         public static string Form(string key)
         {
-            string retVal = HttpContext.Current.Request.Form[key];            
+            string retVal = HttpContext.Current.Request.Form[key];
             if (retVal == null)
             {
                 return "";
             }
 
             return retVal;
-         
+
         }
         /// <summary>
         /// 取得AJAX中的POST中的数据!//用于替换SQL中的
         /// </summary>
         /// <returns></returns>
         public static System.Collections.Specialized.NameValueCollection GetFormParameters()
-        {            
+        {
             return HttpContext.Current.Request.Form;
         }
 
-       
+        /// <summary>
+        /// 获取请求参数
+        /// </summary>
+        /// <returns></returns>
         public static System.Collections.Specialized.NameValueCollection GetParameters()
         {
             return HttpContext.Current.Request.Params;
@@ -69,8 +72,8 @@ namespace FM.Components
         /// 获取URL数据
         /// </summary>
         public static int QueryStringInt(string key)
-        {            
-            string retVal = HttpContext.Current.Request.QueryString[key];            
+        {
+            string retVal = HttpContext.Current.Request.QueryString[key];
 
             if (retVal == null || !JudgeHelper.IsInt(retVal))
             {

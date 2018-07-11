@@ -3,11 +3,9 @@ using System.ComponentModel;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using FM.Components;
 using System.Web.UI.HtmlControls;
 using System.Data;
 using System.Text.RegularExpressions;
-
 using System.Collections.Generic;
 using DTO;
 using MyTy;
@@ -80,14 +78,25 @@ namespace FM.Controls
         /// 明细与尺码
         /// </summary>
         public string detailCmRelation = "";
+
+        /// <summary>
+        /// 表格样式
+        /// </summary>
+        public int tableCSSBorderLeft = 1;
+        public int tableCSSBorderRight = 1;
+        public int tableCSSPaddingRight = 10;
+        /// <summary>
+        /// 尺码最大数量
+        /// </summary>
+        public static int sizeCount = 999;
         /// <summary>
         /// 记录尺码的顺序,从0开始,0,1,2,3,
         /// </summary>
-        string[] cmord = new string[50];
+        string[] cmord = new string[sizeCount];
         /// <summary>
         /// 记录尺码每个顺序对应的 |尺码组ID1/尺码ID1|尺码组ID2/尺码ID2|
         /// </summary>
-        string[] cmid = new string[50];
+        string[] cmid = new string[sizeCount];
 
         //此页表名
         //public string tbname = "";
@@ -108,13 +117,11 @@ namespace FM.Controls
         /// 是否允许向下移动
         /// </summary>
         public bool addNewRowPermission = false;
+
         public System.Collections.Specialized.NameValueCollection requestFormParm;
-
-        public FMPager() { }
-
+        
         public override void DataBind()
         {
-
             base.DataBind();
             Control repeater = FindRepeater(Page);
             HtmlContainerControl MyRepeater = (HtmlContainerControl)FindRepeater(Page);
@@ -123,16 +130,25 @@ namespace FM.Controls
             ChildControlsCreated = false;
 
         }
+
         public Result<PageHtml> Html()
         {
             PageHtml pageHtml = new PageHtml();
             //string str = "<table ><tr><td>"+"<div  class='fmheadclass'   >" + this.GetHeadHtml(this.DataHead, this.WebId.ToString().Trim()) + "</div></td></tr><tr><td class='hc_tdclass'><div  class='fmcontentclass' " + fmcontentclass + "   >" + this.GetContentHtml(this.DataSource, this.DataHead, this.WebId.ToString().Trim()) + "</div></td></tr><tr><td>" + hj + "</td></tr></table>";
             //int divw = (this.tbWidth + this.vcols * 5 + this.scolwidth);
             //string str = "<ol style='list-style-type:none'><li><div  class='fmheadclass' style='width:" + divw.ToString().Trim() + "px'  >" + this.GetHeadHtml(this.DataHead, this.WebId.ToString().Trim()) + "</div></li>" + "<li><div  class='fmcontentclass' style='width:" + (divw + 5).ToString().Trim() + "px' " + fmcontentclass + "   >" + this.GetContentHtml(this.DataSource, this.DataHead, this.WebId.ToString().Trim()) + "</div></li>" + "<li><div class='fmheadclass' style='width:" + divw.ToString().Trim() + "px' >" + hj + "</div></li></ol>";
-
-            pageHtml.Html = "<div>" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>"
-            + "<div>" + this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData) + "</div>"
-            + "<div>" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>";
+            string headHtml = this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation);
+            string contentHtml = this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData);
+            int tableWidth=0;
+            string hjHtml = this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim(), ref tableWidth);
+            string contentCSS = "";
+            if (pagerArguments.clientHeight > 0 && contentHtml.Length > 0)
+            {
+                Business.ProcPager inf = new Business.ProcPager();
+                DataSet widConfig = inf.GetTableRecord("v_wid_layout", "webid=" + pagerArguments.wid);//得到wid 对应信息                
+                contentCSS = string.Format("style='max-height:{0}px;overflow-y:auto;width:" + (tableWidth+20) + "px;'", (pagerArguments.clientHeight - 160 - int.Parse(widConfig.Tables[0].Rows[0]["northheight"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheight"].ToString())).ToString());
+            }
+            pageHtml.Html = string.Format("<div>{0}</div><div {3} >{1}</div><div>{2}</div>",headHtml,contentHtml,hjHtml, contentCSS);
             //        string Html = "<div class=\"easyui-layout\" data-options=\"fit:true\">"+
             //"<div region=\"north\" border=\"false\" style=\"background:#B3DFDA;\">" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>" +
             //"<div region=\"south\" border=\"false\" style=\"background:#A9FACD;\">" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>" +
@@ -142,7 +158,9 @@ namespace FM.Controls
             return ResultUtil<PageHtml>.success(pageHtml);
 
         }
+
         public virtual void GetDate() { }
+
         /// <summary>
         /// 得到内容页
         /// tr.rownum td.field td.innerctrl
@@ -206,7 +224,7 @@ namespace FM.Controls
                         if (dr_h["type"].ToString().Trim() == "mx")
                         {
                             #region 尺码
-                            for (int i = 0; i < 999; i++)
+                            for (int i = 0; i < sizeCount; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
@@ -781,10 +799,10 @@ namespace FM.Controls
         /// <param name="headlineData"></param>
         /// <param name="webid"></param>
         /// <returns></returns>
-        public string GetHjHtml(DataTable headlineData, DataTable totalDetailsData, string masterSlaveKey, string masterCmRelation, string detailCmRelation, DataTable cmDetailsData, string webid)
+        public string GetHjHtml(DataTable headlineData, DataTable totalDetailsData, string masterSlaveKey, string masterCmRelation, string detailCmRelation, DataTable cmDetailsData, string webid,ref int tableWidth)
         {
             string str = "";
-
+            tableWidth = 0;
             foreach (DataRow dr in headlineData.Rows)
             {
                 string lid = "";
@@ -798,7 +816,7 @@ namespace FM.Controls
                 if (totalDetailsData.Rows.Count > 0 && cmDetailsData.Rows.Count > 0)
                 {
                     char split = ',';
-                    cm = Join(cmDetailsData, totalDetailsData, masterSlaveKey, split, masterSlaveKey, split);
+                    cm = MyTy.Utils.Join(cmDetailsData, totalDetailsData, masterSlaveKey, split, masterSlaveKey, split);
                 }
 
                 if (dr["visible"].ToString().Trim() == "0")
@@ -808,7 +826,7 @@ namespace FM.Controls
                     {
                         if (dr["type"].ToString().Trim() == "mx")
                         {
-                            for (int i = 0; i < 999; i++)
+                            for (int i = 0; i < sizeCount; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
@@ -834,7 +852,7 @@ namespace FM.Controls
                         string cmstr = "";
                         if (dr["hj"].ToString().Trim() == "1" && cm.Rows.Count > 0)
                         {
-                            for (int i = 0; i < 999; i++)
+                            for (int i = 0; i < sizeCount; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
@@ -850,16 +868,18 @@ namespace FM.Controls
                                     }
 
                                     cmstr += "<td  style='width:" + Convert.ToInt32(dr["width"]) + "px' id=\"" + lid_cm + "_" + i + "\" > " + linput + "</td>";
+                                    tableWidth += Convert.ToInt32(dr["width"]) + tableCSSBorderLeft + tableCSSBorderRight + tableCSSPaddingRight;
                                 }
                             }
                         }
                         else
                         {//没有满足计算汇总的数据条件等
-                            for (int i = 0; i < 999; i++)
+                            for (int i = 0; i < sizeCount; i++)
                             {
                                 if (this.cmord[i] != null && this.cmord[i] != "")
                                 {
                                     cmstr += "<td  style='width:" + Convert.ToInt32(dr["width"]) + "px' id=\"" + lid_cm + "_" + i + "\" > " + linput + "</td>";
+                                    tableWidth += Convert.ToInt32(dr["width"]) + tableCSSBorderLeft + tableCSSBorderRight + tableCSSPaddingRight;
                                 }
                             }
                         }
@@ -887,6 +907,7 @@ namespace FM.Controls
                             linput = "合计";
                         }
                         str += "<td  style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + " > " + linput + "</td>";
+                        tableWidth += Convert.ToInt32(dr["width"])+ tableCSSBorderLeft+tableCSSBorderRight+tableCSSPaddingRight;
                         #endregion
                     }
 
@@ -1109,7 +1130,7 @@ namespace FM.Controls
                                 //注意样式不要改,,,,因为在后面增加合并列的时候用到!
                                 //只能向后加!
                                 //padding-right一定要结合实际的样式!,这点很致命
-                                str += "<td colspan='2'  style='width:" + Convert.ToInt32(dr["width"]) + "px;padding-right:10px;text-align:center;' " + ">" + dr["hbltname"].ToString().Trim() + "</td>";
+                                str += "<td colspan='2'  style='width:" + Convert.ToInt32(dr["width"]) + "px;padding-right:"+tableCSSPaddingRight+"px;text-align:center;' " + ">" + dr["hbltname"].ToString().Trim() + "</td>";
                                 dbgs = 1;
                                 dbwidth = Convert.ToInt32(dr["width"]);
                             }
@@ -1255,6 +1276,7 @@ namespace FM.Controls
             return html;
 
         }
+       
         /// <summary>
         /// mxhord存储cmzbid
         //cmzbid cmzb    cmmc cmid  ord
@@ -1291,6 +1313,7 @@ namespace FM.Controls
                 minl = Math.Min(minl, int.Parse(dr["ord"].ToString()));
             }
         }
+
         /// <summary>
         /// 计算字符串中子串出现的次数
         /// </summary>
@@ -1327,14 +1350,14 @@ namespace FM.Controls
             int i_ = str.LastIndexOf("style='width:");
             int i2_ = str.IndexOf("px", i_ + 13);
 
-            tmp = str.Substring(0, i_ + 13) + dbwidth + str.Substring(i2_).Trim();
+            tmp = str.Substring(0, i_ + 13) + (dbwidth+dbgs*tableCSSBorderRight) + str.Substring(i2_).Trim();
             str = tmp;
 
             //padding样式!
             int i__ = str.LastIndexOf("padding-right:");
             int i2__ = str.IndexOf("px", i__ + 14);
             //和样式.style_head td 有关,如果,如果修改到样式,这里需要调整
-            tmp = str.Substring(0, i__ + 14) + (dbgs * 11) + str.Substring(i2__).Trim();
+            tmp = str.Substring(0, i__ + 14) + (dbgs * (tableCSSBorderRight+tableCSSPaddingRight)) + str.Substring(i2__).Trim();
             str = tmp;
 
 
@@ -1509,170 +1532,6 @@ namespace FM.Controls
             }
         }
         private string repeaterId = "";
-
-        /// <summary>
-        /// datatable 与datatable 关联
-        /// </summary>
-        /// <param name="First"></param>
-        /// <param name="Second"></param>
-        /// <param name="FJC"></param>
-        /// <param name="SJC"></param>
-        /// <returns></returns>
-        public static DataTable Join(DataTable First, DataTable Second, DataColumn[] FJC, DataColumn[] SJC)
-        {
-
-            //创建一个新的DataTable  
-
-            DataTable table = new DataTable("Join");
-
-
-            // Use a DataSet to leverage DataRelation  
-
-            using (DataSet ds = new DataSet())
-            {
-
-                //把DataTable Copy到DataSet中  
-
-                ds.Tables.AddRange(new DataTable[] { First.Copy(), Second.Copy() });
-
-                DataColumn[] parentcolumns = new DataColumn[FJC.Length];
-
-                for (int i = 0; i < parentcolumns.Length; i++)
-                {
-
-                    parentcolumns[i] = ds.Tables[0].Columns[FJC[i].ColumnName];
-
-                }
-
-                DataColumn[] childcolumns = new DataColumn[SJC.Length];
-
-                for (int i = 0; i < childcolumns.Length; i++)
-                {
-
-                    childcolumns[i] = ds.Tables[1].Columns[SJC[i].ColumnName];
-
-                }
-
-
-                //创建关联  
-
-                DataRelation r = new DataRelation(string.Empty, parentcolumns, childcolumns, false);
-
-                ds.Relations.Add(r);
-
-
-                //为关联表创建列  
-
-                for (int i = 0; i < First.Columns.Count; i++)
-                {
-
-                    table.Columns.Add(First.Columns[i].ColumnName, First.Columns[i].DataType);
-
-                }
-
-                for (int i = 0; i < Second.Columns.Count; i++)
-                {
-
-                    //看看有没有重复的列，如果有在第二个DataTable的Column的列明后加_Second  
-
-                    if (!table.Columns.Contains(Second.Columns[i].ColumnName))
-
-                        table.Columns.Add(Second.Columns[i].ColumnName, Second.Columns[i].DataType);
-
-                    else
-
-                        table.Columns.Add(Second.Columns[i].ColumnName + "_Second", Second.Columns[i].DataType);
-
-                }
-
-
-                table.BeginLoadData();
-
-                foreach (DataRow firstrow in ds.Tables[0].Rows)
-                {
-
-                    //得到行的数据  
-
-                    DataRow[] childrows = firstrow.GetChildRows(r);
-
-                    if (childrows != null && childrows.Length > 0)
-                    {
-
-                        object[] parentarray = firstrow.ItemArray;
-
-                        foreach (DataRow secondrow in childrows)
-                        {
-
-                            object[] secondarray = secondrow.ItemArray;
-
-                            object[] joinarray = new object[parentarray.Length + secondarray.Length];
-
-                            Array.Copy(parentarray, 0, joinarray, 0, parentarray.Length);
-
-                            Array.Copy(secondarray, 0, joinarray, parentarray.Length, secondarray.Length);
-
-                            table.LoadDataRow(joinarray, true);
-
-                        }
-
-                    }
-
-                }
-
-                table.EndLoadData();
-
-            }
-
-
-            return table;
-
-        }
-        public static DataTable Join(DataTable First, DataTable Second, DataColumn FJC, DataColumn SJC)
-        {
-
-            return Join(First, Second, new DataColumn[] { FJC }, new DataColumn[] { SJC });
-
-        }
-        public static DataTable Join(DataTable First, DataTable Second, string FJC, string SJC)
-        {
-
-            return Join(First, Second, new DataColumn[] { First.Columns[FJC] }, new DataColumn[] { Second.Columns[SJC] });
-
-        }
-        public static DataTable Join(DataTable First, DataTable Second, string FJC, char Fsplit, string SJC, char Ssplit)
-        {
-
-            DataTable f = new DataTable();
-            int fcount = 0;
-            for (int i = 0; i < FJC.Split(Fsplit).Length; i++)
-            {
-                if (FJC.Split(Fsplit)[i] != null)
-                {
-                    DataColumn dc = new DataColumn(First.Columns[FJC.Split(Fsplit)[i]].ColumnName);
-                    f.Columns.Add(dc);
-                    fcount += 1;
-                }
-            }
-            DataColumn[] f1 = new DataColumn[fcount];
-            f.Columns.CopyTo(f1, 0);
-
-            fcount = 0;
-            DataTable s = new DataTable();
-            for (int i = 0; i < SJC.Split(Ssplit).Length; i++)
-            {
-                if (SJC.Split(Ssplit)[i] != null)
-                {
-                    DataColumn dc = new DataColumn(First.Columns[SJC.Split(Ssplit)[i]].ColumnName);
-                    s.Columns.Add(dc);
-                    fcount += 1;
-                }
-            }
-            DataColumn[] s1 = new DataColumn[fcount];
-            s.Columns.CopyTo(s1, 0);
-            return Join(First, Second, f1, s1);
-
-        }
-
     }
 
 }

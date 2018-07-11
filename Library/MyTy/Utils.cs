@@ -206,5 +206,171 @@ namespace MyTy
 
             return false;
         }
+
+        /// <summary>
+        /// datatable 与datatable 关联
+        /// </summary>
+        /// <param name="First"></param>
+        /// <param name="Second"></param>
+        /// <param name="FJC"></param>
+        /// <param name="SJC"></param>
+        /// <returns></returns>
+        public static DataTable Join(DataTable First, DataTable Second, DataColumn[] FJC, DataColumn[] SJC)
+        {
+
+            //创建一个新的DataTable  
+
+            DataTable table = new DataTable("Join");
+
+
+            // Use a DataSet to leverage DataRelation  
+
+            using (DataSet ds = new DataSet())
+            {
+
+                //把DataTable Copy到DataSet中  
+
+                ds.Tables.AddRange(new DataTable[] { First.Copy(), Second.Copy() });
+
+                DataColumn[] parentcolumns = new DataColumn[FJC.Length];
+
+                for (int i = 0; i < parentcolumns.Length; i++)
+                {
+
+                    parentcolumns[i] = ds.Tables[0].Columns[FJC[i].ColumnName];
+
+                }
+
+                DataColumn[] childcolumns = new DataColumn[SJC.Length];
+
+                for (int i = 0; i < childcolumns.Length; i++)
+                {
+
+                    childcolumns[i] = ds.Tables[1].Columns[SJC[i].ColumnName];
+
+                }
+
+
+                //创建关联  
+
+                DataRelation r = new DataRelation(string.Empty, parentcolumns, childcolumns, false);
+
+                ds.Relations.Add(r);
+
+
+                //为关联表创建列  
+
+                for (int i = 0; i < First.Columns.Count; i++)
+                {
+
+                    table.Columns.Add(First.Columns[i].ColumnName, First.Columns[i].DataType);
+
+                }
+
+                for (int i = 0; i < Second.Columns.Count; i++)
+                {
+
+                    //看看有没有重复的列，如果有在第二个DataTable的Column的列明后加_Second  
+
+                    if (!table.Columns.Contains(Second.Columns[i].ColumnName))
+
+                        table.Columns.Add(Second.Columns[i].ColumnName, Second.Columns[i].DataType);
+
+                    else
+
+                        table.Columns.Add(Second.Columns[i].ColumnName + "_Second", Second.Columns[i].DataType);
+
+                }
+
+
+                table.BeginLoadData();
+
+                foreach (DataRow firstrow in ds.Tables[0].Rows)
+                {
+
+                    //得到行的数据  
+
+                    DataRow[] childrows = firstrow.GetChildRows(r);
+
+                    if (childrows != null && childrows.Length > 0)
+                    {
+
+                        object[] parentarray = firstrow.ItemArray;
+
+                        foreach (DataRow secondrow in childrows)
+                        {
+
+                            object[] secondarray = secondrow.ItemArray;
+
+                            object[] joinarray = new object[parentarray.Length + secondarray.Length];
+
+                            Array.Copy(parentarray, 0, joinarray, 0, parentarray.Length);
+
+                            Array.Copy(secondarray, 0, joinarray, parentarray.Length, secondarray.Length);
+
+                            table.LoadDataRow(joinarray, true);
+
+                        }
+
+                    }
+
+                }
+
+                table.EndLoadData();
+
+            }
+
+
+            return table;
+
+        }
+
+        public static DataTable Join(DataTable First, DataTable Second, DataColumn FJC, DataColumn SJC)
+        {
+
+            return Join(First, Second, new DataColumn[] { FJC }, new DataColumn[] { SJC });
+
+        }
+
+        public static DataTable Join(DataTable First, DataTable Second, string FJC, string SJC)
+        {
+
+            return Join(First, Second, new DataColumn[] { First.Columns[FJC] }, new DataColumn[] { Second.Columns[SJC] });
+
+        }
+
+        public static DataTable Join(DataTable First, DataTable Second, string FJC, char Fsplit, string SJC, char Ssplit)
+        {
+
+            DataTable f = new DataTable();
+            int fcount = 0;
+            for (int i = 0; i < FJC.Split(Fsplit).Length; i++)
+            {
+                if (FJC.Split(Fsplit)[i] != null)
+                {
+                    DataColumn dc = new DataColumn(First.Columns[FJC.Split(Fsplit)[i]].ColumnName);
+                    f.Columns.Add(dc);
+                    fcount += 1;
+                }
+            }
+            DataColumn[] f1 = new DataColumn[fcount];
+            f.Columns.CopyTo(f1, 0);
+
+            fcount = 0;
+            DataTable s = new DataTable();
+            for (int i = 0; i < SJC.Split(Ssplit).Length; i++)
+            {
+                if (SJC.Split(Ssplit)[i] != null)
+                {
+                    DataColumn dc = new DataColumn(First.Columns[SJC.Split(Ssplit)[i]].ColumnName);
+                    s.Columns.Add(dc);
+                    fcount += 1;
+                }
+            }
+            DataColumn[] s1 = new DataColumn[fcount];
+            s.Columns.CopyTo(s1, 0);
+            return Join(First, Second, f1, s1);
+
+        }
     }
 }

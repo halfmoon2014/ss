@@ -394,16 +394,17 @@ namespace EI.Web
                 HtmlContent htmlContent = DivInEasyLayOut(intWid, divSessionDataSet, key, requestParameter, sessionKey, divDataSet);
                 string htmlMark = htmlContent.Htmlmark;
 
-                if (htmlMark != string.Empty)
+                if (!string.IsNullOrEmpty(htmlMark))
                 {
                     string tmpCssStyle = "data-options=\"fit:true\"";
                     if (key == "l" || key == "r")
                     {//左可以得到宽度
-                        tmpCssStyle = (htmlContent.Width==0 ? "style=\"width:" + htmlContent.Width.ToString() + "px\"" : tmpCssStyle);
+                        //tmpCssStyle = (divDic["width"] != string.Empty && divDic["width"] != "0" ? "style=\"width:" + divDic["width"] + "px\"" : tmpCssStyle);
+                        tmpCssStyle = (htmlContent.Width==0 ? tmpCssStyle:"style=\"width:" + htmlContent.Width.ToString() + "px\"" );
                     }
                     else if (key == "t" || key == "b")
                     {//上,下可以得到高度
-                        tmpCssStyle = (htmlContent .Height==0? "style=\"height:" + htmlContent.Height.ToString() + "px\"" : tmpCssStyle);
+                        tmpCssStyle = (htmlContent .Height==0? tmpCssStyle:"style=\"height:" + htmlContent.Height.ToString() + "px\"" );
                     }
 
                     htmlMark = "<div id=\"" + pz[key] + "\" data-options=\"region:'" + pz[key] + "',split:false,border:false \" " + tmpCssStyle + "  >"

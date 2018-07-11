@@ -15,60 +15,47 @@ namespace FM.Controls.Pager
             pagerArgumentsInit();
         }
 
+        /// <summary>
+        /// 初始请求参数
+        /// </summary>
         public void pagerArgumentsInit()
         {
+            NameValueCollection requestParameters = HTMLHelper.GetParameters();
             pagerArguments.loadMark = HTMLHelper.QueryStringInt("loadmark");
             pagerArguments.currentPageIndex = HTMLHelper.QueryStringInt("p");
-            if (pagerArguments.currentPageIndex <= 0)
-            {
-                pagerArguments.currentPageIndex = 1;
-            }
+            pagerArguments.clientHeight = HTMLHelper.QueryStringInt("clientHeight");
+            pagerArguments.clientWidth = HTMLHelper.QueryStringInt("clientWidth");
             pagerArguments.wid = HTMLHelper.QueryStringInt("wid");
-
-            NameValueCollection requestParameters = HTMLHelper.GetParameters();
+            if (pagerArguments.currentPageIndex <= 0)
+                pagerArguments.currentPageIndex = 1;
+            
             foreach (string key in requestParameters.Keys)
             {
                 if (key != null)
                 {
                     if (key.IndexOf("@") >= 0)
-                    {
                         pagerArguments.formParm.Add(key, requestParameters[key]);
-                    }
                     else if (key == "filterRow")
-                    {
                         pagerArguments.filterRow = requestParameters[key];
-                    }
                     else if (key == "filterColumn")
-                    {
                         pagerArguments.filterColumn = requestParameters[key];
-                    }
                     else if (key == "orderBy")
-                    {
                         pagerArguments.orderBy = requestParameters[key];
-                    }
                     else if (key == "otherMsg")
-                    {
                         pagerArguments.otherMsg = requestParameters[key];
-                    }
                     else if (key == "pageType")
                     {
                         pagerArguments.prtFlag = (requestParameters[key] == "sysPrint" ? true : pagerArguments.prtFlag);
                         pagerArguments.excelFlag = (requestParameters[key] == "sysExcel" ? true : pagerArguments.excelFlag);
                     }
                     else if (key == "loadmark")
-                    {
                         pagerArguments.loadMark = int.Parse(requestParameters[key]);
-                    }
                     else if (key == "pageSize")
                     {
                         if (requestParameters[key] == "")
-                        {
                             pagerArguments.pageSize = 0;
-                        }
                         else
-                        {
                             pagerArguments.pageSize = int.Parse(requestParameters[key]);
-                        }
                     }
                 }
             }
@@ -79,7 +66,7 @@ namespace FM.Controls.Pager
             }
             pagerArguments.formParm.Add("@userid", MySession.SessionHandle.Get("userid").ToString().Trim());
             pagerArguments.formParm.Add("@tzid", MySession.SessionHandle.Get("tzid").ToString().Trim());
-            FM.Business.Login lg = new FM.Business.Login();
+            Business.Login lg = new Business.Login();
             pagerArguments.formParm.Add("@username", lg.GetUser(MySession.SessionHandle.Get("userid")).Tables[0].Rows[0]["name"].ToString());
         }
 
@@ -95,7 +82,7 @@ namespace FM.Controls.Pager
         /// </summary>
         public override void GetDate()
         {
-            FM.Business.ProcPager inf = new FM.Business.ProcPager();
+            Business.ProcPager inf = new Business.ProcPager();
             int mxcxTag = 0;// 是否默认查询
             DataSet widConfig = inf.GetTableRecord("v_wid", "id=" + pagerArguments.wid);//得到wid 对应信息
 
@@ -114,7 +101,7 @@ namespace FM.Controls.Pager
             }
 
             mxcxTag = Convert.ToInt32(widConfig.Tables[0].Rows[0]["mrcx"]);
-            this.addNewRowPermission = Convert.ToInt32(widConfig.Tables[0].Rows[0]["myadd"]) == 0 ? false : true;
+            addNewRowPermission = Convert.ToInt32(widConfig.Tables[0].Rows[0]["myadd"]) == 0 ? false : true;
 
             //是否存在尺码标识;
             int cmDetailsTag = 0;
@@ -131,9 +118,8 @@ namespace FM.Controls.Pager
             }
 
             if (cmDetailsTag == 1)
-            {
                 inf.GetCmDetails(pagerArguments.wid, this.detailsSql, pagerArguments.formParm, ref this.cmDetailsData, ref this.cmHeadlineData, ref this.masterCmRelation, ref this.masterSlaveKey, ref this.detailCmRelation);
-            }
+
         }
     }
 }

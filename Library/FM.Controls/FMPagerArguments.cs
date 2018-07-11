@@ -187,5 +187,32 @@ namespace FM.Controls
         }
         private int _recordCount = 0;
 
+        [Description("窗口可见高")]
+        public int clientHeight
+        {
+            get
+            {
+                return _clientHeight;
+            }
+            set
+            {
+                _clientHeight = value;
+            }
+        }
+        private int _clientHeight = 0;
+
+        [Description("窗口可见宽")]
+        public int clientWidth
+        {
+            get
+            {
+                return _clientWidth;
+            }
+            set
+            {
+                _clientWidth = value;
+            }
+        }
+        private int _clientWidth = 0;
     }
 }

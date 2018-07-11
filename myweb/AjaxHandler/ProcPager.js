@@ -355,7 +355,9 @@ function PagerObj(op) {
         loadMark: 0, //是否页面第一次打开
         url: '', //分页请求URL地址
         extendParams: '', //URL地址扩展参数
-        callbackFn: null  //加载完毕后的回调函数        
+        callbackFn: null,  //加载完毕后的回调函数        
+        clientHeight: document.body.clientHeight,//网页可见区域高
+        clientWidth: document.body.clientWidth//网页可见区域宽
     }, op);
 
     function page(currentIndex) {
@@ -373,6 +375,8 @@ function PagerObj(op) {
             finalUrl += '&clearBuffer=' + randomKey(); //消除浏览器缓存            
             finalUrl += '&wid=' + parseInt(settings.wid);
             finalUrl += '&loadmark=' + parseInt(settings.loadMark);
+            finalUrl += '&clientHeight=' + parseInt(settings.clientHeight);
+            finalUrl += '&clientWidth=' + parseInt(settings.clientWidth);
             $.ajax({
                 type: "POST",
                 async: true,
