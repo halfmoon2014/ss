@@ -119,7 +119,7 @@ namespace FM.Controls
         public bool addNewRowPermission = false;
 
         public System.Collections.Specialized.NameValueCollection requestFormParm;
-        
+
         public override void DataBind()
         {
             base.DataBind();
@@ -139,16 +139,16 @@ namespace FM.Controls
             //string str = "<ol style='list-style-type:none'><li><div  class='fmheadclass' style='width:" + divw.ToString().Trim() + "px'  >" + this.GetHeadHtml(this.DataHead, this.WebId.ToString().Trim()) + "</div></li>" + "<li><div  class='fmcontentclass' style='width:" + (divw + 5).ToString().Trim() + "px' " + fmcontentclass + "   >" + this.GetContentHtml(this.DataSource, this.DataHead, this.WebId.ToString().Trim()) + "</div></li>" + "<li><div class='fmheadclass' style='width:" + divw.ToString().Trim() + "px' >" + hj + "</div></li></ol>";
             string headHtml = this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation);
             string contentHtml = this.GetContentHtml(this.detailsData, this.headlineData, pagerArguments.wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData);
-            int tableWidth=0;
+            int tableWidth = 0;
             string hjHtml = this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim(), ref tableWidth);
             string contentCSS = "";
             if (pagerArguments.clientHeight > 0 && contentHtml.Length > 0)
             {
                 Business.ProcPager inf = new Business.ProcPager();
                 DataSet widConfig = inf.GetTableRecord("v_wid_layout", "webid=" + pagerArguments.wid);//得到wid 对应信息                
-                contentCSS = string.Format("style='max-height:{0}px;overflow-y:auto;width:" + (tableWidth+20) + "px;'", (pagerArguments.clientHeight - 160 - int.Parse(widConfig.Tables[0].Rows[0]["northheight"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheight"].ToString())).ToString());
+                contentCSS = string.Format("style='max-height:{0}px;overflow-y:auto;width:" + (tableWidth + 20) + "px;'", (pagerArguments.clientHeight - 160 - int.Parse(widConfig.Tables[0].Rows[0]["northheight"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheight"].ToString())).ToString());
             }
-            pageHtml.Html = string.Format("<div>{0}</div><div {3} >{1}</div><div>{2}</div>",headHtml,contentHtml,hjHtml, contentCSS);
+            pageHtml.Html = string.Format("<div>{0}</div><div {3} >{1}</div><div>{2}</div>", headHtml, contentHtml, hjHtml, contentCSS);
             //        string Html = "<div class=\"easyui-layout\" data-options=\"fit:true\">"+
             //"<div region=\"north\" border=\"false\" style=\"background:#B3DFDA;\">" + this.GetHeadHtml(this.headlineData, pagerArguments.wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation) + "</div>" +
             //"<div region=\"south\" border=\"false\" style=\"background:#A9FACD;\">" + this.GetHjHtml(this.headlineData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.wid.ToString().Trim()) + "</div>" +
@@ -799,7 +799,7 @@ namespace FM.Controls
         /// <param name="headlineData"></param>
         /// <param name="webid"></param>
         /// <returns></returns>
-        public string GetHjHtml(DataTable headlineData, DataTable totalDetailsData, string masterSlaveKey, string masterCmRelation, string detailCmRelation, DataTable cmDetailsData, string webid,ref int tableWidth)
+        public string GetHjHtml(DataTable headlineData, DataTable totalDetailsData, string masterSlaveKey, string masterCmRelation, string detailCmRelation, DataTable cmDetailsData, string webid, ref int tableWidth)
         {
             string str = "";
             tableWidth = 0;
@@ -810,13 +810,13 @@ namespace FM.Controls
                 string lid_cm = "";
                 string lputid_cm = "";
                 string drname = dr["ywname"].ToString().Trim();
-                string drzwname = MyTy.Utils.HtmlCha(dr["zwname"].ToString().Trim());
+                string drzwname = Utils.HtmlCha(dr["zwname"].ToString().Trim());
                 GetWebHjControlId(webid, drname, ref lid, ref lputid, ref lid_cm, ref lputid_cm);
                 DataTable cm = new DataTable();
                 if (totalDetailsData.Rows.Count > 0 && cmDetailsData.Rows.Count > 0)
                 {
                     char split = ',';
-                    cm = MyTy.Utils.Join(cmDetailsData, totalDetailsData, masterSlaveKey, split, masterSlaveKey, split);
+                    cm = Utils.Join(cmDetailsData, totalDetailsData, masterSlaveKey, split, masterSlaveKey, split);
                 }
 
                 if (dr["visible"].ToString().Trim() == "0")
@@ -907,7 +907,7 @@ namespace FM.Controls
                             linput = "合计";
                         }
                         str += "<td  style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + " > " + linput + "</td>";
-                        tableWidth += Convert.ToInt32(dr["width"])+ tableCSSBorderLeft+tableCSSBorderRight+tableCSSPaddingRight;
+                        tableWidth += Convert.ToInt32(dr["width"]) + tableCSSBorderLeft + tableCSSBorderRight + tableCSSPaddingRight;
                         #endregion
                     }
 
@@ -989,17 +989,18 @@ namespace FM.Controls
         public string GetHeadHtml(DataTable dt_h, string webid, DataTable DataHeadCm, string mxhord)
         {
             //表头,或者合并表格上面一行
-            string str = "";
+            StringBuilder topRowHtml = new StringBuilder();
 
             //如果合并表格,存放下面那一行
-            string b_str = "";
+            StringBuilder belowRowHtml = new StringBuilder();
 
+            StringBuilder thHTMLCSS = new StringBuilder();
             //标识是否为存在合并表头
-            bool doubleHeadTitle = dt_h.Select("hbltname<>''").Length > 0 ? true : false;
+            bool isMergeHead = dt_h.Select("hbltname<>''").Length > 0 ? true : false;
 
-            string hbltname = "";//存合并表头名
-            int dbgs = 0;//存个数            
-            int dbwidth = 0;
+            string colspanName = "";//存合并表头名
+            int colspanCount = 0;//存个数            
+            int colspanWidth = 0;
 
             foreach (DataRow dr in dt_h.Rows)
             {
@@ -1007,7 +1008,7 @@ namespace FM.Controls
                 string lputid = "";
                 string cmid = ""; string lputcmid = "";
                 string drname = dr["ywname"].ToString().Trim();
-                string drzwname = MyTy.Utils.HtmlCha(dr["zwname"].ToString().Trim());
+                string drzwname = Utils.HtmlCha(dr["zwname"].ToString().Trim());
                 GetWebHeadControlId(webid, drname, ref lid, ref lputid, ref cmid, ref lputcmid);
 
                 if (dr["visible"].ToString().Trim() == "0")
@@ -1016,43 +1017,43 @@ namespace FM.Controls
                     else
                     {
                         #region 隐藏列
-                        if (!doubleHeadTitle)
-                        {//如果不存在合并表头!
+                        if (!isMergeHead)
+                        {
+                            //如果不存在合并表头!
                             if (dr["type"].ToString().Trim() == "mx")
-                            {//明细表头
-                                str += this.getDataHeadCm(doubleHeadTitle, "hidden", DataHeadCm, mxhord, (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()), dr["width"].ToString(), cmid, lputcmid, "");
-                            }
+                                //明细表头
+                                topRowHtml.Append(this.getDataHeadCm(isMergeHead, "hidden", DataHeadCm, mxhord, (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()), dr["width"].ToString(), cmid, lputcmid, ""));
+
                             else
-                            {
-                                str += "<td style='display:none'" + lid + "><input type='hidden'" + lputid + "value=\"" + drzwname + "\"/></td>";
-                            }
+                                topRowHtml.Append("<td style='display:none'" + lid + "><input type='hidden'" + lputid + "value=\"" + drzwname + "\"/></td>");
+
                         }
                         else
                         {
                             #region
                             if (dr["hbltname"].ToString().Trim() == string.Empty)
                             {
-                                str += "<td rowspan='2' style='display:none'" + lid + "><input type='hidden'" + lputid + "value=\"" + drzwname + "\"/></td>";
-                                hbltname = "";
-                                dbgs = 0;
+                                topRowHtml.Append("<td rowspan='2' style='display:none'" + lid + "><input type='hidden'" + lputid + "value=\"" + drzwname + "\"/></td>");
+                                colspanName = "";
+                                colspanCount = 0;
                             }
                             else
                             {
 
-                                if (dr["hbltname"].ToString().Trim() != hbltname)
+                                if (dr["hbltname"].ToString().Trim() != colspanName)
                                 {
-                                    str += "<td colspan='2' style='display:none'" + ">" + dr["hbltname"].ToString().Trim() + "</td>";
-                                    dbgs = 1;
+                                    topRowHtml.Append("<td colspan='2' style='display:none'" + ">" + dr["hbltname"].ToString().Trim() + "</td>");
+                                    colspanCount = 1;
                                 }
                                 else
                                 {
-                                    dbgs += 1;
+                                    colspanCount += 1;
                                     //查到最右边的colspan='?',然后加?+1
-                                    HeadHbadd(ref str, dbgs, 0);
+                                    HeadHbadd(ref topRowHtml, colspanCount, 0);
                                 }
 
-                                b_str += "<td  style='display:none'" + lid + "><input type='hidden'" + lputid + "value=\"" + drzwname + "\"/></td>";
-                                hbltname = dr["hbltname"].ToString().Trim();
+                                belowRowHtml.Append("<td  style='display:none'" + lid + "><input type='hidden'" + lputid + "value=\"" + drzwname + "\"/></td>");
+                                colspanName = dr["hbltname"].ToString().Trim();
                             }
                             #endregion
                         }
@@ -1064,87 +1065,72 @@ namespace FM.Controls
                     #region
                     string filterEvent = Convert.ToInt32(dr["sx"]) == 1 ? " onmousedown='javascript:h_rightclk(event)' " : "";
                     string linput = ""; string pxcss = "";
-                    if (pagerArguments.prtFlag || pagerArguments.excelFlag)
-                    {
+                    if (pagerArguments.prtFlag || pagerArguments.excelFlag)                    
                         linput = drzwname;
-                    }
+                    
                     else
                     {
                         //linput = "<input type='text' " + sty + " readonly='readonly' style='width:" + Convert.ToInt32(dr["width"]) + "px'" + rmc + lputid + lwid + "value=\"" + drzwname + "\"/>";
                         if (Convert.ToInt32(dr["px"]) == 1)
                         {
-
-                            if (drname == pagerArguments.orderBy)
-                            {
-                                pxcss = "ion-arrow-up-b";
-                            }
-                            else if (drname + " desc" == pagerArguments.orderBy)
-                            {
-                                pxcss = "ion-arrow-down-b";
-                            }
-                            else
-                            {
-                                pxcss = "ion-stats-bars";
-                            }
+                            if (drname == pagerArguments.orderBy)                            
+                                pxcss = "ion-arrow-up-b";                            
+                            else if (drname + " desc" == pagerArguments.orderBy)                            
+                                pxcss = "ion-arrow-down-b";                            
+                            else                            
+                                pxcss = "ion-stats-bars";                            
                             linput = "<a href=\"#\" onclick=\"javascript:mySysPx( this,'" + drname + "')\"  class='" + pxcss + "' >" + drzwname + "</a>";
                         }
-                        else
-                        {
+                        else                        
                             linput = drzwname;
-                        }
+                        
                     }
 
-                    if (!doubleHeadTitle)
-                    {//如果不存在合并表头!
+                    //如果不存在合并表头!
+                    if (!isMergeHead)
+                    {                        
                         if (dr["type"].ToString().Trim() == "mx")
-                        {//明细表头
-                            str += this.getDataHeadCm(doubleHeadTitle, "nohidden", DataHeadCm, mxhord, (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()), dr["width"].ToString(), cmid, lputcmid, filterEvent);
-                        }
+                            //明细表头
+                            topRowHtml.Append(this.getDataHeadCm(isMergeHead, "nohidden", DataHeadCm, mxhord, (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()), dr["width"].ToString(), cmid, lputcmid, filterEvent));                        
                         else
-                        {
-
-                            str += "<td HeadName='" + (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()) + "'style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + filterEvent + " > " + linput + "</td>";
-                        }
+                            topRowHtml.Append("<td HeadName='" + (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()) + "'style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + filterEvent + " > " + linput + "</td>");                      
                     }
                     else
                     {
                         #region
                         if (dr["hbltname"].ToString().Trim() == string.Empty)
                         {
-                            if (dr["type"].ToString().Trim() == "mx")
-                            {
-                                str += this.getDataHeadCm(doubleHeadTitle, "nohidden", DataHeadCm, mxhord, (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()), dr["width"].ToString(), cmid, lputcmid, filterEvent);
-                            }
-                            else
-                            {
-                                str += "<td rowspan='2' HeadName='" + (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()) + "' style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + filterEvent + " > " + linput + "</td>";
-                            }
-                            hbltname = "";
-                            dbgs = 0;
-                            dbwidth = 0;
+                            if (dr["type"].ToString().Trim() == "mx")                            
+                                topRowHtml.Append (this.getDataHeadCm(isMergeHead, "nohidden", DataHeadCm, mxhord, (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()), dr["width"].ToString(), cmid, lputcmid, filterEvent));                            
+                            else                            
+                                topRowHtml.Append("<td rowspan='2' HeadName='" + (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()) + "' style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + filterEvent + " > " + linput + "</td>");
+                            
+                            colspanName = "";
+                            colspanCount = 0;
+                            colspanWidth = 0;
                         }
                         else
                         {
-                            if (dr["hbltname"].ToString().Trim() != hbltname)
+                            if (dr["hbltname"].ToString().Trim() != colspanName)
                             {
                                 //注意样式不要改,,,,因为在后面增加合并列的时候用到!
                                 //只能向后加!
                                 //padding-right一定要结合实际的样式!,这点很致命
-                                str += "<td colspan='2'  style='width:" + Convert.ToInt32(dr["width"]) + "px;padding-right:"+tableCSSPaddingRight+"px;text-align:center;' " + ">" + dr["hbltname"].ToString().Trim() + "</td>";
-                                dbgs = 1;
-                                dbwidth = Convert.ToInt32(dr["width"]);
+                                topRowHtml.Append("<td colspan='2'  style='width:" + Convert.ToInt32(dr["width"]) + "px;padding-right:" + tableCSSPaddingRight + "px;text-align:center;' " + ">" + dr["hbltname"].ToString().Trim() + "</td>");
+                                colspanCount = 1;
+                                colspanWidth = Convert.ToInt32(dr["width"]);
                             }
                             else
                             {
-                                dbgs += 1;
-                                dbwidth += Convert.ToInt32(dr["width"]);
+                                colspanCount += 1;
+                                colspanWidth += Convert.ToInt32(dr["width"]);
                                 //查到最右边的colspan='?',然后加?+1
-                                HeadHbadd(ref str, dbgs, dbwidth);
+                                HeadHbadd(ref topRowHtml, colspanCount, colspanWidth);
                             }
 
-                            b_str += "<td  HeadName='" + (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()) + "'  style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + filterEvent + " > " + linput + "</td>";
+                            belowRowHtml.Append("<td  HeadName='" + (dr["prtname"].ToString() == string.Empty ? drzwname : dr["prtname"].ToString().Trim()) + "'  style='width:" + Convert.ToInt32(dr["width"]) + "px'" + lid + filterEvent + " > " + linput + "</td>");
 
-                            hbltname = dr["hbltname"].ToString().Trim();
+                            colspanName = dr["hbltname"].ToString().Trim();
                         }
                         #endregion
                     }
@@ -1158,17 +1144,17 @@ namespace FM.Controls
             string kdwidth = "";
             if (pagerArguments.prtFlag || pagerArguments.excelFlag)
             {
-                return "<Table id='table_Header_" + webid + "' runat='server'" + kdwidth + " class=" + "'style_head_prt'" + " > <tr>" + str + "</tr>" + (doubleHeadTitle ? "<tr>" + b_str + "</tr>" : "") + "</table>";
+                return "<Table id='table_Header_" + webid + "' runat='server'" + kdwidth + " class=" + "'style_head_prt'" + " > <tr>" + topRowHtml + "</tr>" + (isMergeHead ? "<tr>" + belowRowHtml + "</tr>" : "") + "</table>";
             }
             else
             {
-                if (doubleHeadTitle)
+                if (isMergeHead)
                 {//有双表头
-                    return "<Table id='table_Header_" + webid + "' runat='server'" + kdwidth + " class=" + "'style_head'" + " > <tr>" + str + "<td rowspan='2' id='table_header_td_" + webid + "_nbsp'" + " >&nbsp;</td></tr><tr>" + b_str + "</tr></table>";
+                    return "<Table id='table_Header_" + webid + "' runat='server'" + kdwidth + " class=" + "'style_head'" + " > <tr>" + topRowHtml + "<td rowspan='2' id='table_header_td_" + webid + "_nbsp'" + " >&nbsp;</td></tr><tr>" + belowRowHtml + "</tr></table>";
                 }
                 else
                 {
-                    return "<Table id='table_Header_" + webid + "' runat='server'" + kdwidth + " class=" + "'style_head'" + " > <tr>" + str + "<td  id='table_header_td_" + webid + "_nbsp'" + " >&nbsp;</td></tr></table>";
+                    return "<Table id='table_Header_" + webid + "' runat='server'" + kdwidth + " class=" + "'style_head'" + " > <tr>" + topRowHtml + "<td  id='table_header_td_" + webid + "_nbsp'" + " >&nbsp;</td></tr></table>";
                 }
             }
             #endregion
@@ -1276,7 +1262,7 @@ namespace FM.Controls
             return html;
 
         }
-       
+
         /// <summary>
         /// mxhord存储cmzbid
         //cmzbid cmzb    cmmc cmid  ord
@@ -1334,9 +1320,37 @@ namespace FM.Controls
         /// <summary>
         /// 查到最右边的colspan='?',然后加?+1
         /// </summary>
-        /// <param name="str"></param>
-        protected void HeadHbadd(ref string str, int dbgs, int dbwidth)
+        /// <param name="htmlStr"></param>
+        protected void HeadHbadd2(ref StringBuilder htmlStr, int dbgs, int dbwidth)
         {
+            
+            string builderStr = htmlStr.ToString();
+            if (dbgs > 2)
+            {//增加次数
+                int i = builderStr.LastIndexOf("colspan=");
+                int i2 = builderStr.IndexOf("'", i + 9);
+
+                builderStr = builderStr.Substring(0, i + 9) + Convert.ToString(int.Parse(builderStr.Substring(i + 9, i2 - i - 9)) + 1).Trim() + builderStr.Substring(i2).Trim();
+               
+            }
+            //增加宽度
+            int i_ = builderStr.LastIndexOf("style='width:");
+            int i2_ = builderStr.IndexOf("px", i_ + 13);
+
+            builderStr = builderStr.Substring(0, i_ + 13) + (dbwidth + dbgs * tableCSSBorderRight) + builderStr.Substring(i2_).Trim();
+           
+
+            //padding样式!
+            int i__ = builderStr.LastIndexOf("padding-right:");
+            int i2__ = builderStr.IndexOf("px", i__ + 14);
+            //和样式.style_head td 有关,如果,如果修改到样式,这里需要调整
+            builderStr = builderStr.Substring(0, i__ + 14) + (dbgs * (tableCSSBorderRight + tableCSSPaddingRight)) + builderStr.Substring(i2__).Trim();
+
+            htmlStr = new StringBuilder(builderStr);
+        }
+        protected void HeadHbadd(ref StringBuilder bb, int dbgs, int dbwidth)
+        {
+            string str = bb.ToString();
             string tmp = "";
             if (dbgs > 2)
             {//增加次数
@@ -1350,16 +1364,16 @@ namespace FM.Controls
             int i_ = str.LastIndexOf("style='width:");
             int i2_ = str.IndexOf("px", i_ + 13);
 
-            tmp = str.Substring(0, i_ + 13) + (dbwidth+dbgs*tableCSSBorderRight) + str.Substring(i2_).Trim();
+            tmp = str.Substring(0, i_ + 13) + (dbwidth + dbgs * tableCSSBorderRight) + str.Substring(i2_).Trim();
             str = tmp;
 
             //padding样式!
             int i__ = str.LastIndexOf("padding-right:");
             int i2__ = str.IndexOf("px", i__ + 14);
             //和样式.style_head td 有关,如果,如果修改到样式,这里需要调整
-            tmp = str.Substring(0, i__ + 14) + (dbgs * (tableCSSBorderRight+tableCSSPaddingRight)) + str.Substring(i2__).Trim();
+            tmp = str.Substring(0, i__ + 14) + (dbgs * (tableCSSBorderRight + tableCSSPaddingRight)) + str.Substring(i2__).Trim();
             str = tmp;
-
+            bb = new StringBuilder(str);
 
         }
 

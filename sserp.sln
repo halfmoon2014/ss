@@ -11,12 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FM.Controls", "Library\FM.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FM.DataAccess", "Library\FM.DataAccess\FM.DataAccess.csproj", "{8B957BC7-75CD-4F0B-90A3-650B0A65EC0E}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "myweb", "myweb\", "{10CCB843-730F-4F48-81E0-CAF936D991CA}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "myweb", "myweb", "{10CCB843-730F-4F48-81E0-CAF936D991CA}"
 	ProjectSection(WebsiteProperties) = preProject
-		SccProjectName = "SAK"
-		SccAuxPath = "SAK"
-		SccLocalPath = "SAK"
-		SccProvider = "SAK"
+		SccProjectName = ""
+		SccAuxPath = ""
+		SccLocalPath = ""
+		SccProvider = ""
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		ProjectReferences = "{2FBC01BB-BCCA-4EBC-9236-31DB5C819EDA}|FM.Business.dll;{6975CD50-BA72-4BD5-AE6B-40C913A9CA11}|FM.Components.dll;{41156157-ac23-4b87-be84-6106df4662cf}|FM.Controls.dll;{44801FC4-F82A-4AD5-9302-EE2052A98D75}|MyTy.dll;{9B5099C2-2797-42D1-B4B9-224DF66F21F3}|MySession.dll;{2ac4a465-fe8f-496e-a373-ebf58c447d69}|WeixinUtil.dll;{2c1b8ba9-8f0f-4c56-8b48-9c1b57943c21}|EI.Web.dll;{E771D3A6-4F02-481D-9DB0-05BA53E31379}|Service.DAL.dll;{2E3B06D8-96B0-4DAC-BDDD-758EC8FCD231}|Service.Util.dll;{d73e1422-9e97-4dc5-a32f-b86489f9d67a}|DTO.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/myweb"
@@ -38,12 +38,12 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "myweb", "myweb\", "{10CCB84
 		StartServerOnDebug = "false"
 	EndProjectSection
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "homepage", "homepage\", "{64458841-C56F-46AC-ABCA-0B960B677C9F}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "homepage", "homepage", "{64458841-C56F-46AC-ABCA-0B960B677C9F}"
 	ProjectSection(WebsiteProperties) = preProject
-		SccProjectName = "SAK"
-		SccAuxPath = "SAK"
-		SccLocalPath = "SAK"
-		SccProvider = "SAK"
+		SccProjectName = ""
+		SccAuxPath = ""
+		SccLocalPath = ""
+		SccProvider = ""
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		ProjectReferences = "{44801fc4-f82a-4ad5-9302-ee2052a98d75}|MyTy.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/homepage"
