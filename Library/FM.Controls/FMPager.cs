@@ -86,6 +86,12 @@ namespace FM.Controls
         public int tableCSSPaddingRight = 10;
 
         /// <summary>
+        /// 内容显示区的margin，后面赋内容实际显示宽度有用，赋值后在窄屏可以左右拖动
+        /// </summary>
+        public int MyDivTableClass_margin_left=20;
+        public int MyDivTableClass_margin_right=20;
+
+        /// <summary>
         /// 尺码最大数量
         /// </summary>
         public static int sizeCount = 999;
@@ -128,6 +134,11 @@ namespace FM.Controls
             Control repeater = FindRepeater(Page);
             HtmlContainerControl MyRepeater = (HtmlContainerControl)FindRepeater(Page);
             MyRepeater.InnerHtml = Html().Data.Html;
+            if (pagerArguments.ClientWidth > 0)
+            {
+                MyRepeater.Style.Add("width", (pagerArguments.ClientWidth- MyDivTableClass_margin_left- MyDivTableClass_margin_right).ToString()+"px");
+                MyRepeater.Style.Add("overflow-x", "auto");
+            }
             ChildControlsCreated = false;
         }
 
@@ -142,8 +153,15 @@ namespace FM.Controls
             if (pagerArguments.ClientHeight > 0 && contentHtml.Length > 0)
             {
                 Business.ProcPager inf = new Business.ProcPager();
-                DataSet widConfig = inf.GetTableRecord("v_wid_layout", "webid=" + pagerArguments.Wid);//得到wid 对应信息                
-                contentCSS = string.Format("style='max-height:{0}px;overflow-y:auto;width:" + (pageHtml.TableWidth + 20) + "px;'", (pagerArguments.ClientHeight - 160 - int.Parse(widConfig.Tables[0].Rows[0]["northheight"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheight"].ToString())).ToString());
+                DataSet widConfig = inf.GetTableRecord("v_wid_layout", "webid=" + pagerArguments.Wid);//得到wid 对应信息
+                int contentWidth = pageHtml.TableWidth + 20;
+                if (pagerArguments.ClientWidth > 0)
+                {
+                    //如果内容的父控件宽度比内容本身宽，那么将内容本身的宽设置为父控件宽度，这样内容的最后一个留白会对
+                    if (contentWidth < pagerArguments.ClientWidth - MyDivTableClass_margin_left - MyDivTableClass_margin_right)
+                        contentWidth = pagerArguments.ClientWidth - MyDivTableClass_margin_left - MyDivTableClass_margin_right;
+                }
+                contentCSS = string.Format("style='max-height:{0}px;overflow-y:auto;width:" + contentWidth + "px;'", (pagerArguments.ClientHeight - 160 - int.Parse(widConfig.Tables[0].Rows[0]["northheight"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheight"].ToString())).ToString());
             }
             pageHtml.Html = string.Format("<div>{0}</div><div {3} >{1}</div><div>{2}</div>", headHtml, contentHtml, totalHtml.Html, contentCSS);
             pageHtml.ColumnCount = this.detailHeadData.Select("visible=1").Length;
