@@ -132,6 +132,19 @@
     border-width: 0 1px 1px 0;
     padding: 2px;
 }
+    .style_head  col {
+        text-overflow: ellipsis;
+        overflow: hidden; /*border: solid #999; 	border-width: 0 1px 1px 0; 	padding: 2px; 	text-align: center; 	*/
+        background: none repeat scroll 0 0 #d9d6c4;
+        border-bottom: 1px solid #E1EBCE;
+        border-top: 1px solid #E1EBCE; /*color: #9CB085;*/
+        border-left: 1px solid #E1EBCE;
+        border-right: 1px solid #E1EBCE;
+        font-weight: normal;
+        height: 19px;
+        line-height: 19px;
+        padding-right: 10px;
+    }
 .style_head td
 {
     text-overflow: ellipsis;
@@ -250,7 +263,7 @@
     border: solid #999; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
     border-width: 0; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
     table-layout: fixed;
-    margin: 0 auto; /* 	table-layout: fixed;     */
+    margin: 0 auto; 
 }
 .style_Content a:link, a:visited
 {
@@ -396,7 +409,7 @@
     border-width: 0; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
     background-image: url('../../images/t-03.gif');
     margin: 0 auto;
-    table-layout: fixed; /* 	table-layout: fixed; 	*/
+    table-layout: fixed;
     width: 100%;
     height: 29px;
 }

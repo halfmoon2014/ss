@@ -35,10 +35,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FMPagerArguments.cs" />
     <Compile Include="HtmlContent.cs" />
     <Compile Include="HtmlParameter.cs" />
+    <Compile Include="PageCmContent.cs" />
+    <Compile Include="PageContent.cs" />
+    <Compile Include="PageDetail.cs" />
     <Compile Include="PageHtml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TotalHtml.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

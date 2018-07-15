@@ -55,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FMPager.cs" />
-    <Compile Include="FMPagerArguments.cs" />
     <Compile Include="Header.cs" />
     <Compile Include="PagerTest\ProcPager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text.RegularExpressions;
 using Service.DAL;
-
+using DTO;
 using Service.Util;
 
 namespace FM.Business
@@ -19,49 +19,63 @@ namespace FM.Business
             this.execObj = new DALInterface(null, connstr.GetDb(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid")));
         }
 
-        public void GetProcList(int wid, string detailsColumns, string orderBy, int pageIndex, int pageSize, Dictionary<string, string> formParm, string filterRow, 
-            ref int recordCount, ref DataTable columnDataType, ref DataTable totalDetailsData, ref string detailsSql, ref DataTable detailsData ,ref DataTable cmDetailsData)
-        {           
-            DataSet details = this.execObj.SubmitTextDataSet(this.sqlstring.GetWidSql(wid));
-            
-            detailsSql = ReplaceSqlCommandVar(details.Tables[0].Rows[0]["sql"].ToString().Trim() + " " + details.Tables[0].Rows[0]["sql_2"].ToString().Trim(), formParm);
-            DataSet detailsDataSet = this.execObj.SubmitTextDataSet(detailsSql);
+        /// <summary>
+        /// 获取业务数据
+        /// </summary>
+        /// <param name="pagerArguments"></param>
+        /// <param name="detailsColumns"></param>
+        /// <param name="recordCount"></param>
+        /// <param name="columnDataType"></param>
+        /// <param name="totalDetailsData"></param>
+        /// <param name="detailsSql"></param>
+        /// <param name="detailsData"></param>
+        /// <param name="cmDetailsData"></param>
+        public PageContent GetProcList( FMPagerArguments pagerArguments, List<string> detailsColumns)
+        {
+            PageContent pageContent = new PageContent();
+
+            DataSet details = this.execObj.SubmitTextDataSet(this.sqlstring.GetWidSql(pagerArguments.Wid));
+            pageContent.DetailsSql = ReplaceSqlCommandVar(details.Tables[0].Rows[0]["sql"].ToString().Trim() + " " + details.Tables[0].Rows[0]["sql_2"].ToString().Trim(), pagerArguments.FormParm);
+            DataSet detailsDataSet = this.execObj.SubmitTextDataSet(pageContent.DetailsSql);
 
             if (detailsDataSet.Tables.Count > 1)
             { //如果明细包含了尺码
                 if (details.Tables[0].Columns.Contains("mxly"))
-                {//旧系统没有mxly字段
+                {
+                    //旧系统没有mxly字段
+                    //尺码内容直接放在主表的第二个表中
                     if (details.Tables[0].Rows[0]["mxly"].ToString().Trim() == "主表")
                     {
-                        cmDetailsData = detailsDataSet.Tables[1];
+                        pageContent.CmDetailsData = detailsDataSet.Tables[1];
                     }
                 }
             }
             //复制一个
             DataTable detailsDataSetCopy = detailsDataSet.Tables[0].Clone();
-            if (filterRow == string.Empty)
+            if (string.IsNullOrEmpty(pagerArguments.FilterRow))
             {//如果没有筛选条件
                 detailsDataSetCopy = detailsDataSet.Tables[0];
             }
             else
             {
-                DataRow[] drtp = detailsDataSet.Tables[0].Select("1=1 and " + filterRow.Replace("!=", "<>"));
+                DataRow[] drtp = detailsDataSet.Tables[0].Select("1=1 and " + pagerArguments.FilterRow.Replace("!=", "<>"));
                 if (drtp.Length > 0)
                 {//如果筛选后还有数据
                     detailsDataSetCopy = DataRow2DataTable(drtp);
                 }
             }
 
-            recordCount = detailsDataSetCopy.Rows.Count;
+            pageContent.RecordCount = detailsDataSetCopy.Rows.Count;
             //排序
-            DataView dv = new DataView(detailsDataSetCopy, "", orderBy, DataViewRowState.CurrentRows);
+            DataView dv = new DataView(detailsDataSetCopy, "", pagerArguments.OrderBy, DataViewRowState.CurrentRows);
             //取指定页            
             //把得到查询字段的值分开,取指定列
-            string[] sArray = Regex.Split(detailsColumns, ",", RegexOptions.IgnoreCase);
+            string[] sArray = detailsColumns.ToArray();
             MyTy.Utils us = new MyTy.Utils();
-            detailsData = us.GetPagedTable(dv.ToTable("pager", false, sArray), pageIndex, pageSize);
-            GetColumnDataType(columnDataType, detailsData);
-            totalDetailsData = dv.ToTable();
+            pageContent.DetailsData = us.GetPagedTable(dv.ToTable("pager", false, sArray), pagerArguments.CurrentPageIndex, pagerArguments.PageSize);
+            pageContent.ColumnDataType= GetColumnDataType(pageContent.DetailsData);
+            pageContent.TotalDetailsData = dv.ToTable();
+            return pageContent;
         }
 
         /// <summary>
@@ -78,8 +92,9 @@ namespace FM.Business
             return tmp;
         }
 
-        public void GetColumnDataType(DataTable columnDataType, DataTable detailsData)
+        public DataTable GetColumnDataType( DataTable detailsData)
         {
+            DataTable columnDataType = new DataTable();
             //获取字段属性
             // Declare DataColumn and DataRow variables.
             DataColumn column;
@@ -106,6 +121,7 @@ namespace FM.Business
                 columnDataType.Rows.Add(row);
             }
 
+            return columnDataType;
         }
 
 
@@ -175,67 +191,66 @@ namespace FM.Business
         /// <param name="headlineData"></param>
         /// <param name="detailsColumns"></param>
         /// <param name="cmDetailsTag"></param>
-        public void GetHeadlineData(int wid, string columnLimit,ref DataTable headlineData, ref string detailsColumns, ref int cmDetailsTag)
-        { 
+        public PageDetail GetHeadlineData(int wid, string columnLimit)
+        {
+            PageDetail pageDetail = new PageDetail();
             using (DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.Gettbzdinfo(wid, (columnLimit == string.Empty ? " " : " AND  '" + columnLimit + "' not like  '%'+Ltrim(Rtrim(a.ywname)) + ',%'"))))
             {
-                foreach (DataRow i in ds.Tables[0].Rows)
+                pageDetail.Data = ds.Tables[0];
+                foreach (DataRow i in pageDetail.Data.Rows)
                 {
-                    //返回是否存在尺码标识
+                    //如果是尺码，那么不用放到列信息(detailsColumns)中
                     if (i["type"].ToString().Trim() == "mx")
-                    {
-                        cmDetailsTag = 1;
+                    {                        
+                        pageDetail.IsDetail = true;
                         continue;
                     }
-                    detailsColumns += i["ywname"].ToString().Trim() + ",";
-                }
-                //如果是明细没有数据的情况下,这个值要用来构造空行
-                detailsColumns = detailsColumns.Substring(0, detailsColumns.Length - 1);
-                headlineData = ds.Tables[0];
+                    //如果是明细没有数据的情况下,这个值要用来构造空行
+                    pageDetail.Columns.Add(i["ywname"].ToString().Trim());
+                }                             
             }
-
+            return pageDetail;
         }
+
         /// <summary>
         /// 得到明细和尺码
         /// </summary>
-        /// <param name="wid"></param>
+        /// <param name="pagerArguments"></param>
         /// <param name="detailsSql"></param>
-        /// <param name="formParm"></param>
-        /// <param name="cmDetailsData"></param>
-        /// <param name="cmHeadlineData"></param>
-        /// <param name="masterCmRelation"></param>
-        /// <param name="masterSlaveKey"></param>
-        /// <param name="detailCmRelation"></param>
-        public void GetCmDetails(int wid, string detailsSql, Dictionary<string, string> formParm, ref DataTable cmDetailsData, ref DataTable cmHeadlineData, ref string masterCmRelation, ref string masterSlaveKey, ref string detailCmRelation)
+        /// <param name="cmDetailsData">尺码数据如果来源主表，那么这个参数有值</param>
+        /// <returns></returns>
+        public PageCmContent GetCmDetails( FMPagerArguments pagerArguments,string detailsSql,DataTable cmDetailsData)
         {
-            DataSet widConfig = this.execObj.SubmitTextDataSet(this.sqlstring.ContEditSql(wid));
+            PageCmContent pageCmContent = new PageCmContent();
+            DataSet widConfig = this.execObj.SubmitTextDataSet(this.sqlstring.ContEditSql(pagerArguments.Wid));
 
             string tmpSqlCommand = "";
             string detailDataSourceTag = "";//明细来源,明细有可能存在主表            
 
             if (widConfig.Tables[0].Columns.Contains("mxly"))
-            {//旧系统没有mxly这个字段
+            {
+                //旧系统没有mxly这个字段
                 detailDataSourceTag = widConfig.Tables[0].Rows[0]["mxly"].ToString();
             }
 
             //明细与主表的关联
-            masterSlaveKey = widConfig.Tables[0].Rows[0]["mxgl"].ToString();
+            pageCmContent.MasterSlaveKey = widConfig.Tables[0].Rows[0]["mxgl"].ToString();
             string masterSlaveRelation = "";
-            for (int i = 0; i < masterSlaveKey.Split(',').Length; i++)
+            for (int i = 0; i < pageCmContent.MasterSlaveKey.Split(',').Length; i++)
             {
-                if (masterSlaveKey.Split(',')[i] != "")
+                if (pageCmContent.MasterSlaveKey.Split(',')[i] != "")
                 {
-                    masterSlaveRelation += " zb." + masterSlaveKey.Split(',')[i].ToString() + "=mx." + masterSlaveKey.Split(',')[i];
-                    if (i < masterSlaveKey.Split(',').Length - 1)
+                    masterSlaveRelation += " zb." + pageCmContent.MasterSlaveKey.Split(',')[i].ToString() + "=mx." + pageCmContent.MasterSlaveKey.Split(',')[i];
+                    if (i < pageCmContent.MasterSlaveKey.Split(',').Length - 1)
                     {
                         masterSlaveRelation += " and ";
                     }
                 }
-            }            
+            }
             //明细与尺码的关联
-            detailCmRelation = widConfig.Tables[0].Rows[0]["mxhgl"].ToString();
+            pageCmContent.DetailCmRelation = widConfig.Tables[0].Rows[0]["mxhgl"].ToString();
             //主表与尺码的关联
-            masterCmRelation = widConfig.Tables[0].Rows[0]["mxhord"].ToString();
+            pageCmContent.MasterCmRelation = widConfig.Tables[0].Rows[0]["mxhord"].ToString();
             //尺码SQL
             string cmSql = widConfig.Tables[0].Rows[0]["mxhsql"].ToString();
             //明细SQL
@@ -246,29 +261,36 @@ namespace FM.Business
                 if (detailSql != "" && masterSlaveRelation != "" && detailsSql != "")
                 {
                     tmpSqlCommand = "select mx.* from (" + detailSql + ") mx inner join (select a.* from (" + detailsSql + ") a ) zb on " + masterSlaveRelation;
-                    tmpSqlCommand = ReplaceSqlCommandVar(tmpSqlCommand, formParm);
+                    tmpSqlCommand = ReplaceSqlCommandVar(tmpSqlCommand, pagerArguments.FormParm);
                     using (DataSet ds = this.execObj.SubmitTextDataSet(tmpSqlCommand))
                     {
                         if (ds.Tables.Count != 0)
                         {
-                            cmDetailsData = ds.Tables[0];
-                            cmDetailsData.TableName = "DataMx";
+                            pageCmContent.CmDetailsData = ds.Tables[0];
+                            pageCmContent.CmDetailsData.TableName = "DataMx";
                         }
                     }                   
                     
                 }
             }
-            if (cmDetailsData != null)
+            else
+            {
+                pageCmContent.CmDetailsData = cmDetailsData;
+                pageCmContent.CmDetailsData.TableName = "DataMx";
+            }
+            if (pageCmContent.CmDetailsData != null)
             {
                 using (DataSet ds = execObj.SubmitTextDataSet(cmSql))
                 {
                     if (ds.Tables.Count != 0)
                     {
-                        cmHeadlineData = ds.Tables[0];
+                        pageCmContent.CmHeadlineData = ds.Tables[0];
                     }
                 }               
                 
             }
+
+            return pageCmContent;
 
         }
 

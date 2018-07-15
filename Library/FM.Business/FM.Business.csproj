@@ -63,6 +63,10 @@
     <Compile Include="WebSp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{d73e1422-9e97-4dc5-a32f-b86489f9d67a}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FM.Components\FM.Components.csproj">
       <Project>{6975CD50-BA72-4BD5-AE6B-40C913A9CA11}</Project>
       <Name>FM.Components</Name>

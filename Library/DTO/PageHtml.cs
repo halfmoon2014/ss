@@ -6,15 +6,15 @@ namespace DTO
 {
     public class PageHtml
     {
+
+        private string html;        
+
+        private int columnCount;
+
+        private int tableWidth;
         /// <summary>
         /// html
         /// </summary>
-        private string html;
-        /// <summary>
-        /// 列数
-        /// </summary>
-        private int columnCount;
-
         public string Html
         {
             get
@@ -27,7 +27,9 @@ namespace DTO
                 html = value;
             }
         }
-
+        /// <summary>
+        /// 列数
+        /// </summary>
         public int ColumnCount
         {
             get
@@ -40,5 +42,20 @@ namespace DTO
                 columnCount = value;
             }
         }
+        /// <summary>
+        /// 表格显示宽度
+        /// </summary>
+        public int TableWidth
+        {
+            get
+            {
+                return tableWidth;
+            }
+
+            set
+            {
+                tableWidth = value;
+            }
+        }   
     }
 }
