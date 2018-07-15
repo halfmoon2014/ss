@@ -10,6 +10,9 @@ namespace DTO
         private int height;
         private int width;
 
+        /// <summary>
+        /// html
+        /// </summary>
         public string Htmlmark
         {
             get
@@ -23,6 +26,9 @@ namespace DTO
             }
         }
 
+        /// <summary>
+        /// 所需要的高
+        /// </summary>
         public int Height
         {
             get
@@ -36,6 +42,9 @@ namespace DTO
             }
         }
 
+        /// <summary>
+        /// 所需要的宽
+        /// </summary>
         public int Width
         {
             get

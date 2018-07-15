@@ -71,41 +71,41 @@
         </form>
         <!-- Main component for a primary marketing message or call to action -->
         <div class="form-group">
-            <label for="fwsql">方位sql</label>
+            <label for="fwsql">单据SQL</label>
             <textarea class="form-control" ondblclick="fd(this)" rows="2"  runat="server" id="fwsql"></textarea>                
         </div>
         <div class="form-group">
-            <label for="tbsql">sql语句</label>
+            <label for="tbsql">详情SQL</label>
             <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="tbsql"></textarea>
             <label class="sr-only" for="tbsql2">sql语句附加语句</label>
             <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="tbsql2"></textarea>
         </div>
         <form class="form-horizontal">
             <div class="form-group">
-                <label for="mxgl" class="col-md-2 control-label">明细关联</label>
+                <label for="mxgl" class="col-md-2 control-label">明细SQL-尺码关联</label>
                 <div class="col-md-3">
                     <input type="text" class="form-control" id="mxgl" runat="server">
                 </div>
-                <label for="mxly" class="col-md-2 control-label">明细来源</label>
+                <label for="mxly" class="col-md-2 control-label">尺码来源</label>
                 <div class="col-md-3">
                     <input type="text" class="form-control" id="mxly" runat="server">
-                    <p class="help-block">可输入:主表,明细数据源,存储过程</p>                    
+                    <p class="help-block">可输入:主表,尺码数据源,存储过程</p>                    
                 </div>
                
             </div>
         </form>
         <div class="form-group">
-            <label for="mxsql">明细数据源</label>
+            <label for="mxsql">尺码</label>
             <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="mxsql"></textarea>            
         </div>
 
         <form class="form-horizontal">
             <div class="form-group">
-                <label for="mxhgl" class="col-md-2 control-label">明细数据源-表头关联</label>
+                <label for="mxhgl" class="col-md-2 control-label">尺码数据源-尺码标题关联</label>
                 <div class="col-md-3">
                     <input type="text" class="form-control" id="mxhgl" runat="server">
                 </div>
-                <label for="mxhord" class="col-md-2 control-label">sql语句-表头关联</label>
+                <label for="mxhord" class="col-md-2 control-label">明细SQL-尺码标题关联</label>
                 <div class="col-md-3">
                     <input type="text" class="form-control" id="mxhord" runat="server">                    
                 </div>
@@ -114,7 +114,7 @@
         </form>
 
         <div class="form-group">
-            <label for="mxhsql">明细头数据源</label>
+            <label for="mxhsql">尺码标题</label>
             <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="mxhsql"></textarea>
         </div>
     </div>

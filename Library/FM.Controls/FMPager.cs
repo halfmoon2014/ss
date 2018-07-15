@@ -35,27 +35,27 @@ namespace FM.Controls
         public DataTable detailHeadData = new DataTable();
 
         /// <summary>
-        /// 页内容数据源
+        /// 当前页要显示的业务详情
         /// </summary>
         public DataTable detailContentData = new DataTable();
 
         /// <summary>
-        /// 页内容数总据源
+        /// 完整的业务详情
         /// </summary>
         public DataTable totalDetailsData = new DataTable();
 
         /// <summary>
-        /// 到表字段属性
+        /// 业务详情各项的数据类型
         /// </summary>
         public DataTable columnDataType = new DataTable();
 
         /// <summary>
-        /// 主数据源的SQL代码
+        /// 详情数据SQL
         /// </summary>
         public string detailsSql = "";
 
         /// <summary>
-        /// 明细数据源
+        /// 业务详情对应的尺码数据
         /// </summary>
         public DataTable cmDetailsData = new DataTable();
 
@@ -65,16 +65,16 @@ namespace FM.Controls
         public DataTable cmHeadlineData = new DataTable();
 
         /// <summary>
-        /// 主表与尺码的关联
+        /// 详情与尺码标题的关联
         /// </summary>
         public string masterCmRelation = "";
 
         /// <summary>
-        /// 主表与明细的关联
+        /// 详情和尺码的关联
         /// </summary>
         public string masterSlaveKey = "";
         /// <summary>
-        /// 明细与尺码
+        /// 尺码与尺码标题的关联
         /// </summary>
         public string detailCmRelation = "";
 

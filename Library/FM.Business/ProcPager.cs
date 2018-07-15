@@ -181,7 +181,6 @@ namespace FM.Business
         public DataSet GetTableRecord(string tableName, string where)
         { 
             return this.execObj.SubmitTextDataSet(this.sqlstring.GetTablename(tableName, (where == string.Empty ? "" : " where " + where)));
-
         }
         /// <summary>
         /// 得到页面表头字段信息
@@ -222,39 +221,36 @@ namespace FM.Business
         public PageCmContent GetCmDetails( FMPagerArguments pagerArguments,string detailsSql,DataTable cmDetailsData)
         {
             PageCmContent pageCmContent = new PageCmContent();
-            DataSet widConfig = this.execObj.SubmitTextDataSet(this.sqlstring.ContEditSql(pagerArguments.Wid));
-
+            DataSet pageConfig = this.execObj.SubmitTextDataSet(this.sqlstring.ContEditSql(pagerArguments.Wid));
             string tmpSqlCommand = "";
             string detailDataSourceTag = "";//明细来源,明细有可能存在主表            
-
-            if (widConfig.Tables[0].Columns.Contains("mxly"))
-            {
-                //旧系统没有mxly这个字段
-                detailDataSourceTag = widConfig.Tables[0].Rows[0]["mxly"].ToString();
-            }
-
-            //明细与主表的关联
-            pageCmContent.MasterSlaveKey = widConfig.Tables[0].Rows[0]["mxgl"].ToString();
             string masterSlaveRelation = "";
+
+            //旧系统没有mxly这个字段
+            if (pageConfig.Tables[0].Columns.Contains("mxly"))                
+                detailDataSourceTag = pageConfig.Tables[0].Rows[0]["mxly"].ToString();
+
+            //详情与尺码的关联
+            pageCmContent.MasterSlaveKey = pageConfig.Tables[0].Rows[0]["mxgl"].ToString();
+            
             for (int i = 0; i < pageCmContent.MasterSlaveKey.Split(',').Length; i++)
             {
                 if (pageCmContent.MasterSlaveKey.Split(',')[i] != "")
                 {
                     masterSlaveRelation += " zb." + pageCmContent.MasterSlaveKey.Split(',')[i].ToString() + "=mx." + pageCmContent.MasterSlaveKey.Split(',')[i];
                     if (i < pageCmContent.MasterSlaveKey.Split(',').Length - 1)
-                    {
                         masterSlaveRelation += " and ";
-                    }
                 }
             }
-            //明细与尺码的关联
-            pageCmContent.DetailCmRelation = widConfig.Tables[0].Rows[0]["mxhgl"].ToString();
-            //主表与尺码的关联
-            pageCmContent.MasterCmRelation = widConfig.Tables[0].Rows[0]["mxhord"].ToString();
-            //尺码SQL
-            string cmSql = widConfig.Tables[0].Rows[0]["mxhsql"].ToString();
-            //明细SQL
-            string detailSql = widConfig.Tables[0].Rows[0]["mxsql"].ToString();
+            //尺码与尺码标题的关联
+            pageCmContent.DetailCmRelation = pageConfig.Tables[0].Rows[0]["mxhgl"].ToString();
+            //详情与尺码标题的关联
+            pageCmContent.MasterCmRelation = pageConfig.Tables[0].Rows[0]["mxhord"].ToString();
+            //尺码标题SQL
+            string cmSql = pageConfig.Tables[0].Rows[0]["mxhsql"].ToString();
+            //详情SQL
+            string detailSql = pageConfig.Tables[0].Rows[0]["mxsql"].ToString();
+
             if (detailDataSourceTag != "主表")
             {
                 //DataMx已经在GetProcList函数中得到内容            
@@ -269,8 +265,7 @@ namespace FM.Business
                             pageCmContent.CmDetailsData = ds.Tables[0];
                             pageCmContent.CmDetailsData.TableName = "DataMx";
                         }
-                    }                   
-                    
+                    }
                 }
             }
             else
@@ -283,15 +278,11 @@ namespace FM.Business
                 using (DataSet ds = execObj.SubmitTextDataSet(cmSql))
                 {
                     if (ds.Tables.Count != 0)
-                    {
                         pageCmContent.CmHeadlineData = ds.Tables[0];
-                    }
                 }               
                 
             }
-
             return pageCmContent;
-
         }
 
         /// <summary>
@@ -303,6 +294,7 @@ namespace FM.Business
         /// <returns></returns>
         public DataTable ghl(string tbname, string column, string where)
         {
+            //TODO: 未实现
 
             System.Data.SqlClient.SqlParameter[] lisParams = new System.Data.SqlClient.SqlParameter[2];
             lisParams[0].ParameterName = "@tablename";
@@ -316,7 +308,6 @@ namespace FM.Business
             
             return this.execObj.SubmitStoredProcedureDataSet("p_GHL", lisParams).Tables[0];
 
-
         }
 
         /// <summary>
@@ -328,9 +319,8 @@ namespace FM.Business
         public string ReplaceSqlCommandVar(string sqlCommand, Dictionary<string, string> FormParameters)
         {
             foreach (string key in FormParameters.Keys)
-            {
                 sqlCommand = sqlCommand.Replace(key.ToString().Trim(), FormParameters[key].ToString().Trim());
-            }
+
             return sqlCommand;
         }
 
