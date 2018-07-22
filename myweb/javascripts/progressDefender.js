@@ -49,6 +49,79 @@ function reLoad(callFun) {
         //其它
         callFun = "";
     }
+
+    reLoadSwal($("#username").val(), $("#username").attr("a"), $("#username").attr("b"), callFun)
+}
+
+function reLoadSwal(username,a,b, callFun) {
+    swal({
+        text: username + '你好,请输入你的密码',
+        content: "input",
+        button: {
+            text: "确定!",
+            closeModal: false,
+        },
+    })
+     .then(value2 => {
+         if (!value2) {             
+             throw null;
+         } else {
+             return fetch(`../webuser/ws.asmx/reloadJson`, {
+                 method: "POST",
+                 credentials: 'include',
+                 headers: {
+                     "Content-Type": "application/x-www-form-urlencoded"
+                 },
+                 body: "value1=" + username + "&value2=" + value2 + "&a=" + a + "&b=" + b
+             });
+         }
+     })
+     .then(results => {
+         return results.json();
+     })
+     .then(json => {
+         if (json.r) {
+             sAlert("登陆成功", "success", function () {
+                 if (typeof (callFun) == "function") {
+                     callFun();
+                 }
+             });
+         } else {
+             sAlert('登陆失败,请检查密码是否正确!', function () { reLoadSwal(username, a, b, callFun) });
+         }
+     })
+     .catch(err => {
+         if (err) {
+             sAlert('The AJAX request failed!');
+         } else {
+             swal.stopLoading();
+             swal.close();
+         }
+     });
+}
+
+function reLoad2(callFun) {
+    if (typeof (callFun) == "function") {
+        if (callFun.name == "") {
+            //匿名函数
+        } else {
+            //有名函数
+        }
+    } else if (typeof (callFun) == "object") {
+        //一个对象,构造一个字符串函数体
+        var fNmae = callFun.functionName;
+        var fArg = "";
+        for (var i = 0; i < callFun.args.length; i++) {
+            fArg += "'" + callFun.args[i] + "',";
+        }
+        if (fArg.length > 0) {
+            fArg = fArg.substring(0, fArg.length - 1);
+        }
+        callFun = "function(){" + fNmae + "(" + fArg + ")}";
+    } else {
+        //其它
+        callFun = "";
+    }
     var username = "";
     if ($("#username").length > 0) {
         username = $("#username").val();
@@ -156,32 +229,31 @@ function sessionOk(callFun) {
         });
         if (err == "") {
             if (r.r == "ture") {
-                $.messager.alert('提示信息', '登陆成功!', 'info', function () {
+                sAlert("登陆成功", "success", function () {
                     $('#ok').linkbutton('enable');
                     $('#esc').linkbutton('enable');
                     $("#session_psw").val("");
-                    $('#div_SysSession').hide(); 
+                    $('#div_SysSession').hide();
                     if (typeof (callFun) == "function") {
                         callFun();
                     }
-                })
+                });
             } else {
-                $.messager.alert('提示信息', '登陆失败,请检查密码是否正确!', 'info', function () {
+                sAlert('登陆失败,请检查密码是否正确!', function () {
                     $('#ok').linkbutton('enable');
                     $('#esc').linkbutton('enable');
                     $("#session_psw").focus();
                 });
             }
         } else {
-            $.messager.alert('提示信息', '登陆失败,请联系管理员!', 'info', function () {
+            sAlert('登陆失败,请联系管理员!', function () {
                 $('#ok').linkbutton('enable');
                 $('#esc').linkbutton('enable');
                 $("#session_psw").focus();
             });
-
         }
     } else {
-        $.messager.alert('提示信息', '密码不能为空!', 'info', function () {
+        sAlert('密码不能为空!', function () {
             $("#session_psw").focus();
         });
     }

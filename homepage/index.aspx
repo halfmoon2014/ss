@@ -33,31 +33,33 @@
 		<div id="page">
 			<div id="content">
 				<div class="post">
-					<h2 class="title"><a href="#">信息化的重要性</a></h2>
-					<p class="meta"><span class="date"><%--January 26, 2012--%></span><span class="posted">Posted by <a href="#">admin</a></span></p>
+					<h2 class="title"><a href="#">Importance of Information Systems in an Organization</a></h2>
+					<p class="meta"><span class="date"><%--January 26, 2012--%></span><span class="posted">Posted by <a href="#">Bert Markgraf</a></span></p>
 					<div style="clear: both;">&nbsp;</div>
 					<div class="entry">
-						<p>This is <strong>Simple World </strong>, a free, fully standards-compliant CSS template designed by <a href="http://www.freecsstemplates.org/" rel="nofollow">FreeCSSTemplates.org</a>. The photo used in this template is form <a href="http://pdphoto.org/">pdphoto.org</a>. This free template is released under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0</a> license, so you’re pretty much free to do whatever you want with it (even use it commercially) provided you keep the links in the footer intact. Aside from that, have fun with it :)</p>
-						<p>Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum ipsum. Proin imperdiet est. Phasellus dapibus semper urna. Pellentesque ornare, orci in felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem.</p>
-						<p class="links"><a href="#" class="more">Read More</a><a href="#" title="b0x" class="comments">Comments</a></p>
+						<p>To gain the maximum benefits from your company's<strong> information system</strong>, you have to exploit all its capacities. Information systems gain their importance by processing the data from company inputs to generate information that is useful for managing your operations. To increase the information system's effectiveness, you can either add more data to make the information more accurate or use the information in new ways.</p>
+						<p class="links"><a href="https://smallbusiness.chron.com/importance-information-systems-organization-69529.html" class="more">Read More</a><a href="#" title="b0x" class="comments">Comments</a></p>
 					</div>
 				</div>
 				<div class="post">
-					<h2 class="title"><a href="#">Lorem ipsum sed aliquam</a></h2>
-					<p class="meta"><span class="date"><%--January 24, 2012--%></span><span class="posted">Posted by <a href="#">Someone</a></span></p>
+					<h2 class="title"><a href="#">企业资源计划</a></h2>
+					<p class="meta"><span class="date"><%--January 24, 2012--%></span><span class="posted">Posted by <a href="#">维基百科</a></span></p>
 					<div style="clear: both;">&nbsp;</div>
 					<div class="entry">
-						<p>Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum vel, tempor at, varius non, purus. Mauris vitae nisl nec metus placerat consectetuer. Donec ipsum. Proin imperdiet est. Phasellus <a href="#">dapibus semper urna</a>. Pellentesque ornare, orci in consectetuer hendrerit, urna elit eleifend nunc, ut consectetuer nisl felis ac diam. Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem.  Mauris quam enim, molestie in, rhoncus.</p>
-						<p class="links"><a href="#" class="more">Read More</a><a href="#" title="b0x" class="comments">Comments</a></p>
+						<p>企业资源计划（<strong>enterprise resource planning，缩写ERP</strong>），或译企业资源规划，是一个由美国著名管理咨询公司Gartner于1990年提出的企业管理概念。企业资源计划最初被定义为应用软件，但迅速为全世界商业企业所接受。现在已经发展成为一个重要的现代企业管理理论，也是一个实施企业流程再造的重要工具。而当初应用软件的定义，现在则被称为“企业资源计划系统”[1]。企业资源计划系统是一个创建在信息技术基础上的系统化管理思想，为企业决策层及员工提供决策运行手段的管理平台。</p>
+						<p class="links"><a href="https://zh.wikipedia.org/wiki/%E4%BC%81%E4%B8%9A%E8%B5%84%E6%BA%90%E8%AE%A1%E5%88%92" class="more">Read More</a><a href="#" title="b0x" class="comments">Comments</a></p>
 					</div>
 				</div>
 				<div class="post">
-					<h2 class="title"><a href="#">Consecteteur hendrerit </a></h2>
-					<p class="meta"><span class="date"><%--January 20, 2012--%></span><span class="posted">Posted by <a href="#">Someone</a></span></p>
+					<h2 class="title"><a href="#">Software as a service</a></h2>
+					<p class="meta"><span class="date"><%--January 20, 2012--%></span><span class="posted">Posted by <a href="#">Microsoft Azure</a></span></p>
 					<div style="clear: both;">&nbsp;</div>
 					<div class="entry">
-						<p>Sed lacus. Donec lectus. Nullam pretium nibh ut turpis. Nam bibendum. In nulla tortor, elementum vel, tempor at, varius non, purus. Mauris vitae nisl nec metus placerat consectetuer. Donec ipsum. Proin imperdiet est. Phasellus <a href="#">dapibus semper urna</a>. Pellentesque ornare, orci in consectetuer hendrerit, urna elit eleifend nunc, ut consectetuer nisl felis ac diam. Etiam non felis. Donec ut ante. In id eros. Suspendisse lacus turpis, cursus egestas at sem.  Mauris quam enim, molestie in, rhoncus.</p>
-						<p class="links"><a href="#" class="more">Read More</a><a href="#" title="b0x" class="comments">Comments</a></p>
+						<p>
+                            Software as a service (SaaS) allows users to connect to and use cloud-based apps over the Internet. Common examples are email, calendaring, and office tools (such as Microsoft Office 365).
+                            </p>
+<p><strong>SaaS </strong>provides a complete software solution that you purchase on a pay-as-you-go basis from a cloud service provider. You rent the use of an app for your organization, and your users connect to it over the Internet, usually with a web browser. All of the underlying infrastructure, middleware, app software, and app data are located in the service provider’s data center. The service provider manages the hardware and software, and with the appropriate service agreement, will ensure the availability and the security of the app and your data as well. SaaS allows your organization to get quickly up and running with an app at minimal upfront cost.</p>
+						<p class="links"><a href="https://azure.microsoft.com/en-us/overview/what-is-saas/" class="more">Read More</a><a href="#" title="b0x" class="comments">Comments</a></p>
 					</div>
 				</div>
 				<div style="clear: both;">&nbsp;</div>
@@ -90,19 +92,19 @@
 					<li>
 						<h2>试用站点</h2>
 						<ul>
-							<li><a href="http://halfmoon2008.gicp.net/">Erp</a></li>
-                            <li><a href="#">仓库管理系统</a></li>
-							<li><a href="#">专卖店系统</a></li>
-							<li><a href="#">保健品</a></li>
+							<li><a href="http://soft.nextsgo.com">Erp</a></li>
+                            <li><a href="http://soft.nextsgo.com">仓库管理系统</a></li>
+							<li><a href="http://soft.nextsgo.com">专卖店系统</a></li>
+							<li><a href="http://soft.nextsgo.com">保健品</a></li>
 				
 						</ul>
 					</li>
 					<li>
 						<h2>合作伙伴</h2>
 						<ul>
-							<li><a href="#">**洁具</a></li>
-							<li><a href="#">**服饰</a></li>
-							<li><a href="#">**专卖</a></li>
+							<li><a href="#">* * 洁 具</a></li>
+							<li><a href="#">* * 服 饰</a></li>
+							<li><a href="#">* * 专 卖</a></li>
 					 
 						</ul>
 					</li>

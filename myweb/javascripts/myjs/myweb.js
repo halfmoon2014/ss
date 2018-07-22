@@ -121,6 +121,10 @@ window.onunload = function () {
     }
 }
 
+function openWin(url, obj) {
+    window.open(url);
+}
+
 /*
 *
 */

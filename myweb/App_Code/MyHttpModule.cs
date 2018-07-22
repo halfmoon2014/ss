@@ -56,6 +56,7 @@ public class MyHttpModule : IHttpModule
         string loginFileName = ConfigReader.Read(xml, "/Root/WebFile/Login/FileName", "");
         string chooseTzFileName = ConfigReader.Read(xml, "/Root/WebFile/ChooseTz/FileName", "");
         LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("", "", "Application_AcquireRequestState", absolutePath));
+        log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
         if (myCode.CheckPageType(absolutePath, "NoLimitUrl"))
         {
             #region 不受session控制的页面
@@ -65,13 +66,14 @@ public class MyHttpModule : IHttpModule
         else if (myCode.CheckPageType(absolutePath, "Login"))
         {
             #region 登陆页面
-            log.WriteLog("MyHttpModule", "login");
+            log.WriteLog("MyHttpModule", "login");            
             if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
-            {
+            {                
                 application.Response.Redirect("~/" + SessionHandle.Get("menupage"));
             }
             else if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") == null)
             {
+                log.WriteLog("MyHttpModule", chooseTzFileName + "2");
                 application.Response.Redirect("~/" + chooseTzFileName);
             }
             #endregion

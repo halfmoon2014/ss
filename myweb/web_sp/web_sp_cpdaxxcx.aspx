@@ -6,7 +6,7 @@
    
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="选择" />
 </head>
-<body style="width: 200px">
+<body style="width: 200px;margin:0px;border:0px;">
     <form id="form1" runat="server">
     <!--
     <table>

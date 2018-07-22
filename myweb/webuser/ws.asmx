@@ -266,6 +266,27 @@ public class ws : System.Web.Services.WebService
         }
     }
 
+    [WebMethod(EnableSession = true)]
+    //重新登陆
+    public void reloadJson(string value1, string value2, string a, string b)
+    {
+        //sjxg.Class1 sj = new sjxg.Class1();
+        value1 = MyCode.MySysDate(value1);
+        value2 = MyCode.MySysDate(value2);
+        a = MyCode.MySysDate(a);
+        b = MyCode.MySysDate(b);
+        //bool t  = sj.Reload(value1,value2,a,b);
+        FM.Business.Login lg = new FM.Business.Login();
+        bool t = lg.Reload(value1, value2, a, b);
+        Context.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
+        Context.Response.Charset = "utf-8";
+        if (t)
+            Context.Response.Write("{\"r\":true}");
+        else
+            Context.Response.Write("{\"r\":false}");
+
+        Context.Response.End();
+    }
 
     [WebMethod(EnableSession = true)]
     //根据mykey 返回 页面要加载的数据

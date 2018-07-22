@@ -57,13 +57,13 @@ namespace FM.Controls.Header
                 else if (string.Compare(pageThemes["PageThemes"], "jqeui") != 0)
                 {
                     SetJqueryScript();
-                    SetStyleSheet(string.Format("{0}/css/f1/main.css", HTMLHelper.GetWebVirtualUrl()));
-                    SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", HTMLHelper.GetWebVirtualUrl()));
-                    SetScript(string.Format("{0}/AjaxHandler/ProcPager.js", HTMLHelper.GetWebVirtualUrl()));
-                    SetScript(string.Format("{0}/javascripts/f1/base.js", HTMLHelper.GetWebVirtualUrl()));
-                    SetScript(string.Format("{0}/javascripts/utils.js", HTMLHelper.GetWebVirtualUrl()));
-                    SetScript(string.Format("{0}/javascripts/myjs/myweb.js", HTMLHelper.GetWebVirtualUrl()));
-                    SetScript(string.Format("{0}/javascripts/json2.js", HTMLHelper.GetWebVirtualUrl()));
+                    SetStyleSheet(string.Format("{0}/css/f1/main.css", ""));
+                    SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", ""));
+                    SetScript(string.Format("{0}/AjaxHandler/ProcPager.js", ""));
+                    SetScript(string.Format("{0}/javascripts/f1/base.js", ""));
+                    SetScript(string.Format("{0}/javascripts/utils.js", ""));
+                    SetScript(string.Format("{0}/javascripts/myjs/myweb.js", ""));
+                    SetScript(string.Format("{0}/javascripts/json2.js", ""));
                 }
             }
         }
@@ -73,12 +73,12 @@ namespace FM.Controls.Header
         /// <param name="Themes"></param>
         void SetJQEUI(string Themes)
         {
-            SetStyleSheet(string.Format("{0}/css/jey/{1}/easyui.css", HTMLHelper.GetWebVirtualUrl(), Themes));
-            SetStyleSheet(string.Format("{0}/css/jey/icon.css", HTMLHelper.GetWebVirtualUrl()));          
-            SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.min.js", HTMLHelper.GetWebVirtualUrl()));
+            SetStyleSheet(string.Format("{0}/css/jey/{1}/easyui.css", "", Themes));
+            SetStyleSheet(string.Format("{0}/css/jey/icon.css", ""));          
+            SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.min.js", ""));
             //jquery easyui 日期格式化
-            SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.add.js", HTMLHelper.GetWebVirtualUrl()));
-            SetScript(string.Format("{0}/javascripts/jey/easyui-lang-zh_CN.js", HTMLHelper.GetWebVirtualUrl()));
+            SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.add.js", ""));
+            SetScript(string.Format("{0}/javascripts/jey/easyui-lang-zh_CN.js", ""));
             //end jquery easyui 日期格式化
         }
         /// <summary>
@@ -86,31 +86,31 @@ namespace FM.Controls.Header
         /// </summary>
         void SetJSUtil()
         {            
-            SetScript(string.Format("{0}/javascripts/utils.js", HTMLHelper.GetWebVirtualUrl()));            
-            SetScript(string.Format("{0}/javascripts/json2.js", HTMLHelper.GetWebVirtualUrl()));            
+            SetScript(string.Format("{0}/javascripts/utils.js", ""));            
+            SetScript(string.Format("{0}/javascripts/json2.js", ""));            
         }
         /// <summary>
         /// 平台自定义
         /// </summary>
         void SetPlat()
         {
-            SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", HTMLHelper.GetWebVirtualUrl()));
-            SetScript(string.Format("{0}/javascripts/myjs/myweb.js", HTMLHelper.GetWebVirtualUrl()));
-            SetScript(string.Format("{0}/AjaxHandler/ProcPager.js", HTMLHelper.GetWebVirtualUrl()));
+            SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", ""));
+            SetScript(string.Format("{0}/javascripts/myjs/myweb.js", ""));
+            SetScript(string.Format("{0}/AjaxHandler/ProcPager.js", ""));
         }
         /// <summary>
         /// 进程守护
         /// </summary>
         void SETProgressDefender()
         {
-            SetScript(string.Format("{0}/javascripts/progressDefender.js", HTMLHelper.GetWebVirtualUrl()));
+            SetScript(string.Format("{0}/javascripts/progressDefender.js", ""));
         }
         /// <summary>
         /// 加载JQUERY
         /// </summary>
         void SetJqueryScript()
         {
-            SetScript(string.Format("{0}/javascripts/jquery/1.12.4/jquery.min.js", HTMLHelper.GetWebVirtualUrl()));
+            SetScript(string.Format("{0}/javascripts/jquery/1.12.4/jquery.min.js", ""));
         }
         bool IHttpHandler.IsReusable
         {

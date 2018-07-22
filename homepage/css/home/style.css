@@ -238,7 +238,7 @@ a:hover {
 	letter-spacing: 1px;
 	letter-spacing: -1px;
 	text-align: left;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	font-size: 26px;
 	font-weight: normal;
 	color: #C16C2F;
@@ -445,3 +445,5 @@ a:hover {
   font-weight: 400;
   src: local('Ubuntu Condensed'), local('UbuntuCondensed-Regular'), url(DBCt-NXN57MTAFjitYxdrFzqCfRpIA3W6ypxnPISCPA.woff) format('woff');
 }
+
+ 

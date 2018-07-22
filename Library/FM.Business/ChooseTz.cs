@@ -41,7 +41,7 @@ namespace FM.Business
                             "<div class=\"list-group tzlist\">{0}</div>" +
                             "<div class=\"panel-footer\">" +
                                     "<div class=\"checkbox\" style=\"text-align:right\">" +
-                                        "<label><input name=\"updata\" id=\"updata\" type = \"checkbox\" >权限更新</label >" +
+                                        "<label><input name=\"updata\" id=\"updata\" type = \"checkbox\" >初始建账</label >" +
                                     "</div>" +
                             "</div>" +
                         "</div>" +

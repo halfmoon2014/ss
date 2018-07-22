@@ -31,18 +31,18 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
             url: '../webuser/ws.asmx/sjy_upjs',
             data: { wid: wid, js: js },
             error: function (e) {
-                utils.sAlert( '连接失败!', true, function () {
+                utils.sAlert( '连接失败!',  function () {
                     $('#ok').removeAttr("disabled")
                 });
             },
             success: function (data) {
                 var r = utils.myAjaxData(data);
                 if (r.r == 'true') {
-                    utils.sAlert('保存成功!', true, function () {
+                    utils.sAlert('保存成功!', "success", function () {
                         $('#ok').removeAttr("disabled")
                     });
                 } else {
-                    utils.sAlert('保存失败!', true, function () {
+                    utils.sAlert('保存失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 }

@@ -99,6 +99,10 @@
         }
     };
 
+    var openWin = function (url,obj) {
+        window.open(url);
+    }
+
     /*
     *
     */
@@ -200,7 +204,7 @@
             rs += "                                                 密码 ";
             rs += "                                             </td> ";
             rs += "                                             <td align=\"left\"> ";
-            rs += "                                                 <input type=\"password\" id=\"session_psw\" class=\"easyui-validatebox\" data-options=\"required:true,missingMessage:'密码能为空'\" ";
+            rs += "                                                 <input type=\"password\" id=\"session_psw\" class=\"easyui-validatebox\" data-options=\"required:true,missingMessage:'密码不能为空'\" ";
             rs += "                                                     style='width: 140px; height: 22px;' /> ";
             rs += "                                             </td> ";
             rs += "                                             <td> ";
