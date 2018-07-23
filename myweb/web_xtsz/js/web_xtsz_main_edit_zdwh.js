@@ -88,7 +88,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         }
 
         if (data.row.length == 0) {
-            utils.sAlert('没有可更新的记录!', true, function () {
+            utils.sAlert('没有可更新的记录!',  function () {
                 $('#ok').removeAttr("disabled")
             });
         } else {
@@ -97,19 +97,19 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                 url: '../webuser/ws.asmx/UpSYJZdwh',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    utils.sAlert('连接失败!', true, function () {
+                    utils.sAlert('连接失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        utils.sAlert('保存成功!', true, function () {
+                        utils.sAlert('保存成功!', "success", function () {
                             $('#ok').removeAttr("disabled");
                             location.reload();
                         });
                     } else {
-                        utils.sAlert('保存失败!', true, function () {
+                        utils.sAlert('保存失败!'+r.r,  function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }
@@ -146,7 +146,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        utils.sAlert('复制成功!', true, function () { parent.closeTab("refresh", false); });
+                        utils.sAlert('复制成功!', "success", function () { parent.closeTab("refresh", false); });
                     } else {
                         utils.sAlert('复制失败!');
                     }

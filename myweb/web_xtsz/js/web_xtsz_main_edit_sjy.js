@@ -30,7 +30,7 @@ require(["jquery", "utils"], function ($, utils) {
         var sql_2 = document.getElementById("tbsql2").value;
 
         if (name.length == 0) {
-            utils.sAlert('中文名称一定要输入!', true, function () {
+            utils.sAlert('中文名称一定要输入!',  function () {
                 $('#ok').removeAttr("disabled")
             });
 
@@ -48,18 +48,18 @@ require(["jquery", "utils"], function ($, utils) {
                 url: '../webuser/ws.asmx/sjy_up',
                 data: { wid: wid, value1: name, value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly, sql_2: sql_2 },
                 error: function (e) {
-                    utils.sAlert('连接失败!', true, function () {
+                    utils.sAlert('连接失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        utils.sAlert('保存成功!', true, function () {
+                        utils.sAlert('保存成功!', "success", function () {
                             $('#ok').removeAttr("disabled")
                         });
                     } else {
-                        utils.sAlert('保存失败!', true, function () {
+                        utils.sAlert('保存失败!',  function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }

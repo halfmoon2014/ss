@@ -10,6 +10,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Reflection;
 using System.Linq;
+using MyTy;
 
 namespace Service.Util
 {
@@ -819,7 +820,7 @@ namespace Service.Util
             return "true";
         }
 
-        public string UpSYJZdwh(string data)
+        public Result<string> UpSYJZdwh(string data)
         {
             StringBuilder sql = new StringBuilder();
             
@@ -847,8 +848,15 @@ namespace Service.Util
                     }
                 }
             }
-            int r = this.execObj.SubmitTextInt(sql.ToString());
-            return "true";
+            if (sql.Length>0)
+            {
+                int r = this.execObj.SubmitTextInt(sql.ToString());
+                return ResultUtil<string>.success("success");
+            }else
+            {
+                return ResultUtil<string>.error(1001, "没有要更新的数据");
+            }
+            
         }
 
 

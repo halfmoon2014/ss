@@ -79,7 +79,7 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string UpSYJLayout(string wid, string data)
     {
-        Business ei =getBusiness();
+        Business ei = getBusiness();
         CacheTools.UpdateDep(wid);
         return "{r:'" + ei.UpSYJLayout(data) + "'}";
     }
@@ -94,10 +94,13 @@ public class ws : System.Web.Services.WebService
     {
         Business ei = getBusiness();
         CacheTools.UpdateDep(wid);
-        return "{r:'" + ei.UpSYJZdwh(data) + "'}";
+        Result<string> result = ei.UpSYJZdwh(data);
+        if (result.Errcode == 0)
+            return "{r:'true'}";
+        else
+            return "{r:'" + result.Errmsg + "'}";
+
     }
-
-
 
     /// <summary>
     ///  WEB设计js保存
