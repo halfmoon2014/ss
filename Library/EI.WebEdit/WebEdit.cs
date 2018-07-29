@@ -939,15 +939,12 @@ namespace EI.Web
                 {
                     #region
                     string sevent = dr["event"].ToString().Trim();
-
                     string visible = "";
-                    string width = "";
-                    string qwidth = "";
+                    string width = "";                  
 
                     if (dr["visible"].ToString().Trim() == "1")
                     {
-                        width = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
-                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
+                        width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");                       
                     }
                     else
                     {

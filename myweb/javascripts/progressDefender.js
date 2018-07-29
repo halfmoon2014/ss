@@ -49,11 +49,15 @@ function reLoad(callFun) {
         //其它
         callFun = "";
     }
-
-    reLoadSwal($("#username").val(), $("#username").attr("a"), $("#username").attr("b"), callFun)
+    if (browser.versions.trident) {
+        reLoad2(callFun);
+    } else {
+        reLoadSwal($("#username").val(), $("#username").attr("a"), $("#username").attr("b"), callFun)
+    }
 }
 
-function reLoadSwal(username,a,b, callFun) {
+function reLoadSwal(username, a, b, callFun) {
+
     swal({
         text: username + '你好,请输入你的密码',
         content: "input",
@@ -62,11 +66,11 @@ function reLoadSwal(username,a,b, callFun) {
             closeModal: false,
         },
     })
-     .then(value2 => {
+     .then(function(value2) {
          if (!value2) {             
              throw null;
          } else {
-             return fetch(`../webuser/ws.asmx/reloadJson`, {
+             return fetch("../webuser/ws.asmx/reloadJson", {
                  method: "POST",
                  credentials: 'include',
                  headers: {
@@ -76,10 +80,10 @@ function reLoadSwal(username,a,b, callFun) {
              });
          }
      })
-     .then(results => {
+     .then(function(results) {
          return results.json();
      })
-     .then(json => {
+     .then(function(json){
          if (json.r) {
              sAlert("登陆成功", "success", function () {
                  if (typeof (callFun) == "function") {
@@ -90,7 +94,7 @@ function reLoadSwal(username,a,b, callFun) {
              sAlert('登陆失败,请检查密码是否正确!', function () { reLoadSwal(username, a, b, callFun) });
          }
      })
-     .catch(err => {
+     .catch(function(err){
          if (err) {
              sAlert('The AJAX request failed!');
          } else {
@@ -98,6 +102,7 @@ function reLoadSwal(username,a,b, callFun) {
              swal.close();
          }
      });
+
 }
 
 function reLoad2(callFun) {
@@ -128,7 +133,7 @@ function reLoad2(callFun) {
     }
 
     if ($("#div_SysSession").length == 0) {
-        var rs = " <div id=\"div_SysSession\" style=\"position: relative; width:100%;height:100%; overflow: auto;display: none;\">  "
+        var rs = " <div id=\"div_SysSession\" style=\" width:100%;height:100%; overflow: auto;display: none;\">  "
 
         rs += "  <div id=\"SysSessionMask\" style=\"top: 0; left: 0; position: absolute; z-index: 1000;\"  class=\"SysFindSortMaskclass\"></div>"
 

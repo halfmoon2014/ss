@@ -103,8 +103,8 @@
                     objSelect.options.remove(i);
                     break;
                 }
-            }            
-        } 
+            }
+        }
     };
 
     // 4.删除select中选中的项    
@@ -152,19 +152,19 @@
         }
     };
 
-       
+
     // 7.设置select中value="paraValue"的Item为选中    
     //document.all.objSelect.value = objItemValue;    
-           
+
     // 8.得到select的当前选中项的value    
     //var currSelectValue = document.all.objSelect.value;    
-           
+
     // 9.得到select的当前选中项的text    
     //var currSelectText = document.all.objSelect.options[document.all.objSelect.selectedIndex].text;    
-           
+
     // 10.得到select的当前选中项的Index    
     //var currSelectIndex = document.all.objSelect.selectedIndex;    
-           
+
     // 11.清空select的项    
     //document.all.objSelect.options.length = 0;   
 
@@ -359,7 +359,7 @@
         change();
     };
 
-  
+
     //sweetalert封装
 
     var sConfirmTitleAndCallBack = function (title, callBack) {
@@ -378,7 +378,7 @@
         sConfirmAll(settings.title, settings.callBack, settings.confirmButtonText, settings.cancelButtonText, settings.icon)
     }
 
-    var sConfirmAll = function (title, callBack, confirmButtonText, cancelButtonText, icon) {
+    var sConfirmAll = function (title, callBack, confirmButtonText, cancelButtonText, icon) {      
         swal({
             title: title,
             text: "",
@@ -394,7 +394,7 @@
             closeOnClickOutside: false,
             closeOnEsc: false,
         })
-        .then((willDelete) => {
+        .then(function (willDelete) {
             if (undefined != callBack) {
                 callBack(willDelete);
             }
@@ -444,12 +444,11 @@
             },
             closeOnClickOutside: false,
             closeOnEsc: false,
-        })
-        .then((willDelete) => {
+        }).then(function (willDelete) {
             if (undefined != callBack) {
                 callBack();
             }
-        });
+        });       
     }
 
     var sAlert = function () {
@@ -522,7 +521,7 @@
     }
 
     return {
-        forDight: forDight,        
+        forDight: forDight,
         browser: browser,
         jsSelectIsExitItem: jsSelectIsExitItem,
         jsAddItemToSelect: jsAddItemToSelect,
@@ -541,9 +540,9 @@
         postNewWin2: postNewWin2,
         randomKey: randomKey,
         autoTextarea: autoTextarea,
-        sConfirm: sConfirm,        
+        sConfirm: sConfirm,
         sAlert: sAlert,
         showLoading: showLoading,
         hideLoading: hideLoading
-        };
+    };
 });

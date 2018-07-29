@@ -12,7 +12,7 @@
     <link href="css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
     <link href="css/login3/signin.css" rel="stylesheet" />
-    <script src="javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
+    <script src="javascripts/bootstrap/ie-emulation-modes-warning.js"></script>    
     <!--[if lt IE 9]>
         <script src="javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>

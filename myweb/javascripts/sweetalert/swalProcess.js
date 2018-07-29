@@ -40,7 +40,7 @@ var sConfirmAll = function (title, callBack, confirmButtonText, cancelButtonText
         closeOnClickOutside: false,
         closeOnEsc: false,
     })
-    .then((willDelete) => {
+    .then(function(willDelete){
         if (undefined != callBack) {
             callBack(willDelete);
         }
@@ -91,7 +91,7 @@ var sAlertAll = function (title, callBack, icon, confirm) {
         closeOnClickOutside: false,
         closeOnEsc: false,
     })
-    .then((willDelete) => {
+    .then(function(willDelete){
         if (undefined != callBack) {
             callBack();
         }

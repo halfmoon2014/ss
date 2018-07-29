@@ -103,7 +103,7 @@ namespace FM.Controls.Header
         /// </summary>
         void SETProgressDefender()
         {
-            SetScript(string.Format("{0}/javascripts/progressDefender.js", ""));
+            SetScript(string.Format("{0}/javascripts/progressDefender.js", ""));            
         }
         /// <summary>
         /// 加载JQUERY
