@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <!-- sysHead -->
-    <ctrlHeader:DefaultHeader Title="账套选择" ID="sysHead" runat="server" />
+    <ctrlHeader:DefaultHeader Title="Account" ID="sysHead" runat="server" />
     <!-- End of sysHead -->
 
     <!-- Libraries -->
@@ -25,7 +25,10 @@
 
         .form-signin {
             max-width: 1000px;
-            padding: 15px;
+            padding-top:15px;
+            padding-bottom:0px;
+            padding-left:15px;
+            padding-right:15px;
             margin: 0 auto;
         }
     </style>

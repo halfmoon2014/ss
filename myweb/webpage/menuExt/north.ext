@@ -1,0 +1,8 @@
+﻿<table style="width: 98%; height: 98%" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td align="left">&nbsp;</td>
+        <td>&nbsp;</td>
+        <td style="width: 520px; vertical-align: bottom; text-align: right;">[<a href='../ChooseTz.aspx' class='a_top' style='text-decoration: none' target='_parent'>切换套账</a>]&nbsp;&nbsp;当前系统:{0}-{1}&nbsp;&nbsp;[<a href="#" class='a_top' onclick="passwordModify()">修改密码</a>]&nbsp;&nbsp;[<a href="#" class='a_top' onclick="window_onunload(0)">用户注销</a>]&nbsp;&nbsp;
+        </td>
+    </tr>
+</table>

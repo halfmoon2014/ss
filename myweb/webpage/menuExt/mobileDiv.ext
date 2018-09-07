@@ -1,0 +1,8 @@
+﻿<div id="container">
+    {0}   
+    <div id="content_menu3_mydiv_mobile" style="margin-left: 20px;margin-right: 20px;">
+        Welcome
+    </div>
+    {1}
+</div>
+

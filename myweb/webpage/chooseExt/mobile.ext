@@ -1,0 +1,22 @@
+﻿<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">套账选择</a>
+        </div>
+    </div>
+</nav>
+<div class="form-signin">
+    <div class="panel panel-default">
+        <div class="list-group tzlist">{0}</div>
+    </div>
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="checkbox" style="text-align: right; margin-right: 30px;">
+                <label>
+                    <input name="updata" id="updata" type="checkbox">初始建账</label>
+            </div>
+        </div>
+    </div>
+</nav>

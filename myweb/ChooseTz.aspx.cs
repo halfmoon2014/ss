@@ -1,6 +1,8 @@
 ﻿using System;
 using MySession;
 using System.Data;
+using DTO;
+
 public partial class ChooseTz : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
@@ -8,8 +10,8 @@ public partial class ChooseTz : System.Web.UI.Page
         //默认主页为menu_,数据库>自定义
         
         FM.Business.ChooseTz tz = new FM.Business.ChooseTz();
-        string[] mystring = tz.GetTzMenu("menu_");
-        container.InnerHtml = mystring[1];
+        HtmlMenu htmlMenu = tz.GetTzMenu(Request.PhysicalApplicationPath,"menu_");
+        container.InnerHtml = htmlMenu.Htmlmark;
         //if (mystring[0] == "Response")
         //{
         //    Response.Redirect(mystring[1]);
@@ -17,6 +19,5 @@ public partial class ChooseTz : System.Web.UI.Page
         //{
         //    container.InnerHtml = mystring[1];
         //}
-
     }
 }

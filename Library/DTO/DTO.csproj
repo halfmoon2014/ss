@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="FMPagerArguments.cs" />
     <Compile Include="HtmlContent.cs" />
+    <Compile Include="HtmlMenu.cs" />
     <Compile Include="HtmlParameter.cs" />
     <Compile Include="PageCmContent.cs" />
     <Compile Include="PageContent.cs" />

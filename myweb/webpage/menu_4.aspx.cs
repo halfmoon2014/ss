@@ -10,7 +10,7 @@ public partial class webpage_menu_4 : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         EI.Web.WebMenu em = new EI.Web.WebMenu();
-        menubody.InnerHtml = em.GetCont();
+        menubody.InnerHtml = em.GetCont(Request.PhysicalApplicationPath);
         
     }
 }

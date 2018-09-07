@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Web;
-using FM.Components;
 using System.Collections.Generic;
-
+using MyTy;
 namespace FM.Controls.Header
 {
     public class DefaultHeader : Header, IHttpHandler
@@ -37,10 +36,30 @@ namespace FM.Controls.Header
             }
             else if (myCode.CheckPageType(absolutePath, "MenuPage"))
             {
-                SetJqueryScript();
-                SetJQEUI(pageThemes["Themes"]);
-                SetJSUtil();
-                SETProgressDefender();
+                //手机
+                if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
+                {
+                    SetJqueryScript();
+                    SETProgressDefender();
+                    SetJSUtil();
+                    SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", ""));
+                    SetStyleSheet(string.Format("{0}/css/bootstrap/ie10-viewport-bug-workaround.css", ""));
+                    SetScript(string.Format("{0}/javascripts/bootstrap/ie-emulation-modes-warning.js", ""));
+                    SetScript(string.Format("{0}/javascripts/bootstrap/ie10-viewport-bug-workaround.js", ""));
+                    SetScript(string.Format("{0}/javascripts/bootstrap/3.3.7/bootstrap.min.js", ""));
+                    SetScript(string.Format("{0}/javascripts/menu_3/menu_3_mobile.js", ""));
+                }
+                else
+                {
+                    SetJqueryScript();
+                    SetJQEUI(pageThemes["Themes"]);
+                    SetJSUtil();
+                    SETProgressDefender();
+                    SetStyleSheet(string.Format("{0}/css/menu_3.css", ""));
+                    SetScript(string.Format("{0}/javascripts/menu_3/menu_3.js", ""));
+                    SetScript(string.Format("{0}/javascripts/longPolling.js", ""));
+                    SetScript(string.Format("{0}/javascripts/myjs/myweb.js", ""));
+                }
             }
             //其它页             
             else

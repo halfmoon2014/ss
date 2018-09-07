@@ -1,0 +1,47 @@
+﻿<div data-options="region:'north',border:false" style="height: 40px; padding: 0px" class="menu3_north">
+    {0}
+</div>
+<div data-options="region:'west',split:true,hideCollapsedContent:false,title:'目录'" style="width: 160px; padding: 0px;">
+    {1}
+</div>
+<div data-options="region:'south',border:false" style="height: 30px; padding: 0px;">
+</div>
+<div id="mainPanle" data-options="region:'center',title:''">
+    <div id="tabs" class="easyui-tabs" fit="true" border="false">
+        <div title="主页" style="padding: 20px; overflow: hidden;" id="home">
+            <h1>Welcome</h1>
+        </div>
+    </div>
+</div>
+{2}
+<div id="mm" class="easyui-menu" style="width: 150px;">
+    <div id="refresh">
+        刷新
+    </div>
+    <div class="menu-sep">
+    </div>
+    <div id="close">
+        关闭
+    </div>
+    <div id="closeall">
+        全部关闭
+    </div>
+    <div id="closeother">
+        除此之外全部关闭
+    </div>
+    <div class="menu-sep">
+    </div>
+    <div id="closeright">
+        当前页右侧全部关闭
+    </div>
+    <div id="closeleft">当前页左侧全部关闭</div>
+    <div class="menu-sep">
+    </div>
+    <div id="exit">
+        退出
+    </div>
+</div>
+<input type="hidden" id="username" a="{3}" b="{4}" value="{5}" />
+<dialog id="platDialog" style="border: 3px; padding: 16px;">
+    <iframe style="width: 800px; height: 600px" id="platIframe" frameborder="0"></iframe>
+</dialog>

@@ -6,13 +6,7 @@
     <!-- sysHead --> 
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="menu_3" />
     <!-- end of sysHead -->
-    <!-- Libraries --> 
-    <script src="../javascripts/menu_3/menu_3.js" type="text/javascript"></script>
-    <script src="../javascripts/longPolling.js" type="text/javascript"></script>
-    <link href="../css/menu_3.css" rel="stylesheet" type="text/css" />
-    <script src="../javascripts/myjs/myweb.js"></script>
-    <!-- end of  Libraries -->
 </head>
-<body id="menubody" runat="server" class="easyui-layout">
+<body id="menubody" runat="server">
 </body>
 </html>

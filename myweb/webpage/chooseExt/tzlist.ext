@@ -1,0 +1,4 @@
+﻿<a href="#" mylink="1" t="{0}" m="{1}" class="list-group-item" accesskey="{2}">
+    <h4 class="list -group-item-heading">{3}<span class="label label-default" style="float: right;">{2}</span></h4>
+    <p class="list -group-item-text" style="text-align: right">{4}</p>
+</a>

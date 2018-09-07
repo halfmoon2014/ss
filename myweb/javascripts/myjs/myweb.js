@@ -145,6 +145,7 @@ function myAjax(sqlCommand, xact_abort) {
         //传递的参数不符合
         xact_abort = "";
     }
+    
     var r = -1;
     var wid = -1;
     if (this.wid != undefined) {
@@ -156,6 +157,22 @@ function myAjax(sqlCommand, xact_abort) {
         url: '../webuser/ws.asmx/execSqlCommand',
         async: false,
         data: { sqlCommand: sqlCommand, xact_abort: xact_abort, wid: wid },
+        error: function (e) { },
+        success: function (data) {
+            r = myAjaxData(data);
+            r.msg = decodeURIComponent(r.msg);
+        }
+    });
+
+    return r;
+}
+
+function getAjax(par) {    
+    $.ajax({
+        type: 'post',
+        url: '../webuser/ws.asmx/execSqlCommand',
+        async: false,
+        data: { par: par },
         error: function (e) { },
         success: function (data) {
             r = myAjaxData(data);
