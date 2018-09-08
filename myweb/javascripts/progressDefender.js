@@ -22,8 +22,26 @@ function checkSession() {
         }
     } else {
         return false;
-
     }
+}
+
+function checkSessionAsy(fn) {  
+    $.ajax({
+        type: 'post',
+        url: '../webuser/ws.asmx/CheckSession',
+        async: true,
+        data: {},
+        error: function (e) {
+            fn(false);
+        },
+        success: function (data) {          
+            if (myAjaxData(data).r == "") {
+                fn(true)
+            } else {
+                fn(false)
+            }
+        }
+    }); 
 }
 
 //重新登陆

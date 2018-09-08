@@ -8,30 +8,37 @@
 });
 
 function addMainTab(tabTitle, url) {
-    if (checkSession() == false) {
-        var o = new Object();
-        o.functionName = "createMainFrame";
-        var argList = new Array();
-        argList[0] = url;
-        o.args = argList;
-        reLoad(o);
-    } else {
-        createMainFrame(url);
+    if ($("#content_menu3_mydiv_mobile").attr("url") != url) {
+        showLoading();
+        checkSessionAsy(function (result) {
+            if (result) {
+                createMainFrame(url);
+            } else {
+                hideLoading();
+                var o = new Object();
+                o.functionName = "createMainFrame";
+                var argList = new Array();
+                argList[0] = url;
+                o.args = argList;
+                reLoad(o);
+            }
+        });
     }
 }
 function createMainFrame(url) {
-    var error = "";
     $.ajax({
         type: 'post',
         url: 'content_menu3.aspx?url=' + url + "&m=data",
         data: {},
         async: true,
         error: function (e) {
-            error = e;
+
         },
         success: function (data) {
             $("#content_menu3_mydiv_mobile").html(data);
+            $("#content_menu3_mydiv_mobile").attr("url", url)
             initContent_menu3_mydiv_mobile();
+            hideLoading();
         }
     });
 }
@@ -39,7 +46,7 @@ function initContent_menu3_mydiv_mobile() {
 
     $('.list-group-item').delegate('a', 'click', function (e) {
         if ($(e.target).is("a")) {
-            window.open($(e.target).parent().attr("cmd"));            
+            window.open($(e.target).parent().attr("cmd"));
         }
     });
     $('.list-group-item').delegate('span', 'click', function (e) {

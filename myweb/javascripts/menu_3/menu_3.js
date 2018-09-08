@@ -5,9 +5,13 @@
     $('#tabs').tabs({
         onUpdate: function (title) {
             $('#tabs').tabs('select', title);
+            hideLoading();
         },
         onAdd: function (title) {
-            tabTitleEven();
+            //tabTitleEven();
+        },      
+        onSelect: function (title, index) {
+            hideLoading();
         }
     });
     $('#lmenu li a').click(function () {
@@ -52,26 +56,29 @@ function myhelp(id) {
 
 //main选项卡
 function addMainTab(subtitle, url) {
-    if (checkSession() == false) {
-        var o = new Object();
-        o.functionName = "goAddMainTab";
-        var argList = new Array();
-        argList[0] = subtitle;
-        argList[1] = url;
-        o.args = argList;
-        reLoad(o);
-    } else {
-        goAddMainTab(subtitle, url)
-    }
-
+    showLoading();
+    checkSessionAsy(function (result) {
+        if (result) {
+            goAddMainTab(subtitle, url)
+        } else {
+            hideLoading();
+            var o = new Object();
+            o.functionName = "goAddMainTab";
+            var argList = new Array();
+            argList[0] = subtitle;
+            argList[1] = url;
+            o.args = argList;
+            reLoad(o)
+        }
+    });
 }
 
 function goAddMainTab(subtitle, url) {
     if ($('#tabs').tabs('exists', subtitle)) {
         $('#tabs').tabs('select', subtitle);
+        hideLoading();
     } else {
         //var m = $(document.getElementById("home"));
-
         if (document.getElementById("menu")) {
             $('#tabs').tabs('update', {
                 tab: $(document.getElementById("menu")),
@@ -84,59 +91,34 @@ function goAddMainTab(subtitle, url) {
             $('#tabs').tabs('add', {
                 title: subtitle,
                 id: "menu",
-                content: createMainFrame(url)
+                content: createMainFrame(url)                
             });
         }
     }
 }
 
-function createMainFrame(url) {
-    //href: "content_menu3.ashx?url=" + url
-
-    ////20130607改为AJAX调用, 20130609停用, 因为SESSION超时不好处理
-    //var myurl = url;
-    //var r = "";
-    //var error = "";
-    //$.ajax({
-    //    type: 'post',
-    //    url: 'content_menu3.aspx?url=' + myurl,
-    //    data: {},
-    //    async: false,
-    //    error: function (e) {
-
-    //        error = e;
-    //    },
-    //    success: function (data) {
-    //        r = data;
-    //    }
-    //})
-    //if (error == "") {
-    //    return r;
-    //} else {
-    //    $.messager.alert('提示信息', '连接失败!', 'info', function () {
-    //        return "";
-    //    });
-    //}
+function createMainFrame(url) { 
     return '<iframe  scrolling="auto" frameborder="0"  allowtransparency=true  src="content_menu3.aspx?url=' + url + '" style="width:100%;height:100%;"></iframe>';
 }
 
 /* end main选项卡*/
 /*选项卡*/
-function addTab(subtitle, url, obj) {
+function addTab(subtitle, url, obj) {   
     var alone = $(obj).attr("alone");
-    //先检查session
-    if (checkSession() == false) {
-        var o = new Object();
-        o.functionName = "goAddTab";
-        var argList = new Array();
-        argList[0] = subtitle;
-        argList[1] = url;
-        argList[2] = alone;
-        o.args = argList;
-        reLoad(o);
-    } else {
-        goAddTab(subtitle, url, alone);
-    }
+    checkSessionAsy(function (result) {
+        if (result) {
+            goAddTab(subtitle, url, alone);
+        } else {
+            var o = new Object();
+            o.functionName = "goAddTab";
+            var argList = new Array();
+            argList[0] = subtitle;
+            argList[1] = url;
+            argList[2] = alone;
+            o.args = argList;
+            reLoad(o)
+        }
+    });
 }
 
 function goAddTab(subtitle, url, alone) {

@@ -36,12 +36,13 @@ namespace FM.Controls.Header
             }
             else if (myCode.CheckPageType(absolutePath, "MenuPage"))
             {
+                SetJqueryScript();
+                SETProgressDefender();
+                SetJSUtil();
+                SetStyleSheet(string.Format("{0}/css/loading/loading.css", ""));
                 //手机
                 if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
                 {
-                    SetJqueryScript();
-                    SETProgressDefender();
-                    SetJSUtil();
                     SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", ""));
                     SetStyleSheet(string.Format("{0}/css/bootstrap/ie10-viewport-bug-workaround.css", ""));
                     SetScript(string.Format("{0}/javascripts/bootstrap/ie-emulation-modes-warning.js", ""));
@@ -51,10 +52,7 @@ namespace FM.Controls.Header
                 }
                 else
                 {
-                    SetJqueryScript();
-                    SetJQEUI(pageThemes["Themes"]);
-                    SetJSUtil();
-                    SETProgressDefender();
+                    SetJQEUI(pageThemes["Themes"]);                
                     SetStyleSheet(string.Format("{0}/css/menu_3.css", ""));
                     SetScript(string.Format("{0}/javascripts/menu_3/menu_3.js", ""));
                     SetScript(string.Format("{0}/javascripts/longPolling.js", ""));
