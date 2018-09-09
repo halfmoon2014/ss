@@ -7,8 +7,6 @@
     }
 })
 require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
-
-   
     var sr = function (s, i) {
         return $.trim(xtsz.myVale(s, i).val().replace(/'/g, "''"));
     }
@@ -18,7 +16,9 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         var wid = document.getElementById("wid").value;
         var lx = document.getElementById("lx").value;
         var str = "";
-        var css0, css, mrz, bds, ord,mobileord, width, qwidth, id, mc, visible, htmlid, westwidth, eastwidth, northheight, southheight, dwidth, dheight, readonly, type, bz, nwebid, naspx, event, session, zb, yy;
+        var css0, css, mrz, bds, ord, mobileord, width, widthm, qwidth, qwidthm, id, mc, visible, htmlid, westwidth, eastwidth, northheight, southheight, dwidth, dheight, readonly, type, bz, nwebid, naspx, event, session, zb, yy;
+        var westwidthm, eastwidthm, northheightm, southheightm
+
         westwidth = $.trim(xtsz.myVale("westwidth").val());
         if (westwidth == "") { westwidth = "0"; }
         eastwidth = $.trim(xtsz.myVale("eastwidth").val());
@@ -27,6 +27,15 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         if (southheight == "") { southheight = "0"; }
         northheight = $.trim(xtsz.myVale("northheight").val());
         if (northheight == "") { northheight = "0"; }
+        westwidthm = $.trim(xtsz.myVale("westwidthm").val());
+        if (westwidthm == "") { westwidthm = "0"; }
+        eastwidthm = $.trim(xtsz.myVale("eastwidthm").val());
+        if (eastwidthm == "") { eastwidthm = "0"; }
+        southheightm = $.trim(xtsz.myVale("southheightm").val());
+        if (southheightm == "") { southheightm = "0"; }
+        northheightm = $.trim(xtsz.myVale("northheightm").val());
+        if (northheightm == "") { northheightm = "0"; }
+
         var data = {};
         data.row = new Array();
         for (var i = 0; i < xtsz.getRowNum() ; i++) {
@@ -40,6 +49,12 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             if (width == "") { width = "0"; }
             qwidth = $.trim(xtsz.myVale("qwidth", i).val());
             if (qwidth == "") { qwidth = "0"; }
+
+            widthm = $.trim(xtsz.myVale("widthm", i).val());
+            if (widthm == "") { widthm = "0"; }
+            qwidthm = $.trim(xtsz.myVale("qwidthm", i).val());
+            if (qwidthm == "") { qwidthm = "0"; }
+
             dwidth = $.trim(xtsz.myVale("dwidth", i).val());
             if (dwidth == "") { dwidth = "0"; }
             dheight = $.trim(xtsz.myVale("dheight", i).val());
@@ -80,10 +95,17 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             dataRow.mobileord = mobileord;
             dataRow.width = width;
             dataRow.qwidth = qwidth;
+            dataRow.widthm = widthm;
+            dataRow.qwidthm = qwidthm;
+
             dataRow.westwidth = westwidth;
             dataRow.eastwidth = eastwidth;
             dataRow.northheight = northheight;
             dataRow.southheight = southheight;
+            dataRow.westwidthm = westwidthm;
+            dataRow.eastwidthm = eastwidthm;
+            dataRow.northheightm = northheightm;
+            dataRow.southheightm = southheightm;
             dataRow.dwidth = dwidth;
             dataRow.dheight = dheight;
             dataRow.visible = visible;
@@ -100,17 +122,17 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             data.row.push(dataRow);
         }
         if (data.row.length == 0) {
-            utils.sAlert('没有可更新的记录!',  function () {
+            utils.sAlert('没有可更新的记录!', function () {
                 $('#ok').removeAttr("disabled")
             });
         } else {
-           
+
             $.ajax({
                 type: 'post',
                 url: '../webuser/ws.asmx/UpSYJLayout',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    utils.sAlert('连接失败!',  function () {
+                    utils.sAlert('连接失败!', function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
@@ -122,7 +144,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                             location.reload();
                         });
                     } else {
-                        utils.sAlert('保存失败!',  function () {
+                        utils.sAlert('保存失败!', function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }
@@ -195,8 +217,87 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             utils.autoTextarea(document.getElementById("helpTextarea"), 12);// 调用
         }
     }
+
+    var btnmb_click = function (ev) {
+        var e = ev || window.event;
+        $(ev.target).toggleClass("btn-primary");
+        if ($(ev.target).hasClass("btn-primary")) {
+            document.getElementById("ismobile").value="1"
+        } else {
+            document.getElementById("ismobile").value = "0"
+        }
+        jsSubmit();
+    }
+
+    var hiddenMobile = function (showMobile) {
+        return false;
+        var mobileList = new Array();
+        mobileList.push("qwidthm")
+        mobileList.push("widthm")
+        mobileList.push("mobileord")
+        var bookList = new Array();
+        bookList.push("qwidth")
+        bookList.push("width")
+        mobileList.push("ord")
+
+        if (showMobile) {            
+            var hiddenList = bookList;
+            var showList = mobileList;
+        } else {//隐藏手机
+            var hiddenList = mobileList;
+            var showList = bookList;
+        }
+
+        var head = document.getElementById("zdwhtb").rows;
+        for (var d = 0; d < head[0].cells.length; d++) {
+            if (hiddenList.indexOf($(head[0].cells[d]).attr("field")) != -1) {
+                head[0].cells[d].style.display = "none";
+                try {
+                    for (var m = 1; m <= xtsz.getRowNum() ; m++) {
+                        head[m].cells[d].style.display = "none";
+                    }
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+
+            if (showList.indexOf($(head[0].cells[d]).attr("field")) != -1) {
+                head[0].cells[d].style.display = "";        
+                try {
+                    for (var m = 1; m <= xtsz.getRowNum() ; m++) {
+                        head[m].cells[d].style.display = "";
+                    }
+                } catch (e) {
+                    console.log(e.message);
+                }
+            }
+
+        }        
+    }
+
+    var jsSubmit=function() {
+        var url = location.search; //获取url中"?"符后的字串   
+        var p = "";
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                if (strs[i].split("=")[0] == "ismobile") {
+                    
+                } else {
+                    p+="&"+strs[i].split("=")[0]+"="+ unescape(strs[i].split("=")[1]);
+                }
+                
+            }
+        }        
+        window.location.href = location.origin + location.pathname + "?ismobile=" + document.getElementById("ismobile").value + p;
+    }
+
+    if (document.getElementById("ismobile").value == "1") {
+        $("#btnmb").toggleClass("btn-primary");
+    }
     xtsz.init();
-  
+
     $(":text", ".tbbody").focus(function (e) {
         myselect(e.currentTarget);
     });
@@ -204,11 +305,23 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
     $("#ok").bind("click", function () { ok_click(); });
     $("#fz").bind("click", function () { fz_click(); });
     $("#fb").bind("click", function () { fb_click(); });
+    $("#btnmb").bind("click", function (ev) { btnmb_click(ev); });
+
     $("[field]", $(".tbbody")).each(function (i, n) {
         //var f = "field_" + $(n).attr("field");
         //$(n).width("100%");
     });
 
+    var fieldsHidden = function (arr,showKey) {
+        for (var i = 0; i < arr.length; i++) {
+            if (showKey != arr[i].key) {
+                $("[field='" + arr[i].f+ "']", $("#cxtj")).parent().attr("style", "display:none");
+                $("[field='td_" + arr[i].f + "']", $("#cxtj")).attr("style", "display:none");
+                $("[field='" + arr[i].m + "']", $("#cxtj")).parent().attr("style", "display:none");
+                $("[field='td_" + arr[i].m + "']", $("#cxtj")).attr("style", "display:none");
+            }
+        }
+    }
     if (document.getElementById("lx").value == "z") {
         //布局面板
         var head = document.getElementById("zdwhtb").rows;
@@ -234,53 +347,13 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                     for (var m = 1; m <= xtsz.getRowNum() ; m++) {
                         head[m].cells[d].style.display = "none";
                     }
-                } catch (e) {console.log(e.message) }
+                } catch (e) { console.log(e.message) }
             }
         }
-        if (document.getElementById("lx").value == "c") {//中间面板不需要设定高宽
-            $("[field='southheight']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='northheight']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='eastwidth']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='westwidth']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='td_southheight']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_northheight']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_eastwidth']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_westwidth']", $("#cxtj")).attr("style", "display:none");
-        } else if (document.getElementById("lx").value == "t") {
-            $("[field='southheight']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='eastwidth']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='westwidth']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='td_southheight']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_eastwidth']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_westwidth']", $("#cxtj")).attr("style", "display:none");
-        } else if (document.getElementById("lx").value == "b") {
-
-            $("[field='northheight']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='eastwidth']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='westwidth']", $("#cxtj")).parent().attr("style", "display:none");
-
-            $("[field='td_northheight']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_eastwidth']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_westwidth']", $("#cxtj")).attr("style", "display:none");
-        } else if (document.getElementById("lx").value == "l") {
-            $("[field='southheight']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='northheight']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='eastwidth']", $("#cxtj")).parent().attr("style", "display:none");
-
-            $("[field='td_southheight']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_northheight']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_eastwidth']", $("#cxtj")).attr("style", "display:none");
-        } else if (document.getElementById("lx").value == "r") {
-            $("[field='southheight']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='northheight']", $("#cxtj")).parent().attr("style", "display:none");
-
-            $("[field='westwidth']", $("#cxtj")).parent().attr("style", "display:none");
-            $("[field='td_southheight']", $("#cxtj")).attr("style", "display:none");
-            $("[field='td_northheight']", $("#cxtj")).attr("style", "display:none");
-
-            $("[field='td_westwidth']", $("#cxtj")).attr("style", "display:none");
-        }
+   
     }
+
+
     //console.log("当js加载成功后会执行的函数");
 
 }, function () {

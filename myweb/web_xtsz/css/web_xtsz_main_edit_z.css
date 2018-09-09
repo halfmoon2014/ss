@@ -29,7 +29,7 @@
     width: 40px;
 }
 .field_mobileord {
-    width: 40px;
+    width: 40px;color: blue;
 }
 .field_mc {
     width: 80px;
@@ -40,11 +40,15 @@
     width: 60px;
     color: red;
 }
-
+.field_qwidthm {
+    width: 60px;color: blue;
+}
 .field_width {
     width: 40px;
 }
-
+.field_widthm {
+    width: 40px;color: blue;
+}
 .field_htmlid {
     width: 60px;
     color:red;

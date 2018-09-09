@@ -19,6 +19,14 @@ namespace Service.Util.Modal
         string mobileOrd;
         int width;
         int qwidth;
+        int widthm;
+        int qwidthm;
+
+        int westwidthm;
+        int eastwidthm;
+        int northheightm;
+        int southheightm;
+
         int westwidth;
         int eastwidth;
         int northheight;
@@ -409,6 +417,84 @@ namespace Service.Util.Modal
             set
             {
                 id = value;
+            }
+        }
+
+        public int Widthm
+        {
+            get
+            {
+                return widthm;
+            }
+
+            set
+            {
+                widthm = value;
+            }
+        }
+
+        public int Qwidthm
+        {
+            get
+            {
+                return qwidthm;
+            }
+
+            set
+            {
+                qwidthm = value;
+            }
+        }
+
+        public int Westwidthm
+        {
+            get
+            {
+                return westwidthm;
+            }
+
+            set
+            {
+                westwidthm = value;
+            }
+        }
+
+        public int Eastwidthm
+        {
+            get
+            {
+                return eastwidthm;
+            }
+
+            set
+            {
+                eastwidthm = value;
+            }
+        }
+
+        public int Northheightm
+        {
+            get
+            {
+                return northheightm;
+            }
+
+            set
+            {
+                northheightm = value;
+            }
+        }
+
+        public int Southheightm
+        {
+            get
+            {
+                return southheightm;
+            }
+
+            set
+            {
+                southheightm = value;
             }
         }
     }

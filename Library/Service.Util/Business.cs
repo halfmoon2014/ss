@@ -139,9 +139,9 @@ namespace Service.Util
         {
             return this.execObj.SubmitTextDataSet(this.sqlstring.Tbzd(wid));
         }
-        public DataSet GetTbLayOut(int wid, string lx)
+        public DataSet GetTbLayOut(int wid, string lx,string ord)
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.TbLayOut(wid, lx));
+            return this.execObj.SubmitTextDataSet(this.sqlstring.TbLayOut(wid, lx, ord));
         }
 
         /// <summary>
@@ -799,21 +799,17 @@ namespace Service.Util
                     }
                     else
                     {
-                        sql.Append(" insert v_wid_layout ( css0,css, mrz,bds,webid,lx, mc,ord,mobileord, width,qwidth, westwidth,eastwidth, northheight, southheight, dwidth, dheight, visible, readonly, type,   bz,nwebid, event, yy,zb,session,naspx,htmlid) ");
-                        sql.Append("values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "','"+layout.MobileOrd+"', '" + layout.Width + "','" + layout.Qwidth + "','" + layout.Westwidth + "','" + layout.Eastwidth + "', '" + layout.Northheight + "', '" + layout.Southheight + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
+                        sql.Append(" insert v_wid_layout ( css0,css, mrz,bds,webid,lx, mc,ord,mobileord, width,widthm,qwidth,qwidthm, westwidth,westwidthm,eastwidth,eastwidthm, northheight,northheightm, southheight,southheightm, dwidth, dheight, visible, readonly, type,   bz,nwebid, event, yy,zb,session,naspx,htmlid) ");
+                        sql.Append("values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "','"+layout.MobileOrd+"', '" + layout.Width + "','"+layout.Widthm+"','" + layout.Qwidth + "','"+layout.Qwidthm+"','" + layout.Westwidth + "','"+ layout.Westwidthm+ "','" + layout.Eastwidth + "','" + layout.Eastwidthm+ "', '" + layout.Northheight + "','"+ layout.Northheightm + "', '" + layout.Southheight + "','"+ layout.Southheightm + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
                     }
 
                 }
                 else
                 {
                     if (layout.Htmlid.Length == 0 && layout.Qwidth == 0 && layout.Mc.Length == 0)
-                    {
                         sql.Append(" delete v_wid_layout  where id='" + layout.Id + "'; ");
-                    }
                     else
-                    {
-                        sql.Append(" update v_wid_layout  set css0='" + layout.Css0 + "', css='" + layout.Css + "',mrz='" + layout.Mrz + "',bds='" + layout.Bds + "',mc='" + layout.Mc + "', htmlid='" + layout.Htmlid + "',ord='" + layout.Ord + "',mobileord='"+layout.MobileOrd+"', width='" + layout.Width + "',qwidth='" + layout.Qwidth + "',westwidth='" + layout.Westwidth + "',eastwidth='" + layout.Eastwidth + "', northheight='" + layout.Northheight + "',southheight='" + layout.Southheight + "' ,dwidth='" + layout.Dwidth + "', dheight='" + layout.Dheight + "', visible='" + layout.Visible + "', readonly='" + layout.Readonly + "', type='" + layout.Type + "',   bz='" + layout.Bz + "',nwebid='" + layout.Nwebid + "',  event='" + layout.Event + "', yy='" + layout.Yy + "',zb='" + layout.Zb + "',session='" + layout.Session + "',naspx='" + layout.Naspx + "'   where id='" + layout.Id + "'; ");
-                    }
+                        sql.Append(" update v_wid_layout  set css0='" + layout.Css0 + "', css='" + layout.Css + "',mrz='" + layout.Mrz + "',bds='" + layout.Bds + "',mc='" + layout.Mc + "', htmlid='" + layout.Htmlid + "',ord='" + layout.Ord + "',mobileord='"+layout.MobileOrd+"', width='" + layout.Width + "',widthm='"+layout.Widthm+"',qwidth='" + layout.Qwidth + "',qwidthm='"+layout.Qwidthm+"',westwidth='" + layout.Westwidth + "',westwidthm='"+layout.Westwidthm + "',eastwidth='" + layout.Eastwidth + "',Eastwidthm='"+layout.Eastwidthm + "', northheight='" + layout.Northheight + "',Northheightm='"+layout.Northheightm + "',southheight='" + layout.Southheight + "',southheightm='"+layout.Southheightm+ "' ,dwidth='" + layout.Dwidth + "', dheight='" + layout.Dheight + "', visible='" + layout.Visible + "', readonly='" + layout.Readonly + "', type='" + layout.Type + "',   bz='" + layout.Bz + "',nwebid='" + layout.Nwebid + "',  event='" + layout.Event + "', yy='" + layout.Yy + "',zb='" + layout.Zb + "',session='" + layout.Session + "',naspx='" + layout.Naspx + "'   where id='" + layout.Id + "'; ");
                 }
             }
             int r = this.execObj.SubmitTextInt(sql.ToString());

@@ -6,9 +6,7 @@
         "xtsz": "../../javascripts/xtsz/xtsz"
     }
 })
-require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
-
-   
+require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {   
     //行得到焦点,变色
     var myselect = function (obj) {
         //alert(g);
@@ -157,12 +155,10 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             utils.sAlert('复制wid无效!');
         }
     }
-
     $("#ok").bind("click", function () { ok_click(); });
     $("#fz").bind("click", function () { fz_click(); });
     $("#fb").bind("click", function () { fb_click(); });
-   
-  
+      
     $(":text", ".tbbody").focus(function (e) {
         myselect(e.currentTarget);
     });

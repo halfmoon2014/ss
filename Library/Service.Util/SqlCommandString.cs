@@ -131,9 +131,9 @@ namespace Service.Util
             return string.Format(@"select a.* from v_v_webzd a where a.webid={0} order by a.visible ,cast(a.ord as varchar);", wid);
         }
 
-        public string TbLayOut(int wid, string lx)
+        public string TbLayOut(int wid, string lx,string ord)
         {
-            return string.Format(@"select a.* from v_wid_layout a  where a.webid={0} and a.lx='{1}' order by visible,ord;", wid,lx);
+            return string.Format(@"select a.* from v_wid_layout a  where a.webid={0} and a.lx='{1}' order by visible,{2};", wid,lx, ord);
         }
 
 
@@ -153,9 +153,9 @@ namespace Service.Util
             else if (wz == "allmobilewz")
                 //所有DIV
                 return string.Format(@"select id, webid, lx, mc, ord=mobileord, type,
-                                qwidth, width, visible, readonly, event, bz,
-                                sysdel, sysdeltime, nwebid, htmlid, eastwidth,
-                                westwidth, northheight, southheight, dwidth,
+                                qwidthm as qwidth, widthm as width, visible, readonly, event, bz,
+                                sysdel, sysdeltime, nwebid, htmlid, eastwidthm as eastwidth,
+                                westwidthm as westwidth, northheightm as northheight, southheightm as southheight, dwidth,
                                 dheight, naspx, yy, session, zb, mrz, bds, css,
                                 css0 from v_wid_layout where  webid='{0}' order by lx,mobileord ;", wid);
             else
