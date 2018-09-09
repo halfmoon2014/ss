@@ -2,8 +2,6 @@
 using System.Text;
 using EI.Web;
 using EI.Web.Modal;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using DTO;
 
 public partial class lss : System.Web.UI.Page
@@ -13,11 +11,11 @@ public partial class lss : System.Web.UI.Page
         #region
         int intWid = 0;
         if (Request["wid"] != null)
-        {
             intWid = int.Parse(Request["wid"].ToString());
-        }
+
         if (intWid == 0)
-        {//lss.aspx一定需要wid
+        {
+            //lss.aspx一定需要wid
             Response.Clear();
             Response.Write("缺少必要参数");
             Response.Flush();
@@ -27,9 +25,8 @@ public partial class lss : System.Web.UI.Page
         {
             sysHead.WebID = intWid;
             if (Request["title"] != null)
-            {
                 sysHead.Title = Request["title"].ToString().Trim();
-            }
+
             StringBuilder innerHtml = new StringBuilder();
             StringBuilder cache = new StringBuilder();
             int tzid = int.Parse(MySession.SessionHandle.Get("tzid").ToString().Trim());
@@ -44,10 +41,8 @@ public partial class lss : System.Web.UI.Page
            
             HtmlParameter htmlParameter = new HtmlParameter();
             htmlParameter.QueryString = Request.QueryString;
-            htmlParameter.Form = Request.Form;
-            MyTy.Utils utils = new MyTy.Utils();
-            
-            Html layout = webEdit.WebLayOut(intWid, htmlParameter, utils.IsMobileBrowser(Request));
+            htmlParameter.Form = Request.Form;            
+            Html layout = webEdit.WebLayOut(intWid, htmlParameter,MyTy.RequestExtensions.IsMobileBrowser(Request) );
             innerHtml.Append(layout.HtmlMark);
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");
             innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\" value=\"" + username + "\" />");
@@ -59,8 +54,7 @@ public partial class lss : System.Web.UI.Page
             //    innerHtml = cache;
             //}
             platformbody.InnerHtml = innerHtml.ToString();
-        }
-                     ;
+        }                    ;
 
         #endregion
     }

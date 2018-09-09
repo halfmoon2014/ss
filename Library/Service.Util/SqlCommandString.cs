@@ -140,17 +140,27 @@ namespace Service.Util
         public string Layout(int wid, string wz)
         {
             if (wz == "z")
-            {//取得wid中的布局面板
+                //取得wid中的布局面板
                 return string.Format(@"select * from v_wid_layout where (nwebid<>0 or naspx<>'') and  lx='z' and  webid='{0}';", wid);
-            }
             else if (wz == "allwz")
-            {//所有DIV
-                return string.Format(@"select * from v_wid_layout where  webid='{0}' order by lx,ord ;", wid);
-            }
+                //所有DIV
+                return string.Format(@"select id, webid, lx, mc, ord, type,
+                                qwidth, width, visible, readonly, event, bz,
+                                sysdel, sysdeltime, nwebid, htmlid, eastwidth,
+                                westwidth, northheight, southheight, dwidth,
+                                dheight, naspx, yy, session, zb, mrz, bds, css,
+                                css0 from v_wid_layout where  webid='{0}' order by lx,ord ;", wid);
+            else if (wz == "allmobilewz")
+                //所有DIV
+                return string.Format(@"select id, webid, lx, mc, ord=mobileord, type,
+                                qwidth, width, visible, readonly, event, bz,
+                                sysdel, sysdeltime, nwebid, htmlid, eastwidth,
+                                westwidth, northheight, southheight, dwidth,
+                                dheight, naspx, yy, session, zb, mrz, bds, css,
+                                css0 from v_wid_layout where  webid='{0}' order by lx,mobileord ;", wid);
             else
-            {//取得wid中DIV布局
+                //取得wid中DIV布局
                 return string.Format(@"select * from v_wid_layout where   lx = '{0}' and  webid='{1}' order by lx,ord ;", wz,wid);
-            }
         }
 
         public string WebFwSql(int wid)
