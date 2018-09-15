@@ -8,9 +8,8 @@ public partial class webpage_menu_3 : System.Web.UI.Page
     {
         WebMenu em = new WebMenu();
         if (!RequestExtensions.IsMobileBrowser(Request))
-        {
             menubody.Attributes.Add("class", "easyui-layou");
-        }else
+        else
         {
             menubody.Style.Add("padding-top", "70px");
             menubody.Style.Add("padding-bottom", "50px");

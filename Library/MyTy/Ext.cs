@@ -19,7 +19,7 @@ namespace MyTy
         /// <returns></returns>
         public static string GetHtml(string path, string key)
         {
-            StreamReader sR = File.OpenText(path + "\\webpage\\" + key + ".ext");
+            StreamReader sR = File.OpenText(path +  key + ".ext");
             string nextLine;
             StringBuilder stringBuilder = new StringBuilder();
             while ((nextLine = sR.ReadLine()) != null)

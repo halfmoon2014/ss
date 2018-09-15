@@ -31,7 +31,7 @@ function openModal(url, argin, options, callback) {
         argin = (argin == undefined ? "" : argin)
         //新窗口特性
         options = (options == undefined ? "" : options)
-
+        // //苹果、谷歌内核
         if (browser.versions.webKit) {
             //将回调函数放入当前窗体的属性中,用于子窗口调用
             //缺点是要控制一次只能打开一个子窗口
@@ -58,17 +58,17 @@ function openModal(url, argin, options, callback) {
             var iTop = (window.screen.availHeight - 30 - height) / 2;
             //获得窗口的水平位置
             var iLeft = (window.screen.availWidth - 10 - width) / 2;
-
-            if ("张茂洪" == "张茂洪") {
+            
+            if (browser.versions.mobile) {
+                window.open(url, "", options + ",top=" + iTop + ",left=" + iLeft);
+            } else {
                 document.getElementById("platIframe").src = url;
-                document.getElementById("platIframe").style.width = (Number(width)-38)+"px";//对话框有补白
+                document.getElementById("platIframe").style.width = (Number(width) - 38) + "px";//对话框有补白
                 document.getElementById("platIframe").style.height = (Number(height) - 38) + "px";
                 if (callback != undefined) {
                     window.platDialogCallback = callback;
                 }
-                document.getElementById("platDialog").showModal();
-            } else {
-                window.open(url, "", options + ",top=" + iTop + ",left=" + iLeft);
+                document.getElementById("platDialog").showModal();                
             }
         } else {
             if (options == "") {
@@ -94,14 +94,14 @@ function myWindowClose(returnvalue) {
     if (browser.versions.webKit) {
         //用来关闭chrome窗口时标识关闭的动作是否使用浏览器自带的关闭按钮
         //任何关闭的动作都会响应onunload事件
-        if ("张茂洪" == "张茂洪") {
+        if (browser.versions.mobile) {
+            window.onunloadtag = true;
+            (window.opener && window.opener.callback != undefined) ? window.opener.callback(returnvalue) : "";
+            window.close();            
+        } else {
             parent.document.getElementById("platDialog").close();
             (parent.window.platDialogCallback != undefined) ? parent.window.platDialogCallback(returnvalue) : "";
             parent.document.getElementById("platIframe").src = "about:blank";
-        } else {
-            window.onunloadtag = true;
-            (window.opener && window.opener.callback != undefined) ? window.opener.callback(returnvalue) : "";
-            window.close();
         }
     } else {
         window.returnValue = returnvalue;

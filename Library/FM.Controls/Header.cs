@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Web.UI;
 using System.Collections.Generic;
-using FM.Components;
 using System.Data;
+using MyTy;
+using System.Web;
+
 namespace FM.Controls.Header
 {
     public class Header : Control
@@ -25,13 +27,14 @@ namespace FM.Controls.Header
             Page.Header.Title = Title;
             output.WriteLine(contentTyptFmt, Charset);
             output.WriteLine("<META HTTP-EQUIV=\"X-UA-Compatible\" CONTENT=\"IE=edge\" />");
-            output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />");            
+            //output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />");
+            //可以解决IOS输入控件得到焦点的时候页面变大
+            if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
+                output.WriteLine("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\">");            
             output.WriteLine(keyWorkFmt, KeyWorks);
             output.WriteLine(descriptionFmt, Description);
             foreach (string references in listReferences)
-            {
                 output.WriteLine(references);
-            }
             output.WriteLine(GetJavaScript());
         }
 

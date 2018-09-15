@@ -1,6 +1,9 @@
 ﻿$(function () {
+    //选项卡右击菜单
     tabMenuInit();
+    //选项卡事件绑定
     tabTitleEven();
+
     /*标签数据更新后,激活*/
     $('#tabs').tabs({
         onUpdate: function (title) {
@@ -8,12 +11,15 @@
             hideLoading();
         },
         onAdd: function (title) {
-            //tabTitleEven();
-        },      
+            //选项卡事件绑定
+            tabTitleEven();
+        },
         onSelect: function (title, index) {
             hideLoading();
         }
     });
+
+    //菜单目录事件
     $('#lmenu li a').click(function () {
         var tabTitle = $(this).text();
         var url = $(this).attr("url");
@@ -25,34 +31,18 @@
     }, function () {
         $(this).parent().removeClass("hover");
     });
-    //    longPolling(function (e) {
-    //        console.log(1); 
-    //    });
 
+    //这个一定要有,不然布局会失效
     $("#menubody").layout({
         onCollapse: function (a) {
-           // console.log("onCollapse");
+            console.log("onCollapse");
         },
         onExpand: function (a) {
-         //   console.log("onExpand");
+            console.log("onExpand");
         }
     });
 
 });
-
-function myhelp(id) {
-    var url = "m_myhelp.aspx?id=" + id;
-    var name = '帮助文档';                            //网页名称 
-    var iWidth = 800;                          //弹出窗口的宽度; 
-    var iHeight = 600;                         //弹出窗口的高度; 
-    //获得窗口的垂直位置 
-    var iTop = (window.screen.availHeight - 30 - iHeight) / 2;
-    //获得窗口的水平位置 
-    var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
-    //chrome没有模态,先改为打开非模态
-    window.open(url, name, 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no');
-    //window.showModalDialog(url, "", "location:No;status:No;help:No;dialogWidth:800px;dialogHeight:600px;scroll:no;"); return false;
-}
 
 //main选项卡
 function addMainTab(subtitle, url) {
@@ -61,14 +51,10 @@ function addMainTab(subtitle, url) {
         if (result) {
             goAddMainTab(subtitle, url)
         } else {
-            hideLoading();
-            var o = new Object();
-            o.functionName = "goAddMainTab";
-            var argList = new Array();
-            argList[0] = subtitle;
-            argList[1] = url;
-            o.args = argList;
-            reLoad(o)
+            hideLoading();            
+            reLoad(function () {
+                goAddMainTab(subtitle, url)
+            })
         }
     });
 }
@@ -91,32 +77,27 @@ function goAddMainTab(subtitle, url) {
             $('#tabs').tabs('add', {
                 title: subtitle,
                 id: "menu",
-                content: createMainFrame(url)                
+                content: createMainFrame(url)
             });
         }
     }
 }
 
-function createMainFrame(url) { 
+function createMainFrame(url) {
     return '<iframe  scrolling="auto" frameborder="0"  allowtransparency=true  src="content_menu3.aspx?url=' + url + '" style="width:100%;height:100%;"></iframe>';
 }
 
 /* end main选项卡*/
 /*选项卡*/
-function addTab(subtitle, url, obj) {   
+function addTab(subtitle, url, obj) {
     var alone = $(obj).attr("alone");
     checkSessionAsy(function (result) {
         if (result) {
             goAddTab(subtitle, url, alone);
-        } else {
-            var o = new Object();
-            o.functionName = "goAddTab";
-            var argList = new Array();
-            argList[0] = subtitle;
-            argList[1] = url;
-            argList[2] = alone;
-            o.args = argList;
-            reLoad(o)
+        } else {            
+            reLoad(function () {
+                goAddTab(subtitle, url, alone);
+            })
         }
     });
 }
@@ -146,7 +127,7 @@ function goAddTab(subtitle, url, alone) {
         //tabTitleEven();
     } else {
         //弹出模块
-        window.open(url);
+        openWin(url);
     }
 }
 
@@ -323,17 +304,28 @@ function closeWebPage() {
             window.opener = null; window.close();
         }
         else {
-            window.open('', '_top'); window.top.close();
+            openWin('', '_top'); window.top.close();
         }
     }
     else if (browser.versions.gecko) {
         window.location.href = 'about:blank ';
-        //window.history.go(-2);
     }
     else {
-        //window.opener = null;
         window.location.href = "about:blank";
-        //window.open('', '_self', '');
         window.close();
     }
+}
+
+function myhelp(id) {
+    var url = "m_myhelp.aspx?id=" + id;
+    var name = '帮助文档';                            //网页名称 
+    var iWidth = 800;                          //弹出窗口的宽度; 
+    var iHeight = 600;                         //弹出窗口的高度; 
+    //获得窗口的垂直位置 
+    var iTop = (window.screen.availHeight - 30 - iHeight) / 2;
+    //获得窗口的水平位置 
+    var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
+    //chrome没有模态,先改为打开非模态
+    openWin(url, name, 'height=' + iHeight + ',,innerHeight=' + iHeight + ',width=' + iWidth + ',innerWidth=' + iWidth + ',top=' + iTop + ',left=' + iLeft + ',status=no,toolbar=no,menubar=no,location=no,resizable=no,scrollbars=0,titlebar=no');
+    //window.showModalDialog(url, "", "location:No;status:No;help:No;dialogWidth:800px;dialogHeight:600px;scroll:no;"); return false;
 }

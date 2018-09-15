@@ -40,6 +40,11 @@ namespace FM.Controls.Header
                 SETProgressDefender();
                 SetJSUtil();
                 SetStyleSheet(string.Format("{0}/css/loading/loading.css", ""));
+
+                SetStyleSheet(string.Format("{0}/css/sweetalert/sweetalert.css", ""));
+                SetScript(string.Format("{0}/javascripts/sweetalert/sweetalert.min.js", ""));
+                SetScript(string.Format("{0}/javascripts/sweetalert/swalProcess.js", ""));
+
                 //手机
                 if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
                 {

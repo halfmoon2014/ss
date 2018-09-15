@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Service.DAL.DataExecutor">
+    <Position X="0.5" Y="0.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataExecutor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Service.DAL.DALInterface">
+    <Position X="5" Y="3" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAACAAAAAAAAIAAAAgAAAEAAAAAEAAAIAAAIAA=</HashCode>
+      <FileName>DataInterface.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Service.DAL.ExecutorFactory">
+    <Position X="10.5" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExecutorFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Service.DAL.MSSqlExecutor">
+    <Position X="0.5" Y="3.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAECAAAAAAAAIAAAAgAAAEAAAAAEAAAAAAAIAA=</HashCode>
+      <FileName>MSSqlExecutor.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Service.DAL.IExecute">
+    <Position X="10.75" Y="2.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAACAAAAAAAAIAAAAgAAAEAAAAAEAAAAAAAIAA=</HashCode>
+      <FileName>IExecute.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>

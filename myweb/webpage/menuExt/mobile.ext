@@ -9,6 +9,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">{0}</a>
+            <input type="hidden" id="username" a="{4}" b="{5}" value="{6}" />
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

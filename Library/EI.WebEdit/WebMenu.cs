@@ -30,10 +30,10 @@ namespace EI.Web
             FM.Business.Login lg = new FM.Business.Login();
             string userName = lg.GetUser(userid).Tables[0].Rows[0]["name"].ToString();
             if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
-                return CreateMobileMenuTree(path,userid, userName);
+                return CreateMobileMenuTree(path,userid, userName, menuPage, tzid);
             else
             {
-                string menu = ExtUtil.GetHtml(path, "menuExt\\menu");   
+                string menu = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\menu");   
 
                 /*等待框*/
                 FM.Business.Help hp = new FM.Business.Help();
@@ -41,13 +41,13 @@ namespace EI.Web
             }
 
         }
-        public string CreateMobileMenuTree(string path,string userid,string userName)
+        public string CreateMobileMenuTree(string path,string userid,string userName,string menuPage,string tzid)
         {
 
-            string mobile = ExtUtil.GetHtml(path, "menuExt\\mobile");
-            string mobileList = ExtUtil.GetHtml(path, "menuExt\\mobileList");
-            string mobileDiv = ExtUtil.GetHtml(path, "menuExt\\mobileDiv");
-            string mobileBottom = ExtUtil.GetHtml(path, "menuExt\\mobileBottom");
+            string mobile = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\mobile");
+            string mobileList = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\mobileList");
+            string mobileDiv = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\mobileDiv");
+            string mobileBottom = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\mobileBottom");
 
             FM.Business.Menu menu = new FM.Business.Menu();
             DataSet ds = menu.GetUserMenu(userid);
@@ -83,7 +83,13 @@ namespace EI.Web
                 mobileListS.Append(string.Format(mobileList, obj.text, substring.ToString()));
             }
 
-            return string.Format(mobileDiv, string.Format(mobile, "当前系统:"+ dtTZ.Rows[0]["tzmc"].ToString()+"-"+userName, mobileListS.ToString()+ GetHeadCont(path, userName, "northMobile"), "navbar-fixed-top", "bs-example-navbar-collapse-1"),
+            return string.Format(mobileDiv, 
+                string.Format(mobile, 
+                "当前系统:"+ dtTZ.Rows[0]["tzmc"].ToString()+"-"+userName, 
+                mobileListS.ToString()+ GetHeadCont(path, userName, "northMobile"),
+                "navbar-fixed-top", 
+                "bs-example-navbar-collapse-1",
+                menuPage,tzid,userName),
                 string.Format(mobileBottom, ""));
         }
         public string CreateMenuTree(string userid)
@@ -203,7 +209,7 @@ namespace EI.Web
         {
             FM.Business.Menu menu = new FM.Business.Menu();
             DataTable dt = menu.GetTzInfo();
-            string north = ExtUtil.GetHtml(path, "menuExt\\"+ fileName);
+            string north = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\" + fileName);
             return string.Format(north, dt.Rows[0]["tzmc"].ToString(), userName);
         }
         ///// <summary>

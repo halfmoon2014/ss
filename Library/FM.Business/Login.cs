@@ -13,7 +13,7 @@ namespace FM.Business
         {
             this.sqlstring = new SqlCommandString();
             this.connstr = new ConnetString();
-            this.execObj = new Service.DAL.DALInterface(null, connstr.GetConnString());
+            this.execObj = new DALInterface(null, connstr.GetConnString());
         }
 
         /// <summary>
@@ -27,18 +27,14 @@ namespace FM.Business
             Help hp = new Help();
             string EnPswdStr = hp.GetMM(psw);
             DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.v_user(usr, EnPswdStr));
-            string r = "";
             if (ds.Tables[0].Rows.Count <= 0)
-            {//没有找到单据
-                r = "false";
-            }
+                //没有找到单据
+                return "false";
             else
             {
                 SessionHandle.Add("userid", ds.Tables[0].Rows[0]["id"].ToString().Trim());
-                r = "true";
+                return "true";
             }
-            return r;
-
         }
         /// <summary>
         /// 根据用户ID来取用户表
@@ -50,7 +46,14 @@ namespace FM.Business
             return this.execObj.SubmitTextDataSet(this.sqlstring.v_user(userid));
         }
 
-        //重新登陆,注意value1是用户名称,不是用户名,因为session失效
+        /// <summary>
+        /// 重新登陆,注意value1是用户名称,不是用户名,因为session失效
+        /// </summary>
+        /// <param name="value1">用户名称,不是用户名</param>
+        /// <param name="value2"></param>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public bool Reload(string value1, string value2, string a, string b)
         {
             Help hp = new Help();
@@ -70,7 +73,7 @@ namespace FM.Business
             {
                 return false;
             }
-            //            Session.Keys[0]
+            //Session.Keys[0]
             //"username"
             //Session.Keys[1]
             //"user"
@@ -91,6 +94,7 @@ namespace FM.Business
             //Session[4]
             //"1"
         }
+
         /// <summary>
         /// 更新用户密码
         /// </summary>

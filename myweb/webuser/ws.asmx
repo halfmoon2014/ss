@@ -67,7 +67,7 @@ public class ws : System.Web.Services.WebService
     public string sjy_up(string wid, string value1, string value3, string value4, string mrcx, string myadd, string orderby, string pagesize, string mxgl, string mxsql, string mxhgl, string mxhord, string mxhsql, string mxly, string sql_2)
     {
         Business ei = getBusiness();
-        CacheTools.UpdateDep(wid);
+        CacheTools.WidUpdateDep(wid);
         return "{r:'" + ei.UpSJY(wid, value1, value3, value4, mrcx, myadd, orderby, pagesize, mxgl, mxsql, mxhgl, mxhord, mxhsql, mxly, sql_2) + "'}";
     }
     /// <summary>
@@ -80,7 +80,7 @@ public class ws : System.Web.Services.WebService
     public string UpSYJLayout(string wid, string data)
     {
         Business ei = getBusiness();
-        CacheTools.UpdateDep(wid);
+        CacheTools.WidUpdateDep(wid);
         return "{r:'" + ei.UpSYJLayout(data) + "'}";
     }
     /// <summary>
@@ -93,7 +93,7 @@ public class ws : System.Web.Services.WebService
     public string UpSYJZdwh(string wid, string data)
     {
         Business ei = getBusiness();
-        CacheTools.UpdateDep(wid);
+        CacheTools.WidUpdateDep(wid);
         Result<string> result = ei.UpSYJZdwh(data);
         if (result.Errcode == 0)
             return "{r:'true'}";
@@ -112,7 +112,7 @@ public class ws : System.Web.Services.WebService
     public string sjy_upjs(string wid, string js)
     {
         Business ei = getBusiness();
-        CacheTools.UpdateDep(wid);
+        CacheTools.WidUpdateDep(wid);
         return "{r:'" + ei.UpSJYJs(wid, js) + "'}";
     }
 
@@ -258,15 +258,10 @@ public class ws : System.Web.Services.WebService
         b = MyTy.MyCode.MySysDate(b);
         //bool t  = sj.Reload(value1,value2,a,b);
         FM.Business.Login lg = new FM.Business.Login();
-        bool t = lg.Reload(value1, value2, a, b);
-        if (t)
-        {
+        if (lg.Reload(value1, value2, a, b))
             return "{r:'ture'}";
-        }
         else
-        {
             return "{r:'false'}";
-        }
     }
 
     [WebMethod(EnableSession = true)]

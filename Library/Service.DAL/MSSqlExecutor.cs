@@ -2,7 +2,10 @@
 using System.DataBase;
 namespace Service.DAL
 {
-     class MSSqlExecutor : DataExecutor, IExecute
+    /// <summary>
+    /// MSSql映射执行者
+    /// </summary>
+    class MSSqlExecutor : DataExecutor, IExecute
     {
         public override IExecute GetInstant()
         {

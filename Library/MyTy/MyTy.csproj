@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheTools.cs" />
     <Compile Include="clsJsonHelper.cs" />
     <Compile Include="clsNetExecute.cs" />
     <Compile Include="CometAsyncHandler.cs" />

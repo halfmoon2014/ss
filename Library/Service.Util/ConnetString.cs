@@ -47,19 +47,26 @@ namespace Service.Util
             }
             else
             {
-                string str_sql = "select a.ds,a.m_port,a.ic,b.ui,b.pw from v_conn a  inner join v_tz tz on tz.connid=a.id inner join v_usertz b on tz.id=b.tzid where b.userid ={1} and tz.id={0}";
-                DataSet ds = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, string.Format(str_sql, tzid, userid));
-                if (ds.Tables[0].Rows.Count <= 0)
+                string conn=(string)CacheTools.ConnGet(tzid, userid);
+                if (string.IsNullOrEmpty(conn))
                 {
-                    log.WriteLog("DBstring", "没有找到对应用户账套的数据库连接字");
-                    return "";
-                }
-                else
-                {
-                    return "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
-                        + ";Initial Catalog=" + ds.Tables[0].Rows[0]["ic"].ToString().Trim()
-                        + ";User ID=" + ds.Tables[0].Rows[0]["ui"].ToString().Trim() + ";Password=" + ds.Tables[0].Rows[0]["pw"].ToString().Trim() + ";";
-                }
+                    string str_sql = "select a.ds,a.m_port,a.ic,b.ui,b.pw from v_conn a  inner join v_tz tz on tz.connid=a.id inner join v_usertz b on tz.id=b.tzid where b.userid ={1} and tz.id={0}";
+                    DataSet ds = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, string.Format(str_sql, tzid, userid));
+                    if (ds.Tables[0].Rows.Count <= 0)
+                    {
+                        log.WriteLog("DBstring", "没有找到对应用户账套的数据库连接字");
+                        return "";
+                    }
+                    else
+                    {
+                        conn= "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
+                            + ";Initial Catalog=" + ds.Tables[0].Rows[0]["ic"].ToString().Trim()
+                            + ";User ID=" + ds.Tables[0].Rows[0]["ui"].ToString().Trim() + ";Password=" + ds.Tables[0].Rows[0]["pw"].ToString().Trim() + ";";
+                        CacheTools.ConnInsert(tzid, userid, conn);
+                        return conn;
+                    }
+                }else
+                    return conn;
             }
         }
 

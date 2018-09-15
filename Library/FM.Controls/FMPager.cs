@@ -8,6 +8,7 @@ using System.Data;
 using System.Collections.Generic;
 using DTO;
 using MyTy;
+using System.Web;
 
 namespace FM.Controls
 {
@@ -134,6 +135,7 @@ namespace FM.Controls
             Control repeater = FindRepeater(Page);
             HtmlContainerControl MyRepeater = (HtmlContainerControl)FindRepeater(Page);
             MyRepeater.InnerHtml = Html().Data.Html;
+            //设置明细表格的位置
             if (pagerArguments.ClientWidth > 0)
             {
                 MyRepeater.Style.Add("width", (pagerArguments.ClientWidth- MyDivTableClass_margin_left- MyDivTableClass_margin_right).ToString()+"px");
@@ -155,13 +157,20 @@ namespace FM.Controls
                 Business.ProcPager inf = new Business.ProcPager();
                 DataSet widConfig = inf.GetTableRecord("v_wid_layout", "webid=" + pagerArguments.Wid);//得到wid 对应信息
                 int contentWidth = pageHtml.TableWidth + 20;
+                ////设置明细表格的位置
                 if (pagerArguments.ClientWidth > 0)
                 {
                     //如果内容的父控件宽度比内容本身宽，那么将内容本身的宽设置为父控件宽度，这样内容的最后一个留白会对
                     if (contentWidth < pagerArguments.ClientWidth - MyDivTableClass_margin_left - MyDivTableClass_margin_right)
                         contentWidth = pagerArguments.ClientWidth - MyDivTableClass_margin_left - MyDivTableClass_margin_right;
                 }
-                contentCSS = string.Format("style='max-height:{0}px;overflow-y:auto;width:" + contentWidth + "px;'", (pagerArguments.ClientHeight - 160 - int.Parse(widConfig.Tables[0].Rows[0]["northheight"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheight"].ToString())).ToString());
+                contentCSS = string.Format("style='max-height:{0}px;overflow-y:auto;width:{1}px;'", 
+                    (
+                    pagerArguments.ClientHeight - 160 - (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request)? 
+                    int.Parse(widConfig.Tables[0].Rows[0]["northheightm"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheightm"].ToString()) : 
+                    int.Parse(widConfig.Tables[0].Rows[0]["northheight"].ToString()) - int.Parse(widConfig.Tables[0].Rows[0]["southheight"].ToString()))
+                    ).ToString(), 
+                    contentWidth.ToString());
             }
             pageHtml.Html = string.Format("<div>{0}</div><div {3} >{1}</div><div>{2}</div>", headHtml, contentHtml, totalHtml.Html, contentCSS);
             pageHtml.ColumnCount = this.detailHeadData.Select("visible=1").Length;

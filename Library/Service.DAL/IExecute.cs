@@ -1,6 +1,9 @@
 ﻿using System.Data;
 namespace Service.DAL
 {
+    /// <summary>
+    /// 映射执行接口
+    /// </summary>
     interface IExecute
     {
         void SetConnectionString(string connectionString);

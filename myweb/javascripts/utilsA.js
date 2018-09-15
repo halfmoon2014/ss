@@ -515,7 +515,7 @@
     var hideLoading = function () {
         var body = document.getElementsByTagName("body");
         var overlay = document.getElementById("overlay");
-        $(overlay).fadeOut(2000, function () {
+        $(overlay).fadeOut(1000, function () {
             body[0].removeChild(overlay);
         });
     }

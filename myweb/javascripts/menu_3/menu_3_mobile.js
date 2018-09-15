@@ -14,13 +14,8 @@ function addMainTab(tabTitle, url) {
             if (result) {
                 createMainFrame(url);
             } else {
-                hideLoading();
-                var o = new Object();
-                o.functionName = "createMainFrame";
-                var argList = new Array();
-                argList[0] = url;
-                o.args = argList;
-                reLoad(o);
+                hideLoading();                
+                reLoad(function () { createMainFrame(url) });
             }
         });
     }
@@ -46,13 +41,31 @@ function initContent_menu3_mydiv_mobile() {
 
     $('.list-group-item').delegate('a', 'click', function (e) {
         if ($(e.target).is("a")) {
-            window.open($(e.target).parent().attr("cmd"));
+            showLoading();
+            //一定要使用同步的,不然IOS打开的窗口会提示是否打开
+            if (checkSession()) {
+                window.open($(e.target).parent().attr("cmd"));
+                hideLoading();
+            } else {
+                reLoad(function () {
+                    window.open($(e.target).parent().attr("cmd"));
+                    hideLoading();
+                });
+            }            
         }
     });
     $('.list-group-item').delegate('span', 'click', function (e) {
         if ($(e.target).is("span")) {
-            var menuID = $(e.target).parent().attr("menuID");
-            myhelp(menuID)
+            showLoading();
+            if (checkSession()) {
+                myhelp($(e.target).parent().attr("menuID"));
+                hideLoading();
+            } else {
+                reLoad(function () {
+                    myhelp($(e.target).parent().attr("menuID"));
+                    hideLoading();
+                });
+            }                       
         }
     });
 }

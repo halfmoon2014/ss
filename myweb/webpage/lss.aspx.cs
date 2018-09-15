@@ -3,6 +3,7 @@ using System.Text;
 using EI.Web;
 using EI.Web.Modal;
 using DTO;
+using MyTy;
 
 public partial class lss : System.Web.UI.Page
 {
@@ -34,7 +35,7 @@ public partial class lss : System.Web.UI.Page
             string menupage = MySession.SessionHandle.Get("menupage").ToString();
             FM.Business.Login lg = new FM.Business.Login();
             string username = lg.GetUser(userid.ToString()).Tables[0].Rows[0]["name"].ToString();
-            cache = (StringBuilder)CacheTools.Get(intWid.ToString(), userid.ToString());
+            cache = (StringBuilder)CacheTools.WidGet(intWid.ToString(), userid.ToString());
             //if (1 == 1/*cache==null*/)
             //{
             WebEdit webEdit = new WebEdit(tzid.ToString(), userid.ToString(), username);
@@ -47,7 +48,7 @@ public partial class lss : System.Web.UI.Page
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");
             innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\" value=\"" + username + "\" />");
             innerHtml.Append("<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>");
-            CacheTools.Insert(intWid.ToString(), userid.ToString(), innerHtml);
+            CacheTools.WidInsert(intWid.ToString(), userid.ToString(), innerHtml);
             //}
             //else
             //{

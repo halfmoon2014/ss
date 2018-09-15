@@ -26,11 +26,9 @@ public class WebService : System.Web.Services.WebService
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
     public string Login(string ur, string ps)
-    {
-        ur = MyTy.MyCode.MySysDate(ur);
-        ps = MyTy.MyCode.MySysDate(ps);
+    {        
         FM.Business.Login lg = new FM.Business.Login();
-        return "{r:'" + lg.UserLogin(ur, ps) + "'}";
+        return "{r:'" + lg.UserLogin(MyCode.MySysDate(ur), MyCode.MySysDate(ps)) + "'}";
     }
 
     /// <summary>
