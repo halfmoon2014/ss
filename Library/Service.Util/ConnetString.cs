@@ -9,15 +9,15 @@ namespace Service.Util
         /// <summary>
         /// 主服务器
         /// </summary>
-        string masterSql = "select a.ds,a.m_port,a.ic,a.m_ui,a.m_pw,a.linkname from v_conn a   where systag=1";
+        private string masterSql = "select a.ds,a.m_port,a.ic,a.m_ui,a.m_pw,a.linkname from v_conn a   where systag=1";
 
         /// <summary>
         /// 模版服务器
         /// </summary>
-        string mbSql = "select a.ds,a.m_port,a.ic,a.m_ui,a.m_pw,a.linkname from v_conn a   where mbtag=1";
+        private string mbSql = "select a.ds,a.m_port,a.ic,a.m_ui,a.m_pw,a.linkname from v_conn a   where mbtag=1";
 
         /// <summary>
-        /// 取webconfig中的连接字串
+        /// 取web.config中的连接字串
         /// </summary>
         /// <returns></returns>
         public string GetConnString()
@@ -34,38 +34,38 @@ namespace Service.Util
         /// <returns></returns>
         public string GetDb(string tzid, string userid)
         {
-            Log log = new Log();
             if ((DateTime.Now - Convert.ToDateTime("2026-1-1")).TotalDays > 0)
             {
-                log.WriteLog("DBstring", "许可过期！");
+                Log.WriteLog("DBstring", "许可过期！");
                 return "";
             }
             else if (string.IsNullOrEmpty(tzid) || string.IsNullOrEmpty(userid))
             {
-                log.WriteLog("DBstring", "用户账套信息不足！");
+                Log.WriteLog("DBstring", "用户账套信息不足！");
                 return "";
             }
             else
             {
-                string conn=(string)CacheTools.ConnGet(tzid, userid);
+                string conn = (string)CacheTools.DbConnGet(tzid, userid);
                 if (string.IsNullOrEmpty(conn))
                 {
                     string str_sql = "select a.ds,a.m_port,a.ic,b.ui,b.pw from v_conn a  inner join v_tz tz on tz.connid=a.id inner join v_usertz b on tz.id=b.tzid where b.userid ={1} and tz.id={0}";
                     DataSet ds = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, string.Format(str_sql, tzid, userid));
                     if (ds.Tables[0].Rows.Count <= 0)
                     {
-                        log.WriteLog("DBstring", "没有找到对应用户账套的数据库连接字");
+                        Log.WriteLog("DBstring", "没有找到对应用户账套的数据库连接字");
                         return "";
                     }
                     else
                     {
-                        conn= "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
+                        conn = "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
                             + ";Initial Catalog=" + ds.Tables[0].Rows[0]["ic"].ToString().Trim()
                             + ";User ID=" + ds.Tables[0].Rows[0]["ui"].ToString().Trim() + ";Password=" + ds.Tables[0].Rows[0]["pw"].ToString().Trim() + ";";
-                        CacheTools.ConnInsert(tzid, userid, conn);
+                        CacheTools.DbConnInsert(tzid, userid, conn);
                         return conn;
                     }
-                }else
+                }
+                else
                     return conn;
             }
         }
@@ -77,20 +77,27 @@ namespace Service.Util
         /// <returns></returns>
         public string GetCreateLinkServerConnetStringInBLL(string tzid)
         {
-            string str_sql = "select a.ds,a.m_port,a.ic,a.y_ui,a.y_pw from v_conn a inner join v_tz b on a.id=b.connid  where b.id={0}";
-            DataSet ds = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, string.Format(str_sql, tzid));
-            if (ds.Tables[0].Rows.Count <= 0)
-            {//没有找到
-                Log log = new Log();
-                log.WriteLog("DBstring", "没有找到创建连接服务器的用户");
-                return "";
+            string conn = (string)CacheTools.BllConnGet(tzid);
+            if (string.IsNullOrEmpty(conn))
+            {
+                string str_sql = "select a.ds,a.m_port,a.ic,a.y_ui,a.y_pw from v_conn a inner join v_tz b on a.id=b.connid  where b.id={0}";
+                DataSet ds = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, string.Format(str_sql, tzid));
+                if (ds.Tables[0].Rows.Count <= 0)
+                {//没有找到
+                    Log.WriteLog("DBstring", "没有找到创建连接服务器的用户");
+                    return "";
+                }
+                else
+                {
+                    conn = "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
+                        + ";Initial Catalog=" + ds.Tables[0].Rows[0]["ic"].ToString().Trim()
+                        + ";User ID=" + ds.Tables[0].Rows[0]["y_ui"].ToString().Trim() + ";Password=" + ds.Tables[0].Rows[0]["y_pw"].ToString().Trim() + ";";
+                    CacheTools.BllConnInsert(tzid, conn);
+                    return conn;
+                }
             }
             else
-            {
-                return "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
-                    + ";Initial Catalog=" + ds.Tables[0].Rows[0]["ic"].ToString().Trim()
-                    + ";User ID=" + ds.Tables[0].Rows[0]["y_ui"].ToString().Trim() + ";Password=" + ds.Tables[0].Rows[0]["y_pw"].ToString().Trim() + ";";
-            }
+                return conn;
         }
 
         /// <summary>
@@ -111,26 +118,15 @@ namespace Service.Util
 
         public string GetServer(string ServerName, string Type)
         {
-            string str_sql = "";
+            DataTable dataTable=null;
             if (ServerName == "Master")
-            {
-                str_sql = masterSql;
-            }
+                dataTable = GetMasterConnService();
             else if (ServerName == "Mb")
-            {
-                str_sql = mbSql;
-            }
+                dataTable = GetMbConnService();
 
-            DataSet ds = SqlHelper.ExecuteDataset(MyTy.ConfigReader.Read("DBCon"), CommandType.Text, str_sql);
-            if (ds.Tables[0].Rows.Count <= 0)
-            {//没有找到
-                return "";
-            }
-            else
-            {//Type == "linkname" || Type == "ic"
-                return ds.Tables[0].Rows[0][Type].ToString().Trim();
+            //Type == "linkname" || Type == "ic"
+            return dataTable.Rows[0][Type].ToString().Trim();
 
-            }
         }
 
         /// <summary>
@@ -140,19 +136,27 @@ namespace Service.Util
         /// <returns></returns>
         public string GetMasterConn()
         {
-            Log log = new Log();
-            DataSet ds = SqlHelper.ExecuteDataset(MyTy.ConfigReader.Read("DBCon"), CommandType.Text, this.masterSql);
-            if (ds.Tables[0].Rows.Count <= 0)
+            DataTable dataTable = GetMasterConnService();
+            return "Data Source=" + dataTable.Rows[0]["ds"].ToString().Trim() + (dataTable.Rows[0]["m_port"].ToString() == "0" ? "" : "," + dataTable.Rows[0]["m_port"].ToString())
+                       + ";Initial Catalog=" + dataTable.Rows[0]["ic"].ToString().Trim()
+                       + ";User ID=" + dataTable.Rows[0]["m_ui"].ToString().Trim() + ";Password=" + dataTable.Rows[0]["m_pw"].ToString().Trim() + ";";
+        }
+
+        private DataTable GetMasterConnService()
+        {
+            DataTable dataTable = (DataTable)CacheTools.MasterConnGet();
+            if (dataTable == null)
             {
-                log.WriteLog("DBstring", "无法获取主服务器地址！");
-                return "";
+                dataTable = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, this.masterSql).Tables[0];
+                if (dataTable.Rows.Count <= 0)
+                {
+                    Log.WriteLog("DBstring", "无法获取主服务器地址！");
+                    return null;
+                }
+                else
+                    CacheTools.MasterConnInsert(dataTable);
             }
-            else
-            {
-                return "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
-                    + ";Initial Catalog=" + ds.Tables[0].Rows[0]["ic"].ToString().Trim()
-                    + ";User ID=" + ds.Tables[0].Rows[0]["m_ui"].ToString().Trim() + ";Password=" + ds.Tables[0].Rows[0]["m_pw"].ToString().Trim() + ";";
-            }
+            return dataTable;
         }
 
         /// <summary>
@@ -161,19 +165,28 @@ namespace Service.Util
         /// <returns></returns>
         public string GetMbConn()
         {
-            Log log = new Log();
-            DataSet ds = SqlHelper.ExecuteDataset(MyTy.ConfigReader.Read("DBCon"), CommandType.Text, this.mbSql);
-            if (ds.Tables[0].Rows.Count <= 0)
+            DataTable dataTable = GetMbConnService();
+            return "Data Source=" + dataTable.Rows[0]["ds"].ToString().Trim() + (dataTable.Rows[0]["m_port"].ToString() == "0" ? "" : "," + dataTable.Rows[0]["m_port"].ToString())
+                        + ";Initial Catalog=" + dataTable.Rows[0]["ic"].ToString().Trim()
+                        + ";User ID=" + dataTable.Rows[0]["m_ui"].ToString().Trim() + ";Password=" + dataTable.Rows[0]["m_pw"].ToString().Trim() + ";";
+        }
+
+        private DataTable GetMbConnService()
+        {
+            DataTable dataTable = (DataTable)CacheTools.MbConnGet();
+            if (dataTable == null)
             {
-                log.WriteLog("DBstring", "无法获取模版地址！");
-                return "";
+                dataTable = SqlHelper.ExecuteDataset(MyTy.ConfigReader.Read("DBCon"), CommandType.Text, this.mbSql).Tables[0];
+                if (dataTable.Rows.Count <= 0)
+                {
+                    Log.WriteLog("DBstring", "无法获取模版地址！");
+                    return null;
+                }
+                else
+                    CacheTools.MbConnInsert(dataTable);
+
             }
-            else
-            {
-                return "Data Source=" + ds.Tables[0].Rows[0]["ds"].ToString().Trim() + (ds.Tables[0].Rows[0]["m_port"].ToString() == "0" ? "" : "," + ds.Tables[0].Rows[0]["m_port"].ToString())
-                    + ";Initial Catalog=" + ds.Tables[0].Rows[0]["ic"].ToString().Trim()
-                    + ";User ID=" + ds.Tables[0].Rows[0]["m_ui"].ToString().Trim() + ";Password=" + ds.Tables[0].Rows[0]["m_pw"].ToString().Trim() + ";";
-            }
+            return dataTable;
         }
 
     }

@@ -93,9 +93,7 @@ namespace EI.Web
             StringBuilder r = new StringBuilder();
             r.Append("<option value=\"\">全部</option>");
             foreach (DataRow dr in business.GetCTableLx().Tables[0].Rows)
-            {
                 r.Append("<option value=\"" + dr["lx"].ToString() + "\">" + dr["lx"].ToString() + "</option>");
-            }
             return r.ToString();
         }
 
@@ -236,6 +234,7 @@ namespace EI.Web
             }
             return str.ToString().Substring(0, str.Length - 1) + "]";
         }
+
         public string GetNextTree(int id, DataTable dtjg, DataTable dturser, DataRow dr)
         {
             string myrs = "{\"id\":" + dr["id"].ToString() + ",\"text\":" + "\"" + dr["dptname"].ToString() + "\",\"iconCls\":\"icon-sum\" ";
@@ -244,9 +243,7 @@ namespace EI.Web
             if (mydr.Length > 0)
             {
                 foreach (DataRow dr1 in mydr)
-                {
                     mychil.Append(GetNextTree(int.Parse(dr1["id"].ToString()), dtjg, dturser, dr1));
-                }
             }
             else
             {//如果一级菜单没有下级                 
@@ -1488,15 +1485,9 @@ namespace EI.Web
             FM.Business.Login lg = new FM.Business.Login();
             DataSet ds = lg.GetUser(this.userid);
             if (ds.Tables[0].Rows[0]["platform_edit_permission"].ToString().Trim() == "1")
-            {
                 return "<div style=\" text-align:right;  margin-left: 20px; margin-right: 20px;\" ><span onclick=\"var url='../web_xtsz/web_xtsz_main_edit.aspx?wid=" + intWid.ToString() + "&title=\'+mySysDate(document.title); window.open(url);\">Edit Console</span></div>";
-
-            }
             else
-            {
                 return "";
-            }
-
         }
 
         /// <summary>
@@ -1629,6 +1620,9 @@ namespace EI.Web
             return new Dictionary<string, string> { { "htmlmark", htmlMark }, { "width", divWidth.ToString() }, { "height", divHeight.ToString() } };
         }
 
-
+        public string GettWidTitle(int wid)
+        {
+            return business.GettWidTitle(wid);
+        }
     }
 }

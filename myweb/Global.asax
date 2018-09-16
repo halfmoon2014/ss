@@ -18,8 +18,7 @@
         //在出现未处理的错误时运行的代码
         Exception exception = Server.GetLastError();
         string errorMsg = "";
-        MyTy.Log log = new MyTy.Log();
-        log.WriteLog("error", (exception.InnerException == null ? "" : exception.InnerException.Message) + exception.Message + "\r\n" + exception.StackTrace);
+        MyTy.Log.WriteLog("error", (exception.InnerException == null ? "" : exception.InnerException.Message) + exception.Message + "\r\n" + exception.StackTrace);
 
         if (MySession.SessionHandle.Get("userid") == null)
         {

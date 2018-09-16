@@ -12,7 +12,7 @@ namespace MyTy
         /// </summary>        
         /// <param name="tag">标记</param>
         /// <param name="strMemo">日志内容</param>
-        public void WriteLog(string tag, string strMemo)
+        public static void WriteLog(string tag, string strMemo)
         {
             Utils utils = new Utils();
             string PhysicalApplicationPath = utils.getWebPath() + "//logs";
@@ -24,31 +24,20 @@ namespace MyTy
                 {
                     string filename = PhysicalApplicationPath + "//log.txt";
                     if (!System.IO.Directory.Exists(PhysicalApplicationPath))
-                    {
                         System.IO.Directory.CreateDirectory(PhysicalApplicationPath);
-                    }                    
                     
-
                     if (!System.IO.File.Exists(filename))
-                    {
                         sr = System.IO.File.CreateText(filename);
-                    }
                     else
-                    {
                         sr = System.IO.File.AppendText(filename);
-                    }
                     sr.WriteLine(DateTime.Now.ToString("[yyyy-MM-dd HH-mm-ss] "));
                     sr.WriteLine(tag + ":" + strMemo);
                 }
-                catch
-                {
-                }
+                catch { }
                 finally
                 {
                     if (sr != null)
-                    {
                         sr.Close();
-                    }
                 }
             }
 

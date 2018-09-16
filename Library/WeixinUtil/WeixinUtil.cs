@@ -163,8 +163,7 @@ namespace weixin.util
             catch (System.Exception e)
             {
                 backWord = e.Message;
-                MyTy.Log l = new MyTy.Log();
-                l.WriteLog("ResponseMsg", backWord);
+                Log.WriteLog("ResponseMsg", backWord);
             }
 
             DateTime dt = DateTime.Now;

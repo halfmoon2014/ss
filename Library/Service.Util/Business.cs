@@ -135,6 +135,12 @@ namespace Service.Util
             return rstring;
         }
 
+        public string GettWidTitle(int wid)
+        {          
+            DataTable dt = this.execObj.SubmitTextDataSet(this.sqlstring.ContEdit(wid, "name")).Tables[0];
+            return dt.Rows[0]["name"].ToString().Trim();
+        }
+
         public DataSet GetTbzd(int wid)
         {
             return this.execObj.SubmitTextDataSet(this.sqlstring.Tbzd(wid));
@@ -799,8 +805,8 @@ namespace Service.Util
                     }
                     else
                     {
-                        sql.Append(" insert v_wid_layout ( css0,css, mrz,bds,webid,lx, mc,ord,mobileord, width,widthm,qwidth,qwidthm, westwidth,westwidthm,eastwidth,eastwidthm, northheight,northheightm, southheight,southheightm, dwidth, dheight, visible, readonly, type,   bz,nwebid, event, yy,zb,session,naspx,htmlid) ");
-                        sql.Append("values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "','"+layout.MobileOrd+"', '" + layout.Width + "','"+layout.Widthm+"','" + layout.Qwidth + "','"+layout.Qwidthm+"','" + layout.Westwidth + "','"+ layout.Westwidthm+ "','" + layout.Eastwidth + "','" + layout.Eastwidthm+ "', '" + layout.Northheight + "','"+ layout.Northheightm + "', '" + layout.Southheight + "','"+ layout.Southheightm + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
+                        sql.Append(@" insert v_wid_layout ( css0,css, mrz,bds,webid,lx, mc,ord,mobileord, width,widthm,qwidth,qwidthm, westwidth,westwidthm,eastwidth,eastwidthm, northheight,northheightm, southheight,southheightm, dwidth, dheight, visible, readonly, type,   bz,nwebid, event, yy,zb,session,naspx,htmlid) 
+                        values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "','"+layout.MobileOrd+"', '" + layout.Width + "','"+layout.Widthm+"','" + layout.Qwidth + "','"+layout.Qwidthm+"','" + layout.Westwidth + "','"+ layout.Westwidthm+ "','" + layout.Eastwidth + "','" + layout.Eastwidthm+ "', '" + layout.Northheight + "','"+ layout.Northheightm + "', '" + layout.Southheight + "','"+ layout.Southheightm + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
                     }
 
                 }

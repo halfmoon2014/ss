@@ -47,7 +47,6 @@ public class MyHttpModule : IHttpModule
     private void Application_AcquireRequestState(Object httpApplication, EventArgs e)
     {
         HttpApplication application = (HttpApplication)httpApplication;
-        Log log = new Log();
         MyCode myCode = new MyCode();
         //获取服务器上 ASP.NET 应用程序的虚拟应用程序根路径
         string applicationPath = application.Context.Request.ApplicationPath.ToString().Trim();
@@ -56,24 +55,24 @@ public class MyHttpModule : IHttpModule
         string loginFileName = ConfigReader.Read(xml, "/Root/WebFile/Login/FileName", "");
         string chooseTzFileName = ConfigReader.Read(xml, "/Root/WebFile/ChooseTz/FileName", "");
         LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("", "", "Application_AcquireRequestState", absolutePath));
-        log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
+        Log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
         if (myCode.CheckPageType(absolutePath, "NoLimitUrl"))
         {
             #region 不受session控制的页面
-            log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
+            Log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
             #endregion
         }
         else if (myCode.CheckPageType(absolutePath, "Login"))
         {
             #region 登陆页面
-            log.WriteLog("MyHttpModule", "login");            
+            Log.WriteLog("MyHttpModule", "login");            
             if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
             {                
                 application.Response.Redirect("~/" + SessionHandle.Get("menupage"));
             }
             else if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") == null)
             {
-                log.WriteLog("MyHttpModule", chooseTzFileName + "2");
+                Log.WriteLog("MyHttpModule", chooseTzFileName + "2");
                 application.Response.Redirect("~/" + chooseTzFileName);
             }
             #endregion
@@ -158,10 +157,6 @@ public class MyHttpModule : IHttpModule
             }
             #endregion
         }
-
-
     }
-
-
     #endregion
 }
