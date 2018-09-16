@@ -230,13 +230,33 @@
     var myAjaxData = function (data) {
         var mydata;
         if (window.DOMParser) {
-            mydata = data.documentElement.textContent;
+            //非IE
+            if (data.documentElement) {
+                //如果返回的信息中没有这个元素
+                mydata = data.documentElement.textContent;
+            } else {
+                mydata = "";
+                try {
+                    console.log(data)
+                } catch{ }
+            }
         } else {
-            mydata = data.text;
+            if (data.text) {
+                mydata = data.text;
+            } else {
+                mydata = "";
+                try {
+                    console.log(data)
+                } catch{ }
+            }
         }
-        /*20140316 如果返回的是\那么js的eval会去掉*/
-        mydata = mydata.replace(/\\/g, "/");
-        return eval("(" + mydata + ")");
+        if (mydata.length > 0) {
+            /*20140316 如果返回的是\那么js的eval会去掉*/
+            mydata = mydata.replace(/\\/g, "/");
+            return eval("(" + mydata + ")");
+        } else {
+            return { "r": "false" };
+        }
     };
 
     //Post方式提交表单

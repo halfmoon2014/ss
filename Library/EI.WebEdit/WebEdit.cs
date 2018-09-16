@@ -779,33 +779,25 @@ namespace EI.Web
             string mrz; string mrzSql;
             List<string> tdList = new List<string>();
 
-            foreach (System.Data.DataRow dr in divInLayoutDataTable.Select("substring(ord,1,1)='" + tablebTag + "'"))
+            foreach (DataRow dr in divInLayoutDataTable.Select("substring(ord,1,1)='" + tablebTag + "'"))
             {
-
                 #region 默认值
                 mrzSql = dr["mrz"].ToString();
                 if (sessionKey.Keys.Contains(dr["session"].ToString()))
-                {
                     mrz = sessionKey[dr["session"].ToString()];
-                }
                 else if (sessionKey.Keys.Contains(dr["mrz"].ToString()))
-                {
                     mrz = sessionKey[dr["mrz"].ToString()];
-                }
                 else
                 {
                     if (mrzSql.ToUpper().IndexOf("SELECT") >= 0)
                     {
                         foreach (string key in sessionKey.Keys)
-                        {//用url参数替换默认值里的替换变量
+                            //用url参数替换默认值里的替换变量
                             mrzSql.Replace("@" + key, sessionKey[key]);
-                        }
                         mrz = business.execSqlCommand(mrzSql, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "CreateTable" } })["resultText"];
                     }
                     else
-                    {
                         mrz = mrzSql;
-                    }
                 }
                 #endregion
                 #region 控件值
@@ -813,22 +805,15 @@ namespace EI.Web
                 if (dr["zb"].ToString().Trim() == "1")
                 {//主表字段
                     if (divDataSet == null)
-                    {
                         defaultValue = mrz;
-                    }
                     else if (divDataSet.Tables[0].Rows.Count == 0)
-                    {
                         defaultValue = mrz;
-                    }
                     else
-                    {
                         defaultValue = divDataSet.Tables[0].Rows[0][dr["htmlid"].ToString().Trim()].ToString().Trim();
-                    }
                 }
                 else
-                {
                     defaultValue = mrz;
-                }
+
                 #endregion
                 if (dr["type"].ToString().Trim() == "text")
                 {
@@ -840,15 +825,13 @@ namespace EI.Web
 
                     if (dr["visible"].ToString().Trim() == "1")
                     {
-                        width = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim()=="0" ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
                         //4px是控件的border
-                        inputWidth = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + (int.Parse(dr["width"].ToString().Trim()) - 4) + "px; ");
-                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
+                        inputWidth = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + (int.Parse(dr["width"].ToString().Trim()) - 4) + "px; ");
+                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
-                    {
                         visible = " display: none; ";
-                    }
 
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " readonly=\"readonly\" " : "");
                     string sevent = dr["event"].ToString().Trim();
@@ -875,22 +858,18 @@ namespace EI.Web
 
                     if (dr["visible"].ToString().Trim() == "1")
                     {
-                        width = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
-                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
+                        width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
-                    {
                         visible = " display: none; ";
-                    }
 
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " readonly=\"readonly\" " : "");
                     string sevent = dr["event"].ToString().Trim();
                     StringBuilder OPTION = new StringBuilder();
                     Dictionary<string, string> option = GetDivSelectOption(dr["bz"].ToString().Trim(), sessionKey);
                     foreach (string key in option.Keys)
-                    {
                         OPTION.Append("<OPTION value='" + key + "' " + (defaultValue == key ? "selected='true'" : "") + ">" + option[key] + "</OPTION>");
-                    }
                     string yy = "";//引用+表达示
                     if (dr["yy"].ToString().Trim() != string.Empty)
                     {
@@ -909,19 +888,19 @@ namespace EI.Web
                     string sevent = dr["event"].ToString().Trim();
                     string visible = "";
                     string width = "";
+                    string qwidth = "";//用来在BUTTON前留空
 
                     if (dr["visible"].ToString().Trim() == "1")
                     {
                         width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
-                    {
                         visible = " display: none; ";
-                    }
                     string htmlid = (dr["htmlid"].ToString().Trim() == string.Empty ? "" : " id=\"" + dr["htmlid"].ToString().Trim() + "\" ");
 
-                    string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " disabled=\"disabled\" " : "");
-                    string tdHtml = "<td style=\"" + visible + "\" innerctrl=\"button\" ><input type=\"button\"  style=\"" + width + ";" + dr["css"].ToString().Trim() + "\"" + htmlid + sreadonly + " value=\"" + dr["mc"].ToString().Trim() + "\" " + sevent + " />";
+                    string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " disabled=\"disabled\" " : "");                    
+                    string tdHtml = (qwidth==""?"":"<td style=\""+qwidth+"\" >&nbsp;</td>")+ "<td style=\"" + visible + "\" innerctrl=\"button\" ><input type=\"button\"  style=\"" + width + ";" + dr["css"].ToString().Trim() + "\"" + htmlid + sreadonly + " value=\"" + dr["mc"].ToString().Trim() + "\" " + sevent + " />";
                     tdHtml += "</td>";
                     tdList.Add(tdHtml);
                     #endregion
@@ -937,13 +916,11 @@ namespace EI.Web
                     string qwidth = "";
                     if (dr["visible"].ToString().Trim() == "1")
                     {
-                        width = (dr["width"].ToString().Trim() == string.Empty ? " " : " width:" + dr["width"].ToString().Trim() + "px; ");
-                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? " " : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
+                        width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? " " : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? " " : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
-                    {
                         visible = " display: none; ";
-                    }
 
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " disabled=\"disabled\" " : " ");
                     if (defaultValue == "1") { defaultValue = "checked"; } else { defaultValue = " "; }
@@ -969,13 +946,11 @@ namespace EI.Web
                     string qwidth = "";
                     if (dr["visible"].ToString().Trim() == "1")
                     {
-                        width = (dr["width"].ToString().Trim() == string.Empty ? " " : " width:" + dr["width"].ToString().Trim() + "px; ");
-                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? " " : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
+                        width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? " " : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? " " : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
-                    {
                         visible = " display: none; ";
-                    }
                     string sevent = dr["event"].ToString().Trim();
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " readonly=\"readonly\" " : " ");
 
@@ -994,7 +969,7 @@ namespace EI.Web
                 else if (dr["type"].ToString().Trim() == "td")
                 {
                     #region
-                    string qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " style=\"width:" + dr["qwidth"].ToString().Trim() + "px;text-align:right;" + dr["css0"].ToString().Trim() + "\" ");
+                    string qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? "" : " style=\"width:" + dr["qwidth"].ToString().Trim() + "px;text-align:right;" + dr["css0"].ToString().Trim() + "\" ");
                     string tdHtml = "<td " + qwidth + " >" + dr["mc"].ToString().Trim();
                     tdHtml += "</td>";
                     tdList.Add(tdHtml);
@@ -1008,13 +983,11 @@ namespace EI.Web
                     string qwidth = "";
                     if (dr["visible"].ToString().Trim() == "1")
                     {
-                        width = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
-                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
+                        width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
-                    {
                         visible = " display: none; ";
-                    }
                     string sevent = dr["event"].ToString().Trim();
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " disabled=\"disabled\" " : "");
                     string tdHtml = "<td style=\"" + qwidth + visible + "text-align:right;" + dr["css0"].ToString().Trim() + " \"   ><label >" + dr["mc"].ToString().Trim() + "</label></td>";
@@ -1034,13 +1007,11 @@ namespace EI.Web
 
                     if (dr["visible"].ToString().Trim() == "1")
                     {
-                        width = (dr["width"].ToString().Trim() == string.Empty ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
-                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
+                        width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
+                        qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
-                    {
                         visible = " display: none; ";
-                    }
 
                     string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " readonly=\"readonly\" " : "");
                     string sevent = dr["event"].ToString().Trim();
@@ -1060,19 +1031,10 @@ namespace EI.Web
                 }
 
             }
-            //if (IsMobileBrowser)
-            //{
-            //    StringBuilder sb = new StringBuilder();
-            //    foreach(string k in tdList)
-            //    {
-            //        sb.Append(string.Format("<table style=\"table-layout:fixed\" parameters='upload' class=\"c_head_tb\"><tr>{0}</tr></table>", k));
-            //    }
-            //    return sb.ToString();
-            //}
-            //else
-            //{
-            return string.Format("<table style=\"table-layout:fixed\" parameters='upload' class=\"c_head_tb\"><tr>{0}<td>&nbsp;</td></tr></table>", string.Join("", tdList.ToArray()));
-            //}
+            
+
+            return string.Format("<table style=\"table-layout:fixed;"+(divInLayoutDataTable.Select("substring(ord,1,1)='" + tablebTag + "' and visible=1 ").Length==0?"display:none":"") +"\" parameters='upload' class=\"c_head_tb\"><tr>{0}<td>&nbsp;</td></tr></table>", string.Join("", tdList.ToArray()));
+            
         }
 
         public ClientTable _CreateTable(string tablebTag, DataTable divInLayoutDataTable)

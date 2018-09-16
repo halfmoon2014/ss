@@ -1,11 +1,8 @@
 ﻿<%@ WebService Language="C#" Class="ws" %>
 
 using System.Web.Services;
-
 using System.Data;
-
 using Service.Util;
-
 using System.Collections.Generic;
 using MyTy;
 
@@ -125,7 +122,6 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string sjy_uphelp(string wid, string help)
     {
-
         Business ei = getBusiness();
         return "{r:'" + ei.UpSJYHelp(wid, help) + "'}";
     }
@@ -143,36 +139,26 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string websj_cl(string userid, string mc, string lx, string wid, string zt)
     {
-
         Business ei = getBusiness();
-        string rstring = "";
+        string rString = "";
+        int r = 0;
         if (zt == "add")
         {
-            int r = ei.AddSJYSJ(userid, mc, lx);
+            r = ei.AddSJYSJ(userid, mc, lx);
             if (r > 0)
-            {
-                rstring = "true";
-            }
+                rString = "true";
             else
-            {
-                rstring = "false";
-            }
+                rString = "false";
         }
         else
         {//edit                
-            int r = ei.EditSJYSJ(wid, mc, lx);
+            r = ei.EditSJYSJ(wid, mc, lx);
             if (r > 0)
-            {
-                rstring = "true";
-            }
+                rString = "true";
             else
-            {
-                rstring = "false";
-            }
-
+                rString = "false";
         }
-
-        return "{r:'" + rstring + "'}";
+        return "{r:'" + rString + "'}";
     }
     /// <summary>
     /// WEB设计 删除webid
@@ -182,7 +168,6 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string websj_del(string wid)
     {
-
         Business ei = getBusiness();
         return "{r:'" + ei.DelSJYSJ(wid) + "'}";
     }
@@ -208,13 +193,9 @@ public class ws : System.Web.Services.WebService
     {
         Business ei = getBusiness();
         if (wid == "menu")
-        {
             return "{r:'" + ei.web_fb_menu() + "'}";
-        }
         else
-        {
             return "{r:'" + ei.web_fb(wid) + "'}";
-        }
     }
     /// <summary>
     /// WEB设计 复制webid中的每项
@@ -226,7 +207,6 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string websj_fz_zd(string wid, string newwid, string bs)
     {
-
         Business ei = getBusiness();
         return "{r:'" + ei.CopyWebSJZD(wid, newwid, bs) + "'}";
     }
@@ -236,7 +216,6 @@ public class ws : System.Web.Services.WebService
     //处理大类SQL
     public string execSqlCommand(string sqlCommand, string xact_abort, string wid)
     {
-
         Dictionary<string, string> arg = new Dictionary<string, string>();
         arg.Add("wid", wid);
         arg.Add("callFucntion", "zdwh_up");
@@ -251,12 +230,10 @@ public class ws : System.Web.Services.WebService
     //重新登陆
     public string reload(string value1, string value2, string a, string b)
     {
-        //sjxg.Class1 sj = new sjxg.Class1();
-        value1 = MyTy.MyCode.MySysDate(value1);
-        value2 = MyTy.MyCode.MySysDate(value2);
-        a = MyTy.MyCode.MySysDate(a);
-        b = MyTy.MyCode.MySysDate(b);
-        //bool t  = sj.Reload(value1,value2,a,b);
+        value1 = MyCode.MySysDate(value1);
+        value2 = MyCode.MySysDate(value2);
+        a = MyCode.MySysDate(a);
+        b = MyCode.MySysDate(b);
         FM.Business.Login lg = new FM.Business.Login();
         if (lg.Reload(value1, value2, a, b))
             return "{r:'ture'}";
@@ -268,21 +245,24 @@ public class ws : System.Web.Services.WebService
     //重新登陆
     public void reloadJson(string value1, string value2, string a, string b)
     {
-        //sjxg.Class1 sj = new sjxg.Class1();
-        value1 = MyCode.MySysDate(value1);
-        value2 = MyCode.MySysDate(value2);
-        a = MyCode.MySysDate(a);
-        b = MyCode.MySysDate(b);
-        //bool t  = sj.Reload(value1,value2,a,b);
-        FM.Business.Login lg = new FM.Business.Login();
-        bool t = lg.Reload(value1, value2, a, b);
         Context.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
         Context.Response.Charset = "utf-8";
-        if (t)
-            Context.Response.Write("{\"r\":true}");
-        else
-            Context.Response.Write("{\"r\":false}");
-
+        try
+        {
+            value1 = MyCode.MySysDate(value1);
+            value2 = MyCode.MySysDate(value2);
+            a = MyCode.MySysDate(a);
+            b = MyCode.MySysDate(b);
+            FM.Business.Login lg = new FM.Business.Login();
+            if (lg.Reload(value1, value2, a, b))
+                Context.Response.Write("{\"r\":true}");
+            else
+                Context.Response.Write("{\"r\":false}");
+        }
+        catch (System.Exception e)
+        {
+            Context.Response.Write("{\"r\":false,\"errmsg\":\"" + e.Message + "\"}");
+        }
         Context.Response.End();
     }
 
@@ -290,7 +270,6 @@ public class ws : System.Web.Services.WebService
     //根据mykey 返回 页面要加载的数据
     public string Pos_MyLoad(string mykey)
     {
-
         FM.Business.Pos sp = new FM.Business.Pos();
         DataSet ds = new DataSet();
         return sp.Pos_MyLoad(mykey, ref ds)[0];
@@ -301,9 +280,8 @@ public class ws : System.Web.Services.WebService
     {
         string r = "";
         if (Session["menupage"] != null)
-        {
             r = Session["menupage"].ToString();
-        }
+
         Session.Abandon();
         return "{r:'" + r + "'}";
     }
@@ -316,22 +294,15 @@ public class ws : System.Web.Services.WebService
     {
         string r = "";
         if (Session["menupage"] == null)
-        {
             r = "menupage,";
-        }
         if (Session["tzid"] == null)
-        {
             r += "tzid,";
-        }
         if (Session["userid"] == null)
-        {
             r += "userid,";
-        }
 
-        if (r != "")
-        {
+        if (!string.IsNullOrEmpty(r))
             r = r.Substring(0, r.Length - 1);
-        }
+
         return "{r:'" + r + "'}";
     }
     /// <summary>
@@ -341,19 +312,20 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string pzoom(string ppath, string pname, string newpath, int targetWidth, int targetHeight, string watermarkText, string watermarkImage)
     {
-        MyTy.Draw dr = new Draw();
-
+        Draw dr = new Draw();
+        string rStr = "";
         try
         {
             System.IO.FileStream fileStream = new System.IO.FileStream(Server.MapPath("../" + ppath + "/" + pname), System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
             System.IO.Stream stream = fileStream as System.IO.Stream;
             dr.ZoomAuto(stream, Server.MapPath("../" + newpath + "/" + pname), targetWidth, targetHeight, watermarkText, watermarkImage);
-            return "{r:'true'}";
+            rStr = "{r:'true'}";
         }
         catch (System.Exception e)
         {
-            return "{r:'" + e.Message + "'}";
+            rStr = "{r:'" + e.Message + "'}";
         }
+        return rStr;
     }
 
 }

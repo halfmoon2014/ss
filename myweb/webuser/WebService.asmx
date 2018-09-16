@@ -1,14 +1,6 @@
 ﻿<%@ WebService Language="C#" Class="WebService" %>
 
-using System;
-using System.Collections.Generic;
-//using System.Linq;
-using System.Web;
 using System.Web.Services;
-using System.Data;
-using System.DataBase;
-using System.Data.SqlClient;
-
 using MyTy;
 
 [WebService(Namespace = "http://tempuri.org/")]

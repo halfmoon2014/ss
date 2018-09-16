@@ -525,18 +525,18 @@ namespace Service.Util
                     upstr += "  SET IDENTITY_INSERT tb_wid_layout ON  ";
                     foreach (DataRow dr4 in ds.Tables[3].Rows)
                     {
-                        upstr += "  INSERT v_wid_layout (id,sysdel,sysdeltime, [webid],[lx],[mc],[ord],[mobileord],[type],[qwidth],[width],[visible],[readonly],[event],[bz],[nwebid],[htmlid],[eastwidth],[westwidth],[northheight],[southheight],[dwidth],[dheight],[naspx],[yy],[session],[zb],css,css0,[mrz],[bds]) ";
+                        upstr += "  INSERT v_wid_layout (id,sysdel,sysdeltime, [webid],[lx],[mc],[ord],[mobileord],[type],[qwidth],qwidthm,[width],widthm,[visible],[readonly],[event],[bz],[nwebid],[htmlid],[eastwidth],eastwidthm,[westwidth],westwidthm,[northheight],northheightm,[southheight],southheightm,[dwidth],[dheight],[naspx],[yy],[session],[zb],css,css0,[mrz],[bds]) ";
                         upstr += "  values ";
                         upstr += "  ('" + dr4["id"].ToString().Replace("'", "''") + "','" + dr4["sysdel"].ToString().Replace("'", "''") + "','"
                             + dr4["sysdeltime"].ToString().Replace("'", "''") + "','" + dr4["webid"].ToString().Replace("'", "''") + "','"
                             + dr4["lx"].ToString().Replace("'", "''") + "','" + dr4["mc"].ToString().Replace("'", "''") + "','"
                             + dr4["ord"].ToString().Replace("'", "''") + "','"+ dr4["mobileord"].ToString().Replace("'", "''") + "','" + dr4["type"].ToString().Replace("'", "''") + "','"
-                            + dr4["qwidth"].ToString().Replace("'", "''") + "','" + dr4["width"].ToString().Replace("'", "''") + "','"
+                            + dr4["qwidth"].ToString().Replace("'", "''") + "','"+ dr4["qwidthm"].ToString().Replace("'", "''") + "','" + dr4["width"].ToString().Replace("'", "''") + "','"+ dr4["widthm"].ToString().Replace("'", "''") + "','"
                             + dr4["visible"].ToString().Replace("'", "''") + "','" + dr4["readonly"].ToString().Replace("'", "''") + "','"
                             + dr4["event"].ToString().Replace("'", "''") + "','" + dr4["bz"].ToString().Replace("'", "''") + "','"
                             + dr4["nwebid"].ToString().Replace("'", "''") + "','" + dr4["htmlid"].ToString().Replace("'", "''") + "','"
-                            + dr4["eastwidth"].ToString().Replace("'", "''") + "','" + dr4["westwidth"].ToString().Replace("'", "''") + "','"
-                            + dr4["northheight"].ToString().Replace("'", "''") + "','" + dr4["southheight"].ToString().Replace("'", "''") + "','"
+                            + dr4["eastwidth"].ToString().Replace("'", "''") + "','"+ dr4["eastwidthm"].ToString().Replace("'", "''") + "','" + dr4["westwidth"].ToString().Replace("'", "''") + "','"+ dr4["westwidthm"].ToString().Replace("'", "''") + "','"
+                            + dr4["northheight"].ToString().Replace("'", "''") + "','"+ dr4["northheightm"].ToString().Replace("'", "''") + "','" + dr4["southheight"].ToString().Replace("'", "''") + "','"+ dr4["southheightm"].ToString().Replace("'", "''") + "','"
                             + dr4["dwidth"].ToString().Replace("'", "''") + "','" + dr4["dheight"].ToString().Replace("'", "''") + "','"
                             + dr4["naspx"].ToString().Replace("'", "''") + "','" + dr4["yy"].ToString().Replace("'", "''") + "','"
                             + dr4["session"].ToString().Replace("'", "''") + "','" + dr4["zb"].ToString().Replace("'", "''") + "','"
