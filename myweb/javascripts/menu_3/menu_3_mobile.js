@@ -42,14 +42,16 @@ function initContent_menu3_mydiv_mobile() {
     $('.list-group-item').delegate('a', 'click', function (e) {
         if ($(e.target).is("a")) {
             showLoading();
+            var url = $(e.target).parent().attr("cmd");
+            url = (url.indexOf("?") >= 0 ? url + "&" : url + "?") + "title=" + encodeURIComponent($(e.target).html());
             //一定要使用同步的,不然IOS打开的窗口会提示是否打开
-            if (checkSession()) {
-                window.open($(e.target).parent().attr("cmd"));
+            if (checkSession()) {                
+                window.open(url);
                 hideLoading();
             } else {
+                hideLoading();
                 reLoad(function () {
-                    window.open($(e.target).parent().attr("cmd"));
-                    hideLoading();
+                    window.open(url);                    
                 });
             }            
         }

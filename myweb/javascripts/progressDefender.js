@@ -78,7 +78,13 @@ function reLoadSwal(username, a, b, callFun) {
 
     swal({
         text: username + '你好,请输入你的密码',
-        content: "input",
+        content: {
+            element: "input",
+            attributes: {
+                placeholder: "Type your password",
+                type: "password",
+            },
+        },
         button: {
             text: "确定!",
             closeModal: false,

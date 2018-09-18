@@ -251,7 +251,7 @@ function myAjaxData(data) {
             mydata = "";
             try {
                 console.log(data)
-            } catch{ }
+            } catch(e){ }
         }
     } else {
         if (data.text) {
@@ -260,7 +260,7 @@ function myAjaxData(data) {
             mydata = "";
             try {
                 console.log(data)
-            } catch{ }
+            } catch(e){ }
         }
     }
     if (mydata.length > 0) {

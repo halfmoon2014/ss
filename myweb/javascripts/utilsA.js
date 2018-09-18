@@ -238,7 +238,7 @@
                 mydata = "";
                 try {
                     console.log(data)
-                } catch{ }
+                } catch(e){ }
             }
         } else {
             if (data.text) {
@@ -247,7 +247,7 @@
                 mydata = "";
                 try {
                     console.log(data)
-                } catch{ }
+                } catch(e){ }
             }
         }
         if (mydata.length > 0) {

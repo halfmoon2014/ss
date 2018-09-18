@@ -1,13 +1,10 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="login" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <!-- sysHead -->
     <ctrlHeader:DefaultHeader ID="sysHead" Title="Nexts - Login" runat="server" />
     <!-- End of sysHead -->
-
     <!-- Libraries -->
     <link href="css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
@@ -18,7 +15,7 @@
         <script src="javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- End of Libraries -->
-    <link href="css/loading/loading.css" rel="stylesheet" />
+    <link href="css/loading/loading.css" rel="stylesheet" /> 
 </head>
 <body>
     <div id="container">
