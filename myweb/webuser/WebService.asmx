@@ -20,7 +20,7 @@ public class WebService : System.Web.Services.WebService
     public string Login(string ur, string ps)
     {        
         FM.Business.Login lg = new FM.Business.Login();
-        return "{r:'" + lg.UserLogin(MyCode.MySysDate(ur), MyCode.MySysDate(ps)) + "'}";
+        return "{\"r\":\"" + lg.UserLogin(MyCode.MySysDate(ur), MyCode.MySysDate(ps)) + "\"}";
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ public class WebService : System.Web.Services.WebService
             FM.Business.Login lg = new FM.Business.Login();
             lg.CreateDbLink();//设置业务服务器上的 连接 主服务与母板的LINK
         }
-        return "{r:'true'}";
+        return "{\"r\":\"true\"}";
     }
     /// <summary>
     /// 重置密码

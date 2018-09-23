@@ -794,7 +794,7 @@ namespace EI.Web
                         foreach (string key in sessionKey.Keys)
                             //用url参数替换默认值里的替换变量
                             mrzSql.Replace("@" + key, sessionKey[key]);
-                        mrz = business.execSqlCommand(mrzSql, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "CreateTable" } })["resultText"];
+                        mrz = business.execSqlCommand(mrzSql, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "CreateTable" } }).Data;
                     }
                     else
                         mrz = mrzSql;
@@ -1412,30 +1412,22 @@ namespace EI.Web
             if (m.ToUpper().IndexOf("SELECT") >= 0)
             {
                 foreach (string key in queryString.Keys)
-                {//用url参数替换默认值里的替换变量
+                    //用url参数替换默认值里的替换变量
                     m.Replace("@" + key, queryString[key]);
-                }
-                m.Replace("@userid", this.userid);
-                m.Replace("@tzid", this.tzid);
-                m.Replace("@username", this.username);
-                return business.execSqlCommand(m, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "GetMrz" } })["resultText"];
+
+                m.Replace("@userid", userid);
+                m.Replace("@tzid", tzid);
+                m.Replace("@username", username);
+                return business.execSqlCommand(m, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "GetMrz" } }).Data;
             }
             else if (m == "@username")
-            {
-                return this.username;
-            }
+                return username;
             else if (m == "@tzid")
-            {
-                return this.tzid;
-            }
+                return tzid;
             else if (m == "@userid")
-            {
-                return this.userid;
-            }
+                return userid;
             else
-            {
                 return m;
-            }
         }
 
         /// <summary>

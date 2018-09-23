@@ -111,24 +111,17 @@ namespace FM.Business
             string r = "false";
             //1判断用户名
             if (username != lg.GetUser(SessionHandle.Get("userid")).Tables[0].Rows[0]["usr"].ToString() && adminTag == "0")
-            {
                 r = "username";
-            }
             else
-            {//2 判断旧密码
-
-
+            {
+                //2 判断旧密码
                 DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.v_user(username, hp.GetMM(oldPassWord)));
                 if (ds.Tables[0].Rows.Count == 0 && adminTag == "0")
-                {
                     r = "oldPassWord";
-                }
                 else
                 {
                     if (this.execObj.SubmitTextInt(this.sqlstring.UpdataUserPsw(username, hp.GetMM(newPassWord)), connstr.GetDb(SessionHandle.Get("tzid"), SessionHandle.Get("userid"))) >= 0)
-                    {
                         r = "true";
-                    }
                 }
             }
             return r;

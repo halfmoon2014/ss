@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DTO;
+using System.Collections.Generic;
 using System.Web;
 namespace MyTy
 {
@@ -87,14 +88,15 @@ namespace MyTy
         /// 返回页面样式配置
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, string> GetPageThemes()
+        public static PageConfiguration GetPageThemes()
         {
-            System.Collections.Generic.Dictionary<string,string> dic =  new Dictionary<string,string>();            
             string xml = HttpContext.Current.Server.MapPath("~/config.xml");
-            dic.Add("PageThemes",MyTy.ConfigReader.Read(xml, "/Root/appSettings/PageThemes", ""));
-            dic.Add("Themes", MyTy.ConfigReader.Read(xml, "/Root/appSettings/Themes", ""));
-            return dic;    
-            
+            PageConfiguration pageConfiguration = new PageConfiguration();
+            pageConfiguration.PageThemes = ConfigReader.Read(xml, "/Root/appSettings/PageThemes", "");
+            pageConfiguration.Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", "");
+            pageConfiguration.JsCDN = ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
+            pageConfiguration.CssCDN = ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");
+            return pageConfiguration;
         }
  
 

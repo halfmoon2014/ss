@@ -4,12 +4,8 @@ using Service.DAL;
 using System.Data;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
-
 using Service.Util.Modal;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Reflection;
-using System.Linq;
 using MyTy;
 
 namespace Service.Util
@@ -21,13 +17,13 @@ namespace Service.Util
         ConnetString connstr;
         string tzid;
         string userid;
-        public Business(string tzid,string userid)
+        public Business(string tzid, string userid)
         {
             this.sqlstring = new SqlCommandString();
             this.connstr = new ConnetString();
             this.tzid = tzid;
             this.userid = userid;
-            this.execObj = new DALInterface(null, this.connstr.GetDb(tzid,userid));
+            this.execObj = new DALInterface(null, this.connstr.GetDb(tzid, userid));
         }
 
         /// <summary>
@@ -136,7 +132,7 @@ namespace Service.Util
         }
 
         public string GettWidTitle(int wid)
-        {          
+        {
             DataTable dt = this.execObj.SubmitTextDataSet(this.sqlstring.ContEdit(wid, "name")).Tables[0];
             return dt.Rows[0]["name"].ToString().Trim();
         }
@@ -145,7 +141,7 @@ namespace Service.Util
         {
             return this.execObj.SubmitTextDataSet(this.sqlstring.Tbzd(wid));
         }
-        public DataSet GetTbLayOut(int wid, string lx,string ord)
+        public DataSet GetTbLayOut(int wid, string lx, string ord)
         {
             return this.execObj.SubmitTextDataSet(this.sqlstring.TbLayOut(wid, lx, ord));
         }
@@ -205,14 +201,11 @@ namespace Service.Util
             Parm[14].Value = sql_2;
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPSJY", Parm);
-            if (r > 0)
-            {
-                return "true";
-            }
-            else
-            {
+            if (r > 0)            
+                return "true";            
+            else            
                 return "false";
-            }
+            
 
 
         }
@@ -232,14 +225,10 @@ namespace Service.Util
             Parm[1].Value = MyTy.MyCode.DoUrlDecode(js);
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPWEBJS", Parm);
-            if (r > 0)
-            {
-                return "true";
-            }
-            else
-            {
-                return "false";
-            }
+            if (r > 0)          
+                return "true";            
+            else            
+                return "false";            
 
         }
 
@@ -258,14 +247,11 @@ namespace Service.Util
             Parm[1].Value = MyTy.MyCode.DoUrlDecode(js);
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPWEBHELP", Parm);
-            if (r > 0)
-            {
-                return "true";
-            }
-            else
-            {
+            if (r > 0)            
+                return "true";            
+            else            
                 return "false";
-            }
+            
 
         }
 
@@ -321,14 +307,10 @@ namespace Service.Util
             Parm[0].Value = wid;
 
             int r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_DEL", Parm);
-            if (r > 0)
-            {
-                return "true";
-            }
-            else
-            {
-                return "false";
-            }
+            if (r > 0)            
+                return "true";            
+            else            
+                return "false";            
         }
 
         /// <summary>
@@ -346,20 +328,18 @@ namespace Service.Util
             int r = 0;
             try
             {
-                 r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ", Parm);
-            }catch(Exception e)
+                r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ", Parm);
+            }
+            catch (Exception e)
             {
                 Console.Write(e.Message);
                 r = 0;
             }
-            if (r > 0)
-            {
-                return "true";
-            }
-            else
-            {
+            if (r > 0)            
+                return "true";            
+            else            
                 return "false";
-            }
+            
         }
 
         /// <summary>
@@ -379,13 +359,9 @@ namespace Service.Util
 
             int r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ_ZD", Parm);
             if (r >= 0)
-            {
                 return "true";
-            }
             else
-            {
                 return "false";
-            }
 
         }
 
@@ -415,13 +391,9 @@ namespace Service.Util
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPMENUHELP", Parm);
             if (r >= 0)
-            {
                 return "true";
-            }
             else
-            {
                 return "false";
-            }
 
         }
 
@@ -432,7 +404,7 @@ namespace Service.Util
         /// <returns></returns>
         public string web_fb(string wid)
         {
-            string str_sql = "select * from v_user_conn where mbtag=1 ;" +                
+            string str_sql = "select * from v_user_conn where mbtag=1 ;" +
                 "select zd.* from v_tbzd zd   where zd.webid=" + wid + " ;" +
                 "select * from v_wid where id=" + wid + " ;" +
                 "select * from v_wid_layout where webid=" + wid + ";";
@@ -492,7 +464,7 @@ namespace Service.Util
                             + dr2["showzero"].ToString().Replace("'", "''") + "','" + dr2["event"].ToString().Replace("'", "''") + "','"
                             + dr2["btnvalue"].ToString().Replace("'", "''") + "','" + dr2["showmrrq"].ToString().Replace("'", "''") + "','"
                             + dr2["hj"].ToString().Replace("'", "''") + "','" + dr2["hbltname"].ToString().Replace("'", "''") + "','"
-                            + dr2["px"].ToString().Replace("'", "''") + "','"+ dr2["format"].ToString().Replace("'", "''") + "','" + dr2["prtname"].ToString().Replace("'", "''") + "')";
+                            + dr2["px"].ToString().Replace("'", "''") + "','" + dr2["format"].ToString().Replace("'", "''") + "','" + dr2["prtname"].ToString().Replace("'", "''") + "')";
                     }
                     upstr += " SET IDENTITY_INSERT tb_tbzd OFF ";
 
@@ -530,13 +502,13 @@ namespace Service.Util
                         upstr += "  ('" + dr4["id"].ToString().Replace("'", "''") + "','" + dr4["sysdel"].ToString().Replace("'", "''") + "','"
                             + dr4["sysdeltime"].ToString().Replace("'", "''") + "','" + dr4["webid"].ToString().Replace("'", "''") + "','"
                             + dr4["lx"].ToString().Replace("'", "''") + "','" + dr4["mc"].ToString().Replace("'", "''") + "','"
-                            + dr4["ord"].ToString().Replace("'", "''") + "','"+ dr4["mobileord"].ToString().Replace("'", "''") + "','" + dr4["type"].ToString().Replace("'", "''") + "','"
-                            + dr4["qwidth"].ToString().Replace("'", "''") + "','"+ dr4["qwidthm"].ToString().Replace("'", "''") + "','" + dr4["width"].ToString().Replace("'", "''") + "','"+ dr4["widthm"].ToString().Replace("'", "''") + "','"
+                            + dr4["ord"].ToString().Replace("'", "''") + "','" + dr4["mobileord"].ToString().Replace("'", "''") + "','" + dr4["type"].ToString().Replace("'", "''") + "','"
+                            + dr4["qwidth"].ToString().Replace("'", "''") + "','" + dr4["qwidthm"].ToString().Replace("'", "''") + "','" + dr4["width"].ToString().Replace("'", "''") + "','" + dr4["widthm"].ToString().Replace("'", "''") + "','"
                             + dr4["visible"].ToString().Replace("'", "''") + "','" + dr4["readonly"].ToString().Replace("'", "''") + "','"
                             + dr4["event"].ToString().Replace("'", "''") + "','" + dr4["bz"].ToString().Replace("'", "''") + "','"
                             + dr4["nwebid"].ToString().Replace("'", "''") + "','" + dr4["htmlid"].ToString().Replace("'", "''") + "','"
-                            + dr4["eastwidth"].ToString().Replace("'", "''") + "','"+ dr4["eastwidthm"].ToString().Replace("'", "''") + "','" + dr4["westwidth"].ToString().Replace("'", "''") + "','"+ dr4["westwidthm"].ToString().Replace("'", "''") + "','"
-                            + dr4["northheight"].ToString().Replace("'", "''") + "','"+ dr4["northheightm"].ToString().Replace("'", "''") + "','" + dr4["southheight"].ToString().Replace("'", "''") + "','"+ dr4["southheightm"].ToString().Replace("'", "''") + "','"
+                            + dr4["eastwidth"].ToString().Replace("'", "''") + "','" + dr4["eastwidthm"].ToString().Replace("'", "''") + "','" + dr4["westwidth"].ToString().Replace("'", "''") + "','" + dr4["westwidthm"].ToString().Replace("'", "''") + "','"
+                            + dr4["northheight"].ToString().Replace("'", "''") + "','" + dr4["northheightm"].ToString().Replace("'", "''") + "','" + dr4["southheight"].ToString().Replace("'", "''") + "','" + dr4["southheightm"].ToString().Replace("'", "''") + "','"
                             + dr4["dwidth"].ToString().Replace("'", "''") + "','" + dr4["dheight"].ToString().Replace("'", "''") + "','"
                             + dr4["naspx"].ToString().Replace("'", "''") + "','" + dr4["yy"].ToString().Replace("'", "''") + "','"
                             + dr4["session"].ToString().Replace("'", "''") + "','" + dr4["zb"].ToString().Replace("'", "''") + "','"
@@ -576,7 +548,7 @@ namespace Service.Util
             DataTable userConn = execObj.SubmitTextDataSet(str_sql).Tables[0];
 
             DataTable menu = this.execObj.SubmitTextDataSet("select a.* from v_menu a ").Tables[0];
-             
+
 
             string error = "";
             string upstr = "";
@@ -602,7 +574,7 @@ namespace Service.Util
                         execObj.SetConnectionString(connstr.GetCreateLinkServerConnetStringInBLL(this.tzid));
                         execObj.SubmitTextInt(str_sql);
                         //SqlHelper.ExecuteScalar(db.GetTzDb(CSession.Get("tzid")), CommandType.Text, str_sql);
-                    }                    
+                    }
                     upstr += "SELECT * INTO #sys_menu FROM sys_menu  WHERE 1=2;";
                     upstr += "SET IDENTITY_INSERT #sys_menu ON";
                     foreach (DataRow dr1 in menu.Rows)
@@ -618,7 +590,7 @@ namespace Service.Util
                             + dr1["help"].ToString().Replace("'", "''") + "','" + dr1["webid"].ToString().Replace("'", "''") + "')";
                     }
                     upstr += " update a SET a.xh=b.xh,a.text=b.text,a.jb=b.jb,a.ssid=b.ssid,a.cmd=b.cmd,a.mj=b.mj,a.bz=b.bz,a.sysdel=b.sysdel,a.sysdeltime=b.sysdeltime,a.sadel=b.sadel,a.sadeltime=b.sadeltime,a.help=b.help,a.webid=b.webid "
-                        +"FROM sys_menu a  INNER join #sys_menu b ON a.id=b.id";
+                        + "FROM sys_menu a  INNER join #sys_menu b ON a.id=b.id";
 
                     //upstr += " update a set a.ty=b.ty,a.alone=b.alone from sys_menu a inner join #sys_menubak b on a.id=b.id where a.id=b.id ";
                     upstr += " SET IDENTITY_INSERT #sys_menu OFF ";
@@ -656,21 +628,23 @@ namespace Service.Util
         /// <param name="xact_abort">事务回滚</param>
         /// <param name="arg">调用信息</param>
         /// <returns></returns>
-        public Dictionary<string, string> execSqlCommand(string sqlCommand, string xact_abort, Dictionary<string, string> arg)
+        public Result<string> execSqlCommand(string sqlCommand, string xact_abort, Dictionary<string, string> arg)
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            dic.Add("resultState", "true");
-            dic.Add("resultText", "");
+            Result<string> result = new Result<string>();
+
+            //Dictionary<string, string> dic = new Dictionary<string, string>();
+            //dic.Add("resultState", "true");
+            //dic.Add("resultText", "");
             /*处理SQL语句中的 mb.dbo. db.GetMb()*/
             sqlCommand = sqlCommand.Replace(" mb.dbo.", " " + this.connstr.GetMbLinkname()).Replace(" master.dbo.", " " + this.connstr.GetMasterLinkname());
+
             /*加上事务机制*/
-            /* 方法1   */
+            /*方法1*/
             if (xact_abort != string.Empty)
-            {
-                sqlCommand = "SET xact_abort  " + xact_abort + " ;" +
-                     " begin tran; " + sqlCommand + " ; commit tran;";
-            }
-            /* 方法2  返回的值暂时不是程序想要的         
+                sqlCommand = "SET xact_abort  " + xact_abort + " ;" + " begin tran; " + sqlCommand + " ; commit tran;";
+
+            #region 方法2
+            /*   返回的值暂时不是程序想要的         
             str = " begin try "+
                   " begin tran;" +
                     str +
@@ -679,30 +653,32 @@ namespace Service.Util
                   " begin catch "+
                   " rollback tran "+
                   " select error_message() "+
-                  " end catch";*/
+                  " end catch";
+            */
+            #endregion
 
             try
             {
                 object r = null;
-                r = this.execObj.SubmitTextObject(sqlCommand);
+                r = execObj.SubmitTextObject(sqlCommand);
                 if (r == null)
-                {
                     r = "null";
-                }
-                dic["resultText"] = r.ToString().Trim();
+
+                //dic["resultText"] = r.ToString().Trim();
+                result.Data = r.ToString().Trim();
             }
             catch (System.Exception ex)
             {
-                dic["resultText"] = ex.Message;
-                dic["resultState"] = "false";
+                //dic["resultText"] = ex.Message;
+                //dic["resultState"] = "false";
+                result.Data = ex.Message+ ";错误发生在service.util.business中的execSqlCommand方法";
+                result.Errcode = 100;
             }
 
-            try
-            {//记录sql语句及处理状态
-                this.execObj.SubmitTextObject(this.sqlstring.GetLog(this.userid, arg["wid"], arg["callFucntion"], sqlCommand.Replace("'", "''"), dic["resultState"]));
-            }
-            catch { }
-            return dic;
+            //记录sql语句及处理状态
+            execObj.SubmitTextObject(sqlstring.GetLog(userid, arg["wid"], arg["callFucntion"], sqlCommand.Replace("'", "''"), (result.Errcode==0?"true":"false") ));
+
+            return result;
 
         }
 
@@ -713,13 +689,9 @@ namespace Service.Util
         public string GetDataTag()
         {
             if (connstr.GetDb(this.tzid, this.userid).IndexOf("etest") >= 0)
-            {
                 return "true";
-            }
             else
-            {
                 return "false";
-            }
         }
 
         /// <summary>
@@ -730,27 +702,22 @@ namespace Service.Util
         /// <param name="dt">树数据</param>
         /// <returns></returns>
         public string GetMyEuiTree(string bz)
-        {             
+        {
             DataSet ds = this.execObj.SubmitTextDataSet(bz);
             DataTable dt1 = ds.Tables[0];
             DataTable dt = ds.Tables[1];
             //begin得到附加属性数组
             string[] attr = new string[dt.Columns.Count];
             foreach (DataColumn mycolumn in dt.Columns)
-            {
                 attr[mycolumn.Ordinal] = mycolumn.ColumnName;
-            }
+
             //end得到附加属性数组
             string str = "[";
             foreach (DataRow dr in dt1.Rows)
-            {
                 str += GetNextTree(int.Parse(dr["id"].ToString()), dt, dr, attr);
-            }
 
             if (str != "[")
-            {
                 str = str.Substring(0, str.Length - 1) + "]";
-            }
             else { str = "[{\"id\":-1,\"text\":\"没有数据\"}]"; }
             return str;
         }
@@ -761,9 +728,7 @@ namespace Service.Util
             for (int j = 0; j < attr.Length; j++)
             {
                 if (attr[j].IndexOf("attr_") == 0)
-                {
                     attr_str += "\"" + attr[j].Replace("attr_", "") + "\":\"" + dr[attr[j]].ToString().Trim() + "\",";
-                }
             }
             if (attr_str != "") { attr_str = attr_str.Substring(0, attr_str.Length - 1); }
             string myrs = "{\"id\":" + dr["id"].ToString() + ",\"text\":" + "\"" + MyTy.Utils.HtmlCha(dr["text"].ToString()) + "\", \"attributes\":{" + attr_str + "} , \"iconCls\":\"icon-sum\" ";
@@ -772,12 +737,7 @@ namespace Service.Util
             if (mydr.Length > 0)
             {
                 foreach (DataRow dr1 in mydr)
-                {
                     mychil += GetNextTree(int.Parse(dr1["id"].ToString()), dtjg, dr1, attr);
-                }
-            }
-            else
-            {//如果一级菜单没有下级                 
             }
             string utmp = mychil;
             return myrs + (utmp == string.Empty ? "" : ",\"children\":[ " + utmp.Substring(0, utmp.Length - 1) + "] ") + "},";
@@ -799,23 +759,17 @@ namespace Service.Util
                     //如果是隐藏控件那么只有htmlid
                     //如果是占位那么只有Qwidth
                     //如果是查询按钮只有mc
-                    if (layout.Htmlid.Length == 0 && layout.Qwidth == 0 && layout.Mc.Length == 0)
-                    {
-
-                    }
+                    if (layout.Htmlid.Length == 0 && layout.Qwidth == 0 && layout.Mc.Length == 0) { }
                     else
-                    {
                         sql.Append(@" insert v_wid_layout ( css0,css, mrz,bds,webid,lx, mc,ord,mobileord, width,widthm,qwidth,qwidthm, westwidth,westwidthm,eastwidth,eastwidthm, northheight,northheightm, southheight,southheightm, dwidth, dheight, visible, readonly, type,   bz,nwebid, event, yy,zb,session,naspx,htmlid) 
-                        values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "','"+layout.MobileOrd+"', '" + layout.Width + "','"+layout.Widthm+"','" + layout.Qwidth + "','"+layout.Qwidthm+"','" + layout.Westwidth + "','"+ layout.Westwidthm+ "','" + layout.Eastwidth + "','" + layout.Eastwidthm+ "', '" + layout.Northheight + "','"+ layout.Northheightm + "', '" + layout.Southheight + "','"+ layout.Southheightm + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
-                    }
-
+                        values('" + layout.Css0 + "','" + layout.Css + "','" + layout.Mrz + "','" + layout.Bds + "','" + layout.Webid + "','" + layout.Lx + "', '" + layout.Mc + "',  '" + layout.Ord + "','" + layout.MobileOrd + "', '" + layout.Width + "','" + layout.Widthm + "','" + layout.Qwidth + "','" + layout.Qwidthm + "','" + layout.Westwidth + "','" + layout.Westwidthm + "','" + layout.Eastwidth + "','" + layout.Eastwidthm + "', '" + layout.Northheight + "','" + layout.Northheightm + "', '" + layout.Southheight + "','" + layout.Southheightm + "', '" + layout.Dwidth + "', '" + layout.Dheight + "' ,'" + layout.Visible + "', '" + layout.Readonly + "', '" + layout.Type + "', '" + layout.Bz + "','" + layout.Nwebid + "','" + layout.Event + "','" + layout.Yy + "','" + layout.Zb + "','" + layout.Session + "','" + layout.Naspx + "','" + layout.Htmlid + "');");
                 }
                 else
                 {
                     if (layout.Htmlid.Length == 0 && layout.Qwidth == 0 && layout.Mc.Length == 0)
                         sql.Append(" delete v_wid_layout  where id='" + layout.Id + "'; ");
                     else
-                        sql.Append(" update v_wid_layout  set css0='" + layout.Css0 + "', css='" + layout.Css + "',mrz='" + layout.Mrz + "',bds='" + layout.Bds + "',mc='" + layout.Mc + "', htmlid='" + layout.Htmlid + "',ord='" + layout.Ord + "',mobileord='"+layout.MobileOrd+"', width='" + layout.Width + "',widthm='"+layout.Widthm+"',qwidth='" + layout.Qwidth + "',qwidthm='"+layout.Qwidthm+"',westwidth='" + layout.Westwidth + "',westwidthm='"+layout.Westwidthm + "',eastwidth='" + layout.Eastwidth + "',Eastwidthm='"+layout.Eastwidthm + "', northheight='" + layout.Northheight + "',Northheightm='"+layout.Northheightm + "',southheight='" + layout.Southheight + "',southheightm='"+layout.Southheightm+ "' ,dwidth='" + layout.Dwidth + "', dheight='" + layout.Dheight + "', visible='" + layout.Visible + "', readonly='" + layout.Readonly + "', type='" + layout.Type + "',   bz='" + layout.Bz + "',nwebid='" + layout.Nwebid + "',  event='" + layout.Event + "', yy='" + layout.Yy + "',zb='" + layout.Zb + "',session='" + layout.Session + "',naspx='" + layout.Naspx + "'   where id='" + layout.Id + "'; ");
+                        sql.Append(" update v_wid_layout  set css0='" + layout.Css0 + "', css='" + layout.Css + "',mrz='" + layout.Mrz + "',bds='" + layout.Bds + "',mc='" + layout.Mc + "', htmlid='" + layout.Htmlid + "',ord='" + layout.Ord + "',mobileord='" + layout.MobileOrd + "', width='" + layout.Width + "',widthm='" + layout.Widthm + "',qwidth='" + layout.Qwidth + "',qwidthm='" + layout.Qwidthm + "',westwidth='" + layout.Westwidth + "',westwidthm='" + layout.Westwidthm + "',eastwidth='" + layout.Eastwidth + "',Eastwidthm='" + layout.Eastwidthm + "', northheight='" + layout.Northheight + "',Northheightm='" + layout.Northheightm + "',southheight='" + layout.Southheight + "',southheightm='" + layout.Southheightm + "' ,dwidth='" + layout.Dwidth + "', dheight='" + layout.Dheight + "', visible='" + layout.Visible + "', readonly='" + layout.Readonly + "', type='" + layout.Type + "',   bz='" + layout.Bz + "',nwebid='" + layout.Nwebid + "',  event='" + layout.Event + "', yy='" + layout.Yy + "',zb='" + layout.Zb + "',session='" + layout.Session + "',naspx='" + layout.Naspx + "'   where id='" + layout.Id + "'; ");
                 }
             }
             int r = this.execObj.SubmitTextInt(sql.ToString());
@@ -825,7 +779,6 @@ namespace Service.Util
         public Result<string> UpSYJZdwh(string data)
         {
             StringBuilder sql = new StringBuilder();
-            
             SYJZdwhEdit root = JsonConvert.DeserializeObject<SYJZdwhEdit>(data);
             string mlLink = this.connstr.GetMbLinkname();
             foreach (SYJZdwh zd in root.row)
@@ -835,30 +788,27 @@ namespace Service.Util
                     if (zd.Id == 0)
                     {
                         sql.Append(" insert v_tbzd (ywname, zwname, ord, width, webid, visible, readonly, type,  sx, bz, showzero, event, btnvalue, showmrrq, hj, hbltname, px, format,prtname) ");
-                        sql.Append("select '" + zd.Ywname + "', '" + zd.Zwname + "', '" + zd.Ord + "', '" + zd.Width + "', a.id, '" + zd.Visible + "', '" + zd.Readonly + "', '" + zd.Type + "','" + zd.Sx + "', '" + zd.Bz + "','" + zd.Showzero + "','" + zd.Event + "','" + zd.Btnvalue + "','" + zd.Showmrrq + "','" + zd.Hj + "','" + zd.Hbltname + "','" + zd.Px + "','"+zd.Format+"','" + zd.Prtname + "' from "+ mlLink + "v_wid a where a.id='" + zd.Wid + "';");
+                        sql.Append("select '" + zd.Ywname + "', '" + zd.Zwname + "', '" + zd.Ord + "', '" + zd.Width + "', a.id, '" + zd.Visible + "', '" + zd.Readonly + "', '" + zd.Type + "','" + zd.Sx + "', '" + zd.Bz + "','" + zd.Showzero + "','" + zd.Event + "','" + zd.Btnvalue + "','" + zd.Showmrrq + "','" + zd.Hj + "','" + zd.Hbltname + "','" + zd.Px + "','" + zd.Format + "','" + zd.Prtname + "' from " + mlLink + "v_wid a where a.id='" + zd.Wid + "';");
                     }
                     else
                     {
                         if (zd.Ywname.Length == 0 && zd.Zwname.Length == 0)
-                        {
                             sql.Append(" delete v_tbzd  where id='" + zd.Id + "'; ");
-                        }
                         else
-                        {
-                            sql.Append(" update v_tbzd set ywname='" + zd.Ywname + "', zwname='" + zd.Zwname + "', ord='" + zd.Ord + "', width='" + zd.Width + "', visible='" + zd.Visible + "', readonly='" + zd.Readonly + "', type='" + zd.Type + "',  sx='" + zd.Sx + "', bz='" + zd.Bz + "', showzero='" + zd.Showzero + "', event='" + zd.Event + "', btnvalue='" + zd.Btnvalue + "', showmrrq='" + zd.Showmrrq + "', hj='" + zd.Hj + "', hbltname='" + zd.Hbltname + "', px='" + zd.Px + "', format='"+zd.Format+"',prtname='" + zd.Prtname + "'   where id='" + zd.Id + "'; ");
-                        }
+                            sql.Append(" update v_tbzd set ywname='" + zd.Ywname + "', zwname='" + zd.Zwname + "', ord='" + zd.Ord + "', width='" + zd.Width + "', visible='" + zd.Visible + "', readonly='" + zd.Readonly + "', type='" + zd.Type + "',  sx='" + zd.Sx + "', bz='" + zd.Bz + "', showzero='" + zd.Showzero + "', event='" + zd.Event + "', btnvalue='" + zd.Btnvalue + "', showmrrq='" + zd.Showmrrq + "', hj='" + zd.Hj + "', hbltname='" + zd.Hbltname + "', px='" + zd.Px + "', format='" + zd.Format + "',prtname='" + zd.Prtname + "'   where id='" + zd.Id + "'; ");
                     }
                 }
             }
-            if (sql.Length>0)
+            if (sql.Length > 0)
             {
                 int r = this.execObj.SubmitTextInt(sql.ToString());
                 return ResultUtil<string>.success("success");
-            }else
+            }
+            else
             {
                 return ResultUtil<string>.error(1001, "没有要更新的数据");
             }
-            
+
         }
 
 

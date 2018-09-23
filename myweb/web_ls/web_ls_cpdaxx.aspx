@@ -2,139 +2,55 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">   
+<head runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="产品参数" />
+    <!-- Libraries -->
+    <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+    <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
+
+    <script src="../javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
+    <!--[if lt IE 9]>
+        <script src="../javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="../javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- End of Libraries -->
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
-<body style="width: 200px">
-    <form id="form1" runat="server">
-    <table>
-        <tr>
-            <td>
-                <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">新增</a>
-            </td>
-            <td>
-                <a href="javascript:void(0)" class="easyui-linkbutton" id="edit">修改</a>
-            </td>
-            <td>
-                <a href="javascript:void(0)" class="easyui-linkbutton" id="del">删除</a>
-            </td>
-        </tr>
-    </table>
-    <br />
-    <br />
-    <br />
-    <div style="width: 200px">
-        <ul id="xx">
-        </ul>
+<body>  
+    <div>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#zdnavbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"></a>
+                </div>
+                <div id="zdnavbar" class="navbar-collapse collapse">  
+                    <form class="navbar-form navbar-left">
+                        <div class="btn-group" role="toolbar" id="btnGroup" runat="server" aria-label="操作按钮">                      
+                          <button type="button" class="btn btn-default" id="ok"  aria-label="新增" >新增</button>
+                          <button type="button" class="btn btn-default" id="edit"  aria-label="修改" >修改</button>                      
+                          <button type="button" class="btn btn-default" id="del"  aria-label="删除" >删除</button>   
+                        </div>
+                    </form>  
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+        <div style="width: 200px">
+            <ul id="xx">
+            </ul>
+        </div>
     </div>
-    </form>
+
+    <dialog id="platDialog" style="border: 3px; padding: 16px;"><iframe style="width: 800px; height: 600px" id="platIframe" frameborder="0" ></iframe></dialog>
 </body>
+<script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
+<script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
+<script src="../javascripts/sweetalert/sweetalert.min.js"></script>
+<script data-main="js/web_ls_cpdaxx.js" src="../javascripts/require.js"></script>
 </html>
-<script language="javascript" type="text/javascript">
-    $(function () {
-        $("#ok").bind("click", function () { ok_click(); });
-        $("#edit").bind("click", function () { edit_click(); });
-        $("#del").bind("click", function () { del_click(); });
-        $('#xx').tree({
-            url: 'web_ls_main.ashx?lx=dl',
-            onBeforeLoad: function (node, param) {
-
-            }
-        });
-    });
-
-    function ok_click() {
-        if ($('#xx').tree("getSelected") != null) {//选择了一行
-            var id = $.trim($('#xx').tree("getSelected").id);
-            var t = openModal("web_ls_cpdaxx_add.aspx?lx=dl&zt=add&id=" + id);
-            if (t == "ok") {
-                $('#xx').tree("reload");
-            }
-        } else {
-            parent.$.messager.alert('提示信息', '请先选择一个大类!', 'info');
-        }
-    }
-    function edit_click() {
-        if ($('#xx').tree("getSelected") != null) {
-            var id = $.trim($('#xx').tree("getSelected").id);
-            var mc = $.trim($('#xx').tree("getSelected").text)
-            //alert(mc);
-            //alert($('#xx').tree("getSelected").text)
-            //alert(mySysDate(mc))           
-            if (id == "-1") {//没有大类自动生成
-                parent.$.messager.alert('提示信息', '不能修改这个大类!', 'info', function () {
-                });
-
-            } else {
-                //alert("web_ls_cpdaxx_add.aspx?lx=dl&zt=edit&mc=" + mc + "&id=" + id);
-                var t = openModal("web_ls_cpdaxx_add.aspx?lx=dl&zt=edit&mc=" + mySysDate(mc) + "&id=" + id);
-                if (t == "ok") { $('#xx').tree("reload"); }
-            }
-        } else {
-            parent.$.messager.alert('提示信息', '请先选择一个大类!', 'info');
-        }
-
-    }
-    function del_click() {
-
-        if ($('#xx').tree("getSelected") != null) {
-            var id = $.trim($('#xx').tree("getSelected").id);
-            if ($('#xx').tree("getSelected").id == "-1") {//没有大类自动生成
-                parent.$.messager.alert('提示信息', '不能删除这个大类!', 'info', function () {                    ;
-                });
-
-            } else if ($('#xx').tree("getSelected").attributes.xjbs == "1") {//有下级
-                parent.$.messager.alert('提示信息', '此大类有下级类别,不能删除!', 'info', function (r) {                    
-                });
-
-            } else {
-                //xjbs 下级标识
-                var str = "";
-                str = "select top 1 khlb from V_ls_cpda where khlb=" + id
-                //alert(str);
-                var r = myAjax(str);
-                if (r == -1) {
-                    $('#ok').linkbutton('enable');
-                    parent.$.messager.alert('提示信息', '连接失败!', 'info', function (r) {                        
-                    });
-
-                } else {
-                    if (r.r == 'true' && r.msg == "null") {  
-                          //允许删除                        
-                        str = " delete from v_ls_xxdmb where id=" + id;
-                        if (id == "") {
-                            parent.$.messager.alert('提示信息', '没有可更新的记录!', 'info', function (r) {
-                                $('#ok').linkbutton('enable');
-                            });
-
-                        } else {
-                            r = myAjax(str);
-                            if (r == -1) {
-                                parent.$.messager.alert('提示信息', '连接失败!', 'info', function () {
-                                    $('#ok').linkbutton('enable');
-                                });
-                            } else {
-                                if (r.r == 'true') {
-                                    parent.$.messager.alert('提示信息', '删除成功!', 'info', function () {
-                                        $('#xx').tree("reload");
-                                    });
-                                } else {
-                                    parent.$.messager.alert('提示信息', r.msg, 'info', function (r) {
-                                        $('#ok').linkbutton('enable');
-                                    });
-                                }
-                            }
-                        }
-                    } else {
-                        parent.$.messager.alert('提示信息', "已经被产品档案引用,不能删除", 'info', function (r) {
-                            $('#ok').linkbutton('enable');                            
-                        });
-                    }
-                }
-            }
-        } else {
-            parent.$.messager.alert('提示信息', '请先选择一个大类!', 'info');
-        }
-
-    }
-</script>

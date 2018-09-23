@@ -263,13 +263,22 @@ function myAjaxData(data) {
             } catch(e){ }
         }
     }
+    var obj = {};
     if (mydata.length > 0) {
         /*20140316 如果返回的是\那么js的eval会去掉*/
-        mydata = mydata.replace(/\\/g, "/");
-        return eval("(" + mydata + ")");
+        //mydata = mydata.replace(/\\/g, "/");        
+        //return eval("(" + mydata + ")");        
+        try{
+            obj = JSON.parse(mydata);
+        } catch (e) {
+            obj.r = "false";
+            obj.msg = "JSON反序列化返回结果失败";
+        }        
     } else {
-        return { "r": "false" };
+        obj.r = "false";
+        obj.msg = "返回的数据是空";        
     }
+    return obj;
 }
 /*
 *Post方式提交表单

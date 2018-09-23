@@ -87,6 +87,8 @@
     <!--页面样式-->
     <PageThemes>jqeui</PageThemes>
     <Themes>ui-pepper-grinder</Themes>
-    <!--end页面样式-->
+    <JsCDN>http://116.62.154.58:99</JsCDN>
+    <CssCDN>http://116.62.154.58:99</CssCDN>
+    <!--end页面样式-->    
   </appSettings>
 </Root>

@@ -27,7 +27,7 @@ public class ws : System.Web.Services.WebService
     public string HelpUp(string value1, string value2)
     {
         Business ei = getBusiness();
-        return "{r:'" + ei.UpHelp(value1.Trim(), value2) + "'}";
+        return "{\"r\":\"" + ei.UpHelp(value1.Trim(), value2) + "\"}";
     }
     /// <summary>
     /// 执行表创建视图过程
@@ -38,7 +38,7 @@ public class ws : System.Web.Services.WebService
     public string autoview(string value1)
     {
         Business ei = getBusiness();
-        return "{r:'" + ei.AutoView(value1) + "'}";
+        return "{\"r\":\"" + ei.AutoView(value1) + "\"}";
     }
     /// <summary>
     /// WEB设计数据源保存
@@ -65,7 +65,7 @@ public class ws : System.Web.Services.WebService
     {
         Business ei = getBusiness();
         CacheTools.WidUpdateDep(wid);
-        return "{r:'" + ei.UpSJY(wid, value1, value3, value4, mrcx, myadd, orderby, pagesize, mxgl, mxsql, mxhgl, mxhord, mxhsql, mxly, sql_2) + "'}";
+        return "{\"r\":\"" + ei.UpSJY(wid, value1, value3, value4, mrcx, myadd, orderby, pagesize, mxgl, mxsql, mxhgl, mxhord, mxhsql, mxly, sql_2) + "\"}";
     }
     /// <summary>
     /// 页面布局
@@ -78,7 +78,7 @@ public class ws : System.Web.Services.WebService
     {
         Business ei = getBusiness();
         CacheTools.WidUpdateDep(wid);
-        return "{r:'" + ei.UpSYJLayout(data) + "'}";
+        return "{\"r\":\"" + ei.UpSYJLayout(data) + "\"}";
     }
     /// <summary>
     /// 面面字段
@@ -93,9 +93,9 @@ public class ws : System.Web.Services.WebService
         CacheTools.WidUpdateDep(wid);
         Result<string> result = ei.UpSYJZdwh(data);
         if (result.Errcode == 0)
-            return "{r:'true'}";
+            return "{\"r\":\"true\"}";
         else
-            return "{r:'" + result.Errmsg + "'}";
+            return "{\"r\":\"" + result.Errmsg.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
 
     }
 
@@ -110,7 +110,7 @@ public class ws : System.Web.Services.WebService
     {
         Business ei = getBusiness();
         CacheTools.WidUpdateDep(wid);
-        return "{r:'" + ei.UpSJYJs(wid, js) + "'}";
+        return "{\"r\":\"" + ei.UpSJYJs(wid, js) + "\"}";
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public class ws : System.Web.Services.WebService
     public string sjy_uphelp(string wid, string help)
     {
         Business ei = getBusiness();
-        return "{r:'" + ei.UpSJYHelp(wid, help) + "'}";
+        return "{\"r\":\"" + ei.UpSJYHelp(wid, help) + "\"}";
     }
 
     /// <summary>
@@ -140,25 +140,25 @@ public class ws : System.Web.Services.WebService
     public string websj_cl(string userid, string mc, string lx, string wid, string zt)
     {
         Business ei = getBusiness();
-        string rString = "";
         int r = 0;
         if (zt == "add")
         {
             r = ei.AddSJYSJ(userid, mc, lx);
             if (r > 0)
-                rString = "true";
+                return "{\"r\":\"true\"}";
             else
-                rString = "false";
+                return "{\"r\":\"false\"}";
         }
         else
-        {//edit                
+        {
+            //edit                
             r = ei.EditSJYSJ(wid, mc, lx);
             if (r > 0)
-                rString = "true";
+                return "{\"r\":\"true\"}";
             else
-                rString = "false";
+                return "{\"r\":\"false\"}";
         }
-        return "{r:'" + rString + "'}";
+
     }
     /// <summary>
     /// WEB设计 删除webid
@@ -169,7 +169,7 @@ public class ws : System.Web.Services.WebService
     public string websj_del(string wid)
     {
         Business ei = getBusiness();
-        return "{r:'" + ei.DelSJYSJ(wid) + "'}";
+        return "{\"r\":\"" + ei.DelSJYSJ(wid) + "\"}";
     }
     /// <summary>
     /// WEB设计 复制webid
@@ -180,7 +180,7 @@ public class ws : System.Web.Services.WebService
     public string websj_fz(string wid)
     {
         Business ei = getBusiness();
-        return "{r:'" + ei.CopySJYSJ(wid) + "'}";
+        return "{\"r\":\"" + ei.CopySJYSJ(wid) + "\"}";
     }
 
     /// <summary>
@@ -193,9 +193,9 @@ public class ws : System.Web.Services.WebService
     {
         Business ei = getBusiness();
         if (wid == "menu")
-            return "{r:'" + ei.web_fb_menu() + "'}";
+            return "{\"r\":\"" + ei.web_fb_menu().Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
         else
-            return "{r:'" + ei.web_fb(wid) + "'}";
+            return "{\"r\":\"" + ei.web_fb(wid).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
     /// <summary>
     /// WEB设计 复制webid中的每项
@@ -208,7 +208,7 @@ public class ws : System.Web.Services.WebService
     public string websj_fz_zd(string wid, string newwid, string bs)
     {
         Business ei = getBusiness();
-        return "{r:'" + ei.CopyWebSJZD(wid, newwid, bs) + "'}";
+        return "{\"r\":\"" + ei.CopyWebSJZD(wid, newwid, bs).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
 
     [WebMethod(EnableSession = true)]
@@ -221,9 +221,9 @@ public class ws : System.Web.Services.WebService
         arg.Add("callFucntion", "zdwh_up");
 
         Business ei = getBusiness();
-        Dictionary<string, string> dic = new Dictionary<string, string>();
-        dic = ei.execSqlCommand(sqlCommand, xact_abort, arg);
-        return "{r:'" + dic["resultState"] + "',msg:'" + Microsoft.JScript.GlobalObject.encodeURIComponent(dic["resultText"]).Replace("'", "\\\'") + "'}";
+        Result<string> result = new Result<string>();
+        result = ei.execSqlCommand(sqlCommand, xact_abort, arg);
+        return "{\"r\":\"" + (result.Errcode == 0 ? "true" : "false") + "\",\"msg\":\"" + result.Data.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
 
     [WebMethod(EnableSession = true)]
@@ -236,9 +236,9 @@ public class ws : System.Web.Services.WebService
         b = MyCode.MySysDate(b);
         FM.Business.Login lg = new FM.Business.Login();
         if (lg.Reload(value1, value2, a, b))
-            return "{r:'ture'}";
+            return "{\"r\":\"ture\"}";
         else
-            return "{r:'false'}";
+            return "{\"r\":\"false\"}";
     }
 
     [WebMethod(EnableSession = true)]
@@ -255,13 +255,13 @@ public class ws : System.Web.Services.WebService
             b = MyCode.MySysDate(b);
             FM.Business.Login lg = new FM.Business.Login();
             if (lg.Reload(value1, value2, a, b))
-                Context.Response.Write("{\"r\":true}");
+                Context.Response.Write("{\"r\":\"true\"}");
             else
-                Context.Response.Write("{\"r\":false}");
+                Context.Response.Write("{\"r\":\"false\"}");
         }
         catch (System.Exception e)
         {
-            Context.Response.Write("{\"r\":false,\"errmsg\":\"" + e.Message + "\"}");
+            Context.Response.Write("{\"r\":false,\"errmsg\":\"" + e.Message.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}");
         }
         Context.Response.End();
     }
@@ -281,9 +281,8 @@ public class ws : System.Web.Services.WebService
         string r = "";
         if (Session["menupage"] != null)
             r = Session["menupage"].ToString();
-
         Session.Abandon();
-        return "{r:'" + r + "'}";
+        return "{\"r\":\"" + r.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
     /// <summary>
     /// 检查SESSION 并返回哪些SESSION丢失
@@ -303,7 +302,7 @@ public class ws : System.Web.Services.WebService
         if (!string.IsNullOrEmpty(r))
             r = r.Substring(0, r.Length - 1);
 
-        return "{r:'" + r + "'}";
+        return "{\"r\":\"" + r + "\"}";
     }
     /// <summary>
     /// 处理图片,生成略缩图
@@ -319,11 +318,11 @@ public class ws : System.Web.Services.WebService
             System.IO.FileStream fileStream = new System.IO.FileStream(Server.MapPath("../" + ppath + "/" + pname), System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
             System.IO.Stream stream = fileStream as System.IO.Stream;
             dr.ZoomAuto(stream, Server.MapPath("../" + newpath + "/" + pname), targetWidth, targetHeight, watermarkText, watermarkImage);
-            rStr = "{r:'true'}";
+            rStr = "{\"r\":\"true\"}";
         }
         catch (System.Exception e)
         {
-            rStr = "{r:'" + e.Message + "'}";
+            rStr = "{\"r\":\"" + e.Message.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
         }
         return rStr;
     }

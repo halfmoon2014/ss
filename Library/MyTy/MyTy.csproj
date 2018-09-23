@@ -69,6 +69,12 @@
     <Compile Include="Utils.cs" />
     <Compile Include="XmlHelp.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{D73E1422-9E97-4DC5-A32F-B86489F9D67A}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

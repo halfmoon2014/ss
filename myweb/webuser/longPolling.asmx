@@ -29,7 +29,8 @@ public class longPolling : System.Web.Services.WebService
         arg.Add("wid", "-1");
         arg.Add("callFucntion", "test");
         Business ei = new Business(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid"));
-        Dictionary<string, string> dic = new Dictionary<string, string>();
+        
+        Result<string> result = new Result<string>();
         DateTime start = DateTime.Now;
         string msg = "false";
         while (true)
@@ -39,10 +40,9 @@ public class longPolling : System.Web.Services.WebService
             //{
             //    break;
             //}
-            dic = ei.execSqlCommand("select 1 from _V_sp_cpjhb where bz='hello'", "off", arg);
-            if (dic["resultState"] == "true" && dic["resultText"] == "1")
+            result = ei.execSqlCommand("select 1 from _V_sp_cpjhb where bz='hello'", "off", arg);
+            if (result.Errcode == 0 && result.Data == "1")
             {
-
                 ei.execSqlCommand("update  _V_sp_cpjhb set bz='hellogx' where bz='hello'", "off", arg);
                 msg = "true";
                 break;

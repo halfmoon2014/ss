@@ -1,33 +1,15 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_ls_cpdaxxcx.aspx.cs" Inherits="web_ls_web_ls_cpdaxx" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="选择" />
 </head>
 <body style="width: 200px">
-    <form id="form1" runat="server">
-    <!--
-    <table>
-        <tr>
-            <td>
-                <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">确定</a>
-            </td>
-            <td>
-               &nbsp;
-            </td>
-
-        </tr>
-    </table>
-    -->
-    <br />
-
     <div style="width: 200px">
         <ul id="xx">
         </ul>
     </div>
     <input type="hidden" id="khlbid" value="0" runat="server" />
-    </form>
 </body>
 </html>
 <script language="javascript" type="text/javascript">

@@ -27,7 +27,8 @@ namespace MyTy
                 XmlDocument doc = new XmlDocument();
                 doc.Load(path);
                 XmlNode xn = doc.SelectSingleNode(node);
-                value = (attribute.Equals("") ? xn.InnerText : xn.Attributes[attribute].Value);
+                if(xn!=null)
+                    value = (attribute.Equals("") ? xn.InnerText : xn.Attributes[attribute].Value);
             }
             catch { }
             return value;
