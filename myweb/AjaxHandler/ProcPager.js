@@ -548,7 +548,7 @@ function execSysFindSort() {
             } else if (i % 4 == 2) {
                 var reg = new RegExp("'", "g");//g,表示全部替换。
                 if (lsbs == 1) {
-                    tj[i] = "'%" +  tj[i].replace(reg, "''"); + "%'";
+                    tj[i] = "'%" +  tj[i].replace(reg, "''")+ "%'";
                     lsbs = 0;
                 } else {
                     tj[i] = "'" + ( tj[i]=="{空值}"?"": tj[i].replace(reg, "''")) + "'";

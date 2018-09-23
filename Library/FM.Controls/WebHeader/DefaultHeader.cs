@@ -96,7 +96,7 @@ namespace FM.Controls.Header
         void SetJQEUI(string Themes)
         {
             SetStyleSheet(string.Format("{0}/css/jey/{1}/easyui.css", "", Themes));
-            SetStyleSheet(string.Format("{0}/css/jey/icon.css", ""));          
+            SetStyleSheet(string.Format("{0}/css/jey/icon.css",""));          
             SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.min.js", ""));
             //jquery easyui 日期格式化
             SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.add.js", ""));
