@@ -85,19 +85,23 @@
             function window_onload_b_cx(){
             //点查询的时候,内容显示完后调用, 等待框消失前
             }
-            function beforeFadeout(loadMark) {
+            function windowInit(loadMark,next) {
                 if (loadMark == 1) {
 	            //首次加载的时候,内容显示完后调用, 等待框消失前
                 } else {
 	            //点查询的时候,内容显示完后调用, 等待框消失前
                 }
+                next(); 
             }
-            function afterFadeout(loadMark) {
+
+            //没有意义啊
+            function afterFadeout(loadMark,next) {
                 if (loadMark == 1) {
 	            //首次加载的时候,内容显示完后调用, 等待框消失后
                 } else {
 	            //点查询的时候,内容显示完后调用, 等待框消失后
                 }
+                next();
             }</textarea>
     </li>
     <li>20130612 
@@ -132,8 +136,8 @@
     <li>将203的my_sql[max\maxsql2] ,200 mb[max\maxmb] 移入笔记本中
     </li>
     <li>内容
-    1.非尺码  myForm("mxbz",0,"ddd");myForm("mxbz",0);<br>
-        2.尺码    myForm("mxd",0,12,"cm","1");myForm("mxd",0,null,"cm","1");<br>
+    1.非尺码  setVal("mxbz",0,"ddd");getVal("mxbz",0);<br>
+        2.尺码    setVal("mxd",0,12,"cm","1");getVal("mxd",0,"cm","1");<br>
         合计<br>
         1.非尺码 myHj("sl","14");myHj("sl",null);<br>
         2.尺码   myHj("mxd","12","cm",1);  myHj("mxd",null,"cm",1);

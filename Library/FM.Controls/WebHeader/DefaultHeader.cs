@@ -24,9 +24,11 @@ namespace FM.Controls.Header
                 if (dt.Rows.Count != 0) { this.Title = dt.Rows[0]["pos_name"].ToString(); }
             }
 
-            //登陆页,套账选择页
-            if (myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz")
-                || myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary") || myCode.CheckPageType(absolutePath, "Other&Ordinary")) {
+            //登陆页,套账选择页不需要在head中加截jquery
+            if(myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz"))
+            {
+
+            }else if ( myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary") || myCode.CheckPageType(absolutePath, "Other&Ordinary")) {
                 SetJqueryScript();
             }
             else if (myCode.CheckPageType(absolutePath, "SysXTSZ&JQY")|| myCode.CheckPageType(absolutePath, "Other&JQY")) {

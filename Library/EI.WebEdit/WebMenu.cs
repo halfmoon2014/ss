@@ -29,15 +29,15 @@ namespace EI.Web
             string menuPage = MySession.SessionHandle.Get("menupage");
             FM.Business.Login lg = new FM.Business.Login();
             string userName = lg.GetUser(userid).Tables[0].Rows[0]["name"].ToString();
+            string loadingCss = ExtUtil.GetHtml(path, "\\webpage\\loading\\loading");
             if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
-                return CreateMobileMenuTree(path,userid, userName, menuPage, tzid);
+                return CreateMobileMenuTree(path,userid, userName, menuPage, tzid)+ loadingCss;
             else
             {
-                string menu = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\menu");   
-
+                string menu = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\menu");
                 /*等待框*/
                 FM.Business.Help hp = new FM.Business.Help();
-                return string.Format(menu, GetHeadCont(path, userName, "north"), CreateMenuTree(userid), hp.GetWait(), menuPage, tzid, userName);
+                return string.Format(menu, GetHeadCont(path, userName, "north"), CreateMenuTree(userid), hp.GetWait(), menuPage, tzid, userName)+ loadingCss;
             }
 
         }

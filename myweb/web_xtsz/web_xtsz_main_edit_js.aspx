@@ -48,11 +48,11 @@
                     openModal(url, "", "", function (r) {                      
                         if (r == "ok") { 
                             //查询
-                            myCheckSessionQuery(); 
+                            wQuery(); 
                         }
                     });
                     //关窗模态窗口
-                    myWindowClose("ok"); 
+                    closeWindow("ok"); 
                     //树加载成功后执行的函数                    
                     onLoadSuccessTree(node, data, treeId);
                     //单击树

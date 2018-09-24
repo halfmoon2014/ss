@@ -1,42 +1,56 @@
-﻿//全局数组
-//二维数组表示（wid,内容）
-//PUBLICWEBARRAY 表头信息
-if (typeof (PUBLICWEBARRAY) == "undefined") {
-    var PUBLICWEBARRAY = new Array();
+﻿/**
+ * @file 分页查询
+ * @author net
+ * @copyright 
+ * @createDate 
+ */
+
+/**
+ * @var GLOBAL.ProPager.titleArray
+ * @desc 全局数组 表头信息
+ */
+if (typeof (GLOBAL) == "undefined") {
+    var GLOBAL = {};
+    GLOBAL.ProPager = {};
+    GLOBAL.ProPager.titleArray = new Array();
+} else if (typeof (GLOBAL.ProPager) == "undefined") {
+    GLOBAL.ProPager = {};
+    GLOBAL.ProPager.titleArray = new Array();
+} else if (typeof (GLOBAL.ProPager.titleArray) == "undefined") {    
+    GLOBAL.ProPager.titleArray = new Array();
 }
-function getPublicWebArray(v) {
-    var rev;
+function getTitleArray(v) {
+    var reVal;
     if (v != null) {
-        if (PUBLICWEBARRAY.length > 0) {
-            for (var i = 0; i < PUBLICWEBARRAY.length; i++) {
-                if (PUBLICWEBARRAY[i][0] == v) {
-                    rev = PUBLICWEBARRAY[i][1];
+        if (GLOBAL.ProPager.titleArray.length > 0) {
+            for (var i = 0; i < GLOBAL.ProPager.titleArray.length; i++) {
+                if (GLOBAL.ProPager.titleArray[i][0] == v) {
+                    reVal = GLOBAL.ProPager.titleArray[i][1];
                     break;
                 }
             }
         }
     }
-    return rev;
+    return reVal;
 }
-function addPublicWebArray(v1, v2) {
+function addTitleArray(v1, v2) {
     if (v1 != null) {
-        if (getPublicWebArray(v1) == null) {
-            PUBLICWEBARRAY.push([v1, v2])
+        if (getTitleArray(v1) == null) {
+            GLOBAL.ProPager.titleArray.push([v1, v2])
         } else {
-            for (var i = 0; i < PUBLICWEBARRAY.length; i++) {
-                if (PUBLICWEBARRAY[i][0] == v1) {
-                    PUBLICWEBARRAY[i][1] = v2;
+            for (var i = 0; i < GLOBAL.ProPager.titleArray.length; i++) {
+                if (GLOBAL.ProPager.titleArray[i][0] == v1) {
+                    GLOBAL.ProPager.titleArray[i][1] = v2;
                 }
             }
         }
-
     }
 }
-//全局数组end
+//全局数组 end
 
 //得到表头元素
 function getHeadList(headerTableId) {
-    if (getPublicWebArray(getHeaderTableId()) != null && getPublicWebArray(getHeaderTableId()) != "") { return getPublicWebArray(getHeaderTableId()); }
+    if (getTitleArray(getHeaderTableId()) != null && getTitleArray(getHeaderTableId()) != "") { return getTitleArray(getHeaderTableId()); }
     var myJson = "";
     $.each($("#" + headerTableId + " tr"), function (i, n) {//只有一行,双表头就有2行
         var tdName = "table_header_td_" + $("#wid").val() + "_";
@@ -49,14 +63,12 @@ function getHeadList(headerTableId) {
                 }
             }
         });
-
-
     });
 
     if (myJson != "") {
         myJson = myJson.substring(0, myJson.length - 1);
     }
-    addPublicWebArray(getHeaderTableId(), myJson);
+    addTitleArray(getHeaderTableId(), myJson);
 
     return myJson;
 }
@@ -64,7 +76,7 @@ function getHeadList(headerTableId) {
 //键盘事件
 //当表格可保存时,向下新增一行
 //下移一行
-function fmOnKey(e, id,addNew) {
+function fmOnKey(e, id, addNew) {
     var keyn;
     if (browser.versions.trident) {
         keyn = e.keyCode;
@@ -75,7 +87,7 @@ function fmOnKey(e, id,addNew) {
     if (keyn == 40) {//向下箭头
         var qkey = "_" + $("#wid").val() + "_" + rownum;
         var hkey = "_" + $("#wid").val() + "_" + (rownum + 1);
-        if (myFormRowsTotal() == rownum + 1 && addNew==1) {//最后一行就是新增
+        if (getRowCount() == rownum + 1 && addNew == 1) {//最后一行就是新增
             var cc = $("#" + id).parent().clone(true);
             $(cc).attr("rownum", (rownum + 1));
 
@@ -198,7 +210,7 @@ function myFormRefresh() {
     loadInfo();
 }
 
-function myFormRowsTotal() {
+function getRowCount() {
     return $("#" + getContentTableId() + " tr").length;
 }
 
@@ -248,22 +260,46 @@ function myHjSet(key, v, mx, col) {
     }
 }
 
-//取值 页面表格的值 myForm("id",0) 或  myForm("mx",0,null,"cm",0)
-//或者赋值  myForm("cmzbid",0,"")
+//取值 页面表格的值 getVal("id",0) 或  getVal("mx",0,"cm",0)
+//或者赋值  setVal("cmzbid",0,"")
 //m行号 v 赋值值 ,mx 尺码取值标记 col 尺码列序
-function myForm(key, m, v, mx, col) {
+function setVal(key, m, v, mx, col) {
     if (v == undefined || v == null) {
+        alert("请联系软件工程师getVal"); return null;
         //抓取控件值
-        return myFormGet(key, m, mx, col);
+        //return getVal(key, m, mx, col);
     } else {
         //赋控件值
-        return myFormSet(key, m, v, mx, col);
+        if (arguments.length == 3) {
+            return myFormSet(key, m, v);
+        } else if (arguments.length == 5) {
+            alert("请联系软件工程师setSizeVal"); return null;
+            //return myFormSet(key, m,v, mx, col);
+        }        
     }
 }
-//取控件对象
-function getForm(key, m, mx, col) {
-    //抓取控件值
-    return myFormGet(key, m, mx, col,'getObj');
+
+function setSizeVal(key, m, col,v) {
+    myFormSet(key, m, v, "cm", col)
+}
+
+//取控件对象值
+function getVal(key, m, mx, col) {
+    if (arguments.length == 1) {
+        return getKeyVal(key).returnValue;
+    } else {
+        //抓取控件对象
+        return myFormGet(key, m, mx, col);
+    }
+}
+
+//抓取控件对象
+function getObj(key, m, mx, col) {
+    if (arguments.length == 1) {
+        return getKeyVal(key).returnObj;
+    } else {
+        return myFormGet(key, m, mx, col, 'getObj');
+    }
 }
 //赋值
 function myFormSet(key, m, v, mx, col) {
@@ -284,7 +320,6 @@ function myFormSet(key, m, v, mx, col) {
             $("#" + tdskey).html(v);
         }
     } else {
-
         if (document.getElementById(skey).type != undefined) {
             if (document.getElementById(skey).type == "checkbox") {//赋值的时候
                 if (v == 1) {
@@ -301,16 +336,14 @@ function myFormSet(key, m, v, mx, col) {
         } else {
             $("#" + skey).val(v);
         }
-
-
     }
 }
 
 //获取值
 //v=null or v=undefined
 //mx="mx"获取尺码控件值,col=列序
-function myFormGet(key, m, mx, col,type) {
-    var skey; var tdskey; var returnValue; var returnObj;
+function myFormGet(key, m, mx, col, type) {
+    var skey; var tdskey; var obj = {};
     if (mx == "cm") {
         skey = "table_" + $("#wid").val() + "_" + m + "_" + key + "_" + col;
         tdskey = "table_td_" + $("#wid").val() + "_" + m + "_" + key + "_" + col;
@@ -322,27 +355,35 @@ function myFormGet(key, m, mx, col,type) {
     }
     if ($("#" + skey).length == 0) {
         if ($("#" + tdskey).length == 0) {
-            returnValue = null; returnObj == null;
+            obj.returnValue = null;
+            obj.returnObj == null;
         } else {
-            returnValue = $.trim($("#" + tdskey).html());
-            returnObj = $("#" + tdskey);
+            obj.returnValue = $.trim($("#" + tdskey).html());
+            obj.returnObj = $("#" + tdskey);
         }
     } else {
-        if (document.getElementById(skey).type != undefined) {
-            if (document.getElementById(skey).type == "checkbox") {//取值的时候,只有0或1,
-                returnValue = ($("#" + skey).is(':checked') == false ? 0 : 1);
-                returnObj = $("#" + skey);
-            } else {
-                returnValue = $("#" + skey).val();
-                returnObj = $("#" + skey);
-            }
-        } else {
-            returnValue = $("#" + skey).val();
-            returnObj = $("#" + skey);
-        }
+        obj = getKeyVal(skey);
     }
-    return (type=="getObj"?returnObj:returnValue);
+    return (type == "getObj" ? obj.returnObj : obj.returnValue);
 }
+
+function getKeyVal(skey) {
+    var obj = {};
+    if (document.getElementById(skey).type != undefined) {
+        if (document.getElementById(skey).type == "checkbox") {//取值的时候,只有0或1,
+            obj.returnValue = ($("#" + skey).is(':checked') == false ? 0 : 1);
+            obj.returnObj = $("#" + skey);
+        } else {
+            obj.returnValue = $("#" + skey).val();
+            obj.returnObj = $("#" + skey);
+        }
+    } else {
+        obj.returnValue = $("#" + skey).val();
+        obj.returnObj = $("#" + skey);
+    }
+    return obj;
+}
+
 
 //分页过程
 function PagerObj(op) {
@@ -403,7 +444,7 @@ function PagerObj(op) {
 }
 
 //带session检查的查询事件
-function myCheckSessionQuery() {
+function wQuery() {
     if (checkSession() == false) {
         reLoad(function () {
             waitOn(myFormRefresh);
@@ -527,7 +568,7 @@ function execSysFindSort() {
             jg = $.trim(jg);
         }
         var tj = jg.split(" ");
-        var thli = getPublicWebArray(getHeaderTableId()).split(",");
+        var thli = getTitleArray(getHeaderTableId()).split(",");
         thli.sort(function dd(a1, a2) { return a2.split(":")[1].length - a1.split(":")[1].length }); //排序
         myjg = "";
         var lsbs = 0; //临时标记,用来标记是不是包含或者不包
@@ -548,10 +589,10 @@ function execSysFindSort() {
             } else if (i % 4 == 2) {
                 var reg = new RegExp("'", "g");//g,表示全部替换。
                 if (lsbs == 1) {
-                    tj[i] = "'%" +  tj[i].replace(reg, "''")+ "%'";
+                    tj[i] = "'%" + tj[i].replace(reg, "''") + "%'";
                     lsbs = 0;
                 } else {
-                    tj[i] = "'" + ( tj[i]=="{空值}"?"": tj[i].replace(reg, "''")) + "'";
+                    tj[i] = "'" + (tj[i] == "{空值}" ? "" : tj[i].replace(reg, "''")) + "'";
                 }
             } else {
                 if (tj[i] == "并且") {
@@ -637,7 +678,7 @@ function myDefaultOperate(Etype) {
     var title = document.title;
     var filterRow = "";
     if ($("#sysFindSortRow").length > 0) {
-        filterRow = $("#sysFindSortRow").val();       
+        filterRow = $("#sysFindSortRow").val();
     }
     var orderBy = "";
     if ($("#orderBy").length > 0) {
@@ -650,7 +691,7 @@ function myDefaultOperate(Etype) {
     }
     var printParmObj = eval("({" + getUploadParameters("json") + ",\"filterRow\":\"" + filterRow + "\",\"title\":\"" + title + "\",\"orderBy\":\"" + orderBy + "\",\"pageSize\":\"" + pageSize + "\"" + "})");
     var excelParm = getUploadParameters("string");
-    var currentPageIndex = ($(".pageactive").length==0?1: $(".pageactive")[0].innerHTML);
+    var currentPageIndex = ($(".pageactive").length == 0 ? 1 : $(".pageactive")[0].innerHTML);
     /*页面上必要参数*/
     var url = "";
     if (Etype == "excel") {
@@ -673,11 +714,11 @@ function myDefaultOperate(Etype) {
 
 //打印-页面
 function mySysPrtConfig() {
-//    var div_SysFindSort = $("#div_SysFindSort");
-//    $("#UserShowRows").val($("#pageSize").val());
-//    div_SysFindSort.show();
-//    $('#div_SysWindow').window('open');
-//    $("#SysFindSort_val").focus();
+    //    var div_SysFindSort = $("#div_SysFindSort");
+    //    $("#UserShowRows").val($("#pageSize").val());
+    //    div_SysFindSort.show();
+    //    $('#div_SysWindow').window('open');
+    //    $("#SysFindSort_val").focus();
 
     //打印设置
     var div_SysPrtConfigdSort = $("#div_SysPrtConfigSort");

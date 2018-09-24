@@ -7,7 +7,7 @@
 })
 
 require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
-
+    utils.hideLoading();
     $('.tzlist').delegate('a', 'click', function (e) {
         var tzid, menu;
         if ($(e.target).is("a")) {

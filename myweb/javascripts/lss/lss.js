@@ -75,8 +75,8 @@ function loadInfoCallback(loadMark) {
 
         });
     }
-    if (typeof (beforeFadeout) == "function") {
-        beforeFadeout(loadMark, function () {
+    if (typeof (windowInit) == "function") {
+        windowInit(loadMark, function () {
             waitOff(loadMark);
         });
     } else {

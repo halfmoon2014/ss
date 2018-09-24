@@ -90,7 +90,7 @@ function openModal(url, argin, options, callback) {
 *兼容chrome 因为没有模态窗口,chrome 使用open 打开新窗口,所以在关闭的时候注意执行父窗口的函数
 *子窗口在调用
 */
-function myWindowClose(returnvalue) {
+function closeWindow(returnvalue) {
     if (browser.versions.webKit) {
         //用来关闭chrome窗口时标识关闭的动作是否使用浏览器自带的关闭按钮
         //任何关闭的动作都会响应onunload事件
@@ -128,7 +128,7 @@ function openWin(url, obj) {
 /*
 *
 */
-function sqlPar(str) {
+function sqlFormat(str) {
     return $.trim(str).replace(/'/g, "''");
 }
 

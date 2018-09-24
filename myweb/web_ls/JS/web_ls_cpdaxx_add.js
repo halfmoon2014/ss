@@ -12,7 +12,7 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
     $("#close").bind("click", function () { close_click(); });    
 
     var close_click=function(){
-        myweb.myWindowClose()
+        myweb.closeWindow()
     }
 
     var ok_click = function () {        
@@ -53,7 +53,7 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
                     if (r.r == 'true') {
                         utils.sAlert('保存成功!', 'success', function () {
                             $('#ok').removeAttr("disabled")
-                            myweb.myWindowClose("ok")
+                            myweb.closeWindow("ok")
                         });
                     } else {
                         utils.sAlert(r.msg, function () {

@@ -14,7 +14,7 @@
     *用于使用平台脚本打开窗口的情况
     *兼容chrome 因为没有模态窗口,chrome 使用open 打开新窗口,所以在关闭的时候注意执行父窗口的函数
     */
-    var myWindowClose = function (returnvalue) {
+    var closeWindow = function (returnvalue) {
         if (utils.browser.versions.webKit) {
             //用来关闭chrome窗口时标识关闭的动作是否使用浏览器自带的关闭按钮
             //任何关闭的动作都会响应onunload事件
@@ -36,7 +36,7 @@
     return {   
         mySysDate: mySysDate,
         unMySysDate: unMySysDate,
-        myWindowClose: myWindowClose
+        closeWindow: closeWindow
     };
 
 
@@ -106,7 +106,7 @@
     /*
     *
     */
-    var sqlPar = function (str) {
+    var sqlFormat = function (str) {
         return $.trim(str).replace(/'/g, "''");
     };
     /*

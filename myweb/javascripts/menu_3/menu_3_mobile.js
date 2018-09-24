@@ -5,6 +5,7 @@
         $("#collapse").click();
         addMainTab(tabTitle, url);
     })
+    hideLoading();
 });
 
 function addMainTab(tabTitle, url) {

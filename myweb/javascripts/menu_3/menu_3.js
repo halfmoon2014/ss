@@ -2,8 +2,7 @@
     //选项卡右击菜单
     tabMenuInit();
     //选项卡事件绑定
-    tabTitleEven();
-
+    tabTitleEven();    
     /*标签数据更新后,激活*/
     $('#tabs').tabs({
         onUpdate: function (title) {
@@ -41,7 +40,7 @@
             console.log("onExpand");
         }
     });
-
+    hideLoading();
 });
 
 //main选项卡

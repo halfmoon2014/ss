@@ -7,7 +7,8 @@
 })
 
 require(["jquery", "utils","myweb"], function ($, utils,myweb) {
-
+    $("#ok").removeAttr("disabled");
+    utils.hideLoading();
     if (utils.getCookie("lur") != null) {
         $("#usr").attr("value", utils.getCookie("lur"))
         $("#psw").focus();

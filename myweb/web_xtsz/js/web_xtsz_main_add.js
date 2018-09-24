@@ -32,7 +32,7 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
                         utils.sAlert('保存成功!', true, function () {
-                            $('#ok').removeAttr("disabled"); myweb.myWindowClose("ok");
+                            $('#ok').removeAttr("disabled"); myweb.closeWindow("ok");
                         });
 
                     } else {

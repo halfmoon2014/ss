@@ -37,8 +37,7 @@ namespace FM.Business
             HtmlMenu htmlMenu = new HtmlMenu();
 
             DataSet ds = execObj.SubmitTextDataSet(sqlstring.TzData(SessionHandle.Get("userid")));
-            string div = ExtUtil.GetHtml(path, "\\webpage\\chooseExt\\mobile");
-
+            string div = ExtUtil.GetHtml(path, "\\webpage\\chooseExt\\mobile");            
             if (ds.Tables[0].Rows.Count <= 0)
                 //没有找到单据
                 //rstring[1] = "<table><tr><td>'无可选套账'</td></tr></table>";
@@ -60,7 +59,7 @@ namespace FM.Business
                     foreach (DataRow dr in ds.Tables[0].Rows)
                         tzHtmlBuer.Append(string.Format(tzHtml, dr["tzid"].ToString().Trim(), (dr["menu"].ToString().Trim() == string.Empty ? mrmenu : dr["menu"].ToString().Trim()), ds.Tables[0].Rows.IndexOf(dr) + 1, dr["tzmc"].ToString().Trim(), dr["sm"].ToString().Trim()));
 
-                    htmlMenu.Htmlmark = string.Format(div, tzHtmlBuer.ToString()); ;
+                    htmlMenu.Htmlmark = string.Format(div, tzHtmlBuer.ToString());
                 }
             }
 

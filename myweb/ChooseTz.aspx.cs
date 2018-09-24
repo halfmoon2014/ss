@@ -2,6 +2,7 @@
 using MySession;
 using System.Data;
 using DTO;
+using MyTy;
 
 public partial class ChooseTz : System.Web.UI.Page
 {
@@ -11,7 +12,7 @@ public partial class ChooseTz : System.Web.UI.Page
         
         FM.Business.ChooseTz tz = new FM.Business.ChooseTz();
         HtmlMenu htmlMenu = tz.GetTzMenu(Request.PhysicalApplicationPath,"menu_");
-        container.InnerHtml = htmlMenu.Htmlmark;
+        container.InnerHtml = htmlMenu.Htmlmark;        
         //if (mystring[0] == "Response")
         //{
         //    Response.Redirect(mystring[1]);
