@@ -79,7 +79,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
             yy = sr("yy", i)
             naspx = sr("naspx", i);
             htmlid = $.trim(xtsz.myVale("htmlid", i).val());
-            if (id == 0 && htmlid.length == 0) { continue; }
+            if (id == 0 && htmlid.length == 0 && qwidth=="0" && mc.length==0 ) { continue; }
             mrz = sr("mrz", i);
             bds = sr("bds", i);
             var dataRow = {};
