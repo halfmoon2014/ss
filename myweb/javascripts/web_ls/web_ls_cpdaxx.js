@@ -1,4 +1,4 @@
-﻿define(["jquery", "utils", "myweb", 'zhCN', 'easyui'], function ($, utils,myweb) {
+﻿define(["jquery",  "myweb", "swalProcessA", 'zhCN', 'easyui'], function ($,  myweb, swalProcessA) {
     var start = function () {
         $("#ok").bind("click", function () {
             if ($('#xx').tree("getSelected") != null) {//选择了一行
@@ -8,9 +8,8 @@
                         $('#xx').tree("reload");
                     }
                 });
-
             } else {
-                utils.sAlert("请先选择一个大类!");
+                swalProcessA.sAlert("请先选择一个大类!");
             }
         });
 
@@ -22,7 +21,7 @@
                 //alert($('#xx').tree("getSelected").text)
                 //alert(mySysDate(mc))           
                 if (id == "-1") {//没有大类自动生成               
-                    utils.sAlert("不能修改这个大类!");
+                    swalProcessA.sAlert("不能修改这个大类!");
                 } else {
                     //alert("web_ls_cpdaxx_add.aspx?lx=dl&zt=edit&mc=" + mc + "&id=" + id);
                     myweb.openModal("web_ls_cpdaxx_add.aspx?lx=dl&zt=edit&mc=" + myweb.mySysDate(mc) + "&id=" + id, "", "dialogWidth=850px;dialogHeight=400px", function (r) {
@@ -31,7 +30,7 @@
 
                 }
             } else {
-                utils.sAlert("请先选择一个大类!");
+                swalProcessA.sAlert("请先选择一个大类!");
             }
         });
 
@@ -39,17 +38,17 @@
             if ($('#xx').tree("getSelected") != null) {
                 var id = $.trim($('#xx').tree("getSelected").id);
                 if ($('#xx').tree("getSelected").id == "-1") {//没有大类自动生成                
-                    utils.sAlert("不能删除这个大类!");
+                    swalProcessA.sAlert("不能删除这个大类!");
                 } else if ($('#xx').tree("getSelected").attributes.xjbs == "1") {//有下级              
-                    utils.sAlert("此大类有下级类别,不能删除!");
+                    swalProcessA.sAlert("此大类有下级类别,不能删除!");
                 } else {
                     $('#del').attr('disabled', 'disabled');
                     //xjbs 下级标识
                     var str = "select top 1 khlb from V_ls_cpda where khlb=" + id
                     //alert(str);
-                    var r = myAjax(str);
+                    var r = myweb.myAjax(str);
                     if (r == -1) {
-                        utils.sAlert("连接失败!", function () {
+                        swalProcessA.sAlert("连接失败!", function () {
                             $('#del').removeAttr("disabled")
                         });
                     } else {
@@ -57,39 +56,39 @@
                             //允许删除                        
                             str = " delete from v_ls_xxdmb where id=" + id;
                             if (id == "") {
-                                utils.sAlert("没有可更新的记录!", function () {
+                                swalProcessA.sAlert("没有可更新的记录!", function () {
                                     $('#del').removeAttr("disabled")
                                 });
                             } else {
-                                r = myAjax(str);
+                                r = myweb.myAjax(str);
                                 if (r == -1) {
-                                    utils.sAlert("连接失败!", function () {
+                                    swalProcessA.sAlert("连接失败!", function () {
                                         $('#del').removeAttr("disabled")
                                     });
 
                                 } else {
                                     if (r.r == 'true') {
-                                        utils.sAlert('删除成功!', 'success', function () {
+                                        swalProcessA.sAlert('删除成功!', 'success', function () {
                                             $('#del').removeAttr("disabled")
                                             $('#xx').tree("reload");
                                         });
 
                                     } else {
-                                        utils.sAlert(r.msg, function () {
+                                        swalProcessA.sAlert(r.msg, function () {
                                             $('#del').removeAttr("disabled")
                                         });
                                     }
                                 }
                             }
                         } else {
-                            utils.sAlert("已经被产品档案引用,不能删除", function () {
+                            swalProcessA.sAlert("已经被产品档案引用,不能删除", function () {
                                 $('#del').removeAttr("disabled")
                             });
                         }
                     }
                 }
             } else {
-                utils.sAlert('提示信息', '请先选择一个大类!');
+                swalProcessA.sAlert('提示信息', '请先选择一个大类!');
             }
         });
         $('#xx').tree({

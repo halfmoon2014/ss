@@ -2,11 +2,16 @@
     paths: {
         "jquery": "../jquery/1.12.4/jquery.min",
         "utils": "../utilsA",
-        "myweb": "../myjs/mywebA"
+        "myweb": "../myjs/mywebA",
+        sweetalert: "../sweetalert/sweetalert.min",
+        swalProcessA: "../sweetalert/swalProcessA"        
+    },
+    shim: {       
+        'swalProcessA': ['sweetalert']
     }
 })
 
-require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
+require(["jquery", "utils", "myweb", "swalProcessA"], function ($, utils, myweb, swalProcessA) {
 
     $("#ok").bind("click", function () { mysave(); });
     $("#esc").bind("click", function () { window.close(); });
@@ -22,19 +27,19 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
             url: '../webuser/ws.asmx/HelpUp',
             data: { value1: help, value2: myid },
             error: function (e) {
-                utils.sAlert('连接失败', true, function () {
+                swalProcessA.sAlert('连接失败', true, function () {
                     $('#ok').removeAttr("disabled")
                 });
             },
             success: function (data) {
                 var r = utils.myAjaxData(data);
                 if (r.r == 'true') {
-                    utils.sAlert('保存成功!', true, function () {
+                    swalProcessA.sAlert('保存成功!', true, function () {
                         $('#ok').removeAttr("disabled")
                     });
 
                 } else {
-                    utils.sAlert('保存失败!', true, function () {
+                    swalProcessA.sAlert('保存失败!', true, function () {
                         $('#ok').removeAttr("disabled")
                     });
                 }

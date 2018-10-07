@@ -1,10 +1,15 @@
 ﻿require.config({
     paths: {
         "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
-        "utils": "../../javascripts/utilsA"
+        "utils": "../../javascripts/utilsA",
+        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
+        swalProcessA: "../../javascripts/sweetalert/swalProcessA" 
+    },
+    shim: {
+        'swalProcessA': ['sweetalert']
     }
 })
-require(["jquery", "utils"], function ($, utils) {
+require(["jquery", "utils", "swalProcessA"], function ($, utils, swalProcessA) {
 
     $("#ok").bind("click", function () { ok_click(); });
     $("#fb").bind("click", function () { fb_click(); });
@@ -30,7 +35,7 @@ require(["jquery", "utils"], function ($, utils) {
         var sql_2 = document.getElementById("tbsql2").value;
 
         if (name.length == 0) {
-            utils.sAlert('中文名称一定要输入!',  function () {
+            swalProcessA.sAlert('中文名称一定要输入!',  function () {
                 $('#ok').removeAttr("disabled")
             });
 
@@ -48,18 +53,18 @@ require(["jquery", "utils"], function ($, utils) {
                 url: '../webuser/ws.asmx/sjy_up',
                 data: { wid: wid, value1: name, value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly, sql_2: sql_2 },
                 error: function (e) {
-                    utils.sAlert('连接失败!',  function () {
+                    swalProcessA.sAlert('连接失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        utils.sAlert('保存成功!', "success", function () {
+                        swalProcessA.sAlert('保存成功!', "success", function () {
                             $('#ok').removeAttr("disabled")
                         });
                     } else {
-                        utils.sAlert('保存失败!',  function () {
+                        swalProcessA.sAlert('保存失败!',  function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }

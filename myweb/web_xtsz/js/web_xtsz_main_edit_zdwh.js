@@ -3,10 +3,15 @@
         "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
         "utils": "../../javascripts/utilsA",
         "myweb": "../../javascripts/myjs/mywebA",
-        "xtsz": "../../javascripts/xtsz/xtsz"
+        "xtsz": "../../javascripts/xtsz/xtsz",
+        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
+        swalProcessA: "../../javascripts/sweetalert/swalProcessA" 
+    },
+    shim: {
+        'swalProcessA': ['sweetalert']
     }
 })
-require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {   
+require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils, myweb, xtsz, swalProcessA) {   
     //行得到焦点,变色
     var myselect = function (obj) {
         //alert(g);
@@ -86,7 +91,7 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
         }
 
         if (data.row.length == 0) {
-            utils.sAlert('没有可更新的记录!',  function () {
+            swalProcessA.sAlert('没有可更新的记录!',  function () {
                 $('#ok').removeAttr("disabled")
             });
         } else {
@@ -95,19 +100,19 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                 url: '../webuser/ws.asmx/UpSYJZdwh',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    utils.sAlert('连接失败!',  function () {
+                    swalProcessA.sAlert('连接失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        utils.sAlert('保存成功!', "success", function () {
+                        swalProcessA.sAlert('保存成功!', "success", function () {
                             $('#ok').removeAttr("disabled");
                             location.reload();
                         });
                     } else {
-                        utils.sAlert('保存失败!'+r.r,  function () {
+                        swalProcessA.sAlert('保存失败!'+r.r,  function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }
@@ -139,20 +144,20 @@ require(["jquery", "utils", "myweb", "xtsz"], function ($, utils, myweb, xtsz) {
                 url: '../webuser/ws.asmx/websj_fz_zd',
                 data: { wid: oldwid, newwid: newwid, bs: 'zd' },
                 error: function (e) {
-                    utils.sAlert('连接失败!');
+                    swalProcessA.sAlert('连接失败!');
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        utils.sAlert('复制成功!', "success", function () { parent.closeTab("refresh", false); });
+                        swalProcessA.sAlert('复制成功!', "success", function () { parent.closeTab("refresh", false); });
                     } else {
-                        utils.sAlert('复制失败!');
+                        swalProcessA.sAlert('复制失败!');
                     }
                 }
             })
 
         } else {
-            utils.sAlert('复制wid无效!');
+            swalProcessA.sAlert('复制wid无效!');
         }
     }
     $("#ok").bind("click", function () { ok_click(); });

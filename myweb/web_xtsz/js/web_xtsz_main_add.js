@@ -2,17 +2,22 @@
     paths: {
         "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
         "utils": "../../javascripts/utilsA",
-        "myweb": "../../javascripts/myjs/mywebA"
+        "myweb": "../../javascripts/myjs/mywebA",
+        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
+        swalProcessA: "../../javascripts/sweetalert/swalProcessA"  
+    },
+    shim: {
+        'swalProcessA': ['sweetalert']
     }
 })
-require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
+require(["jquery", "utils", "myweb", "swalProcessA"], function ($, utils, myweb, swalProcessA) {
     $("#ok").bind("click", function () { ok_click(); });
     var ok_click = function () {
         $('#ok').attr('disabled', 'disabled');
         var mc = document.getElementById("mc").value;
         var lx = document.getElementById("lx").value;
         if (mc.length == 0) {
-            utils.sAlert('名称不能为空!', true, function () {
+            swalProcessA.sAlert('名称不能为空!', true, function () {
                 $('#ok').removeAttr("disabled")
             });
         } else {
@@ -24,19 +29,19 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
                 url: "../webuser/ws.asmx/websj_cl",
                 data: { userid: userid, mc: mc, lx: lx, wid: wid, zt: zt },
                 error: function (e) {
-                    utils.sAlert('连接失败!', true, function () {
+                    swalProcessA.sAlert('连接失败!', true, function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        utils.sAlert('保存成功!', true, function () {
+                        swalProcessA.sAlert('保存成功!', true, function () {
                             $('#ok').removeAttr("disabled"); myweb.closeWindow("ok");
                         });
 
                     } else {
-                        utils.sAlert('连接失败!', true, function () {
+                        swalProcessA.sAlert('连接失败!', true, function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }

@@ -49,8 +49,6 @@
     <input type="hidden" id="lx" runat="server" />
     <input type="hidden" id="zt" runat="server" />
 </body>
-<script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
-<script src="../javascripts/sweetalert/sweetalert.min.js"></script>
-<script data-main="../javascripts/web_ls/web_ls_cpdaxx_add.js" src="../javascripts/require.js"></script>
+<script data-baseurl="../javascripts" data-from="web_ls_cpdaxx_add" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
 </html>
 

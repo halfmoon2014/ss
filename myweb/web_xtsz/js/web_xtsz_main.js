@@ -238,7 +238,7 @@ function gridDel() {
 function getCx() {
     var id = "";
     var node = $('#leftmenu').tree("getSelected");
-    if (IsNum(node.id)) {//-1是人员信息!
+    if (isNum(node.id)) {//-1是人员信息!
         //alert(node.attributes.type)
         if (node.attributes != undefined) {
             if (node.attributes.type != null && node.attributes.type == "user") {//如果是用户而不是部门树
@@ -264,7 +264,7 @@ function ALink(type, id, value) {
 /*单击树*/
 $('#leftmenu').tree({
     onClick: function (node) {
-        if (IsNum(node.id)) {//-1是人员信息!
+        if (isNum(node.id)) {//-1是人员信息!
             //alert(node.attributes.type)
             if (node.attributes != undefined) {
                 if (node.attributes.type != null && node.attributes.type == "user") {//如果是用户而不是部门树

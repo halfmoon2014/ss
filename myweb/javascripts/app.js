@@ -15,11 +15,13 @@
             easyui: "jey/jquery.easyui.min",
             zhCN: "jey/easyui-lang-zh_CN",
             sweetalert: "sweetalert/sweetalert.min",
-            progressDefender: "progressDefenderA",
+            swalProcessA: "sweetalert/swalProcessA",
+            progressDefender: "progressDefenderA",            
 
             login: 'login3/login3',
             choosetz3: 'choosetz/choosetz3',
-            web_ls_cpdaxx:"web_ls/web_ls_cpdaxx"
+            web_ls_cpdaxx: "web_ls/web_ls_cpdaxx",
+            web_ls_cpdaxx_add: "web_ls/web_ls_cpdaxx_add",
         },
         shim: {
             'jquery': {
@@ -30,7 +32,8 @@
                 exports: '$'
             },
             'zhCN': ['jquery'],
-            'easyui': ['jquery']
+            'easyui': ['jquery'],
+            'swalProcessA': ['sweetalert']
         }
     };
     require.config(config);

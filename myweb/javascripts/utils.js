@@ -1,10 +1,10 @@
 ﻿/*
 *取小数位
 */
-function ForDight(Dight, How) {
+var forDight = function (Dight, How) {
     Dight = Math.round(Dight * Math.pow(10, How)) / Math.pow(10, How);
     return Dight;
-}
+};
 /*
 *获取浏览器版本号
 */
@@ -46,7 +46,7 @@ var browser = {
             webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
             gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
             mobilebak: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
-            mobile:/Android|webOS|iPhone|iPod|BlackBerry/i.test(u),
+            mobile: /Android|webOS|iPhone|iPod|BlackBerry/i.test(u),
             ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
             android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
             iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
@@ -72,7 +72,7 @@ var browser = {
 //11清空select的项 
 //js 代码
 // 1.判断select选项中 是否存在Value="paraValue"的Item        
-function jsSelectIsExitItem(objSelect, objItemValue) {
+var jsSelectIsExitItem = function (objSelect, objItemValue) {
     var isExit = false;
     for (var i = 0; i < objSelect.options.length; i++) {
         if (objSelect.options[i].value == objItemValue) {
@@ -81,10 +81,10 @@ function jsSelectIsExitItem(objSelect, objItemValue) {
         }
     }
     return isExit;
-}
+};
 
 // 2.向select选项中 加入一个Item        
-function jsAddItemToSelect(objSelect, objItemText, objItemValue) {
+var jsAddItemToSelect = function (objSelect, objItemText, objItemValue) {
     //判断是否存在        
     if (jsSelectIsExitItem(objSelect, objItemValue)) {
         return -1;
@@ -95,10 +95,10 @@ function jsAddItemToSelect(objSelect, objItemText, objItemValue) {
         return 1;
         //alert("成功加入");     
     }
-}
+};
 
 // 3.从select选项中 删除一个Item        
-function jsRemoveItemFromSelect(objSelect, objItemValue) {
+var jsRemoveItemFromSelect = function (objSelect, objItemValue) {
     //判断是否存在        
     if (jsSelectIsExitItem(objSelect, objItemValue)) {
         for (var i = 0; i < objSelect.options.length; i++) {
@@ -107,22 +107,22 @@ function jsRemoveItemFromSelect(objSelect, objItemValue) {
                 break;
             }
         }
-    } 
-}
+    }
+};
 
 
 // 4.删除select中选中的项    
-function jsRemoveSelectedItemFromSelect(objSelect) {
+var jsRemoveSelectedItemFromSelect = function (objSelect) {
     var length = objSelect.options.length - 1;
     for (var i = length; i >= 0; i--) {
         if (objSelect[i].selected == true) {
             objSelect.options[i] = null;
         }
     }
-}
+};
 
 // 5.修改select选项中 value="paraValue"的text为"paraText"        
-function jsUpdateItemToSelect(objSelect, objItemText, objItemValue) {
+var jsUpdateItemToSelect = function (objSelect, objItemText, objItemValue) {
     //判断是否存在        
     if (jsSelectIsExitItem(objSelect, objItemValue)) {
         for (var i = 0; i < objSelect.options.length; i++) {
@@ -131,11 +131,15 @@ function jsUpdateItemToSelect(objSelect, objItemText, objItemValue) {
                 break;
             }
         }
-    } 
-}
+        return true;
+    } else {
+        return false;
+    }
+};
+
 
 // 6.设置select中text="paraText"的第一个Item为选中        
-function jsSelectItemByValue(objSelect, objItemText) {
+var jsSelectItemByValue = function (objSelect, objItemText) {
     //判断是否存在        
     var isExit = false;
     for (var i = 0; i < objSelect.options.length; i++) {
@@ -152,7 +156,7 @@ function jsSelectItemByValue(objSelect, objItemText) {
 
         return false;
     }
-}
+};
 
 /*   
 // 7.设置select中value="paraValue"的Item为选中    
@@ -171,59 +175,58 @@ var currSelectIndex = document.all.objSelect.selectedIndex;
 document.all.objSelect.options.length = 0;   
 */
 
-function replacetsf(str) {
+var replacetsf = function (str) {
     str = str.replace(/</g, "<");
     str = str.replace(/>/g, ">");
     str = str.replace(/"/g, "\"");
     str = str.replace(/&/g, "&");
     str = str.replace(/ /g, " ");
     return str;
-}
+};
 
 /*
 *判断是否为数字
 */
-function IsNum(s) {
+var isNum = function (s) {
     if (s != null && s != "") {
         return !isNaN(s);
     }
     return false;
-}
+};
 
 /*
 *cookie设置
 */
-function setCookie(name, value)//两个参数，一个是cookie的名子，一个是值
+var setCookie = function (name, value)//两个参数，一个是cookie的名子，一个是值
 {
     var Days = 30; //此 cookie 将被保存 30 天
     var exp = new Date();    //new Date("December 31, 9998");
     exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
     document.cookie = name + "=" + value + ";expires=" + exp.toGMTString();
-}
+};
 /*
 *获取cookies
 */
-function getCookie(name)//取cookies函数        
+var getCookie = function (name)//取cookies函数        
 {
     var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
     if (arr != null) return arr[2]; return null;
 
-}
+};
 /*
 *删除cookie
 */
-function delCookie(name)
-{
+var delCookie = function (name) {
     var exp = new Date();
     exp.setTime(exp.getTime() - 1);
     var cval = getCookie(name);
     if (cval != null) document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
-}
+};
 
 /*
 *取URL参数中的信息
 */
-function request(paras) {
+var request = function (paras) {
     var url = location.href;
     var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
     var paraObj = {}
@@ -236,11 +239,11 @@ function request(paras) {
     } else {
         return returnValue;
     }
-}
+};
 /*
 *处理ajax返回值
 */
-function myAjaxData(data) {
+var myAjaxData = function (data) {
     var mydata;
     if (window.DOMParser) {
         //非IE
@@ -251,7 +254,7 @@ function myAjaxData(data) {
             mydata = "";
             try {
                 console.log(data)
-            } catch(e){ }
+            } catch (e) { }
         }
     } else {
         if (data.text) {
@@ -260,7 +263,7 @@ function myAjaxData(data) {
             mydata = "";
             try {
                 console.log(data)
-            } catch(e){ }
+            } catch (e) { }
         }
     }
     var obj = {};
@@ -268,22 +271,22 @@ function myAjaxData(data) {
         /*20140316 如果返回的是\那么js的eval会去掉*/
         //mydata = mydata.replace(/\\/g, "/");        
         //return eval("(" + mydata + ")");        
-        try{
+        try {
             obj = JSON.parse(mydata);
         } catch (e) {
             obj.r = "false";
             obj.msg = "JSON反序列化返回结果失败";
-        }        
+        }
     } else {
         obj.r = "false";
-        obj.msg = "返回的数据是空";        
+        obj.msg = "返回的数据是空";
     }
     return obj;
-}
+};
 /*
 *Post方式提交表单
 */
-function postNewWin(url, jsonObj) {
+var postNewWin = function (url, jsonObj) {
     var postUrl = url;
     var iframe = document.getElementById("postDataIframe");
     if (!iframe) {
@@ -310,11 +313,11 @@ function postNewWin(url, jsonObj) {
     iframe.contentWindow.document.getElementById("postDataForm").innerHTML = postStr;
     iframe.contentWindow.document.getElementById("postDataForm").action = postUrl;
     iframe.contentWindow.document.getElementById("postDataForm").submit();
-}
+};
 /*
 *Post方式提交表单
 */
-function postNewWin(action, data) {
+var postNewWin = function (action, data) {
     var form;
     if (document.getElementById("postDataForm") == null) {
         var form = $("<form/>").attr('action', action).attr('method', 'post').attr("id", "postDataForm");
@@ -328,11 +331,11 @@ function postNewWin(action, data) {
         input += '<input type="hidden" name="' + i + '" value="' + n + '" />';
     });
     form.html(input).appendTo("body").css('display', 'none').submit();
-}
+};
 /*
 *随机数
 */
-function randomKey() {
+var randomKey = function () {
     var hex = new Array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f');
     var t = '';
     for (var i = 0; i < 32; i++) {

@@ -2,10 +2,15 @@
     paths: {
         "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
         "utils": "../../javascripts/utilsA",
-        "myweb": "../../javascripts/myjs/mywebA"
+        "myweb": "../../javascripts/myjs/mywebA",
+        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
+        swalProcessA: "../../javascripts/sweetalert/swalProcessA" 
+    },
+    shim: {
+        'swalProcessA': ['sweetalert']
     }
 })
-require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
+require(["jquery", "utils", "myweb", "swalProcessA"], function ($, utils, myweb, swalProcessA) {
 
     $("#ok").bind("click", function () { ok_click(); });
     $("#fb").bind("click", function () { fb_click(); });
@@ -31,18 +36,18 @@ require(["jquery", "utils", "myweb"], function ($, utils, myweb) {
             url: '../webuser/ws.asmx/sjy_upjs',
             data: { wid: wid, js: js },
             error: function (e) {
-                utils.sAlert( '连接失败!',  function () {
+                swalProcessA.sAlert( '连接失败!',  function () {
                     $('#ok').removeAttr("disabled")
                 });
             },
             success: function (data) {
                 var r = utils.myAjaxData(data);
                 if (r.r == 'true') {
-                    utils.sAlert('保存成功!', "success", function () {
+                    swalProcessA.sAlert('保存成功!', "success", function () {
                         $('#ok').removeAttr("disabled")
                     });
                 } else {
-                    utils.sAlert('保存失败!',  function () {
+                    swalProcessA.sAlert('保存失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 }

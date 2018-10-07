@@ -50,7 +50,8 @@
                 iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
                 iPad: u.indexOf('iPad') > -1, //是否为iPad
                 webApp: u.indexOf('Safari') == -1,//是否为web应用程序，没有头部与底部
-                weixin: u.indexOf('MicroMessenger') == -1 //是否为微信浏览器
+                weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+                ver: (navigator.userAgent.toLowerCase().match(/.+(?:rv|it|ra|ie)[\/: ]([\d.]+)/) || [0, '0'])[1]
             };
         }()
     };
@@ -239,7 +240,7 @@
                 mydata = "";
                 try {
                     console.log(data)
-                } catch(e){ }
+                } catch (e) { }
             }
         } else {
             if (data.text) {
@@ -248,7 +249,7 @@
                 mydata = "";
                 try {
                     console.log(data)
-                } catch(e){ }
+                } catch (e) { }
             }
         }
         var obj = {};
@@ -266,7 +267,7 @@
             obj.r = "false";
             obj.msg = "返回的数据是空";
         }
-        return obj
+        return obj;
     };
 
     //Post方式提交表单
@@ -329,34 +330,34 @@
     var autoTextarea = function (elem, extra, maxHeight) {
         extra = extra || 0;
         var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
-        isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
-                addEvent = function (type, callback) {
-                    elem.addEventListener ?
-                            elem.addEventListener(type, callback, false) :
-                            elem.attachEvent('on' + type, callback);
-                },
-                getStyle = elem.currentStyle ? function (name) {
-                    var val = elem.currentStyle[name];
+            isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+            addEvent = function (type, callback) {
+                elem.addEventListener ?
+                    elem.addEventListener(type, callback, false) :
+                    elem.attachEvent('on' + type, callback);
+            },
+            getStyle = elem.currentStyle ? function (name) {
+                var val = elem.currentStyle[name];
 
-                    if (name === 'height' && val.search(/px/i) !== 1) {
-                        var rect = elem.getBoundingClientRect();
-                        return rect.bottom - rect.top -
-                                parseFloat(getStyle('paddingTop')) -
-                                parseFloat(getStyle('paddingBottom')) + 'px';
-                    };
+                if (name === 'height' && val.search(/px/i) !== 1) {
+                    var rect = elem.getBoundingClientRect();
+                    return rect.bottom - rect.top -
+                        parseFloat(getStyle('paddingTop')) -
+                        parseFloat(getStyle('paddingBottom')) + 'px';
+                };
 
-                    return val;
-                } : function (name) {
-                    return getComputedStyle(elem, null)[name];
-                },
-                minHeight = parseFloat(getStyle('height'));
+                return val;
+            } : function (name) {
+                return getComputedStyle(elem, null)[name];
+            },
+            minHeight = parseFloat(getStyle('height'));
 
         elem.style.resize = 'none';
 
         var change = function () {
             var scrollTop, height,
-                    padding = 0,
-                    style = elem.style;
+                padding = 0,
+                style = elem.style;
 
             if (elem._length === elem.value.length) return;
             elem._length = elem.value.length;
@@ -390,111 +391,7 @@
     };
 
 
-    //sweetalert封装
-
-    var sConfirmTitleAndCallBack = function (title, callBack) {
-        sConfirmAll(title, callBack, "确 定", "取 消", "warning")
-    }
-
-    var sConfirmOp = function (op) {
-        var settings = $.extend({
-            title: "",
-            callBack: undefined,
-            confirmButtonText: "确 定",
-            cancelButtonText: '取 消',
-            icon: 'warning'
-        }, op);
-
-        sConfirmAll(settings.title, settings.callBack, settings.confirmButtonText, settings.cancelButtonText, settings.icon)
-    }
-
-    var sConfirmAll = function (title, callBack, confirmButtonText, cancelButtonText, icon) {      
-        swal({
-            title: title,
-            text: "",
-            icon: icon,
-            buttons: {
-                myCancel: {
-                    text: cancelButtonText,
-                    value: false
-                },
-                confirm: confirmButtonText
-            },
-            dangerMode: true,
-            closeOnClickOutside: false,
-            closeOnEsc: false,
-        })
-        .then(function (willDelete) {
-            if (undefined != callBack) {
-                callBack(willDelete);
-            }
-        });
-    }
-
-    var sConfirm = function () {
-        var a = arguments;
-        if (a.length == 1) {//如果只有一个参数         
-            sConfirmOp(a[0]);
-        } else if (a.length == 2) {
-            sConfirmTitleAndCallBack(a[0], a[1]);
-        }
-    }
-
-    var sAlertTitle = function (title) {
-        sAlertTitleAndCallBack(title, undefined);
-    }
-
-    var sAlertTitleAndCallBack = function (title, callBack) {
-        sAlertAll(title, callBack, "warning", "确 定");
-    }
-
-    var sAlertTitleAndCallBackAndIcon = function (title, callBack, icon) {
-        sAlertAll(title, callBack, icon, "确 定");
-    }
-
-    var sAlertOp = function (op) {
-        var settings = $.extend({
-            title: "",
-            callBack: undefined,
-            confirm: "确 定",
-            icon: 'warning'
-        }, op);
-
-        sAlertAll(settings.title, settings.callBack, settings.icon, settings.confirm);
-    }
-
-    var sAlertAll = function (title, callBack, icon, confirm) {
-        //warning error success info    
-        swal({
-            title: title,
-            text: "",
-            icon: icon,
-            buttons: {
-                confirm: confirm
-            },
-            closeOnClickOutside: false,
-            closeOnEsc: false,
-        }).then(function (willDelete) {
-            if (undefined != callBack) {
-                callBack();
-            }
-        });       
-    }
-
-    var sAlert = function () {
-        var a = arguments;
-        if (a.length == 1) {//如果只有一个参数和,那么有可能是 sAlertTitle or sAlertOp
-            if (typeof (a[0]) == "string") {
-                sAlertTitle(a[0]);
-            } else if (typeof (a[0]) == "object") {
-                sAlertOp(a[0]);
-            }
-        } else if (a.length == 2) {
-            sAlertTitleAndCallBack(a[0], a[1]);
-        } else if (a.length == 3) {
-            sAlertTitleAndCallBackAndIcon(a[0], a[2], a[1]);
-        }
-    }
+   
 
     //显示遮罩
     var showLoading = function () {
@@ -570,8 +467,6 @@
         postNewWin2: postNewWin2,
         randomKey: randomKey,
         autoTextarea: autoTextarea,
-        sConfirm: sConfirm,
-        sAlert: sAlert,
         showLoading: showLoading,
         hideLoading: hideLoading
     };

@@ -1,4 +1,4 @@
-﻿define(['jquery', 'utils','progressDefender'], function ($, utils,pro) {
+﻿define(['jquery', 'utils', 'progressDefender'], function ($, utils, progressDefender) {
     /*
     *前台传递到后台,URL的参数 编码格式,与之对应通用反编码
     *用来编码URL中的参数
@@ -15,8 +15,8 @@
     *打开模态窗口
     */
     function openModal(url, argin, options, callback) {
-        if (pro.checkSession() == false) {
-            pro.reLoad();
+        if (progressDefender.checkSession() == false) {
+            progressDefender.reLoad();
         } else {
             /*如果使用SESSION判断,那么会因为构造HTML标签回调函数的参数会丢失*/
             var width = document.body.clientWidth;
@@ -85,10 +85,10 @@
     *子窗口在调用
     */
     function closeWindow(returnvalue) {
-        if (browser.versions.webKit) {
+        if (utils.browser.versions.webKit) {
             //用来关闭chrome窗口时标识关闭的动作是否使用浏览器自带的关闭按钮
             //任何关闭的动作都会响应onunload事件
-            if (browser.versions.mobile) {
+            if (utils.browser.versions.mobile) {
                 window.onunloadtag = true;
                 (window.opener && window.opener.callback != undefined) ? window.opener.callback(returnvalue) : "";
                 window.close();
@@ -107,7 +107,7 @@
     *用于使用平台脚本打开窗口的情况
     */
     window.onunload = function () {
-        if (browser.versions.webKit) {
+        if (utils.browser.versions.webKit) {
             if (window.onunloadtag != true) {
                 //判断window.opener是否存在,因为这是个通用JS,所以有些窗口不是通过平台脚本打开的
                 (window.opener && window.opener.callback != undefined) ? window.opener.callback(null) : "";
@@ -115,10 +115,46 @@
         }
     }
 
+    /*
+    *返回是一个JSON r.r,r.msg
+    *同步
+    *xact_abort事务回滚,取值范围[on,off,空],空的时候不加事务回滚
+    */
+    function myAjax(sqlCommand, xact_abort) {
+        if (xact_abort == undefined) {
+            //没有传递第二个参数
+            xact_abort = "";
+        } else if ($.trim(xact_abort) != "off" && $.trim(xact_abort) != "on") {
+            //传递的参数不符合
+            xact_abort = "";
+        }
+
+        var r = -1;
+        var wid = -1;
+        if (this.wid != undefined) {
+            //如果窗口存在id为wid的控件
+            wid = this.wid.value;
+        }
+
+        $.ajax({
+            type: 'post',
+            url: '../webuser/ws.asmx/execSqlCommand',
+            async: false,
+            data: { sqlCommand: sqlCommand, xact_abort: xact_abort, wid: wid },
+            error: function (e) { },
+            success: function (data) {
+                r = utils.myAjaxData(data);
+                r.msg = decodeURIComponent(r.msg);
+            }
+        });
+
+        return r;
+    }
     return {
         mySysDate: mySysDate,
         unMySysDate: unMySysDate,
         closeWindow: closeWindow,
-        openModal: openModal
+        openModal: openModal,
+        myAjax: myAjax
     };
 });

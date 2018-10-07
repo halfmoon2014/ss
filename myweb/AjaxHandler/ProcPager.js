@@ -734,7 +734,7 @@ function hideMySysPrtConfigSort() {
 }
 
 function execSysPrtConfigt() {
-    if (IsNum($("#SysPrtCount").val()) == true && $("#SysPrtCount").val() != '0') {
+    if (isNum($("#SysPrtCount").val()) == true && $("#SysPrtCount").val() != '0') {
         $("#pageSize").val($("#SysPrtCount").val());
         hideMySysPrtConfigSort();
         myFormRefresh();
