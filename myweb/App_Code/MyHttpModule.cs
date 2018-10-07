@@ -16,11 +16,7 @@ public class MyHttpModule : IHttpModule
     }
 
     #region IHttpModule 成员
-
-    public void Dispose()
-    {
-
-    }
+    public void Dispose(){}
 
     public void Init(HttpApplication application)
     {
@@ -30,15 +26,10 @@ public class MyHttpModule : IHttpModule
         application.AcquireRequestState += (new EventHandler(this.Application_AcquireRequestState));
     }
 
-    private void Application_BeginRequest(object sender, EventArgs e)
-    {
+    private void Application_BeginRequest(object sender, EventArgs e){}
 
-    }
+    private void Application_EndRequest(object sender, EventArgs e){}
 
-    private void Application_EndRequest(object sender, EventArgs e)
-    {
-
-    }
     /// <summary>
     /// 管控session
     /// </summary>
@@ -54,25 +45,30 @@ public class MyHttpModule : IHttpModule
         string xml = application.Server.MapPath("~/config.xml");
         string loginFileName = ConfigReader.Read(xml, "/Root/WebFile/Login/FileName", "");
         string chooseTzFileName = ConfigReader.Read(xml, "/Root/WebFile/ChooseTz/FileName", "");
-        LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("", "", "Application_AcquireRequestState", absolutePath));
-        Log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
+        string ip;
+        if (application.Context.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
+            ip = application.Context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();  // Return real client IP.
+        else// not using proxy or can't get the Client IP
+            ip = application.Context.Request.ServerVariables["REMOTE_ADDR"].ToString(); //While it can't get the Client IP, it will return proxy IP.
+
+        LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent(ip, SessionHandle.Get("userid"), "Application_AcquireRequestState", absolutePath));
         if (myCode.CheckPageType(absolutePath, "NoLimitUrl"))
         {
             #region 不受session控制的页面
-            Log.WriteLog("MyHttpModule:" + absolutePath, "NoLimitUrl");
+            LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent(ip, SessionHandle.Get("userid"), "Application_AcquireRequestState", "NoLimitUrl "+absolutePath));
             #endregion
         }
         else if (myCode.CheckPageType(absolutePath, "Login"))
         {
             #region 登陆页面
-            Log.WriteLog("MyHttpModule", "login");            
+            LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent(ip, SessionHandle.Get("userid"), "Application_AcquireRequestState", "login " + absolutePath));
             if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
             {                
                 application.Response.Redirect("~/" + SessionHandle.Get("menupage"));
             }
             else if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") == null)
-            {
-                Log.WriteLog("MyHttpModule", chooseTzFileName + "2");
+            {                
+                LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent(ip, SessionHandle.Get("userid"), "Application_AcquireRequestState", chooseTzFileName));
                 application.Response.Redirect("~/" + chooseTzFileName);
             }
             #endregion

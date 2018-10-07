@@ -19,6 +19,6 @@ public partial class web_xtsz_web_xtsz_main_edit : System.Web.UI.Page
             title = Request.QueryString["title"].ToString().Trim();
         editbody.InnerHtml = em.GetContEdit(title, HttpContext.Current.Server.MapPath("."));
         wid.Value = Request.QueryString["wid"].ToString().Trim();
-        sysHead.Title = "E" + wid.Value + "【" + title + "】";
+        sysHead.Title = title +   "【" + wid.Value + "】";
     }
 }

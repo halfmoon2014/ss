@@ -8,7 +8,6 @@ namespace Log4NetApply
 {
     public class LogHelper
     {
-
         /// <summary>
         /// 输出日志到Log4Net
         /// </summary>
@@ -75,23 +74,23 @@ namespace Log4NetApply
         }
 
         /// <summary>  
-                /// 访问IP  
-                /// </summary>  
+        /// 访问IP  
+        /// </summary>  
         public string UserIP { get; set; }
 
         /// <summary>  
-                /// 系统登陆用户  
-                /// </summary>  
+        /// 系统登陆用户  
+        /// </summary>  
         public string UserName { get; set; }
 
         /// <summary>  
-                /// 动作事件  
-                /// </summary>  
+        /// 动作事件  
+        /// </summary>  
         public string ActionsClick { get; set; }
 
         /// <summary>  
-                /// 日志描述信息  
-                /// </summary>  
+        /// 日志描述信息  
+        /// </summary>  
         public string Message { get; set; }
 
 
@@ -120,10 +119,10 @@ namespace Log4NetApply
             }
         }
         /// <summary>  
-                /// 通过反射获取传入的日志对象的某个属性的值  
-                /// </summary>  
-                /// <param name="property"></param>  
-                /// <returns></returns>  
+        /// 通过反射获取传入的日志对象的某个属性的值  
+        /// </summary>  
+        /// <param name="property"></param>  
+        /// <returns></returns>  
 
         private object LookupProperty(string property, log4net.Core.LoggingEvent loggingEvent)
         {

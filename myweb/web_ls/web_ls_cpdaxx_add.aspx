@@ -7,14 +7,7 @@
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="新增" />
     <!-- Libraries -->
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
     <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
-
-    <script src="../javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
-    <!--[if lt IE 9]>
-        <script src="../javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="../javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
@@ -56,9 +49,8 @@
     <input type="hidden" id="lx" runat="server" />
     <input type="hidden" id="zt" runat="server" />
 </body>
-<script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
 <script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
 <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
-<script data-main="js/web_ls_cpdaxx_add.js" src="../javascripts/require.js"></script>
+<script data-main="../javascripts/web_ls/web_ls_cpdaxx_add.js" src="../javascripts/require.js"></script>
 </html>
 

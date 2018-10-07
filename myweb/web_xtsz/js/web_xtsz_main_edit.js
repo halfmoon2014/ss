@@ -1,5 +1,4 @@
-﻿
-var myALink = function (obj) {
+﻿var myALink = function (obj) {
     // alert(obj.innerHTML);
     var wid = document.getElementById("wid").value;
     var url = $(obj).attr("url");
@@ -160,6 +159,18 @@ var closeTab = function (action, ts) {
             $('#closeMenu').menu('hide');
             break;
     }
+}
+
+/*
+*等待动画开始
+*/
+function waitOn(callback) {
+    $("#Loading").fadeTo("fast", 0.5, function () {
+        //开始后回调
+        if (typeof (callback) == "function") {
+            callback();
+        }
+    });
 }
 
 /*等待框*/

@@ -25,7 +25,7 @@ namespace FM.Controls.Header
             }
 
             //登陆页,套账选择页不需要在head中加截jquery
-            if(myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz"))
+            if(myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz") || myCode.CheckPageType(absolutePath, "Other&Nope") )
             {
 
             }else if ( myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary") || myCode.CheckPageType(absolutePath, "Other&Ordinary")) {
@@ -50,7 +50,7 @@ namespace FM.Controls.Header
                 {
                     SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
                     SetStyleSheet(string.Format("{0}/css/bootstrap/ie10-viewport-bug-workaround.css", MyCode.GetPageThemes().CssCDN));
-                    SetScript(string.Format("{0}/javascripts/bootstrap/ie-emulation-modes-warning.js", MyCode.GetPageThemes().JsCDN));
+                    //SetScript(string.Format("{0}/javascripts/bootstrap/ie-emulation-modes-warning.js", MyCode.GetPageThemes().JsCDN));
                     SetScript(string.Format("{0}/javascripts/bootstrap/ie10-viewport-bug-workaround.js", MyCode.GetPageThemes().JsCDN));
                     SetScript(string.Format("{0}/javascripts/bootstrap/3.3.7/bootstrap.min.js", MyCode.GetPageThemes().JsCDN));
                     SetScript(string.Format("{0}/javascripts/menu_3/menu_3_mobile.js", MyCode.GetPageThemes().JsCDN));

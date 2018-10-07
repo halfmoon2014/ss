@@ -34,9 +34,7 @@ namespace FM.Business
         {
             string url = string.Format("http://{0}{1}/", HttpContext.Current.Request.Url.Authority, HttpRuntime.AppDomainAppVirtualPath);
             if (url.EndsWith("/"))
-            {
                 url = url.Substring(0, url.Length - 1);
-            }
 
             return url;
         }
@@ -46,7 +44,11 @@ namespace FM.Business
         /// <returns></returns>
         public string GetWait()
         {
-            return "<div id='Loading' algin='center' style=\"display:none;position:absolute;z-index:1000;top:0px;left:0px;width:100%;height:100%;background:#DDDDDB ;text-align:center;padding-top: 5%;\"><table style='width:100%' ><tr><td>&nbsp;</td><td style='width:20px'><img src='../images/loading.gif'/></td><td style='width:58px'><font color=\"#15428B\" style='font-size: 12px;'>加载中···</font></td><td>&nbsp;</td></tr></table></div>";
+            return GetWait("none") ;
+        }
+        public string GetWait(string sty)
+        {
+            return "<div id='Loading' algin='center' style=\"display:"+sty+";position:absolute;z-index:1000;top:0px;left:0px;width:100%;height:100%;background:#DDDDDB ;text-align:center;padding-top: 5%;\"><table style='width:100%' ><tr><td>&nbsp;</td><td style='width:20px'><img src='../images/loading.gif'/></td><td style='width:58px'><font color=\"#15428B\" style='font-size: 12px;'>加载中···</font></td><td>&nbsp;</td></tr></table></div>";
         }
     }
 

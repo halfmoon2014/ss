@@ -11,6 +11,10 @@ tr.selectedhighlight {
         color: #FF0000;
     }
 
+#zdwhtb .tbbody td{
+    padding:0px;
+}
+
 .field_ord {
     width: 40px;
 }
@@ -45,4 +49,7 @@ tr.selectedhighlight {
 
 .field_px {
     width: 40px;
+}
+.field_type{
+    height:26px;
 }

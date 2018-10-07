@@ -1,8 +1,9 @@
 ﻿require.config({
     paths: {
-        "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
-        "utils": "../../javascripts/utilsA",
-        "myweb": "../../javascripts/myjs/mywebA"
+        "jquery": "../jquery/1.12.4/jquery.min",
+        "utils": "../utilsA",
+        "myweb": "../myjs/mywebA",
+        progressDefender: "../progressDefenderA"
     }
 })
 

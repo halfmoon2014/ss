@@ -6,14 +6,9 @@
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" Title="产品参数" />
     <!-- Libraries -->
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
     <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
-
-    <script src="../javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
-    <!--[if lt IE 9]>
-        <script src="../javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="../javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link href="../css/jey/ui-pepper-grinder/easyui.css" rel="stylesheet" />
+    <link href="../css/jey/icon.css" rel="stylesheet" />
     <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
@@ -33,9 +28,9 @@
                 <div id="zdnavbar" class="navbar-collapse collapse">  
                     <form class="navbar-form navbar-left">
                         <div class="btn-group" role="toolbar" id="btnGroup" runat="server" aria-label="操作按钮">                      
-                          <button type="button" class="btn btn-default" id="ok"  aria-label="新增" >新增</button>
-                          <button type="button" class="btn btn-default" id="edit"  aria-label="修改" >修改</button>                      
-                          <button type="button" class="btn btn-default" id="del"  aria-label="删除" >删除</button>   
+                          <button type="button" class="btn btn-default" id="ok"  aria-label="新增">新增</button>
+                          <button type="button" class="btn btn-default" id="edit"  aria-label="修改">修改</button>                      
+                          <button type="button" class="btn btn-default" id="del"  aria-label="删除">删除</button>   
                         </div>
                     </form>  
                 </div><!--/.nav-collapse -->
@@ -46,11 +41,7 @@
             </ul>
         </div>
     </div>
-
     <dialog id="platDialog" style="border: 3px; padding: 16px;"><iframe style="width: 800px; height: 600px" id="platIframe" frameborder="0" ></iframe></dialog>
 </body>
-<script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
-<script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
-<script src="../javascripts/sweetalert/sweetalert.min.js"></script>
-<script data-main="js/web_ls_cpdaxx.js" src="../javascripts/require.js"></script>
+<script data-baseurl="../javascripts" data-from="web_ls_cpdaxx" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
 </html>

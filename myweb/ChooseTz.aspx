@@ -6,15 +6,8 @@
     <!-- sysHead -->
     <ctrlHeader:DefaultHeader Title="Account" ID="sysHead" runat="server" />
     <!-- End of sysHead -->
-
     <!-- Libraries -->
     <link href="css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
-    <script src="javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
-    <!--[if lt IE 9]>
-        <script src="javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <link href="css/loading/loading.css" rel="stylesheet" />
     <style type="text/css">
         body {
@@ -22,7 +15,6 @@
             padding-bottom: 40px;
             background-color: #eee;
         }
-
         .form-signin {
             max-width: 1000px;
             padding-top:15px;
@@ -33,7 +25,6 @@
         }
     </style>
     <!-- End of Libraries -->
-
 </head>
 <body>
     <form action="#" method="post">
@@ -53,10 +44,8 @@
             <div class="sk-cube sk-cube9"></div>
         </div>
     </div>
-
     <!-- Libraries -->
-    <script src="javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>    
-    <script data-main="javascripts/chooseTz/ChooseTz3.js" src="javascripts/require.js"></script>
+    <script data-baseurl="javascripts" data-from="choosetz3" data-main="javascripts/app" defer async="true" src="javascripts/require.js" id="jsApp" ></script>
     <!-- End of Libraries -->
 </body>
 </html>

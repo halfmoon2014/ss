@@ -17,8 +17,8 @@ namespace MyTy
         {
             return Microsoft.JScript.GlobalObject.decodeURIComponent(str);
         }
- 
-              
+
+
         /// <summary>
         /// 处理用户输入数据,使用存储过程处理数据
         /// </summary>
@@ -34,10 +34,10 @@ namespace MyTy
         /// <param name="FileName">当前请求页面,相对于根目录路径</param>
         /// <param name="checkType">需要判断的类型</param>
         /// <returns></returns>
-        public bool CheckPageType(string FileName,string checkType)
+        public bool CheckPageType(string FileName, string checkType)
         {
             string xml = HttpContext.Current.Server.MapPath("~/config.xml");
-            string path="";
+            string path = "";
             if (string.Compare(checkType, "MenuPage", true) == 0)
             {//菜单页
                 path = "/Root/WebFile/MenuPage/FileName";
@@ -62,25 +62,22 @@ namespace MyTy
             {//模块页
                 path = "/Root/WebFile/SysModulePage/FileName";
             }
-            else if (string.Compare(checkType, "SysXTSZ&JQY", true) == 0)
-            {//平台设计页,需要jqy
-                path = "/Root/WebFile/SysXTSZ/JQY/FileName";
-            }
-            else if (string.Compare(checkType, "SysXTSZ&Ordinary", true) == 0)
-            {//平台设计页
-                path = "/Root/WebFile/SysXTSZ/Ordinary/FileName";
+            else if (checkType.Contains("&"))
+            {
+                //平台设计页,需要jqy
+                //path = "/Root/WebFile/SysXTSZ/JQY/FileName";
+                //平台设计页
+                //path = "/Root/WebFile/SysXTSZ/Ordinary/FileName";
+                //没分类,需要jqy
+                //path = "/Root/WebFile/Other/JQY/FileName";
+                //没分类
+                //path = "/Root/WebFile/Other/Ordinary/FileName";
+
+                path = string.Format("/Root/WebFile/{0}/FileName", checkType.Replace("&", "/"));
             }
             else if (string.Compare(checkType, "NoLimitUrl", true) == 0)
             {
                 path = "/Root/NoLimitUrl/Site";
-            }
-            else if (string.Compare(checkType, "Other&JQY", true) == 0)
-            {//没分类,需要jqy
-                path = "/Root/WebFile/Other/JQY/FileName";
-            }
-            else if (string.Compare(checkType, "Other&Ordinary", true) == 0)
-            {//没分类
-                path = "/Root/WebFile/Other/Ordinary/FileName";
             }
             return ConfigReader.CheckInnerText(xml, path, FileName);
         }
@@ -98,7 +95,7 @@ namespace MyTy
             pageConfiguration.CssCDN = ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");
             return pageConfiguration;
         }
- 
+
 
     }
 }

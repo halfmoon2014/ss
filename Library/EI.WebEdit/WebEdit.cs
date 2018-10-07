@@ -81,7 +81,7 @@ namespace EI.Web
             /*等待框*/
             FM.Business.Help help = new FM.Business.Help();
             string platDialog = "<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>";
-            return west.ToString() + ltree.ToString() + "</div>" + center.ToString() + ctable.ToString() + "</div>" + help.GetWait() + platDialog;
+            return west.ToString() + ltree.ToString() + "</div>" + center.ToString() + ctable.ToString() + "</div>" + help.GetWait("block") + platDialog;
         }
 
         /// <summary>
@@ -213,7 +213,7 @@ namespace EI.Web
             contextmenu.Append("<div class=\"menu-sep\"></div>");
             contextmenu.Append("<div id=\"exit\">退出</div>");
             contextmenu.Append("</div>");
-            return west.ToString() + ltree.ToString() + "</div>" + center.ToString() + "</div>" + help.GetWait() + contextmenu.ToString();
+            return west.ToString() + ltree.ToString() + "</div>" + center.ToString() + "</div>" + help.GetWait("block") + contextmenu.ToString();
         }
 
         /// <summary>

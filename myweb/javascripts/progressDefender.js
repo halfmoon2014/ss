@@ -1,5 +1,6 @@
-﻿//进程守护
-
+﻿/*
+ * 进程守护
+*/
 //session检查
 function checkSession() {
     var r = "";

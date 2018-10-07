@@ -7,24 +7,15 @@
     <!-- End of sysHead -->
     <!-- Libraries -->
     <link href="css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
-    <link href="css/login3/signin.css" rel="stylesheet" />
-    <script src="javascripts/bootstrap/ie-emulation-modes-warning.js"></script>    
-    <!--[if lt IE 9]>
-        <script src="javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- End of Libraries -->
+    <link href="css/login3/signin.css" rel="stylesheet" />   
     <link href="css/loading/loading.css" rel="stylesheet" /> 
 </head>
 <body>
     <div id="container">
         <div class="form-signin" >
             <h2 class="form-signin-heading">Please sign in</h2>
-
             <label for="inputName" class="sr-only">用户名</label>
             <input type="text" name="usr" id="usr" class="form-control" placeholder="用户名"  autofocus>
-
             <label for="inputPassword" class="sr-only">密码</label>
             <input type="password" name="psw" id="psw" class="form-control" placeholder="密码" >
             <div class="checkbox">
@@ -53,8 +44,7 @@
     </div>
 
     <!-- Libraries -->
-    <script src="javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>    
-    <script data-main="javascripts/login3/login3" src="javascripts/require.js"></script>
+    <script data-baseurl="javascripts" data-from="login" data-ver="" data-main="javascripts/app" defer async="true" src="javascripts/require.js" id="jsApp"  ></script>
     <!-- End of Libraries -->
 </body>
 </html>

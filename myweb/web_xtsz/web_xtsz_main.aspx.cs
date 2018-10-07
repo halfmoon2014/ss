@@ -16,7 +16,6 @@ public partial class web_xtsz_web_xtsz_main : System.Web.UI.Page
         FM.Business.Login lg = new FM.Business.Login();
         string username = lg.GetUser(userid.ToString()).Tables[0].Rows[0]["name"].ToString();
         EI.Web.WebEdit em = new EI.Web.WebEdit(tzid.ToString(),userid.ToString(),username);
-        mainbody.InnerHtml = em.GetCont();
-        
+        mainbody.InnerHtml = em.GetCont();        
     }
 }

@@ -90,5 +90,17 @@ namespace MyTy
             return HttpRuntime.Cache.Get(MbConnKey);
         }
         #endregion
+
+        #region
+        private static string JsVer = "jsVer";
+        public static void JsVerInsert(object data)
+        {
+            HttpRuntime.Cache.Insert(JsVer, data);
+        }
+        public static object jsVerGet()
+        {
+            return HttpRuntime.Cache.Get(JsVer);
+        }
+        #endregion
     }
 }

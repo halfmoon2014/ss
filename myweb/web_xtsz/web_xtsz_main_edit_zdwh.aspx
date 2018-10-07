@@ -11,12 +11,6 @@
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
     <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
-
-    <script src="../javascripts/bootstrap/ie-emulation-modes-warning.js"></script>
-    <!--[if lt IE 9]>
-        <script src="../javascripts/bootstrap/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="../javascripts/bootstrap/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
     <link href="css/web_xtsz_main_edit_zdwh.css" rel="stylesheet" />
@@ -136,6 +130,7 @@
                             <option value="textarea" <%=(dt.Rows[i]["type"].ToString()=="textarea"?"selected":"") %>>textarea</option>
                             <option value="td" <%=(dt.Rows[i]["type"].ToString()=="td"?"selected":"") %>>td</option>
                             <option value="a" <%=(dt.Rows[i]["type"].ToString()=="a"?"selected":"") %>>a</option>
+                            <option value="img" <%=(dt.Rows[i]["type"].ToString()=="img"?"selected":"") %>>img</option>
                             <option value="mx" <% =dt.Rows[i]["type"].ToString()=="mx" ?"selected":"" %>>mx</option>
                             <option value="" <% =dt.Rows[i]["type"].ToString()==string.Empty ?"selected":"" %>></option>
                         </select>
@@ -214,6 +209,7 @@
                             <option value="textarea">textarea</option>
                             <option value="td">td</option>
                             <option value="a">a</option>
+                            <option value="img">img</option>
                             <option value="mx">mx</option>
                             <option value="" selected></option>
                         </select>

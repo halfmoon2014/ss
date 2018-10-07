@@ -79,8 +79,12 @@
       </JQY>
       <Ordinary>
         <FileName>webpage/m_myhelp.aspx</FileName>
-        <FileName>webpage/content_menu3.aspx</FileName>       
+        <FileName>webpage/content_menu3.aspx</FileName>
+        
       </Ordinary>
+      <Nope>
+        <FileName>web_ls/web_ls_cpdaxx.aspx</FileName>
+      </Nope>
     </Other>  
   </WebFile>
   <appSettings>
