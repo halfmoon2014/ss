@@ -1,10 +1,10 @@
-﻿define(["jquery",  "myweb", "swalProcessA"], function ($,  myweb, swalProcessA) {
+﻿define(["jquery",  "myweb", "swalProcess"], function ($,  myweb, swalProcess) {
     var start = function () {
         $("#ok").bind("click", function () {
             $('#ok').attr('disabled', 'disabled');
             var mc = $.trim(document.getElementById("mc").value).replace(/'/g, "''");
             if (mc.length == 0) {
-                swalProcessA.sAlert("名称不能为空!", function () {
+                swalProcess.sAlert("名称不能为空!", function () {
                     $('#ok').removeAttr("disabled")
                 });
             } else {
@@ -24,24 +24,24 @@
                 }
 
                 if (str == "") {
-                    swalProcessA.sAlert("没有可更新的记录!", function () {
+                    swalProcess.sAlert("没有可更新的记录!", function () {
                         $('#ok').removeAttr("disabled")
                     });
                 } else {
                     var r = myweb.myAjax(str);
                     if (r == -1) {
-                        swalProcessA.sAlert("连接失败!", function () {
+                        swalProcess.sAlert("连接失败!", function () {
                             $('#ok').removeAttr("disabled")
                         });
 
                     } else {
                         if (r.r == 'true') {
-                            swalProcessA.sAlert('保存成功!', 'success', function () {
+                            swalProcess.sAlert('保存成功!', 'success', function () {
                                 $('#ok').removeAttr("disabled")
                                 myweb.closeWindow("ok")
                             });
                         } else {
-                            swalProcessA.sAlert(r.msg, function () {
+                            swalProcess.sAlert(r.msg, function () {
                                 $('#ok').removeAttr("disabled")
                             });
                         }

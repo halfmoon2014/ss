@@ -1,17 +1,4 @@
-﻿require.config({
-    paths: {
-        "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
-        "utils": "../../javascripts/utilsA",
-        "myweb": "../../javascripts/myjs/mywebA",
-        "xtsz": "../../javascripts/xtsz/xtsz",
-        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
-        swalProcessA: "../../javascripts/sweetalert/swalProcessA" 
-    },
-    shim: {
-        'swalProcessA': ['sweetalert']
-    }
-})
-require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils, myweb, xtsz, swalProcessA) {
+﻿define(["jquery", "utils", "myweb", "xtsz", "swalProcess"], function ($, utils, myweb, xtsz, swalProcess) {
     var sr = function (s, i) {
         return $.trim(xtsz.myVale(s, i).val().replace(/'/g, "''"));
     }
@@ -127,7 +114,7 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
             data.row.push(dataRow);
         }
         if (data.row.length == 0) {
-            swalProcessA.sAlert('没有可更新的记录!', function () {
+            swalProcess.sAlert('没有可更新的记录!', function () {
                 $('#ok').removeAttr("disabled")
             });
         } else {
@@ -137,19 +124,19 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
                 url: '../webuser/ws.asmx/UpSYJLayout',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    swalProcessA.sAlert('连接失败!', function () {
+                    swalProcess.sAlert('连接失败!', function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        swalProcessA.sAlert('保存成功!', "success", function () {
+                        swalProcess.sAlert('保存成功!', "success", function () {
                             $('#ok').removeAttr("disabled")
                             location.reload();
                         });
                     } else {
-                        swalProcessA.sAlert('保存失败!', function () {
+                        swalProcess.sAlert('保存失败!', function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }
@@ -195,19 +182,19 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
                 url: '../webuser/ws.asmx/websj_fz_zd',
                 data: { wid: oldwid, newwid: newwid, bs: lx },
                 error: function (e) {
-                    swalProcessA.sAlert('连接失败!');
+                    swalProcess.sAlert('连接失败!');
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data)
                     if (r.r == 'true') {
-                        swalProcessA.sAlert('复制成功!', "success", function () { parent.closeTab("refresh", false); });
+                        swalProcess.sAlert('复制成功!', "success", function () { parent.closeTab("refresh", false); });
                     } else {
-                        swalProcessA.sAlert('复制失败!');
+                        swalProcess.sAlert('复制失败!');
                     }
                 }
             })
         } else {
-            swalProcessA.sAlert('复制wid无效!');
+            swalProcess.sAlert('复制wid无效!');
         }
     }
 
@@ -297,25 +284,57 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
         }        
         window.location.href = location.origin + location.pathname + "?ismobile=" + document.getElementById("ismobile").value + p;
     }
+    var start = function () {
+        $(document).ready(function () {
+            if (document.getElementById("ismobile").value == "1") {
+                $("#btnmb").toggleClass("btn-primary");
+            }
+            xtsz.init();
+            $(":text", ".tbbody").focus(function (e) {
+                myselect(e.currentTarget);
+            });
+            $("#showtitp").bind("click", function () { showtitp_click(); });
+            $("#ok").bind("click", function () { ok_click(); });
+            $("#fz").bind("click", function () { fz_click(); });
+            $("#fb").bind("click", function () { fb_click(); });
+            $("#btnmb").bind("click", function (ev) { btnmb_click(ev); });
 
-    if (document.getElementById("ismobile").value == "1") {
-        $("#btnmb").toggleClass("btn-primary");
+            $("[field]", $(".tbbody")).each(function (i, n) {
+                //var f = "field_" + $(n).attr("field");
+                //$(n).width("100%");
+            });
+
+            if (document.getElementById("lx").value == "z") {
+                //布局面板
+                var head = document.getElementById("zdwhtb").rows;
+                for (var d = 0; d < head[0].cells.length; d++) {
+                    if (head[0].cells[d].innerHTML.indexOf("排布") >= 0 || head[0].cells[d].innerHTML.indexOf("下级webid") >= 0 || head[0].cells[d].innerHTML.indexOf(" 下级aspx") >= 0 || head[0].cells[d].innerHTML.indexOf("复-宽度") >= 0 || head[0].cells[d].innerHTML.indexOf("复-高度") >= 0 || head[0].cells[d].innerHTML.indexOf("htmlid") >= 0) { }
+                    else {
+                        head[0].cells[d].style.display = "none";
+                        try {
+                            for (var m = 1; m <= xtsz.getRowNum() ; m++) {
+                                head[m].cells[d].style.display = "none";
+                            }
+                        } catch (e) { }
+                    }
+                }
+                $("#cxtj").attr("style", "display:none");
+            } else {
+                //div布局
+                var head = document.getElementById("zdwhtb").rows;
+                for (var d = 0; d < head[0].cells.length; d++) {
+                    if (head[0].cells[d].innerHTML.indexOf("复-高度") >= 0 || head[0].cells[d].innerHTML.indexOf("复-宽度") >= 0) {
+                        head[0].cells[d].style.display = "none";
+                        try {
+                            for (var m = 1; m <= xtsz.getRowNum() ; m++) {
+                                head[m].cells[d].style.display = "none";
+                            }
+                        } catch (e) { console.log(e.message) }
+                    }
+                }
+            }
+        });
     }
-    xtsz.init();
-
-    $(":text", ".tbbody").focus(function (e) {
-        myselect(e.currentTarget);
-    });
-    $("#showtitp").bind("click", function () { showtitp_click(); });
-    $("#ok").bind("click", function () { ok_click(); });
-    $("#fz").bind("click", function () { fz_click(); });
-    $("#fb").bind("click", function () { fb_click(); });
-    $("#btnmb").bind("click", function (ev) { btnmb_click(ev); });
-
-    $("[field]", $(".tbbody")).each(function (i, n) {
-        //var f = "field_" + $(n).attr("field");
-        //$(n).width("100%");
-    });
 
     var fieldsHidden = function (arr,showKey) {
         for (var i = 0; i < arr.length; i++) {
@@ -327,40 +346,9 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
             }
         }
     }
-    if (document.getElementById("lx").value == "z") {
-        //布局面板
-        var head = document.getElementById("zdwhtb").rows;
-        for (var d = 0; d < head[0].cells.length; d++) {
-            if (head[0].cells[d].innerHTML.indexOf("排布") >= 0 || head[0].cells[d].innerHTML.indexOf("下级webid") >= 0 || head[0].cells[d].innerHTML.indexOf(" 下级aspx") >= 0 || head[0].cells[d].innerHTML.indexOf("复-宽度") >= 0 || head[0].cells[d].innerHTML.indexOf("复-高度") >= 0 || head[0].cells[d].innerHTML.indexOf("htmlid") >= 0) { }
-            else {
-                head[0].cells[d].style.display = "none";
-                try {
-                    for (var m = 1; m <= xtsz.getRowNum() ; m++) {
-                        head[m].cells[d].style.display = "none";
-                    }
-                } catch (e) { }
-            }
-        }
-        $("#cxtj").attr("style", "display:none");
-    } else {
-        //div布局
-        var head = document.getElementById("zdwhtb").rows;
-        for (var d = 0; d < head[0].cells.length; d++) {
-            if (head[0].cells[d].innerHTML.indexOf("复-高度") >= 0 || head[0].cells[d].innerHTML.indexOf("复-宽度") >= 0) {
-                head[0].cells[d].style.display = "none";
-                try {
-                    for (var m = 1; m <= xtsz.getRowNum() ; m++) {
-                        head[m].cells[d].style.display = "none";
-                    }
-                } catch (e) { console.log(e.message) }
-            }
-        }
-   
+
+    return {
+        start:start
     }
-
-
-    //console.log("当js加载成功后会执行的函数");
-
-}, function () {
-    //console.log("当js加载失败后会执行的函数");
+    
 });

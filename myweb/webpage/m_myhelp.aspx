@@ -5,8 +5,7 @@
 <head runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" title="帮助文档" />
     <!-- Libraries -->
-    <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+    <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />    
     <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
     <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
@@ -43,9 +42,6 @@
     <!-- /container -->
 
     <input type="hidden" id="myid" runat="server" />
-    <script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
-    <script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
-    <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
-    <script data-main="../javascripts/userhelp/userhelp" src="../javascripts/require.js"></script>
+    <script data-baseurl="../javascripts" data-from="userhelp" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
 </body>
 </html>

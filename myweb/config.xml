@@ -60,31 +60,29 @@
       <!--系统设置页-->
       <JQY>
         <FileName>web_xtsz/web_xtsz_creattb.aspx</FileName>
-        <FileName>web_xtsz/web_xtsz_main_edit.aspx</FileName>
-        <FileName>web_xtsz/web_xtsz_main.aspx</FileName>
       </JQY>
-      <Ordinary>             
-        <FileName>web_xtsz/web_xtsz_main_add.aspx</FileName>
-        <FileName>web_xtsz/web_xtsz_main_edit_help.aspx</FileName>
-        <FileName>web_xtsz/web_xtsz_main_edit_js.aspx</FileName>
-        <FileName>web_xtsz/web_xtsz_main_edit_sjy.aspx</FileName>
-        <FileName>web_xtsz/web_xtsz_main_edit_z.aspx</FileName>
-        <FileName>web_xtsz/web_xtsz_main_edit_zdwh.aspx</FileName>
+      <Ordinary>          
       </Ordinary>
     </SysXTSZ>
     <Other>
       <!--没分类页-->
-      <JQY>
-   
+      <JQY>   
       </JQY>
-      <Ordinary>
-        <FileName>webpage/m_myhelp.aspx</FileName>
-        <FileName>webpage/content_menu3.aspx</FileName>
-        
+      <Ordinary>        
+        <FileName>webpage/content_menu3.aspx</FileName>        
       </Ordinary>
       <Nope>
+        <FileName>web_xtsz/web_xtsz_main.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_main_add.aspx</FileName>
         <FileName>web_ls/web_ls_cpdaxx.aspx</FileName>
         <FileName>web_ls/web_ls_cpdaxx_add.aspx</FileName>
+        <FileName>webpage/m_myhelp.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_main_edit.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_main_edit_help.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_main_edit_sjy.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_main_edit_zdwh.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_main_edit_js.aspx</FileName>
+        <FileName>web_xtsz/web_xtsz_main_edit_z.aspx</FileName>
       </Nope>
     </Other>  
   </WebFile>

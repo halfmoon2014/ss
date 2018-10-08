@@ -1,17 +1,4 @@
-﻿require.config({
-    paths: {
-        "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
-        "utils": "../../javascripts/utilsA",
-        "myweb": "../../javascripts/myjs/mywebA",
-        "xtsz": "../../javascripts/xtsz/xtsz",
-        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
-        swalProcessA: "../../javascripts/sweetalert/swalProcessA" 
-    },
-    shim: {
-        'swalProcessA': ['sweetalert']
-    }
-})
-require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils, myweb, xtsz, swalProcessA) {   
+﻿define(["jquery", "utils", "myweb", "xtsz", "swalProcess"], function ($, utils, myweb, xtsz, swalProcess) {   
     //行得到焦点,变色
     var myselect = function (obj) {
         //alert(g);
@@ -91,7 +78,7 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
         }
 
         if (data.row.length == 0) {
-            swalProcessA.sAlert('没有可更新的记录!',  function () {
+            swalProcess.sAlert('没有可更新的记录!',  function () {
                 $('#ok').removeAttr("disabled")
             });
         } else {
@@ -100,19 +87,19 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
                 url: '../webuser/ws.asmx/UpSYJZdwh',
                 data: { wid: wid, data: JSON.stringify(data) },
                 error: function (e) {
-                    swalProcessA.sAlert('连接失败!',  function () {
+                    swalProcess.sAlert('连接失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        swalProcessA.sAlert('保存成功!', "success", function () {
+                        swalProcess.sAlert('保存成功!', "success", function () {
                             $('#ok').removeAttr("disabled");
                             location.reload();
                         });
                     } else {
-                        swalProcessA.sAlert('保存失败!'+r.r,  function () {
+                        swalProcess.sAlert('保存失败!'+r.r,  function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }
@@ -144,45 +131,48 @@ require(["jquery", "utils", "myweb", "xtsz", "swalProcessA"], function ($, utils
                 url: '../webuser/ws.asmx/websj_fz_zd',
                 data: { wid: oldwid, newwid: newwid, bs: 'zd' },
                 error: function (e) {
-                    swalProcessA.sAlert('连接失败!');
+                    swalProcess.sAlert('连接失败!');
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        swalProcessA.sAlert('复制成功!', "success", function () { parent.closeTab("refresh", false); });
+                        swalProcess.sAlert('复制成功!', "success", function () { parent.closeTab("refresh", false); });
                     } else {
-                        swalProcessA.sAlert('复制失败!');
+                        swalProcess.sAlert('复制失败!');
                     }
                 }
             })
 
         } else {
-            swalProcessA.sAlert('复制wid无效!');
+            swalProcess.sAlert('复制wid无效!');
         }
     }
-    $("#ok").bind("click", function () { ok_click(); });
-    $("#fz").bind("click", function () { fz_click(); });
-    $("#fb").bind("click", function () { fb_click(); });
-      
-    $(":text", ".tbbody").focus(function (e) {
-        myselect(e.currentTarget);
-    });
-    $("[field]").each(function (i, n) {
-        var f = "field_" + $(n).attr("field");
-        $(n).addClass(f);
-    });
-    $("[field='ord']").bind('contextmenu', function (e) {
-        var r = $(e.currentTarget).parent().parent().attr("rownum");
-        var v = $(e.currentTarget).val();
-        for (var i = r; i < xtsz.getRowNum() ; i++) {
-            $("[field='ord']", $("[rownum=" + i + "]", $("#zdwhtb"))).attr("value", Number(v) + (Number(i) - Number(r)))
-            $("[field='mark']", $("[rownum=" + i + "]", $("#zdwhtb"))).attr("value", 1)
-        }
-        return false;
-    });
-    xtsz.init();
-    //console.log("当js加载成功后会执行的函数");
+    var start = function () {
+        $(document).ready(function () {
+            $("#ok").bind("click", function () { ok_click(); });
+            $("#fz").bind("click", function () { fz_click(); });
+            $("#fb").bind("click", function () { fb_click(); });
 
-}, function () {
-    //console.log("当js加载失败后会执行的函数");
+            $(":text", ".tbbody").focus(function (e) {
+                myselect(e.currentTarget);
+            });
+            $("[field]").each(function (i, n) {
+                var f = "field_" + $(n).attr("field");
+                $(n).addClass(f);
+            });
+            $("[field='ord']").bind('contextmenu', function (e) {
+                var r = $(e.currentTarget).parent().parent().attr("rownum");
+                var v = $(e.currentTarget).val();
+                for (var i = r; i < xtsz.getRowNum() ; i++) {
+                    $("[field='ord']", $("[rownum=" + i + "]", $("#zdwhtb"))).attr("value", Number(v) + (Number(i) - Number(r)))
+                    $("[field='mark']", $("[rownum=" + i + "]", $("#zdwhtb"))).attr("value", 1)
+                }
+                return false;
+            });
+            xtsz.init();
+        });
+    }
+    return {
+        start: start
+    }
 });

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-public partial class web_xtsz_web_xtsz_main_edit_z : System.Web.UI.Page
+public partial class web_xtsz_main_edit_z : System.Web.UI.Page
 {    
     public StringBuilder formgroupBuilder = new StringBuilder();
     public StringBuilder detailHeadBuilder = new StringBuilder();

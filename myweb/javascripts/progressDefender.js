@@ -90,6 +90,8 @@ function reLoadSwal(username, a, b, callFun) {
             text: "确定!",
             closeModal: false,
         },
+        closeOnClickOutside: false,
+        closeOnEsc: false,
     })
      .then(function(value2) {
          if (!value2) {             

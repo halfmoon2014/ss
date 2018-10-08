@@ -1,25 +1,32 @@
-﻿require.config({
-    paths: {
-        "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
-        "utils": "../../javascripts/utilsA",
-        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
-        swalProcessA: "../../javascripts/sweetalert/swalProcessA" 
-    },
-    shim: {
-        'swalProcessA': ['sweetalert']
+﻿define(["jquery", "utils", "swalProcess"], function ($, utils, swalProcess) {
+    var start = function () {
+        $(document).ready(function () {
+            $("#ok").bind("click", function () { ok_click(); });
+            $("#fb").bind("click", function () { fb_click(); });
+            $("#mxsql").dblclick(function (e) {
+                fd(e.currentTarget)
+            })
+            $("#mxhsql").dblclick(function (e) {
+                fd(e.currentTarget)
+            })
+            $("#fwsql").dblclick(function (e) {
+                fd(e.currentTarget)
+            })
+            $("#tbsql").dblclick(function (e) {
+                fd(e.currentTarget)
+            })
+            $("#tbsql2").dblclick(function (e) {
+                fd(e.currentTarget)
+            })
+      
+            //使用了bootstrap样式,需要增加12的高度
+            utils.autoTextarea(document.getElementById("fwsql"), 12);
+            utils.autoTextarea(document.getElementById("tbsql"), 12);
+            utils.autoTextarea(document.getElementById("tbsql2"), 12);
+            utils.autoTextarea(document.getElementById("mxhsql"), 12);
+            utils.autoTextarea(document.getElementById("mxsql"), 12);
+        }
     }
-})
-require(["jquery", "utils", "swalProcessA"], function ($, utils, swalProcessA) {
-
-    $("#ok").bind("click", function () { ok_click(); });
-    $("#fb").bind("click", function () { fb_click(); });
-    //使用了bootstrap样式,需要增加12的高度
-    utils.autoTextarea(document.getElementById("fwsql"), 12); 
-    utils.autoTextarea(document.getElementById("tbsql"), 12); 
-    utils.autoTextarea(document.getElementById("tbsql2"), 12); 
-    utils.autoTextarea(document.getElementById("mxhsql"), 12);  
-    utils.autoTextarea(document.getElementById("mxsql"), 12); 
-    
   
     var ok_click = function () {
         $('#ok').attr('disabled', 'disabled');
@@ -35,7 +42,7 @@ require(["jquery", "utils", "swalProcessA"], function ($, utils, swalProcessA) {
         var sql_2 = document.getElementById("tbsql2").value;
 
         if (name.length == 0) {
-            swalProcessA.sAlert('中文名称一定要输入!',  function () {
+            swalProcess.sAlert('中文名称一定要输入!',  function () {
                 $('#ok').removeAttr("disabled")
             });
 
@@ -53,18 +60,18 @@ require(["jquery", "utils", "swalProcessA"], function ($, utils, swalProcessA) {
                 url: '../webuser/ws.asmx/sjy_up',
                 data: { wid: wid, value1: name, value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly, sql_2: sql_2 },
                 error: function (e) {
-                    swalProcessA.sAlert('连接失败!',  function () {
+                    swalProcess.sAlert('连接失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
                 success: function (data) {
                     var r = utils.myAjaxData(data);
                     if (r.r == 'true') {
-                        swalProcessA.sAlert('保存成功!', "success", function () {
+                        swalProcess.sAlert('保存成功!', "success", function () {
                             $('#ok').removeAttr("disabled")
                         });
                     } else {
-                        swalProcessA.sAlert('保存失败!',  function () {
+                        swalProcess.sAlert('保存失败!',  function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }
@@ -95,6 +102,7 @@ require(["jquery", "utils", "swalProcessA"], function ($, utils, swalProcessA) {
     }
     //console.log("当js加载成功后会执行的函数");
 
-}, function () {
-    //console.log("当js加载失败后会执行的函数");
+    return {
+        start: start
+    }
 });

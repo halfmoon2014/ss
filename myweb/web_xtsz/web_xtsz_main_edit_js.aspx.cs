@@ -1,7 +1,7 @@
 ﻿using System;
 using Service.Util;
 
-public partial class web_xtsz_web_xtsz_main_edit_js : System.Web.UI.Page
+public partial class web_xtsz_main_edit_js : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {        

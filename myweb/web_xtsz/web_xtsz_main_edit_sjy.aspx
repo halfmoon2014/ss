@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_sjy.aspx.cs" Inherits="web_xtsz_web_xtsz_main_edit_sjy" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_sjy.aspx.cs" Inherits="web_xtsz_main_edit_sjy" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -6,7 +6,6 @@
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
     <!-- Libraries -->
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
     <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
     <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />    
@@ -65,13 +64,13 @@
         <!-- Main component for a primary marketing message or call to action -->
         <div class="form-group">
             <label for="fwsql">单据SQL</label>
-            <textarea class="form-control" ondblclick="fd(this)" rows="2"  runat="server" id="fwsql"></textarea>                
+            <textarea class="form-control"   rows="2"  runat="server" id="fwsql"></textarea>                
         </div>
         <div class="form-group">
             <label for="tbsql">详情SQL</label>
-            <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="tbsql"></textarea>
+            <textarea class="form-control"   rows="2" runat="server" id="tbsql"></textarea>
             <label class="sr-only" for="tbsql2">sql语句附加语句</label>
-            <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="tbsql2"></textarea>
+            <textarea class="form-control"   rows="2" runat="server" id="tbsql2"></textarea>
         </div>
         <form class="form-horizontal">
             <div class="form-group">
@@ -89,7 +88,7 @@
         </form>
         <div class="form-group">
             <label for="mxsql">尺码</label>
-            <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="mxsql"></textarea>            
+            <textarea class="form-control" rows="2" runat="server" id="mxsql"></textarea>            
         </div>
 
         <form class="form-horizontal">
@@ -108,16 +107,12 @@
 
         <div class="form-group">
             <label for="mxhsql">尺码标题</label>
-            <textarea class="form-control" ondblclick="fd(this)" rows="2" runat="server" id="mxhsql"></textarea>
+            <textarea class="form-control" rows="2" runat="server" id="mxhsql"></textarea>
         </div>
     </div>
     <!-- /container -->
-
-    <input type="hidden" id="wid" runat="server" />
-    <script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
-    <script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
-    <script src="../javascripts/sweetalert/sweetalert.min.js"></script>
-    <script data-main="js/web_xtsz_main_edit_sjy" src="../javascripts/require.js"></script>
+    <input type="hidden" id="wid" runat="server" />    
 </body>
+<script data-baseurl="../javascripts" data-from="web_xtsz_main_edit_sjy" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
 </html>
  

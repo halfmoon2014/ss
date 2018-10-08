@@ -1,21 +1,13 @@
-﻿require.config({
-    paths: {
-        "jquery": "../../javascripts/jquery/1.12.4/jquery.min",
-        "utils": "../../javascripts/utilsA",
-        "myweb": "../../javascripts/myjs/mywebA",
-        sweetalert: "../../javascripts/sweetalert/sweetalert.min",
-        swalProcessA: "../../javascripts/sweetalert/swalProcessA" 
-    },
-    shim: {
-        'swalProcessA': ['sweetalert']
+﻿define(["jquery", "utils", "myweb", "swalProcess"], function ($, utils, myweb, swalProcess) {
+    var start = function () {
+        $(function () {
+            $("#ok").bind("click", function () { ok_click(); });
+            $("#fb").bind("click", function () { fb_click(); });
+            $("#showtitp").bind("click", function () { showtitp_click(); });
+            //使用了bootstrap样式,需要增加12的高度
+            utils.autoTextarea(document.getElementById("tbjs"), 12);// 调用    
+        });
     }
-})
-require(["jquery", "utils", "myweb", "swalProcessA"], function ($, utils, myweb, swalProcessA) {
-
-    $("#ok").bind("click", function () { ok_click(); });
-    $("#fb").bind("click", function () { fb_click(); });
-    $("#showtitp").bind("click", function () { showtitp_click(); });  
- 
     //显示提示
     var showtitp_click = function () {
         var show = $('#formts').css('display');
@@ -36,28 +28,25 @@ require(["jquery", "utils", "myweb", "swalProcessA"], function ($, utils, myweb,
             url: '../webuser/ws.asmx/sjy_upjs',
             data: { wid: wid, js: js },
             error: function (e) {
-                swalProcessA.sAlert( '连接失败!',  function () {
+                swalProcess.sAlert( '连接失败!',  function () {
                     $('#ok').removeAttr("disabled")
                 });
             },
             success: function (data) {
                 var r = utils.myAjaxData(data);
                 if (r.r == 'true') {
-                    swalProcessA.sAlert('保存成功!', "success", function () {
+                    swalProcess.sAlert('保存成功!', "success", function () {
                         $('#ok').removeAttr("disabled")
                     });
                 } else {
-                    swalProcessA.sAlert('保存失败!',  function () {
+                    swalProcess.sAlert('保存失败!',  function () {
                         $('#ok').removeAttr("disabled")
                     });
                 }
             }
         })
     }
-    //使用了bootstrap样式,需要增加12的高度
-    utils.autoTextarea(document.getElementById("tbjs"), 12);// 调用    
-    //console.log("当js加载成功后会执行的函数");
-
-}, function () {
-    //console.log("当js加载失败后会执行的函数");
+    return {
+        start:start
+    }
 });

@@ -1,7 +1,7 @@
 ﻿/*
  * 进程守护
 */
-define(['jquery', 'utils'], function ($, utils) {
+define(['jquery', 'utils', 'progressDefender'], function ($, utils, progressDefender) {
     //session检查
     var checkSession=function() {
         var r = "";
@@ -78,7 +78,7 @@ define(['jquery', 'utils'], function ($, utils) {
 
     var reLoadSwal = function (username, a, b, callFun) {
 
-        swal({
+        progressDefender.swal({
             text: username + '你好,请输入你的密码',
             content: {
                 element: "input",
@@ -91,6 +91,8 @@ define(['jquery', 'utils'], function ($, utils) {
                 text: "确定!",
                 closeModal: false,
             },
+            closeOnClickOutside: false,
+            closeOnEsc: false,
         })
             .then(function (value2) {
                 if (!value2) {
@@ -111,21 +113,21 @@ define(['jquery', 'utils'], function ($, utils) {
             })
             .then(function (json) {
                 if (json.r) {
-                    sAlert("登陆成功", "success", function () {
+                    progressDefender.sAlert("登陆成功", "success", function () {
                         if (typeof (callFun) == "function") {
                             callFun();
                         }
                     });
                 } else {
-                    sAlert('登陆失败,请检查密码是否正确!', function () { reLoadSwal(username, a, b, callFun) });
+                    progressDefender.sAlert('登陆失败,请检查密码是否正确!', function () { reLoadSwal(username, a, b, callFun) });
                 }
             })
             .catch(function (err) {
                 if (err) {
-                    sAlert('The AJAX request failed!');
+                    progressDefender.sAlert('The AJAX request failed!');
                 } else {
-                    swal.stopLoading();
-                    swal.close();
+                    progressDefender.swal.stopLoading();
+                    progressDefender.swal.close();
                 }
             });
 

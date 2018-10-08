@@ -1,12 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_js.aspx.cs"
-    Inherits="web_xtsz_web_xtsz_main_edit_js" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_js.aspx.cs" Inherits="web_xtsz_main_edit_js" %>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head  runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
     <!-- Libraries -->
     <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
     <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
     <!-- End of Libraries -->
     <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
@@ -61,8 +59,5 @@
     <!-- /container -->
     <input type="hidden" id="wid" runat="server" />  
 </body>
-<script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
-<script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
-<script src="../javascripts/sweetalert/sweetalert.min.js"></script>
-<script data-main="js/web_xtsz_main_edit_js" src="../javascripts/require.js"></script>
+<script data-baseurl="../javascripts" data-from="web_xtsz_main_edit_js" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
 </html>

@@ -71,7 +71,7 @@ namespace EI.Web
             center.Append("<div data-options=\"region:'center',title:''\"  style=\"padding:0px;\">");
 
             ctable.Append(" <div  class=\"easyui-layout\" data-options=\"fit:true\" > <div data-options=\"region:'north',split:true\" style=\"height:30px;padding:0px;\">");
-            ctable.Append("分类:<select id=\"lx\" >" + GetCTableLx() + " </select>wid:<input type='text' style='width:40px' id='wid' />名称:<input type='text' style='width:80px' id='myname' />js:<input type='text' id='js' />sql:<input type='text' id='sql' /> <input type=\"button\" value=\"查询\" onclick=\"getCx()\" />");
+            ctable.Append("分类:<select id=\"lx\" >" + GetCTableLx() + " </select>wid:<input type='text' style='width:40px' id='wid' />名称:<input type='text' style='width:80px' id='myname' />js:<input type='text' id='js' />sql:<input type='text' id='sql' /> <input type=\"button\" value=\"查询\" id=\"btn_cx\" />");
             ctable.Append("</div>");
             ctable.Append("<div data-options=\"region:'center',title:''\"  style=\"padding:0px;\">");
             ctable.Append(" <table id=\"ctable\"></table>");
@@ -104,22 +104,22 @@ namespace EI.Web
         public string GetContEdit(string title, string path)
         {
             StringBuilder west = new StringBuilder(" <div data-options=\"region:'west',split:true,title:'" + title + "'\" style=\"width:150px;padding:0px;\">");
-            StringBuilder myhelp = new StringBuilder("<a href=\"#\" url=\"web_xtsz_main_edit_help.aspx\"   onclick=\"myALink(this)\" >  说明文档</a>");
-            StringBuilder sjy = new StringBuilder("<a href=\"#\" url=\"web_xtsz_main_edit_sjy.aspx\"   onclick=\"myALink(this)\" >  数据源</a>");
-            StringBuilder zdwh = new StringBuilder("<a href=\"#\" url=\"web_xtsz_main_edit_zdwh.aspx\"     onclick=\"myALink(this)\" >  字段维护</a>");
-            StringBuilder js = new StringBuilder("<a href=\"#\" url=\"web_xtsz_main_edit_js.aspx\"     onclick=\"myALink(this)\" >  javascript</a>");
+            StringBuilder myhelp = new StringBuilder("<a href=\"#\" class='myALink' url=\"web_xtsz_main_edit_help.aspx\"    >  说明文档</a>");
+            StringBuilder sjy = new StringBuilder("<a href=\"#\" class='myALink' url=\"web_xtsz_main_edit_sjy.aspx\"    >  数据源</a>");
+            StringBuilder zdwh = new StringBuilder("<a href=\"#\" class='myALink' url=\"web_xtsz_main_edit_zdwh.aspx\"      >  字段维护</a>");
+            StringBuilder js = new StringBuilder("<a href=\"#\" class='myALink' url=\"web_xtsz_main_edit_js.aspx\"      >  javascript</a>");
 
-            StringBuilder t1 = new StringBuilder("<a href=\"#\"  url=\"web_xtsz_main_edit_z.aspx?lx=t\"  onclick=\"myALink(this)\" >  上DIV-t</a>");
+            StringBuilder t1 = new StringBuilder("<a href=\"#\"  class='myALink' url=\"web_xtsz_main_edit_z.aspx?lx=t\"   >  上DIV-t</a>");
 
-            StringBuilder b1 = new StringBuilder("<a href=\"#\"  url=\"web_xtsz_main_edit_z.aspx?lx=b\"  onclick=\"myALink(this)\" >  下DIV-b</a>");
+            StringBuilder b1 = new StringBuilder("<a href=\"#\"  class='myALink' url=\"web_xtsz_main_edit_z.aspx?lx=b\"   >  下DIV-b</a>");
 
-            StringBuilder c1 = new StringBuilder("<a href=\"#\"  url=\"web_xtsz_main_edit_z.aspx?lx=c\"  onclick=\"myALink(this)\" >  中DIV-c</a>");
+            StringBuilder c1 = new StringBuilder("<a href=\"#\"  class='myALink' url=\"web_xtsz_main_edit_z.aspx?lx=c\"   >  中DIV-c</a>");
 
-            StringBuilder l1 = new StringBuilder("<a href=\"#\"  url=\"web_xtsz_main_edit_z.aspx?lx=l\"  onclick=\"myALink(this)\" >  左DIV-l</a>");
+            StringBuilder l1 = new StringBuilder("<a href=\"#\"  class='myALink' url=\"web_xtsz_main_edit_z.aspx?lx=l\"   >  左DIV-l</a>");
 
-            StringBuilder r1 = new StringBuilder("<a href=\"#\"  url=\"web_xtsz_main_edit_z.aspx?lx=r\"  onclick=\"myALink(this)\" >  右DIV-r</a>");
+            StringBuilder r1 = new StringBuilder("<a href=\"#\" class='myALink' url=\"web_xtsz_main_edit_z.aspx?lx=r\"   >  右DIV-r</a>");
 
-            StringBuilder z = new StringBuilder("<a href=\"#\"  url=\"web_xtsz_main_edit_z.aspx?lx=z\"  onclick=\"myALink(this)\" >  布局面板-z</a>");
+            StringBuilder z = new StringBuilder("<a href=\"#\"  class='myALink' url=\"web_xtsz_main_edit_z.aspx?lx=z\"   >  布局面板-z</a>");
 
             StringBuilder ltree = new StringBuilder("<div class=\"easyui-accordion\" id=\"lmenu\" data-options=\"fit:true,border:false\" sytle=\"width:100%\">");
             ltree.Append("<div title=\"设计\" style=\"padding:10px;overflow:auto;\">");

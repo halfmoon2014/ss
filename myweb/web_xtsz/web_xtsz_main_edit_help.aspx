@@ -1,69 +1,49 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_help.aspx.cs"
-    Inherits="web_xtsz_web_xtsz_main_edit_help" %>
-    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_help.aspx.cs" Inherits="web_xtsz_main_edit_help" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head  runat="server">
+<head runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
+    <!-- Libraries -->
+    <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../css/bootstrap/userplatform/sticky-footer-navbar.css" rel="stylesheet" />
+    <!-- End of Libraries -->
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
 </head>
 <body runat="server">
-    <form runat="server">
-    <table style="width: 100%; height: 100%">
-        <tr>
-            <td>
-                <table>
-                    <tr>
-                        <td>
-                            <a href="javascript:void(0)" class="easyui-linkbutton" id="ok">保存</a>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <ul>
-                    <li>说明文档</li>
-                    <li>
-                        <textarea id="tbhelp" rows="30" cols="120" runat="server" ></textarea></li>
-                </ul>
-            </td>
-        </tr>
-    </table>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#xtsznavbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"></a>
+            </div>
+            <div id="xtsznavbar" class="navbar-collapse collapse">        
+                <form class="navbar-form navbar-left">
+                    <div class="btn-group" role="toolbar" id="btnGroup" runat="server" aria-label="操作按钮">
+                      <button type="button" class="btn btn-default" id="ok" accesskey="s" aria-label="保存" >保存(S)</button>
+                    </div>
+                </form>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="form-group">
+            <label for="fwsql">说明文档</label>
+            <textarea class="form-control" rows="30" cols="120" runat="server" id="tbhelp"></textarea>
+        </div>
+    </div>
+
     <input type="hidden" id="wid" runat="server" />
-    </form>
+
 </body>
+<script data-baseurl="../javascripts" data-from="web_xtsz_main_edit_help" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
 </html>
-<script>
 
-    $(function () {
-        $("#ok").bind("click", function () { ok_click(); });
-    });
-    function ok_click() {        
-        $('#ok').linkbutton('disable');
-        var tbhelp = mySysDate(document.getElementById("tbhelp").value);
-        var wid = mySysDate(document.getElementById("wid").value);
 
-        $.ajax({ type: 'post',
-            url: '../webuser/ws.asmx/sjy_uphelp',
-            data: { wid: wid, help: tbhelp },
-            error: function (e) {
-                $.messager.alert('提示信息', '连接失败!', 'info', function () {
-                    $('#ok').linkbutton('enable');
-                });
-            },
-            success: function (data) {
-                var r = myAjaxData(data);
-                if (r.r == 'true') {
-                    $.messager.alert('提示信息', '保存成功!', 'info', function () {
-                        $('#ok').linkbutton('enable');
-                    });
-                } else {
-                    $.messager.alert('提示信息', '保存失败!', 'info', function () {
-                        $('#ok').linkbutton('enable');
-                    });
-                }
-            }
-        })
-    }
-
-</script>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Service.Util;
 using System.Web.UI.HtmlControls;
 
-public partial class web_xtsz_web_xtsz_main_edit_sjy : System.Web.UI.Page
+public partial class web_xtsz_main_edit_sjy : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {

@@ -5,6 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
+    <!-- Libraries -->    
+    <link href="../css/jey/ui-pepper-grinder/easyui.css" rel="stylesheet" />
+    <link href="../css/jey/icon.css" rel="stylesheet" />
+    <!-- End of Libraries -->
+    <link href="../css/sweetalert/sweetalert.css" rel="stylesheet" />
     <style type="text/css">
         #textarea {
             display: block;
@@ -27,6 +32,6 @@
 <body id="editbody" runat="server" class="easyui-layout">
 </body>
 <input type="hidden" id="wid" runat="server" />
-<script src="js/web_xtsz_main_edit.js"></script>
+<script data-baseurl="../javascripts" data-from="web_xtsz_main_edit" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
 </html>
 

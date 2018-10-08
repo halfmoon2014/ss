@@ -138,6 +138,7 @@
     }
 
     return {
+        swal:swal,
         sConfirm: sConfirm,
         sAlert: sAlert
     }
