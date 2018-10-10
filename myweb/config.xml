@@ -30,19 +30,19 @@
   <WebFile>
     <Login>
       <!-- 登陆页面,不能使用html页面,因为session在二种类型的页面切换会不一致,待解-->      
-      <FileName>login.aspx</FileName>
+      <FileName>login</FileName>
       <!--<FileName>login2.html</FileName>-->
     </Login>
     <ChooseTz>
       <!-- 套账页面-->
-      <FileName>ChooseTz.aspx</FileName>      
+      <FileName>ChooseTz</FileName>      
     </ChooseTz>
     <MenuPage>
       <!--主页-->
-      <FileName>webpage/menu_2.aspx</FileName>
-      <FileName>webpage/menu_3.aspx</FileName>
-      <FileName>webpage/menu_4.aspx</FileName>
-      <FileName>webpage/menu_lsy.aspx</FileName>
+      <FileName>webpage/menu_2</FileName>
+      <FileName>webpage/menu_3</FileName>
+      <FileName>webpage/menu_4</FileName>
+      <FileName>webpage/menu_lsy</FileName>
     </MenuPage>
     <PrintPage>
       <!--打印页-->

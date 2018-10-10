@@ -27,7 +27,7 @@ function okClick() {
                     if ($("#rememberme").get(0).checked) {
                         setCookie("lur", lur)
                     }
-                    window.location.href = "ChooseTz.aspx";
+                    window.location.href = "ChooseTz";
                 } else {
                     $("#ok").removeAttr("disabled");
                     $("#msg").html("登陆失败,请检查用户名与密码是否正确!");

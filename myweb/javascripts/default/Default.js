@@ -51,7 +51,7 @@ function okClick() {
                 r = myAjaxData(data);
                 if (r.r == "true") {
                     setCookie("lur", lur)
-                    window.location.href = "ChooseTz.aspx";
+                    window.location.href = "ChooseTz";
                 } else {
                     $.messager.alert('提示信息', '登陆失败,请检查用户名与密码是否正确!', 'info', function () {
                         $('#ok').linkbutton('enable');

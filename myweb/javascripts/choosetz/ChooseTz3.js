@@ -24,7 +24,7 @@
                         if (r.r == "true") {
                             //document.forms[0].action = "webpage/" + menu + ".aspx"
                             //document.forms[0].submit();                    
-                            window.location.href = "webpage/" + menu + ".aspx";
+                            window.location.href = "webpage/" + menu + "";
                         }
                     }
                 })                

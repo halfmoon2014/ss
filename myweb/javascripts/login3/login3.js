@@ -39,7 +39,7 @@
                                     utils.delCookie("lur")
                                     utils.delCookie("rememberme");
                                 }
-                                window.location.href = "ChooseTz.aspx";
+                                window.location.href = "ChooseTz";
                             } else {
                                 utils.hideLoading();
                                 $("#ok").removeAttr("disabled");

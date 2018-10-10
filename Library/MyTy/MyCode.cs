@@ -39,29 +39,23 @@ namespace MyTy
             string xml = HttpContext.Current.Server.MapPath("~/config.xml");
             string path = "";
             if (string.Compare(checkType, "MenuPage", true) == 0)
-            {//菜单页
+                //菜单页
                 path = "/Root/WebFile/MenuPage/FileName";
-            }
             else if (string.Compare(checkType, "PrintPage", true) == 0)
-            {//打印页
+                //打印页
                 path = "/Root/WebFile/PrintPage/FileName";
-            }
             else if (string.Compare(checkType, "ExcelPage", true) == 0)
-            {//导EXCEL页面
+                //导EXCEL页面
                 path = "/Root/WebFile/ExcelPage/FileName";
-            }
             else if (string.Compare(checkType, "Login", true) == 0)
-            {//登陆页
+                //登陆页
                 path = "/Root/WebFile/Login/FileName";
-            }
             else if (string.Compare(checkType, "ChooseTz", true) == 0)
-            {//套账选择页
-                path = "/Root/WebFile/ChooseTz/FileName";
-            }
+                //套账选择页
+                path = "/Root/WebFile/ChooseTz/FileName";                                
             else if (string.Compare(checkType, "SysModulePage", true) == 0)
-            {//模块页
+                //模块页
                 path = "/Root/WebFile/SysModulePage/FileName";
-            }
             else if (checkType.Contains("&"))
             {
                 //平台设计页,需要jqy
@@ -72,14 +66,12 @@ namespace MyTy
                 //path = "/Root/WebFile/Other/JQY/FileName";
                 //没分类
                 //path = "/Root/WebFile/Other/Ordinary/FileName";
-
                 path = string.Format("/Root/WebFile/{0}/FileName", checkType.Replace("&", "/"));
             }
             else if (string.Compare(checkType, "NoLimitUrl", true) == 0)
-            {
                 path = "/Root/NoLimitUrl/Site";
-            }
-            return ConfigReader.CheckInnerText(xml, path, FileName);
+
+            return ConfigReader.CheckInnerText(xml, path, FileName) ;
         }
         /// <summary>
         /// 返回页面样式配置
