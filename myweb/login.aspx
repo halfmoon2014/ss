@@ -44,7 +44,7 @@
     </div>
 
     <!-- Libraries -->
-    <script data-baseurl="javascripts" data-from="login" data-ver="" data-main="javascripts/app" defer async="true" src="javascripts/require.js" id="jsApp"  ></script>
+    <script data-baseurl="/javascripts" data-from="login" data-ver="" data-main="/javascripts/app" defer async="true" src="/javascripts/require.js" id="jsApp"  ></script>
     <!-- End of Libraries -->
 </body>
 </html>

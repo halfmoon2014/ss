@@ -31,7 +31,7 @@ public class MyHttpModule : IHttpModule
     private void Application_EndRequest(object sender, EventArgs e){}
 
     /// <summary>
-    /// 管控session
+    /// 当 ASP.NET 获取与当前请求关联的当前状态（如会话状态）时发生。
     /// </summary>
     /// <param name="httpApplication"></param>
     /// <param name="e"></param>
@@ -41,6 +41,8 @@ public class MyHttpModule : IHttpModule
         MyCode myCode = new MyCode();
         //获取服务器上 ASP.NET 应用程序的虚拟应用程序根路径
         string applicationPath = application.Context.Request.ApplicationPath.ToString().Trim();
+
+        //有带文件名后缀
         string absolutePath = application.Context.Request.Url.AbsolutePath.Remove(0, applicationPath.Length);
         string xml = application.Server.MapPath("~/config.xml");
         //URL重写不多方面要后缀
@@ -51,12 +53,15 @@ public class MyHttpModule : IHttpModule
         string ip;
         if (application.Context.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
             ip = application.Context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();  // Return real client IP.
-        else// not using proxy or can't get the Client IP
+        else
+            // not using proxy or can't get the Client IP
             ip = application.Context.Request.ServerVariables["REMOTE_ADDR"].ToString(); //While it can't get the Client IP, it will return proxy IP.
         
         if (absolutePath.EndsWith(".aspx", StringComparison.OrdinalIgnoreCase))
         {
-            if (myCode.CheckPageType(absolutePath.TrimEnd(".aspx".ToCharArray()), "Login"))
+            //URL重写后的地址
+            string vPath = absolutePath.TrimEnd(".aspx".ToCharArray());
+            if (myCode.CheckPageType(vPath, "Login"))
             {
                 #region 登陆页面
 
@@ -76,47 +81,38 @@ public class MyHttpModule : IHttpModule
 
                 #endregion
             }
-            else if (myCode.CheckPageType(absolutePath.TrimEnd(".aspx".ToCharArray()), "ChooseTz"))
+            else if (myCode.CheckPageType(vPath, "ChooseTz"))
             {
                 #region 套账页面
                 //已经登陆了且套账也选择了
                 if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
                 {
-                    string redirectURL = "";
                     if (SessionHandle.Get("urlreferrer") != null)
                     {
-                        //超时重登陆
-                        redirectURL = SessionHandle.Get("urlreferrer").ToString();
+                        //超时重登陆                     
+                        application.Response.Redirect(SessionHandle.Get("urlreferrer").ToString());
                         SessionHandle.Del("urlreferrer");
-                        application.Response.Redirect(redirectURL);
                     }
                     else
                     {
                         //直接输入CHOOSETZ.ASPX地址
                         if (application.Request.UrlReferrer == null)
-                        {
-                            redirectURL = SessionHandle.Get("menupage").ToString();
-                            application.Response.Redirect(redirectURL);
-                        }
+                            application.Response.Redirect(SessionHandle.Get("menupage").ToString());
                         //更改套账
-                        else
-                        {
+                        else                        
                             SessionHandle.Del("tzid");
-                            redirectURL = "~/choosetz";
-                        }
                     }
-
                 }
                 else if (SessionHandle.Get("userid") == null)
                     application.Response.Redirect("~/" + loginFileName);
 
                 #endregion
             }
-            else if (myCode.CheckPageType(absolutePath.TrimEnd(".aspx".ToCharArray()), "MenuPage"))
+            else if (myCode.CheckPageType(vPath, "MenuPage"))
             {
                 #region 如果是主页
                 //保存获取当前主页!,启用URL重写功能,要把后缀去掉
-                SessionHandle.Add("menupage", "/" + absolutePath.Substring(0, absolutePath.Length - 5));
+                SessionHandle.Add("menupage", "/" + vPath);
 
                 if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
                 {
@@ -151,7 +147,8 @@ public class MyHttpModule : IHttpModule
                 else
                 {
                     //获取客户访问的页面
-                    string module = "";//根据url得到所在的模块       
+                    string module = "";
+                    //根据url得到所在的模块       
                     if (!RightChecker.HasRight(application.Context.Session["userid"].ToString(), module))
                     {
                         application.Context.Server.Transfer("ErrorPage.aspx");
