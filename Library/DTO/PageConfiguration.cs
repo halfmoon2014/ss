@@ -74,7 +74,17 @@
                 cssCDN = value;
             }
         }
+        public string JsVer
+        {
+            get
+            {
+                return jsVer;
+            }
 
-        public string JsVer { get => jsVer; set => jsVer = value; }
+            set
+            {
+                jsVer = value;
+            }
+        }        
     }
 }
