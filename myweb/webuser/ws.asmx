@@ -5,7 +5,7 @@ using System.Data;
 using Service.Util;
 using System.Collections.Generic;
 using MyTy;
-
+using DTO;
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 
@@ -61,11 +61,27 @@ public class ws : System.Web.Services.WebService
     /// <param name="sql_2"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string sjy_up(string wid, string value1, string value3, string value4, string mrcx, string myadd, string orderby, string pagesize, string mxgl, string mxsql, string mxhgl, string mxhord, string mxhsql, string mxly, string sql_2)
+    public string sjy_up(int wid, string value1, string value3, string value4, int mrcx, int myadd, string orderby, int pagesize, string mxgl, string mxsql, string mxhgl, string mxhord, string mxhsql, string mxly, string sql_2)
     {
         Business ei = getBusiness();
-        CacheTools.WidUpdateDep(wid);
-        return "{\"r\":\"" + ei.UpSJY(wid, value1, value3, value4, mrcx, myadd, orderby, pagesize, mxgl, mxsql, mxhgl, mxhord, mxhsql, mxly, sql_2) + "\"}";
+        CacheTools.WidUpdateDep(wid.ToString());
+        PageDataSource pageDataSource = new PageDataSource();
+        pageDataSource.Id =wid;
+        pageDataSource.Name = value1;
+        pageDataSource.Sql = value3;
+        pageDataSource.Fwsql = value4;
+        pageDataSource.Mrcx = mrcx;
+        pageDataSource.Myadd = myadd;
+        pageDataSource.Orderby = orderby;
+        pageDataSource.Pagesize = pagesize;
+        pageDataSource.Mxgl = mxgl;
+        pageDataSource.Mxsql = mxsql;
+        pageDataSource.Mxhgl = mxhgl;
+        pageDataSource.Mxhord = mxhord;
+        pageDataSource.Mxhsql = mxhsql;
+        pageDataSource.Mxly = mxly;
+        pageDataSource.Sql_2 = sql_2;
+        return "{\"r\":\"" + ei.UpSJY(pageDataSource) + "\"}";
     }
     /// <summary>
     /// 页面布局

@@ -1,9 +1,8 @@
 ﻿(function (win) {
     //先获得页面中baseUrl数值
-    var baseUrl = document.getElementById('jsApp').getAttribute('data-baseurl');
+    var baseUrl = document.getElementById('jsApp').getAttribute('data-cdn');
     var from = document.getElementById('jsApp').getAttribute('data-from');
     var ver = document.getElementById('jsApp').getAttribute('data-ver') ||"regular";
-    
     var config = {
         baseUrl: baseUrl,
         urlArgs: 'ver=' + ver,

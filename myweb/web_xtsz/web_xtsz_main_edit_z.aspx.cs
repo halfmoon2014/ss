@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-public partial class web_xtsz_main_edit_z : System.Web.UI.Page
+public partial class web_xtsz_main_edit_z : FM.Controls.Page
 {    
     public StringBuilder formgroupBuilder = new StringBuilder();
     public StringBuilder detailHeadBuilder = new StringBuilder();
@@ -15,6 +15,8 @@ public partial class web_xtsz_main_edit_z : System.Web.UI.Page
     public List<FWDetail> detailList = new List<FWDetail>();
     protected void Page_Load(object sender, EventArgs e)
     {
+        base.Page_Load(sender, e);
+
         int intWid = int.Parse(Request.QueryString["wid"].ToString().Trim());
         string strLx = Request.QueryString["lx"].ToString().Trim();
         string dataOrd = "ord";

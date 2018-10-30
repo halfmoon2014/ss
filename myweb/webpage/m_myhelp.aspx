@@ -40,8 +40,7 @@
         </div>
     </div>
     <!-- /container -->
-
-    <input type="hidden" id="myid" runat="server" />
-    <script data-baseurl="../javascripts" data-from="userhelp" data-main="../javascripts/app" defer async="true" src="../javascripts/require.js" id="jsApp"></script>
+    <input type="hidden" id="myid" runat="server" />    
+    <script data-cdn="<%=GetJsCDN()%>" data-from="userhelp" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script> 
 </body>
 </html>

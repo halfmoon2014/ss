@@ -91,11 +91,10 @@ namespace MyTy
             PageConfiguration pageConfiguration = new PageConfiguration();
             pageConfiguration.PageThemes = ConfigReader.Read(xml, "/Root/appSettings/PageThemes", "");
             pageConfiguration.Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", "");
-            pageConfiguration.JsCDN = ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
-            pageConfiguration.CssCDN = ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");
+            pageConfiguration.JsCDN = "http://"+ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
+            pageConfiguration.CssCDN = "http://"+ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");
+            pageConfiguration.JsVer = ConfigReader.Read(xml, "/Root/appSettings/JsVer", "");
             return pageConfiguration;
         }
-
-
     }
 }

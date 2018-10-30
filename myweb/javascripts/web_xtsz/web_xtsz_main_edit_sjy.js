@@ -5,20 +5,20 @@
             $("#fb").bind("click", function () { fb_click(); });
             $("#mxsql").dblclick(function (e) {
                 fd(e.currentTarget)
-            })
+            });
             $("#mxhsql").dblclick(function (e) {
                 fd(e.currentTarget)
-            })
+            });
             $("#fwsql").dblclick(function (e) {
                 fd(e.currentTarget)
-            })
+            });
             $("#tbsql").dblclick(function (e) {
                 fd(e.currentTarget)
-            })
+            });
             $("#tbsql2").dblclick(function (e) {
                 fd(e.currentTarget)
-            })
-      
+            });
+
             //使用了bootstrap样式,需要增加12的高度
             utils.autoTextarea(document.getElementById("fwsql"), 12);
             utils.autoTextarea(document.getElementById("tbsql"), 12);

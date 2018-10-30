@@ -23,12 +23,27 @@ namespace FM.Controls.Header
                 DataTable dt = pr.GetPosConfig(MySession.SessionHandle.Get("tzid")).Tables[0];
                 if (dt.Rows.Count != 0) { this.Title = dt.Rows[0]["pos_name"].ToString(); }
             }
-
+            
             //登陆页,套账选择页不需要在head中加截jquery
-            if(myCode.CheckPageType(absolutePath, "Login") || myCode.CheckPageType(absolutePath, "ChooseTz") || myCode.CheckPageType(absolutePath, "Other&Nope") )
+            if (myCode.CheckPageType(absolutePath, "Login"))
             {
+                SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
+                SetStyleSheet(string.Format("{0}/css/login3/signin.css", MyCode.GetPageThemes().CssCDN));
+                SetStyleSheet(string.Format("{0}/css/loading/loading.css", MyCode.GetPageThemes().CssCDN));
 
-            }else if ( myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary") || myCode.CheckPageType(absolutePath, "Other&Ordinary")) {
+            } else if (myCode.CheckPageType(absolutePath, "ChooseTz")) {
+                SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
+                SetStyleSheet(string.Format("{0}/css/choosetz/choosetz.css", MyCode.GetPageThemes().CssCDN));
+                SetStyleSheet(string.Format("{0}/css/loading/loading.css", MyCode.GetPageThemes().CssCDN));
+            }
+            else if (myCode.CheckPageType(absolutePath, "Other&Nope")) {
+                SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
+                SetStyleSheet(string.Format("{0}/css/bootstrap/userplatform/sticky-footer-navbar.css", MyCode.GetPageThemes().CssCDN));
+                SetStyleSheet(string.Format("{0}/css/sweetalert/sweetalert.css", MyCode.GetPageThemes().CssCDN));
+                //试着加载css目录下同名样式
+                SetStyleSheet(string.Format("{0}/css/{1}.css", MyCode.GetPageThemes().CssCDN,absolutePath.Replace(".aspx", ".css")));
+            }
+            else if ( myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary") || myCode.CheckPageType(absolutePath, "Other&Ordinary")) {
                 SetJqueryScript();
             }
             else if (myCode.CheckPageType(absolutePath, "SysXTSZ&JQY")|| myCode.CheckPageType(absolutePath, "Other&JQY")) {

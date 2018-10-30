@@ -18,6 +18,10 @@
         /// CSSCDN
         /// </summary>
         private string cssCDN;
+        /// <summary>
+        /// JsVer
+        /// </summary>
+        private string jsVer;
 
         public string PageThemes
         {
@@ -70,5 +74,7 @@
                 cssCDN = value;
             }
         }
+
+        public string JsVer { get => jsVer; set => jsVer = value; }
     }
 }

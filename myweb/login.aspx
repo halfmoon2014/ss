@@ -4,11 +4,7 @@
 <head runat="server">
     <!-- sysHead -->
     <ctrlHeader:DefaultHeader ID="sysHead" Title="Nexts - Login" runat="server" />
-    <!-- End of sysHead -->
-    <!-- Libraries -->
-    <link href="css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/login3/signin.css" rel="stylesheet" />   
-    <link href="css/loading/loading.css" rel="stylesheet" /> 
+    <!-- End of sysHead -->  
 </head>
 <body>
     <div id="container">
@@ -42,9 +38,8 @@
             <div class="sk-cube sk-cube9"></div>
         </div>
     </div>
-
     <!-- Libraries -->
-    <script data-baseurl="javascripts" data-from="login" data-ver="" data-main="javascripts/app" defer async="true" src="javascripts/require.js" id="jsApp"  ></script>
+    <script data-cdn="<%=GetJsCDN()%>" data-from="login" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script>
     <!-- End of Libraries -->
 </body>
 </html>

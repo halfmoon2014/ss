@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Service.Util.Modal;
 using System;
 using MyTy;
+using DTO;
 
 namespace Service.Util
 {
@@ -56,61 +57,25 @@ namespace Service.Util
             return this.execObj.SubmitTextDataSet(this.sqlstring.CTableLx());
         }
 
-        public Dictionary<string, string> GettContEdit(int wid)
+        public PageDataSource GettContEdit(int wid)
         {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-            string[] rstring = new string[15];
-            rstring[2] = "";
-            rstring[3] = "";
-            rstring[1] = "";
-            rstring[0] = "";
-
-            rstring[4] = "";
-            rstring[5] = "";
-            rstring[6] = "";
-            rstring[7] = "";
-
-            rstring[8] = "";
-            rstring[9] = "";
-            rstring[10] = "";
-            rstring[11] = "";
-            rstring[12] = "";
-            rstring[13] = "";
-            rstring[14] = "";
+            PageDataSource pageDataSource = new PageDataSource();
             DataTable dt = this.execObj.SubmitTextDataSet(this.sqlstring.ContEditSql(wid)).Tables[0];
-            //rstring[1] = dt.Rows[0]["tbywname"].ToString().Trim();
-            //rstring[0] = dt.Rows[0]["sql"].ToString().Trim();
-            //rstring[2] = dt.Rows[0]["tbzwname"].ToString().Trim();
-            //rstring[3] = dt.Rows[0]["fwsql"].ToString().Trim();
-
-            //rstring[4] = dt.Rows[0]["mrcx"].ToString().Trim();
-            //rstring[5] = dt.Rows[0]["pagesize"].ToString().Trim();
-            //rstring[6] = dt.Rows[0]["orderby"].ToString().Trim();
-            //rstring[7] = dt.Rows[0]["myadd"].ToString().Trim();
-
-            //rstring[8] = dt.Rows[0]["mxgl"].ToString().Trim();
-            //rstring[9] = dt.Rows[0]["mxsql"].ToString().Trim();
-            //rstring[10] = dt.Rows[0]["mxhgl"].ToString().Trim();
-            //rstring[11] = dt.Rows[0]["mxhord"].ToString().Trim();
-            //rstring[12] = dt.Rows[0]["mxhsql"].ToString().Trim();
-            //rstring[13] = dt.Rows[0]["mxly"].ToString().Trim();
-            //rstring[14] = dt.Rows[0]["sql_2"].ToString().Trim();
-            dic.Add("name", dt.Rows[0]["name"].ToString().Trim());
-            dic.Add("sql", dt.Rows[0]["sql"].ToString().Trim());
-            dic.Add("fwsql", dt.Rows[0]["fwsql"].ToString().Trim());
-            dic.Add("mrcx", dt.Rows[0]["mrcx"].ToString().Trim());
-            dic.Add("pagesize", dt.Rows[0]["pagesize"].ToString().Trim());
-            dic.Add("orderby", dt.Rows[0]["orderby"].ToString().Trim());
-            dic.Add("myadd", dt.Rows[0]["myadd"].ToString().Trim());
-            dic.Add("mxgl", dt.Rows[0]["mxgl"].ToString().Trim());
-            dic.Add("mxsql", dt.Rows[0]["mxsql"].ToString().Trim());
-            dic.Add("mxhgl", dt.Rows[0]["mxhgl"].ToString().Trim());
-            dic.Add("mxhord", dt.Rows[0]["mxhord"].ToString().Trim());
-            dic.Add("mxhsql", dt.Rows[0]["mxhsql"].ToString().Trim());
-            dic.Add("mxly", dt.Rows[0]["mxly"].ToString().Trim());
-            dic.Add("sql_2", dt.Rows[0]["sql_2"].ToString().Trim());
-
-            return dic;
+            pageDataSource.Name = dt.Rows[0]["name"].ToString().Trim();
+            pageDataSource.Sql = dt.Rows[0]["sql"].ToString().Trim();
+            pageDataSource.Fwsql = dt.Rows[0]["fwsql"].ToString().Trim();
+            pageDataSource.Mrcx =int.Parse(dt.Rows[0]["mrcx"].ToString().Trim());
+            pageDataSource.Pagesize = int.Parse(dt.Rows[0]["pagesize"].ToString().Trim());
+            pageDataSource.Orderby = dt.Rows[0]["orderby"].ToString().Trim();
+            pageDataSource.Myadd = int.Parse(dt.Rows[0]["myadd"].ToString().Trim());
+            pageDataSource.Mxgl = dt.Rows[0]["mxgl"].ToString().Trim();
+            pageDataSource.Mxsql = dt.Rows[0]["mxsql"].ToString().Trim();
+            pageDataSource.Mxhgl = dt.Rows[0]["mxhgl"].ToString().Trim();
+            pageDataSource.Mxhord = dt.Rows[0]["mxhord"].ToString().Trim();
+            pageDataSource.Mxhsql = dt.Rows[0]["mxhsql"].ToString().Trim();
+            pageDataSource.Mxly = dt.Rows[0]["mxly"].ToString().Trim();
+            pageDataSource.Sql_2 = dt.Rows[0]["sql_2"].ToString().Trim();
+            return pageDataSource;
         }
 
         public string[] GettContEditJs(int wid)
@@ -166,48 +131,44 @@ namespace Service.Util
         /// <param name="mxly"></param>
         /// <param name="sql_2"></param>
         /// <returns></returns>
-        public string UpSJY(string wid, string value1, string value3, string value4, string mrcx, string myadd, string orderby, string pagesize, string mxgl, string mxsql, string mxhgl, string mxhord, string mxhsql, string mxly, string sql_2)
+        public string UpSJY(PageDataSource pageDataSource)
         {
             SqlParameter[] Parm = new SqlParameter[15];
             Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int);
-            Parm[0].Value = wid;
+            Parm[0].Value = pageDataSource.Id;
             Parm[1] = new SqlParameter("@name", System.Data.SqlDbType.VarChar, 4000);
-            Parm[1].Value = value1;
+            Parm[1].Value = pageDataSource.Name;
             Parm[2] = new SqlParameter("@sql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[2].Value = value3;
+            Parm[2].Value = pageDataSource.Sql;
             Parm[3] = new SqlParameter("@fwsql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[3].Value = value4;
+            Parm[3].Value = pageDataSource.Fwsql;
             Parm[4] = new SqlParameter("@mrcx", System.Data.SqlDbType.Int);
-            Parm[4].Value = int.Parse(mrcx);
+            Parm[4].Value = pageDataSource.Mrcx;
             Parm[5] = new SqlParameter("@myadd", System.Data.SqlDbType.Int);
-            Parm[5].Value = int.Parse(myadd);
+            Parm[5].Value = pageDataSource.Myadd;
             Parm[6] = new SqlParameter("@orderby", System.Data.SqlDbType.VarChar, 4000);
-            Parm[6].Value = orderby;
+            Parm[6].Value = pageDataSource.Orderby;
             Parm[7] = new SqlParameter("@pagesize", System.Data.SqlDbType.Int);
-            Parm[7].Value = int.Parse(pagesize);
+            Parm[7].Value = pageDataSource.Pagesize;
             Parm[8] = new SqlParameter("@mxgl", System.Data.SqlDbType.VarChar, 4000);
-            Parm[8].Value = mxgl;
+            Parm[8].Value = pageDataSource.Mxgl;
             Parm[9] = new SqlParameter("@mxsql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[9].Value = mxsql;
+            Parm[9].Value = pageDataSource.Mxsql;
             Parm[10] = new SqlParameter("@mxhgl", System.Data.SqlDbType.VarChar, 4000);
-            Parm[10].Value = mxhgl;
+            Parm[10].Value = pageDataSource.Mxhgl;
             Parm[11] = new SqlParameter("@mxhord", System.Data.SqlDbType.VarChar, 4000);
-            Parm[11].Value = mxhord;
+            Parm[11].Value = pageDataSource.Mxhord;
             Parm[12] = new SqlParameter("@mxhsql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[12].Value = mxhsql;
+            Parm[12].Value = pageDataSource.Mxhsql;
             Parm[13] = new SqlParameter("@mxly", System.Data.SqlDbType.VarChar, 100);
-            Parm[13].Value = mxly;
+            Parm[13].Value = pageDataSource.Mxly;
             Parm[14] = new SqlParameter("@sql_2", System.Data.SqlDbType.VarChar, 8000);
-            Parm[14].Value = sql_2;
+            Parm[14].Value = pageDataSource.Sql_2;
 
-            int r = this.execObj.SubmitStoredProcedureInt("p_UPSJY", Parm);
-            if (r > 0)            
+            if (this.execObj.SubmitStoredProcedureInt("p_UPSJY", Parm) > 0)            
                 return "true";            
             else            
                 return "false";
-            
-
-
         }
 
         /// <summary>

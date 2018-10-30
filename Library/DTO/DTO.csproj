@@ -41,6 +41,7 @@
     <Compile Include="HtmlParameter.cs" />
     <Compile Include="PageCmContent.cs" />
     <Compile Include="PageContent.cs" />
+    <Compile Include="PageDataSource.cs" />
     <Compile Include="PageDetail.cs" />
     <Compile Include="PageHtml.cs" />
     <Compile Include="PageConfiguration.cs" />

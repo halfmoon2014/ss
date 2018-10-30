@@ -6,25 +6,6 @@
     <!-- sysHead -->
     <ctrlHeader:DefaultHeader Title="Account" ID="sysHead" runat="server" />
     <!-- End of sysHead -->
-    <!-- Libraries -->
-    <link href="css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/loading/loading.css" rel="stylesheet" />
-    <style type="text/css">
-        body {
-            padding-top: 40px;
-            padding-bottom: 40px;
-            background-color: #eee;
-        }
-        .form-signin {
-            max-width: 1000px;
-            padding-top:15px;
-            padding-bottom:0px;
-            padding-left:15px;
-            padding-right:15px;
-            margin: 0 auto;
-        }
-    </style>
-    <!-- End of Libraries -->
 </head>
 <body>
     <form action="#" method="post">
@@ -45,7 +26,7 @@
         </div>
     </div>
     <!-- Libraries -->
-    <script data-baseurl="javascripts" data-from="choosetz3" data-main="javascripts/app" defer async="true" src="javascripts/require.js" id="jsApp" ></script>
+    <script data-cdn="<%=GetJsCDN()%>" data-from="choosetz3" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script>
     <!-- End of Libraries -->
 </body>
 </html>

@@ -1,41 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using Service.Util;
-using System.Web.UI.HtmlControls;
-
-public partial class web_xtsz_main_edit_sjy : System.Web.UI.Page
+﻿using Service.Util;
+using System;
+using DTO;
+public partial class web_xtsz_main_edit_sjy : FM.Controls.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        base.Page_Load(sender, e);
 
         wid.Value = Request.QueryString["wid"].ToString().Trim();
         Business ei = new Business(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid"));
-        Dictionary<string, string> dic = ei.GettContEdit(int.Parse(wid.Value));
+        PageDataSource pageDataSource  = ei.GettContEdit(int.Parse(wid.Value));
 
-        name.Value = dic["name"];
-        tbsql.Value = dic["sql"];
-        fwsql.Value = dic["fwsql"];
-        mxgl.Value = dic["mxgl"];
-        mxsql.Value = dic["mxsql"];
-        mxhgl.Value = dic["mxhgl"];
-        mxhord.Value = dic["mxhord"];
-        mxhsql.Value = dic["mxhsql"];
-        mxly.Value = dic["mxly"];
-        tbsql2.Value = dic["sql_2"];
-        if (dic["mrcx"] == "1")
-        {
-            mrcx.Checked = true;
-        }
-        pagesize.Value = dic["pagesize"];
-        orderby.Value = dic["orderby"];
-        if (dic["myadd"] == "1")
-        {
-            myadd.Checked = true;
-        }
+        name.Value = pageDataSource.Name;
+        tbsql.Value = pageDataSource.Sql;
+        fwsql.Value = pageDataSource.Fwsql;
+        mxgl.Value = pageDataSource.Mxgl;
+        mxsql.Value = pageDataSource.Mxsql;
+        mxhgl.Value = pageDataSource.Mxhgl;
+        mxhord.Value = pageDataSource.Mxhord;
+        mxhsql.Value = pageDataSource.Mxhsql;
+        mxly.Value = pageDataSource.Mxly;
+        tbsql2.Value = pageDataSource.Sql_2;
+        if (pageDataSource.Mrcx == 1)  mrcx.Checked = true;
+
+        pagesize.Value = pageDataSource.Pagesize.ToString();
+        orderby.Value = pageDataSource.Orderby;
+        if (pageDataSource.Myadd == 1)  myadd.Checked = true;
 
         if (string.Compare(ei.GetDataTag(), "true") != 0)
-        {
             btnGroup.Controls.Remove(fb);
-        }
+        
     }
 }

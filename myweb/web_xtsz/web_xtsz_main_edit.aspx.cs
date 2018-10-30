@@ -2,10 +2,11 @@
 using System.Web;
 using FM.Business;
 using EI.Web;
-public partial class web_xtsz_web_xtsz_main_edit : System.Web.UI.Page
+public partial class web_xtsz_web_xtsz_main_edit : FM.Controls.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        base.Page_Load(sender, e);
         int tzid = int.Parse(MySession.SessionHandle.Get("tzid").ToString().Trim());
         int userid = int.Parse(MySession.SessionHandle.Get("userid").ToString().Trim());
         string title = "";

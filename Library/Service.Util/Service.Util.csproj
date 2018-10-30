@@ -62,6 +62,10 @@
     <Compile Include="SqlComp.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{D73E1422-9E97-4DC5-A32F-B86489F9D67A}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyTy\MyTy.csproj">
       <Project>{44801fc4-f82a-4ad5-9302-ee2052a98d75}</Project>
       <Name>MyTy</Name>
