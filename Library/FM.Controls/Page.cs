@@ -26,7 +26,7 @@ namespace FM.Controls
         protected string GetRequireJs()
         {
             string jsCDN = MyCode.GetPageThemes().JsCDN;
-            return (jsCDN.Length > 0 ? jsCDN + "/javascripts/require.js" : "./javascripts/require.js");
+            return (jsCDN.Length > 0 ? jsCDN + "/javascripts/lib/require.js" : "./javascripts/lib/require.js");
         }
     }
 }

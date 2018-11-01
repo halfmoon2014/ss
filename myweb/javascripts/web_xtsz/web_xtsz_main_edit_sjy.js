@@ -25,9 +25,9 @@
             utils.autoTextarea(document.getElementById("tbsql2"), 12);
             utils.autoTextarea(document.getElementById("mxhsql"), 12);
             utils.autoTextarea(document.getElementById("mxsql"), 12);
-        }
+        })
     }
-  
+
     var ok_click = function () {
         $('#ok').attr('disabled', 'disabled');
         var sql = document.getElementById("tbsql").value;
@@ -42,7 +42,7 @@
         var sql_2 = document.getElementById("tbsql2").value;
 
         if (name.length == 0) {
-            swalProcess.sAlert('中文名称一定要输入!',  function () {
+            swalProcess.sAlert('中文名称一定要输入!', function () {
                 $('#ok').removeAttr("disabled")
             });
 
@@ -60,7 +60,7 @@
                 url: '../webuser/ws.asmx/sjy_up',
                 data: { wid: wid, value1: name, value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly, sql_2: sql_2 },
                 error: function (e) {
-                    swalProcess.sAlert('连接失败!',  function () {
+                    swalProcess.sAlert('连接失败!', function () {
                         $('#ok').removeAttr("disabled")
                     });
                 },
@@ -71,7 +71,7 @@
                             $('#ok').removeAttr("disabled")
                         });
                     } else {
-                        swalProcess.sAlert('保存失败!',  function () {
+                        swalProcess.sAlert('保存失败!', function () {
                             $('#ok').removeAttr("disabled")
                         });
                     }

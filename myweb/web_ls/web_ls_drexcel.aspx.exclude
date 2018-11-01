@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="../javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
     <!--jquery eui-->
     <script src="../javascripts/jey/jquery.easyui.min.js" type="text/javascript"></script>
     <link href="../css/jey/default/easyui.css" rel="stylesheet" type="text/css" />

@@ -9,7 +9,7 @@
         waitSeconds:0,
         paths: {
             jquery: "jquery/1.12.4/jquery.min",
-            utils: "utilsA",
+            utils: "myjs/utilsA",
             myweb: "myjs/mywebA",
             bootstrap: 'bootstrap/3.3.7/bootstrap.min',
             easyui: "jey/jquery.easyui.min",
@@ -17,7 +17,7 @@
             easyuiAdd: "jey/jquery.easyui.addA",
             sweetalert: "sweetalert/sweetalert.min",
             swalProcess: "sweetalert/swalProcessA",
-            progressDefender: "progressDefenderA",            
+            progressDefender: "myjs/progressDefenderA",            
             xtsz: "web_xtsz/xtsz",
 
             login: 'login3/login3',
@@ -46,6 +46,70 @@
             'easyui': ['jquery', 'zhCN'],            
             'swalProcess': {
                 deps: ['sweetalert']                
+            },
+            'login': {
+                deps: [                    
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/loading/loading.css',
+                    'css!../css/login3/signin.css',//注意顺序,最下面这个样式作用最大,会覆盖前面的
+                ]
+            },
+            'choosetz3': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/loading/loading.css',
+                    'css!../css/choosetz/choosetz.css'
+                ]
+            },
+            'web_xtsz_main_edit': {
+                deps: [
+                    'css!../css/jey/ui-pepper-grinder/easyui.css',
+                    'css!../css/jey/icon.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                    'css!../css/web_xtsz/web_xtsz_main_edit.css',
+                ]
+            },
+            'web_xtsz_main_edit_help': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                ]
+            },
+            'web_xtsz_main_edit_sjy': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                ]
+            },
+            'web_xtsz_main_edit_zdwh': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                    'css!../css/web_xtsz/web_xtsz_main_edit_zdwh.css',
+                ]
+            },
+            'web_xtsz_main_edit_js': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                ]
+            },
+            'web_xtsz_main_edit_z': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                    'css!../css/web_xtsz/web_xtsz_main_edit_z.css',
+                ]
+            },
+        },
+        map: {
+            '*': {
+                'css': 'lib/css'
             }
         }
     };

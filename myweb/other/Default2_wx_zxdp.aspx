@@ -7,9 +7,9 @@
     <title></title>
     
 
-    <link rel="stylesheet" href="../css/jqm/jquery.mobile-1.4.2.min.css" />
-    <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
-    <script src="../javascripts/jqm/jquery.mobile-1.4.2.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../css/jquery/jquery.mobile-1.4.2.min.css" />
+    <script src="../javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="../javascripts/jquery/jquery.mobile-1.4.2.min.js" type="text/javascript"></script>
     <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
     <!--PhotoSwipe 插件 -->
     <link href="../javascripts/photoswipe1.0.11/photoswipe.css" type="text/css" rel="stylesheet" />

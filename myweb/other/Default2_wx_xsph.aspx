@@ -9,7 +9,7 @@
     <meta name="format-detection" content="telephone=yes" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="../css/impromptu/jquery-impromptu.css" rel="stylesheet" type="text/css" />
-    <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="../javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
     <script src="../javascripts/weixin/jweixin-1.0.0.js" type="text/javascript"></script>
     <script src="../javascripts/impromptu/jquery-impromptu.js" type="text/javascript"></script>
     <script type="text/javascript">

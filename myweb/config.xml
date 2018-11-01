@@ -25,7 +25,7 @@
     <Site>other/default2_html5.aspx</Site>
     <Site>other/default2.aspx</Site>
     <Site>other/eng.aspx</Site>
-    <Site>longPollingData.aspx</Site>
+    <Site>webpage/longPollingData.aspx</Site>
   </NoLimitUrl>
   <WebFile>
     <Login>

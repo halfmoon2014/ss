@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <script src="../javascripts/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="../javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
     <script src="../javascripts/jey/jquery.easyui.min.js" type="text/javascript"></script>
     <link href="../css/jey/icon.css" rel="stylesheet" type="text/css" />
     <link href="../css/jey/mycss.css" rel="stylesheet" type="text/css" />

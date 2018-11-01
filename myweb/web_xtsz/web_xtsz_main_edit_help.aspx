@@ -6,7 +6,6 @@
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />   
 </head>
 <body runat="server">
-
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -27,16 +26,13 @@
             </div><!--/.nav-collapse -->
         </div>
     </nav>
-
     <div class="container-fluid">
         <div class="form-group">
             <label for="fwsql">说明文档</label>
             <textarea class="form-control" rows="30" cols="120" runat="server" id="tbhelp"></textarea>
         </div>
     </div>
-
     <input type="hidden" id="wid" runat="server" />
-
 </body>
 <script data-cdn="<%=GetJsCDN()%>" data-from="web_xtsz_main_edit_help" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script> 
 </html>

@@ -27,21 +27,21 @@ namespace FM.Controls.Header
             //登陆页,套账选择页不需要在head中加截jquery
             if (myCode.CheckPageType(absolutePath, "Login"))
             {
-                SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
-                SetStyleSheet(string.Format("{0}/css/login3/signin.css", MyCode.GetPageThemes().CssCDN));
-                SetStyleSheet(string.Format("{0}/css/loading/loading.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/login3/signin.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/loading/loading.css", MyCode.GetPageThemes().CssCDN));
 
             } else if (myCode.CheckPageType(absolutePath, "ChooseTz")) {
-                SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
-                SetStyleSheet(string.Format("{0}/css/choosetz/choosetz.css", MyCode.GetPageThemes().CssCDN));
-                SetStyleSheet(string.Format("{0}/css/loading/loading.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/choosetz/choosetz.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/loading/loading.css", MyCode.GetPageThemes().CssCDN));
             }
             else if (myCode.CheckPageType(absolutePath, "Other&Nope")) {
-                SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
-                SetStyleSheet(string.Format("{0}/css/bootstrap/userplatform/sticky-footer-navbar.css", MyCode.GetPageThemes().CssCDN));
-                SetStyleSheet(string.Format("{0}/css/sweetalert/sweetalert.css", MyCode.GetPageThemes().CssCDN));
-                //试着加载css目录下同名样式
-                SetStyleSheet(string.Format("{0}/css/{1}.css", MyCode.GetPageThemes().CssCDN,absolutePath.Replace(".aspx", ".css")));
+                //SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/bootstrap/userplatform/sticky-footer-navbar.css", MyCode.GetPageThemes().CssCDN));
+                //SetStyleSheet(string.Format("{0}/css/sweetalert/sweetalert.css", MyCode.GetPageThemes().CssCDN));
+                ////试着加载css目录下同名样式
+                //SetStyleSheet(string.Format("{0}/css/{1}.css", MyCode.GetPageThemes().CssCDN,absolutePath.Replace(".aspx", ".css")));
             }
             else if ( myCode.CheckPageType(absolutePath, "SysXTSZ&Ordinary") || myCode.CheckPageType(absolutePath, "Other&Ordinary")) {
                 SetJqueryScript();
@@ -75,7 +75,7 @@ namespace FM.Controls.Header
                     SetJQEUI(MyCode.GetPageThemes().Themes);                
                     SetStyleSheet(string.Format("{0}/css/menu_3.css", MyCode.GetPageThemes().CssCDN));
                     SetScript(string.Format("{0}/javascripts/menu_3/menu_3.js", MyCode.GetPageThemes().JsCDN));
-                    SetScript(string.Format("{0}/javascripts/longPolling.js", MyCode.GetPageThemes().JsCDN));
+                    SetScript(string.Format("{0}/javascripts/myjs/longPolling.js", MyCode.GetPageThemes().JsCDN));
                     SetScript(string.Format("{0}/javascripts/myjs/myweb.js", MyCode.GetPageThemes().JsCDN));
                 }
             }
@@ -96,11 +96,11 @@ namespace FM.Controls.Header
                     SetJqueryScript();
                     SetStyleSheet(string.Format("{0}/css/f1/main.css", MyCode.GetPageThemes().CssCDN));
                     SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", MyCode.GetPageThemes().CssCDN));
-                    SetScript(string.Format("{0}/AjaxHandler/ProcPager.js", MyCode.GetPageThemes().JsCDN));
+                    SetScript(string.Format("{0}/javascripts/myjs/ProcPager.js", MyCode.GetPageThemes().JsCDN));
                     SetScript(string.Format("{0}/javascripts/f1/base.js", MyCode.GetPageThemes().JsCDN));
-                    SetScript(string.Format("{0}/javascripts/utils.js", MyCode.GetPageThemes().JsCDN));
+                    SetScript(string.Format("{0}/javascripts/myjs/utils.js", MyCode.GetPageThemes().JsCDN));
                     SetScript(string.Format("{0}/javascripts/myjs/myweb.js", MyCode.GetPageThemes().JsCDN));
-                    SetScript(string.Format("{0}/javascripts/json2.js", MyCode.GetPageThemes().JsCDN));
+                    SetScript(string.Format("{0}/javascripts/lib/json2.js", MyCode.GetPageThemes().JsCDN));
                 }
             }
         }
@@ -123,8 +123,8 @@ namespace FM.Controls.Header
         /// </summary>
         void SetJSUtil()
         {            
-            SetScript(string.Format("{0}/javascripts/utils.js", MyCode.GetPageThemes().JsCDN));            
-            SetScript(string.Format("{0}/javascripts/json2.js", MyCode.GetPageThemes().JsCDN));            
+            SetScript(string.Format("{0}/javascripts/myjs/utils.js", MyCode.GetPageThemes().JsCDN));            
+            SetScript(string.Format("{0}/javascripts/lib/json2.js", MyCode.GetPageThemes().JsCDN));            
         }
         /// <summary>
         /// 平台自定义
@@ -133,14 +133,14 @@ namespace FM.Controls.Header
         {
             SetStyleSheet(string.Format("{0}/css/mycss/myweb.css", MyCode.GetPageThemes().CssCDN));
             SetScript(string.Format("{0}/javascripts/myjs/myweb.js", MyCode.GetPageThemes().JsCDN));
-            SetScript(string.Format("{0}/AjaxHandler/ProcPager.js", MyCode.GetPageThemes().JsCDN));
+            SetScript(string.Format("{0}/javascripts/myjs/ProcPager.js", MyCode.GetPageThemes().JsCDN));
         }
         /// <summary>
         /// 进程守护
         /// </summary>
         void SETProgressDefender()
         {
-            SetScript(string.Format("{0}/javascripts/progressDefender.js", MyCode.GetPageThemes().JsCDN));            
+            SetScript(string.Format("{0}/javascripts/myjs/progressDefender.js", MyCode.GetPageThemes().JsCDN));            
         }
         /// <summary>
         /// 加载JQUERY
