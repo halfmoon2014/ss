@@ -7,16 +7,16 @@
                 //得到每个TD里面的每个元素,有可能是text 有可能是check or select 
                 //不要传递行号! 因为新增的时候行号不会变
                 $(n1).bind({
-                    "change": function () { mysyschange($(this)); },
-                    //"keypress": function (event) { mysyskeypress(event, $(this)); },
-                    "keydown": function (event) { mysyskeypress(event, $(this)); }
+                    "change": function () { mySysChange($(this)); },
+                    //"keypress": function (event) { mySysKeyPress(event, $(this)); },
+                    "keydown": function (event) { mySysKeyPress(event, $(this)); }
                 });
             });
         });
     }
     
     //如果有修改,打标识为1
-    var mysyschange = function (obj, rownum) {
+    var mySysChange = function (obj, rownum) {
         var rownum = $(obj).parent().parent().attr("rownum");
         //td所在所中,,, 自定义属性field=mark的
         $($("[field='mark']", $(obj).parent().parent()))[0].value = "1";
@@ -25,7 +25,7 @@
     //键盘事件
     //当表格可保存时,向下新增一行
     //下移一行
-    var mysyskeypress = function (e, obj) {
+    var mySysKeyPress = function (e, obj) {
 
         var rownum = Number($(obj).parent().parent().attr("rownum"));
         var keyn = e.keyCode;
@@ -85,7 +85,7 @@
     }
     //取页面元素的值
     //frame iframe 对像
-    var myVale = function (field, i, frame) {
+    var getObj = function (field, i, frame) {
         if (i == null || i == undefined) {
             //取查询条件上的值
             if (frame == null || frame == undefined) {
@@ -104,9 +104,9 @@
     }
     return {
         init: init,
-        mysyschange: mysyschange,
-        mysyskeypress: mysyskeypress,
+        mySysChange: mySysChange,
+        mySysKeyPress: mySysKeyPress,
         getRowNum: getRowNum,
-        myVale: myVale
+        getObj: getObj
     }
 });

@@ -30,6 +30,7 @@
                     }
                 })
             });
+            utils.hideLoading();
         });
     }
 

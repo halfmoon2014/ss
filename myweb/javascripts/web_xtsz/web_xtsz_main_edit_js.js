@@ -6,6 +6,7 @@
             $("#showtitp").bind("click", function () { showtitp_click(); });
             //使用了bootstrap样式,需要增加12的高度
             utils.autoTextarea(document.getElementById("tbjs"), 12);// 调用    
+            utils.hideLoading();
         });
     }
     //显示提示

@@ -49,18 +49,12 @@ namespace FM.Controls.Header
                 DataTable dt = ei.GetJavaScript(this.WebID.ToString()).Tables[0];
 
                 if (dt.Rows.Count <= 0)
-                {
                     return "";
-                }
                 else
-                {
                     return "<script language='javascript' type='text/javascript'>" + dt.Rows[0]["js"].ToString() + "</script>";
-                }
             }
             else
-            {
                 return "";
-            }
         }
 
         /// <summary>

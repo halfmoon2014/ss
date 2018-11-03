@@ -32,7 +32,8 @@
             web_xtsz_main_edit_sjy: "web_xtsz/web_xtsz_main_edit_sjy",
             web_xtsz_main_edit_zdwh: "web_xtsz/web_xtsz_main_edit_zdwh",
             web_xtsz_main_edit_js: "web_xtsz/web_xtsz_main_edit_js",
-            web_xtsz_main_edit_z: "web_xtsz/web_xtsz_main_edit_z"
+            web_xtsz_main_edit_z: "web_xtsz/web_xtsz_main_edit_z",
+            content_menu3: "content_menu3/content_menu3",
         },
         shim: {
             'jquery': {
@@ -74,6 +75,7 @@
                     'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
                     'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
                     'css!../css/sweetalert/sweetalert.css',
+                    'css!../css/loading/loading.css',
                 ]
             },
             'web_xtsz_main_edit_sjy': {
@@ -81,6 +83,7 @@
                     'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
                     'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
                     'css!../css/sweetalert/sweetalert.css',
+                    'css!../css/loading/loading.css',
                 ]
             },
             'web_xtsz_main_edit_zdwh': {
@@ -89,6 +92,7 @@
                     'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
                     'css!../css/sweetalert/sweetalert.css',
                     'css!../css/web_xtsz/web_xtsz_main_edit_zdwh.css',
+                    'css!../css/loading/loading.css',
                 ]
             },
             'web_xtsz_main_edit_js': {
@@ -96,6 +100,7 @@
                     'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
                     'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
                     'css!../css/sweetalert/sweetalert.css',
+                    'css!../css/loading/loading.css',
                 ]
             },
             'web_xtsz_main_edit_z': {
@@ -104,6 +109,28 @@
                     'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
                     'css!../css/sweetalert/sweetalert.css',
                     'css!../css/web_xtsz/web_xtsz_main_edit_z.css',
+                    'css!../css/loading/loading.css',
+                ]
+            },
+            'web_xtsz_main_add': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',
+                    'css!../css/bootstrap/userplatform/sticky-footer-navbar.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                    'css!../css/loading/loading.css',
+                ]
+            },
+            'web_xtsz_main': {
+                deps: [
+                    'css!../css/jey/ui-pepper-grinder/easyui.css',
+                    'css!../css/jey/icon.css',
+                    'css!../css/sweetalert/sweetalert.css',
+                ]
+            },
+            'content_menu3': {
+                deps: [
+                    'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',                
+                    'css!../css/content_menu3/content_menu3.css',
                 ]
             },
         },

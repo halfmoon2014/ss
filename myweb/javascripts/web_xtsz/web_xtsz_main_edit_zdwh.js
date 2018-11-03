@@ -15,7 +15,7 @@
     }
     //取页面上的值
     var sr = function (s, i) {
-        return $.trim(xtsz.myVale(s, i).val().replace(/'/g, "''"));
+        return $.trim(xtsz.getObj(s, i).val().replace(/'/g, "''"));
     }
     //保存
     var ok_click = function () {
@@ -170,6 +170,7 @@
                 return false;
             });
             xtsz.init();
+            utils.hideLoading();
         });
     }
     return {

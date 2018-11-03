@@ -7,10 +7,11 @@ using System.Web.UI.WebControls;
 using System.Web.Services;
 using EI.Web;
 
-public partial class web_xtsz_main : System.Web.UI.Page
+public partial class web_xtsz_main : FM.Controls.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        base.Page_Load(sender, e);
         int tzid = int.Parse(MySession.SessionHandle.Get("tzid").ToString().Trim());
         int userid = int.Parse(MySession.SessionHandle.Get("userid").ToString().Trim());
         FM.Business.Login lg = new FM.Business.Login();

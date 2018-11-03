@@ -25,6 +25,7 @@
             utils.autoTextarea(document.getElementById("tbsql2"), 12);
             utils.autoTextarea(document.getElementById("mxhsql"), 12);
             utils.autoTextarea(document.getElementById("mxsql"), 12);
+            utils.hideLoading();
         })
     }
 

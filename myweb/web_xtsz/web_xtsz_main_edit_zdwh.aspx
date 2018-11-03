@@ -1,9 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="web_xtsz_main_edit_zdwh.aspx.cs" Inherits="web_xtsz_main_edit_zdwh" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ Import Namespace="System.Data" %>
-<%@ Import Namespace="MyTy" %>
-<%@ Import Namespace="Service.Util" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" />
@@ -84,173 +81,25 @@
                     <td field="mark" style="display: none">mark
                     </td>
                 </tr>
-                <%                
-                int wid = int.Parse(Request.QueryString["wid"].ToString().Trim());
-                Business business = new Business(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid"));
-                DataTable dt = business.GetTbzd(wid).Tables[0];
-                if (dt.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                %>
-                <tr class="tbbody" rownum="<%=i%>">
-                    <td style="display: none">
-                        <input type="text"  field="id" value="<%= dt.Rows[i]["id"].ToString()%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="ywname" value="<%=HtmlCha(dt.Rows[i]["ywname"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="zwname" value="<%= HtmlCha(dt.Rows[i]["zwname"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="ord" value="<%= HtmlCha(dt.Rows[i]["ord"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="width" value="<%= HtmlCha(dt.Rows[i]["width"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="visible" value="<%= HtmlCha(dt.Rows[i]["visible"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="readonly" value="<%= HtmlCha(dt.Rows[i]["readonly"].ToString())%>" />
-                    </td>
-                    <td>
-                        <select  field="type" mrz="">
-                            <option value="text" <%=(dt.Rows[i]["type"].ToString()=="text"  ?"selected":"") %>>text</option>
-                            <option value="select" <%=(dt.Rows[i]["type"].ToString()=="select"?"selected":"") %>>select</option>
-                            <option value="button" <%=(dt.Rows[i]["type"].ToString()=="button"?"selected":"") %>>button</option>
-                            <option value="checkbox" <%=(dt.Rows[i]["type"].ToString()=="checkbox"?"selected":"") %>>checkbox</option>
-                            <option value="textarea" <%=(dt.Rows[i]["type"].ToString()=="textarea"?"selected":"") %>>textarea</option>
-                            <option value="td" <%=(dt.Rows[i]["type"].ToString()=="td"?"selected":"") %>>td</option>
-                            <option value="a" <%=(dt.Rows[i]["type"].ToString()=="a"?"selected":"") %>>a</option>
-                            <option value="img" <%=(dt.Rows[i]["type"].ToString()=="img"?"selected":"") %>>img</option>
-                            <option value="mx" <% =dt.Rows[i]["type"].ToString()=="mx" ?"selected":"" %>>mx</option>
-                            <option value="" <% =dt.Rows[i]["type"].ToString()==string.Empty ?"selected":"" %>></option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text"  field="sx" value="<%= HtmlCha(dt.Rows[i]["sx"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="bz" value="<%= HtmlCha(dt.Rows[i]["bz"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="showzero" value="<%= HtmlCha(dt.Rows[i]["showzero"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="event" value="<%= HtmlCha(dt.Rows[i]["event"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="btnvalue" value="<%= HtmlCha(dt.Rows[i]["btnvalue"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="showmrrq" value="<%= HtmlCha(dt.Rows[i]["showmrrq"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="hj" value="<%= HtmlCha(dt.Rows[i]["hj"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="hbltname" value="<%= HtmlCha(dt.Rows[i]["hbltname"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="px" value="<%= HtmlCha(dt.Rows[i]["px"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="format" value="<%= HtmlCha(dt.Rows[i]["format"].ToString())%>" />
-                    </td>
-                    <td>
-                        <input type="text"  field="prtname" value="<%= HtmlCha(dt.Rows[i]["prtname"].ToString())%>" />
-                    </td>
-                    <td style="display: none">
-                        <input field="mark" type="text" />
-                    </td>
-                </tr>
-                <%
-                    }
-                }
-                else
-                {
-                %>
-                <tr class="tbbody" rownum="0">
-                    <td style="display: none">
-                        <input type="text" field="id" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="ywname" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="zwname" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="ord" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="width" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="visible" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="readonly" value="" />
-                    </td>
-                    <td>
-                        <select field="type" mrz="" >
-                            <option value="text">text</option>
-                            <option value="select">select</option>
-                            <option value="button">button</option>
-                            <option value="checkbox">checkbox</option>
-                            <option value="textarea">textarea</option>
-                            <option value="td">td</option>
-                            <option value="a">a</option>
-                            <option value="img">img</option>
-                            <option value="mx">mx</option>
-                            <option value="" selected></option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text"  field="sx" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="bz" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="showzero" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="event" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="btnvalue" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="showmrrq" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="hj" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="hbltname" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="px" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="format" value="" />
-                    </td>
-                    <td>
-                        <input type="text"  field="prtname" value="" />
-                    </td>
-                    <td style="display: none">
-                        <input field="mark" type="text" />
-                    </td>
-                </tr>
-                <%}%>
+                <%=trList.ToString()%>
             </table>
         </div>
 
     </div>
     <!-- /container -->
+    <div id="overlay" style="background: rgb(222, 222, 222); width: 100%; height: 100%; position: fixed; top: 0px; left: 0px; z-index: 99999; opacity: 1;">
+        <div class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+    </div>
     <input type="hidden" id="wid" runat="server" />
 </body>
 <script data-cdn="<%=GetJsCDN()%>" data-from="web_xtsz_main_edit_zdwh" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script> 

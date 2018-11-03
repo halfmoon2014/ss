@@ -1,50 +1,15 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="content_menu3.aspx.cs" Inherits="webpage_content_menu3" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="content_menu3.aspx.cs" Inherits="content_menu3" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <ctrlHeader:DefaultHeader ID="sysHead" runat="server" title="菜单内容"/>
-    <!-- Libraries -->
-    <link href="../css/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet" />
-    <!-- End of Libraries -->
-    <style type="text/css">
-        #content_menu3_mydiv li{
-            background-color:transparent;
-            border:none;
-        }
-        #content_menu3_mydiv a {
-            text-decoration:none;
-            color:#333;
-        }
-        .menulist span{
-            cursor:help;
-        }
-        
-    </style>
+     
 </head>
 <body style="background-color: transparent;">
     <div id="content_menu3_mydiv" class="container-fluid" runat="server">
     </div>
-    <script src="../javascripts/bootstrap/ie10-viewport-bug-workaround.js"></script>
-    <script src="../javascripts/bootstrap/3.3.7/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.list-group-item').delegate('a', 'click', function (e) {
-                if ($(e.target).is("a")) {
-                    var cmd = $(e.target).parent().attr("cmd");                    
-                    parent.addTab($(e.target).html(), cmd, $(e.target).parent())
-                }
-            });
-            $('.list-group-item').delegate('span', 'click', function (e) {
-                if ($(e.target).is("span")) {
-                    var menuID = $(e.target).parent().attr("menuID");
-                    parent.myhelp(menuID)
-                }
-            });
-        });
-
-    </script>
+    <script data-cdn="<%=GetJsCDN()%>" data-from="content_menu3" data-ver="<%=GetJsVer()%>" data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"></script>
 </body>
 </html>

@@ -41,6 +41,7 @@
             $("#close").bind("click", function () {
                 myweb.closeWindow();
             });
+            utils.hideLoading();
         });
     };
     return {

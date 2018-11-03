@@ -1,6 +1,6 @@
 ﻿define(["jquery", "utils", "myweb", "xtsz", "swalProcess"], function ($, utils, myweb, xtsz, swalProcess) {
-    var sr = function (s, i) {
-        return $.trim(xtsz.myVale(s, i).val().replace(/'/g, "''"));
+    var getValSQL = function (s, i) {
+        return $.trim(xtsz.getObj(s, i).val().replace(/'/g, "''"));
     }
     //保存
     var ok_click = function () {
@@ -11,69 +11,69 @@
         var css0, css, mrz, bds, ord, mobileord, width, widthm, qwidth, qwidthm, id, mc, visible, htmlid, westwidth, eastwidth, northheight, southheight, dwidth, dheight, readonly, type, bz, nwebid, naspx, event, session, zb, yy;
         var westwidthm, eastwidthm, northheightm, southheightm
 
-        westwidth = $.trim(xtsz.myVale("westwidth").val());
+        westwidth = $.trim(xtsz.getObj("westwidth").val());
         if (westwidth == "") { westwidth = "0"; }
-        eastwidth = $.trim(xtsz.myVale("eastwidth").val());
+        eastwidth = $.trim(xtsz.getObj("eastwidth").val());
         if (eastwidth == "") { eastwidth = "0"; }
-        southheight = $.trim(xtsz.myVale("southheight").val());
+        southheight = $.trim(xtsz.getObj("southheight").val());
         if (southheight == "") { southheight = "0"; }
-        northheight = $.trim(xtsz.myVale("northheight").val());
+        northheight = $.trim(xtsz.getObj("northheight").val());
         if (northheight == "") { northheight = "0"; }
-        westwidthm = $.trim(xtsz.myVale("westwidthm").val());
+        westwidthm = $.trim(xtsz.getObj("westwidthm").val());
         if (westwidthm == "") { westwidthm = "0"; }
-        eastwidthm = $.trim(xtsz.myVale("eastwidthm").val());
+        eastwidthm = $.trim(xtsz.getObj("eastwidthm").val());
         if (eastwidthm == "") { eastwidthm = "0"; }
-        southheightm = $.trim(xtsz.myVale("southheightm").val());
+        southheightm = $.trim(xtsz.getObj("southheightm").val());
         if (southheightm == "") { southheightm = "0"; }
-        northheightm = $.trim(xtsz.myVale("northheightm").val());
+        northheightm = $.trim(xtsz.getObj("northheightm").val());
         if (northheightm == "") { northheightm = "0"; }
 
         var data = {};
         data.row = new Array();
         for (var i = 0; i < xtsz.getRowNum() ; i++) {
-            ord = $.trim(xtsz.myVale("ord", i).val());
+            ord = $.trim(xtsz.getObj("ord", i).val());
             if (ord == "") { ord = "0"; }
-            mobileord = $.trim(xtsz.myVale("mobileord", i).val());
+            mobileord = $.trim(xtsz.getObj("mobileord", i).val());
             if (mobileord == "") { mobileord = "0"; }
-            nwebid = $.trim(xtsz.myVale("nwebid", i).val());
+            nwebid = $.trim(xtsz.getObj("nwebid", i).val());
             if (nwebid == "") { nwebid = "0"; }
-            width = $.trim(xtsz.myVale("width", i).val());
+            width = $.trim(xtsz.getObj("width", i).val());
             if (width == "") { width = "0"; }
-            qwidth = $.trim(xtsz.myVale("qwidth", i).val());
+            qwidth = $.trim(xtsz.getObj("qwidth", i).val());
             if (qwidth == "") { qwidth = "0"; }
 
-            widthm = $.trim(xtsz.myVale("widthm", i).val());
+            widthm = $.trim(xtsz.getObj("widthm", i).val());
             if (widthm == "") { widthm = "0"; }
-            qwidthm = $.trim(xtsz.myVale("qwidthm", i).val());
+            qwidthm = $.trim(xtsz.getObj("qwidthm", i).val());
             if (qwidthm == "") { qwidthm = "0"; }
 
-            dwidth = $.trim(xtsz.myVale("dwidth", i).val());
+            dwidth = $.trim(xtsz.getObj("dwidth", i).val());
             if (dwidth == "") { dwidth = "0"; }
-            dheight = $.trim(xtsz.myVale("dheight", i).val());
+            dheight = $.trim(xtsz.getObj("dheight", i).val());
             if (dheight == "") { dheight = "0"; }
-            id = $.trim(xtsz.myVale("id", i).val());
+            id = $.trim(xtsz.getObj("id", i).val());
             if (id == "") { id = "0"; }
-            visible = $.trim(xtsz.myVale("visible", i).is(':checked') ? "1" : "0");
-            readonly = $.trim(xtsz.myVale("readonly", i).is(':checked') ? "1" : "0");
-            type = $.trim(xtsz.myVale("type", i).val());
-            bz = sr("bz", i);
-            css = sr("css", i);
-            css0 = sr("css0", i);
-            mc = $.trim(xtsz.myVale("mc", i).val());
-            event = sr("event", i);
-            session = sr("session", i);
+            visible = $.trim(xtsz.getObj("visible", i).is(':checked') ? "1" : "0");
+            readonly = $.trim(xtsz.getObj("readonly", i).is(':checked') ? "1" : "0");
+            type = $.trim(xtsz.getObj("type", i).val());
+            bz = getValSQL("bz", i);
+            css = getValSQL("css", i);
+            css0 = getValSQL("css0", i);
+            mc = $.trim(xtsz.getObj("mc", i).val());
+            event = getValSQL("event", i);
+            session = getValSQL("session", i);
             if (session.toLowerCase() == "userid" || session.toLowerCase() == "tzid" || session.toLowerCase() == "username") {
                 alert('session 不能是 [userid]或[tzid]或[username] ');
                 $('#ok').removeAttr("disabled")
                 return false;
             }
-            zb = $.trim(xtsz.myVale("zb", i).is(':checked') ? "1" : "0");
-            yy = sr("yy", i)
-            naspx = sr("naspx", i);
-            htmlid = $.trim(xtsz.myVale("htmlid", i).val());
+            zb = $.trim(xtsz.getObj("zb", i).is(':checked') ? "1" : "0");
+            yy = getValSQL("yy", i)
+            naspx = getValSQL("naspx", i);
+            htmlid = $.trim(xtsz.getObj("htmlid", i).val());
             if (id == 0 && htmlid.length == 0 && qwidth=="0" && mc.length==0 ) { continue; }
-            mrz = sr("mrz", i);
-            bds = sr("bds", i);
+            mrz = getValSQL("mrz", i);
+            bds = getValSQL("bds", i);
             var dataRow = {};
             dataRow.id = id;
             dataRow.css0 = css0;
@@ -333,6 +333,7 @@
                     }
                 }
             }
+            utils.hideLoading();
         });
     }
 

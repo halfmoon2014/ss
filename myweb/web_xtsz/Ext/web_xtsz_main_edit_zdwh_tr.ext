@@ -1,0 +1,65 @@
+﻿<tr class="tbbody" rownum="$rownum$">
+    <td style="display: none">
+        <input type="text" field="id" value="$id$" />
+    </td>
+    <td>
+        <input type="text" field="ywname" value="$ywname$" />
+    </td>
+    <td>
+        <input type="text" field="zwname" value="$zwname$" />
+    </td>
+    <td>
+        <input type="text" field="ord" value="$ord$" />
+    </td>
+    <td>
+        <input type="text" field="width" value="$width$" />
+    </td>
+    <td>
+        <input type="text" field="visible" value="$visible$" />
+    </td>
+    <td>
+        <input type="text" field="readonly" value="$readonly$" />
+    </td>
+    <td>
+        <select field="type" mrz="">
+            $type$
+        </select>
+    </td>
+    <td>
+        <input type="text" field="sx" value="$sx$" />
+    </td>
+    <td>
+        <input type="text" field="bz" value="$bz$" />
+    </td>
+    <td>
+        <input type="text" field="showzero" value="$showzero$" />
+    </td>
+    <td>
+        <input type="text" field="event" value="$event$" />
+    </td>
+    <td>
+        <input type="text" field="btnvalue" value="$btnvalue$" />
+    </td>
+    <td>
+        <input type="text" field="showmrrq" value="$showmrrq$" />
+    </td>
+    <td>
+        <input type="text" field="hj" value="$hj$" />
+    </td>
+    <td>
+        <input type="text" field="hbltname" value="$hbltname$" />
+    </td>
+    <td>
+        <input type="text" field="px" value="$px$" />
+    </td>
+    <td>
+        <input type="text" field="format" value="$format$" />
+    </td>
+    <td>
+        <input type="text" field="prtname" value="$prtname$" />
+    </td>
+    <td style="display: none">
+        <input field="mark" type="text" />
+    </td>
+</tr>
+

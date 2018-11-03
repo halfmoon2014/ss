@@ -1,0 +1,13 @@
+#content_menu3_mydiv li {
+    background-color: transparent;
+    border: none;
+}
+
+#content_menu3_mydiv a {
+    text-decoration: none;
+    color: #333;
+}
+
+.menulist span {
+    cursor: help;
+}
