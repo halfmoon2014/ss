@@ -1,7 +1,7 @@
 ﻿function longPolling(callFuc) {
 
     $.ajax({ type: 'post',
-        url: 'longPollingData.aspx',
+        url: 'longPollingData.aspx?u=' + $("#username").attr("b"),
         timeout: 5000,
         data: { "timed": new Date().getTime() },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -15,12 +15,13 @@
             }
         },
         success: function (data) {
-            console.log("success")
-            r = myAjaxData(data);
-            r.msg = decodeURIComponent(r.msg);
-            if (r.r == "true") {
-                callFuc(r);
-            }
+            //console.log("success")
+            //r = myAjaxData(data);
+            //r.msg = decodeURIComponent(r.msg);
+            //if (r.r == "true") {
+            //    callFuc(r);
+            //}
+            callFuc(data);
             longPolling(callFuc);
         }
     });

@@ -1,12 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Threading;
+using System.Web;
 
 namespace Comet
 {
+    public class LongSataMrg
+    {
+        public static LongSataMrg instance = null;
+        public string name;
+        public static LongSataMrg getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new LongSataMrg();
+            }
+            return instance;
+        }
+        public static int Send(string to, object data)
+        {
+            if (clienConnetList.ContainsKey(to))
+            {
+                clienConnetList[to].ExtraData = data;
+                return clienConnetList[to].Call();
+            }
+            return 1002;
+
+        }
+        public static Dictionary<string, CometResult> clienConnetList = new Dictionary<string, CometResult>();
+    }
+
+
+
     class CometAsyncHandler : IHttpAsyncHandler
     {
         public IAsyncResult BeginProcessRequest(HttpContext context, AsyncCallback callback, object extraData)
@@ -17,21 +42,31 @@ namespace Comet
             //之后生成IAsyncResult对象，callback比较重要，调用这个回调，EndProcessRequest才被触发
             var result = new CometResult(context, callback, extraData);
             //在返回之前把刚生成的IAsyncResult对象保存起来，略
-            //...
+            string from = context.Request.QueryString["u"].ToString();
+            if (LongSataMrg.clienConnetList.ContainsKey(from))
+            {
+                LongSataMrg.clienConnetList[from] = result;
+            }
+            else
+            {
+                LongSataMrg.clienConnetList.Add(from, result);
+            }
+
             return result;
         }
 
         public void EndProcessRequest(IAsyncResult asyncResult)
         {
             //得到对应的IAsyncResult对象
-            var result = asyncResult as CometResult;
+            //var result = asyncResult as CometResult;
             //后续处理，如输出内容等，略
             //...
+
         }
 
         public bool IsReusable
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
 
         public void ProcessRequest(HttpContext context)
@@ -49,17 +84,20 @@ namespace Comet
         #endregion
         public AsyncCallback Callback { get; private set; }
         public HttpContext Context { get; private set; }
-        public object ExtraData { get; private set; }
+        public object ExtraData { get; set; }
         public CometResult(HttpContext context, AsyncCallback callback, object extraData)
         {
-            this.Context = context;
-            this.Callback = callback;
-            this.ExtraData = extraData;
+            Context = context;
+            Callback = callback;
+            ExtraData = extraData;
         }
-        public void Call()
+        public int Call()
         {
-            if (this.Callback != null)
-                this.Callback(this);
+            if (!Context.Response.IsClientConnected)
+                return 1001;
+            Context.Response.Write(ExtraData);
+            Callback?.Invoke(this);
+            return 0;
         }
     }
 }

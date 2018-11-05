@@ -1,4 +1,4 @@
-﻿define(["jquery"], function ($) {
+﻿define(["jquery", "utils"], function ($, utils) {
     var start = function () {
         $(document).ready(function () {
             $('.list-group-item').delegate('a', 'click', function (e) {
@@ -13,6 +13,7 @@
                     parent.myhelp(menuID)
                 }
             });
+            utils.hideLoading();
         });
     }
     return {

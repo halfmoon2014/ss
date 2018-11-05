@@ -131,6 +131,7 @@
                 deps: [
                     'css!../css/bootstrap/3.3.7/css/bootstrap.min.css',                
                     'css!../css/content_menu3/content_menu3.css',
+                    'css!../css/loading/loading.css',
                 ]
             },
         },
