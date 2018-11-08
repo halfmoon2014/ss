@@ -21,7 +21,7 @@
                     utils.showLoading();
                     $.ajax({
                         type: 'post',
-                        url: 'webuser/WebService.asmx/Login',
+                        url: 'webuser/ws.asmx/Login',
                         data: { ur: lur, ps: lps },
                         error: function () {
                             utils.hideLoading();

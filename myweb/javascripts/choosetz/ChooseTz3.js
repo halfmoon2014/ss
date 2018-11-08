@@ -14,7 +14,7 @@
                 utils.showLoading();
                 $.ajax({
                     type: 'post',
-                    url: 'webuser/WebService.asmx/ChooseTz',
+                    url: 'webuser/ws.asmx/ChooseTz',
                     data: { tzid: tzid, updata: $("#updata").is(':checked') },
                     error: function () {
                         utils.hideLoading();

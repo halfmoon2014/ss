@@ -7,7 +7,7 @@ function gotz(tzid,menu) {
     document.getElementById("menu").value = menu;
 
     $.ajax({ type: 'post',
-        url: 'webuser/WebService.asmx/ChooseTz',
+        url: 'webuser/ws.asmx/ChooseTz',
         data: { tzid: mySysDate(tzid) },
         error: function () {
         },

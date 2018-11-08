@@ -15,7 +15,7 @@ function okClick() {
     if (lur != "" && lps != "") {
         $("#ok").attr("disabled", true);
         $.ajax({ type: 'post',
-            url: 'webuser/WebService.asmx/Login',
+            url: 'webuser/ws.asmx/Login',
             data: { ur: lur, ps: lps },           
             error: function () {
                 $("#ok").removeAttr("disabled");

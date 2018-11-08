@@ -39,7 +39,7 @@ function okClick() {
         $('#esc').linkbutton('disable');
 
         $.ajax({ type: 'post',
-            url: 'webuser/WebService.asmx/Login',
+            url: 'webuser/ws.asmx/Login',
             data: { ur: mySysDate(lur), ps: mySysDate(lps) },
             error: function () {
                 $.messager.alert('提示信息', '连接错误,请检查!', 'info', function () {
