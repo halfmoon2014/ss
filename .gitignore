@@ -25,6 +25,5 @@ Library/Service.Util/obj
 Library/WeixinUtil/bin
 Library/WeixinUtil/obj
 myweb/logs/
-myweb/web.config
 myweb/log4net.config
 myweb.rar
