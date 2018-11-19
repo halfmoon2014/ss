@@ -94,7 +94,7 @@
     })
 
     function loadInfo(loadMark) {
-        var url = '../AjaxHandler/ProcPager.aspx';
+        var url = 'ProcPager.aspx';
 
         var filterRow = "";
         if (document.getElementById("sysFindSortRow") != null) {

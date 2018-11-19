@@ -213,7 +213,7 @@
     
 
     function loadInfo() {
-        var url = '../AjaxHandler/ProcPager.aspx';
+        var url = 'ProcPager.aspx';
 
         pagerObj = new PagerObj({
             userWebId: document.getElementById("userWebId").value,

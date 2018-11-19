@@ -47,7 +47,7 @@ function loadInfo(loadMark) {
     pagerObj = new PagerObj({
         wid: $("#wid").val(),
         loadMark: loadMark,
-        url: '../AjaxHandler/ProcPager.aspx',
+        url: 'ProcPager.aspx',
         extendParams: eval("({" + headParams + (headParams == "" ? "" : ",") + "filterRow:\"" + filterRow + "\",orderBy:\"" + orderBy + "\",pageSize:\"" + pageSize + "\"})"),
         callbackFn: function () { loadInfoCallback(loadMark); }
     });

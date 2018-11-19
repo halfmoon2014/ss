@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\myweb\Bin\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.JScript" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -61,6 +64,7 @@
     <Compile Include="Ext.cs" />
     <Compile Include="HttpWebResponseUtility.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="LogHelper.cs" />
     <Compile Include="MyCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestExtensions.cs" />
