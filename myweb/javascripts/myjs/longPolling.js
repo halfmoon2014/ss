@@ -1,5 +1,5 @@
 ﻿$(function () {
-    longPolling(showMsg);
+    longPolling(0,showMsg);
 });
 var showMsg = function (msg) {
     $.messager.show({
@@ -9,25 +9,25 @@ var showMsg = function (msg) {
         showType: 'fade'
     });
 }
-function longPolling(callFuc) {
+function longPolling(timeout,callFuc) {
     $.ajax({
         type: 'post',
-        url: 'longPollingData.aspx?u=' + $("#username").attr("b"),
-        timeout: 5000,
+        url: 'longPollingData.aspx?u=' + $("#username").attr("b") + "&t=" + timeout,
+        timeout: timeout,
         data: { "timed": new Date().getTime() },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             if (textStatus == "timeout") { // 请求超时
-                console.log("timeout")
-                longPolling(callFuc); // 递归调用
+                //console.log("timeout")
+                longPolling(timeout,callFuc); // 递归调用
                 // 其他错误，如网络错误等                
             } else {
-                console.log("error")
-                longPolling(callFuc);
+                //console.log("error")
+                longPolling(timeout,callFuc);
             }
         },
         success: function (data) {     
             callFuc(data);
-            longPolling(callFuc);
+            longPolling(timeout,callFuc);
         }
     });
     //    $.ajax({

@@ -22,8 +22,18 @@ namespace Comet
         {
             if (clienConnetList.ContainsKey(to))
             {
-                clienConnetList[to].ExtraData = data;
-                return clienConnetList[to].Call();
+                if (!clienConnetList[to].Context.Response.IsClientConnected)
+                {
+                    clienConnetList.Remove(to);
+                    return 1001;
+                }
+                else
+                {
+                    clienConnetList[to].ExtraData = data;
+                    int code= clienConnetList[to].Call();
+                    clienConnetList.Remove(to);
+                    return code;
+                }
             }
             return 1002;
 
@@ -47,7 +57,10 @@ namespace Comet
             LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("ip", "", "BeginProcessRequest", from));
             if (LongSataMrg.clienConnetList.ContainsKey(from))
             {
-                LongSataMrg.clienConnetList[from].Call();
+                if (LongSataMrg.clienConnetList[from].Context.Response.IsClientConnected)
+                    LongSataMrg.clienConnetList[from].Call();
+
+                LongSataMrg.clienConnetList.Remove(from);
                 LongSataMrg.clienConnetList[from] = result;
             }
             else
@@ -93,13 +106,14 @@ namespace Comet
             Context = context;
             Callback = callback;
             ExtraData = extraData;
+            IsCompleted = false;
         }
         public int Call()
-        {
-            if (!Context.Response.IsClientConnected)
-                return 1001;
+        { 
             Context.Response.Write(ExtraData);
-            Callback?.Invoke(this);
+            IsCompleted = true;            
+            if (this.Callback != null)
+                this.Callback(this);
             return 0;
         }
     }
