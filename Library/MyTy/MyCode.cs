@@ -90,9 +90,9 @@ namespace MyTy
             string xml = HttpContext.Current.Server.MapPath("~/config.xml");
             PageConfiguration pageConfiguration = new PageConfiguration();
             pageConfiguration.PageThemes = ConfigReader.Read(xml, "/Root/appSettings/PageThemes", "");
-            pageConfiguration.Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", "");
-            pageConfiguration.JsCDN = "http://"+ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
-            pageConfiguration.CssCDN = "http://"+ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");
+            pageConfiguration.Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", "");           
+            pageConfiguration.JsCDN = "http://" + ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
+            pageConfiguration.CssCDN = "http://" + ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");            
             pageConfiguration.JsVer = ConfigReader.Read(xml, "/Root/appSettings/JsVer", "");
             return pageConfiguration;
         }

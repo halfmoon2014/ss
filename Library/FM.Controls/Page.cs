@@ -21,12 +21,13 @@ namespace FM.Controls
         protected string GetJsCDN()
         {
             string jsCDN = MyCode.GetPageThemes().JsCDN;
-            return (jsCDN.Length>0? jsCDN + "/javascripts" : "./javascripts");
+            //没配CDN会有问题，路径
+            return jsCDN + "/javascripts";
         }
         protected string GetRequireJs()
         {
             string jsCDN = MyCode.GetPageThemes().JsCDN;
-            return (jsCDN.Length > 0 ? jsCDN + "/javascripts/lib/require.js" : "./javascripts/lib/require.js");
+            return jsCDN + "/javascripts/lib/require.js";
         }
     }
 }

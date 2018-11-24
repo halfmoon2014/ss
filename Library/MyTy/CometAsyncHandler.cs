@@ -9,7 +9,7 @@ namespace Comet
     public class LongSataMrg
     {
         public static LongSataMrg instance = null;
-        public string name;
+
         public static LongSataMrg getInstance()
         {
             if (instance == null)
@@ -20,27 +20,113 @@ namespace Comet
         }
         public static int Send(string to, object data)
         {
-            if (clienConnetList.ContainsKey(to))
+            int code=2002;//没有连接
+
+            for (int i = clienConnetList.Count - 1; i >= 0; i--)
             {
-                if (!clienConnetList[to].Context.Response.IsClientConnected)
+                Complex complex = clienConnetList[i];
+
+                //按用户名发送
+                if (string.Equals(complex.Name, to,StringComparison.OrdinalIgnoreCase))
                 {
-                    clienConnetList.Remove(to);
-                    return 1001;
-                }
-                else
-                {
-                    clienConnetList[to].ExtraData = data;
-                    int code= clienConnetList[to].Call();
-                    clienConnetList.Remove(to);
-                    return code;
+                    //连接失效了
+                    if (!complex.CometResult.Context.Response.IsClientConnected)
+                    {
+                        clienConnetList.Remove(complex);
+                        code=Math.Min(code,2001);//有可能存在多个相同用户名的连接
+                    }
+                    else
+                    {
+                        complex.CometResult.ExtraData = data;
+                        code = complex.CometResult.Call();
+                        clienConnetList.Remove(complex);                        
+                    }
                 }
             }
-            return 1002;
-
+            return code;
         }
-        public static Dictionary<string, CometResult> clienConnetList = new Dictionary<string, CometResult>();
+        public static List<Complex> clienConnetList = new List<Complex>();
     }
+    public class Complex
+    {
+        private string name;
+        private string guid;
+        private DateTime createTime;
+        private CometResult cometResult;
+        public Complex(string name, string guid, CometResult cometResult, DateTime createTime)
+        {
+            Name = name;
+            Guid = guid;
+            CometResult = cometResult;
+            CreateTime = createTime;
+        }
 
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+            }
+        }
+        public string Guid
+        {
+            get
+            {
+                return guid;
+            }
+
+            set
+            {
+                guid = value;
+            }
+        }
+        public CometResult CometResult
+        {
+            get
+            {
+                return cometResult;
+            }
+
+            set
+            {
+                cometResult = value;
+            }
+        }
+        public DateTime CreateTime
+        {
+            get
+            {
+                return createTime;
+            }
+
+            set
+            {
+                createTime = value;
+            }
+        }
+        //public override int GetHashCode()
+        //{
+        //    int name_hashcode = name.GetHashCode();
+        //    int guid_hashcode = guid.GetHashCode();           
+        //    return name_hashcode + guid_hashcode ;
+        //}
+
+        //public bool Equals(ComplexKey para)
+        //{
+        //    return (name == para.name) && (guid == para.guid);
+        //}
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj.GetType().Name == "ComplexKey") { return this.Equals((ComplexKey)obj); }
+        //    return base.Equals(obj);
+        //} 
+    }
 
 
     class CometAsyncHandler : IHttpAsyncHandler
@@ -53,21 +139,10 @@ namespace Comet
             //之后生成IAsyncResult对象，callback比较重要，调用这个回调，EndProcessRequest才被触发
             var result = new CometResult(context, callback, extraData);
             //在返回之前把刚生成的IAsyncResult对象保存起来，略
-            string from = context.Request.QueryString["u"].ToString();
-            LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("ip", "", "BeginProcessRequest", from));
-            if (LongSataMrg.clienConnetList.ContainsKey(from))
-            {
-                if (LongSataMrg.clienConnetList[from].Context.Response.IsClientConnected)
-                    LongSataMrg.clienConnetList[from].Call();
-
-                LongSataMrg.clienConnetList.Remove(from);
-                LongSataMrg.clienConnetList[from] = result;
-            }
-            else
-            {
-                LongSataMrg.clienConnetList.Add(from, result);
-            }
-
+            string n = context.Request.QueryString["n"].ToString();
+            string g = context.Request.QueryString["g"].ToString();
+            LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("ip", n, "BeginProcessRequest", g));
+            LongSataMrg.clienConnetList.Add(new Complex(n, g, result, DateTime.Now));
             return result;
         }
 
@@ -101,6 +176,7 @@ namespace Comet
         public AsyncCallback Callback { get; private set; }
         public HttpContext Context { get; private set; }
         public object ExtraData { get; set; }
+
         public CometResult(HttpContext context, AsyncCallback callback, object extraData)
         {
             Context = context;
@@ -109,9 +185,9 @@ namespace Comet
             IsCompleted = false;
         }
         public int Call()
-        { 
+        {
             Context.Response.Write(ExtraData);
-            IsCompleted = true;            
+            IsCompleted = true;
             if (this.Callback != null)
                 this.Callback(this);
             return 0;
