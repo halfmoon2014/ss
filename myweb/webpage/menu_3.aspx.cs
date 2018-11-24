@@ -4,7 +4,7 @@ using MyTy;
 
 public partial class webpage_menu_3 : FM.Controls.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected new void Page_Load(object sender, EventArgs e)
     {
         base.Page_Load(sender, e);
 

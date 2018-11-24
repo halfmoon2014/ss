@@ -21,26 +21,23 @@ public class Handler : IHttpHandler
         }
         else
         {
-            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(ResultUtil<string>.error(2000,"no method")));
+            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(ResultUtil<string>.error(2000, "no method")));
         }
     }
 
     public Result<string> longPollingData(string to, object data)
     {
-        int code;
+        Result<string> result = new Result<string>();
         try
         {
-            code = LongSataMrg.Send(to, data);
+            result.Errcode = LongSataMrg.Send(to, data);
         }
         catch (System.Exception e)
         {
-            code = 2001;
+            result.Errcode = 2001;
+            result.Errmsg = e.Message;
         }
-        if (code == 0)
-            return ResultUtil<string>.success("");
-        else
-            return ResultUtil<string>.error(code, "longPollingData");
-
+        return result;
     }
 
     public bool IsReusable

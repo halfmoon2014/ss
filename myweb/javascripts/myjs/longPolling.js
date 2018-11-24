@@ -12,7 +12,7 @@ var showMsg = function (msg) {
 function longPolling(timeout,callFuc,g) {
     $.ajax({
         type: 'post',
-        url: 'longPollingData.aspx?n=' + $("#username").attr("b") + "&t=" + timeout+"&g="+g,
+        url: 'longPollingData.aspx?n=' + $("#username").attr("usr") + "&t=" + timeout+"&g="+g,
         timeout: timeout,
         data: { "timed": new Date().getTime() },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

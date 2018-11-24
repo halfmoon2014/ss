@@ -3,7 +3,7 @@ using Service.Util;
 
 public partial class web_xtsz_main_edit_help : FM.Controls.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected new void Page_Load(object sender, EventArgs e)
     {
         base.Page_Load(sender, e);
         string[] rstring = new string[2];

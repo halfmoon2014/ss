@@ -28,20 +28,22 @@ namespace EI.Web
             string tzid = MySession.SessionHandle.Get("tzid");
             string menuPage = MySession.SessionHandle.Get("menupage");
             FM.Business.Login lg = new FM.Business.Login();
-            string userName = lg.GetUser(userid).Tables[0].Rows[0]["name"].ToString();
+            DataRow userDR = lg.GetUser(userid).Tables[0].Rows[0];
+            string userName = userDR["name"].ToString();
+            string usr= userDR["usr"].ToString();
             string loadingCss = ExtUtil.GetHtml(path, "\\webpage\\loading\\loading");
             if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
-                return CreateMobileMenuTree(path,userid, userName, menuPage, tzid)+ loadingCss;
+                return CreateMobileMenuTree(path,userid, userName, menuPage, tzid, usr) + loadingCss;
             else
             {
                 string menu = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\menu");
                 /*等待框*/
                 FM.Business.Help hp = new FM.Business.Help();
-                return string.Format(menu, GetHeadCont(path, userName, "north"), CreateMenuTree(userid), hp.GetWait(), menuPage, tzid, userName)+ loadingCss;
+                return string.Format(menu, GetHeadCont(path, userName, "north"), CreateMenuTree(userid), hp.GetWait(), menuPage, tzid, userName, usr) + loadingCss;
             }
 
         }
-        public string CreateMobileMenuTree(string path,string userid,string userName,string menuPage,string tzid)
+        public string CreateMobileMenuTree(string path,string userid,string userName,string menuPage,string tzid,string usr)
         {
 
             string mobile = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\mobile");
@@ -89,7 +91,7 @@ namespace EI.Web
                 mobileListS.ToString()+ GetHeadCont(path, userName, "northMobile"),
                 "navbar-fixed-top", 
                 "bs-example-navbar-collapse-1",
-                menuPage,tzid,userName),
+                menuPage,tzid,userName,usr),
                 string.Format(mobileBottom, ""));
         }
         public string CreateMenuTree(string userid)

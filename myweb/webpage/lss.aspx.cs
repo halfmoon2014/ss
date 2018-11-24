@@ -4,6 +4,7 @@ using EI.Web;
 using EI.Web.Modal;
 using DTO;
 using MyTy;
+using System.Data;
 
 public partial class lss : System.Web.UI.Page
 {
@@ -34,7 +35,9 @@ public partial class lss : System.Web.UI.Page
             int userid = int.Parse(MySession.SessionHandle.Get("userid").ToString().Trim());
             string menupage = MySession.SessionHandle.Get("menupage").ToString();
             FM.Business.Login lg = new FM.Business.Login();
-            string username = lg.GetUser(userid.ToString()).Tables[0].Rows[0]["name"].ToString();
+            DataRow userDR = lg.GetUser(userid.ToString()).Tables[0].Rows[0];
+            string username = userDR["name"].ToString();
+            string usr =  userDR["usr"].ToString();
             cache = (StringBuilder)CacheTools.WidGet(intWid.ToString(), userid.ToString());
             //if (1 == 1/*cache==null*/)
             //{
@@ -46,7 +49,7 @@ public partial class lss : System.Web.UI.Page
             Html layout = webEdit.WebLayOut(intWid, htmlParameter,MyTy.RequestExtensions.IsMobileBrowser(Request) );
             innerHtml.Append(layout.HtmlMark);
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");
-            innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\" value=\"" + username + "\" />");
+            innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\"  usr=\""+usr+"\" value=\"" + username + "\" />");
             innerHtml.Append("<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>");
             CacheTools.WidInsert(intWid.ToString(), userid.ToString(), innerHtml);
             //}

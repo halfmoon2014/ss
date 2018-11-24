@@ -8,7 +8,7 @@ using System.Text;
 public partial class web_xtsz_main_edit_zdwh : FM.Controls.Page
 {
     public StringBuilder trList = new StringBuilder();
-    protected void Page_Load(object sender, EventArgs e)
+    protected new void Page_Load(object sender, EventArgs e)
     {
         base.Page_Load(sender, e);
 

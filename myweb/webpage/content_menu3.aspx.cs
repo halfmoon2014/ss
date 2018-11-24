@@ -1,7 +1,7 @@
 ﻿using System;
 public partial class content_menu3 : FM.Controls.Page
 {
-    protected void Page_Load(object sender, EventArgs e)
+    protected new void Page_Load(object sender, EventArgs e)
     {
         base.Page_Load(sender, e);
 

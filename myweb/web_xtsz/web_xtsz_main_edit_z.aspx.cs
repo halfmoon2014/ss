@@ -13,7 +13,7 @@ public partial class web_xtsz_main_edit_z : FM.Controls.Page
     public string detailCKMode = "<td {2}><input field='{0}' type='checkbox' {1} /></td> ";
     public List<string> detailSelecttypeList = new List<string>();
     public List<FWDetail> detailList = new List<FWDetail>();
-    protected void Page_Load(object sender, EventArgs e)
+    protected new void Page_Load(object sender, EventArgs e)
     {
         base.Page_Load(sender, e);
 

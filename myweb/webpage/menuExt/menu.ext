@@ -41,7 +41,7 @@
         退出
     </div>
 </div>
-<input type="hidden" id="username" a="{3}" b="{4}" value="{5}" />
+<input type="hidden" id="username" a="{3}" b="{4}" value="{5}" usr="{6}" />
 <dialog id="platDialog" style="border: 3px; padding: 16px;">
     <iframe style="width: 800px; height: 600px" id="platIframe" frameborder="0"></iframe>
 </dialog>

@@ -20,26 +20,26 @@ namespace Comet
         }
         public static int Send(string to, object data)
         {
-            int code=2002;//没有连接
+            int code = 2002;//没有连接
 
             for (int i = clienConnetList.Count - 1; i >= 0; i--)
             {
                 Complex complex = clienConnetList[i];
 
                 //按用户名发送
-                if (string.Equals(complex.Name, to,StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(complex.Name, to, StringComparison.OrdinalIgnoreCase))
                 {
                     //连接失效了
                     if (!complex.CometResult.Context.Response.IsClientConnected)
                     {
                         clienConnetList.Remove(complex);
-                        code=Math.Min(code,2001);//有可能存在多个相同用户名的连接
+                        code = Math.Min(code, 2001);//有可能存在多个相同用户名的连接
                     }
                     else
                     {
                         complex.CometResult.ExtraData = data;
                         code = complex.CometResult.Call();
-                        clienConnetList.Remove(complex);                        
+                        clienConnetList.Remove(complex);
                     }
                 }
             }
@@ -143,6 +143,20 @@ namespace Comet
             string g = context.Request.QueryString["g"].ToString();
             LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("ip", n, "BeginProcessRequest", g));
             LongSataMrg.clienConnetList.Add(new Complex(n, g, result, DateTime.Now));
+            for (int i = LongSataMrg.clienConnetList.Count - 1; i >= 0; i--)
+            {
+                Complex complex = LongSataMrg.clienConnetList[i];
+
+
+                //连接失效了
+                if (!complex.CometResult.Context.Response.IsClientConnected)
+                {
+                    complex.CometResult.Call();
+                    LongSataMrg.clienConnetList.Remove(complex);
+
+                }
+
+            }
             return result;
         }
 
