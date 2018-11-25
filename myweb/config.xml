@@ -93,7 +93,7 @@
     <JsCDN>http://116.62.154.58:99/javascripts</JsCDN>
     <JsVer>tver</JsVer>
     <CssCDN>http://116.62.154.58:99/css</CssCDN>
-    <LongPollingUrl></LongPollingUrl>
+    <LongPollingUrl>./</LongPollingUrl>
     <!--end页面样式-->    
   </appSettings>
 </Root>
