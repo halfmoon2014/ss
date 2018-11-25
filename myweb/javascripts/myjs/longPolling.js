@@ -17,7 +17,7 @@ function longPolling(longpollingurl,usr,timeout, callFuc, g) {
 
     $.ajax({
         type: 'post',
-        url: longpollingurl + 'longPollingData.aspx?n=' + usr + "&t=" + timeout+"&g="+g,
+        url: longpollingurl + '/longPollingData.aspx?n=' + usr + "&t=" + timeout+"&g="+g,
         timeout: timeout,
         data: { "timed": new Date().getTime() },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

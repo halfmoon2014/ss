@@ -53,14 +53,28 @@ namespace Comet
         private string guid;
         private DateTime createTime;
         private CometResult cometResult;
-        public Complex(string name, string guid, CometResult cometResult, DateTime createTime)
+        private string ip;
+
+        public Complex(string name, string guid, CometResult cometResult, DateTime createTime,string ip)
         {
             Name = name;
             Guid = guid;
             CometResult = cometResult;
             CreateTime = createTime;
+            Ip = ip;
         }
+        public string Ip
+        {
+            get
+            {
+                return ip;
+            }
 
+            set
+            {
+                ip = value;
+            }
+        }
         public string Name
         {
             get
@@ -109,23 +123,7 @@ namespace Comet
                 createTime = value;
             }
         }
-        //public override int GetHashCode()
-        //{
-        //    int name_hashcode = name.GetHashCode();
-        //    int guid_hashcode = guid.GetHashCode();           
-        //    return name_hashcode + guid_hashcode ;
-        //}
-
-        //public bool Equals(ComplexKey para)
-        //{
-        //    return (name == para.name) && (guid == para.guid);
-        //}
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj.GetType().Name == "ComplexKey") { return this.Equals((ComplexKey)obj); }
-        //    return base.Equals(obj);
-        //} 
+          
     }
 
 
@@ -142,20 +140,22 @@ namespace Comet
             string n = context.Request.QueryString["n"].ToString();
             string g = context.Request.QueryString["g"].ToString();
             LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("ip", n, "BeginProcessRequest", g));
-            LongSataMrg.clienConnetList.Add(new Complex(n, g, result, DateTime.Now));
+            string ip= "Can not get";
+            if (context.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
+                ip = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();  // Return real client IP.
+            else// not using proxy or can't get the Client IP
+                ip = context.Request.ServerVariables["REMOTE_ADDR"].ToString(); //While it can't get the Client IP, it will return proxy IP.
+
+            LongSataMrg.clienConnetList.Add(new Complex(n, g, result, DateTime.Now,ip));
             for (int i = LongSataMrg.clienConnetList.Count - 1; i >= 0; i--)
             {
                 Complex complex = LongSataMrg.clienConnetList[i];
-
-
                 //连接失效了
                 if (!complex.CometResult.Context.Response.IsClientConnected)
                 {
                     complex.CometResult.Call();
                     LongSataMrg.clienConnetList.Remove(complex);
-
                 }
-
             }
             return result;
         }

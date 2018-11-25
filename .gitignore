@@ -1,7 +1,6 @@
 packages
 .vs
 homepage/Bin/
-myweb/Bin/
 Library/EI.WebEdit/bin
 Library/EI.WebEdit/obj
 Library/DTO/bin
@@ -24,5 +23,11 @@ Library/Service.Util/bin
 Library/Service.Util/obj
 Library/WeixinUtil/bin
 Library/WeixinUtil/obj
+myweb/Bin/
 myweb/logs/
 myweb.rar
+myweb.zip
+Comet/Bin/
+Comet/logs/
+Comet.rar
+Comet.zip
