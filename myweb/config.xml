@@ -90,9 +90,9 @@
     <!--页面样式-->
     <PageThemes>jqeui</PageThemes>
     <Themes>ui-pepper-grinder</Themes>
-    <JsCDN>116.62.154.58:99</JsCDN>
+    <JsCDN>http://116.62.154.58:99/javascripts</JsCDN>
     <JsVer>tver</JsVer>
-    <CssCDN>116.62.154.58:99</CssCDN>
+    <CssCDN>http://116.62.154.58:99/css</CssCDN>
     <LongPollingUrl></LongPollingUrl>
     <!--end页面样式-->    
   </appSettings>

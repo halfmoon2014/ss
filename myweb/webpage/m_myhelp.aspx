@@ -41,6 +41,6 @@
     </div>
     <!-- /container -->
     <input type="hidden" id="myid" runat="server" />    
-    <script data-cdn="<%=GetJsCDN()%>" data-from="userhelp" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script> 
+    <script data-jscdn="<%=GetJsCDN()%>"  data-csscdn="<%=GetCssCDN()%>" data-from="userhelp" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script> 
 </body>
 </html>

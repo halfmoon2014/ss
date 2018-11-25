@@ -23,6 +23,6 @@
             <div class="sk-cube sk-cube9"></div>
         </div>
     </div>
-    <script data-cdn="<%=GetJsCDN()%>" data-from="content_menu3" data-ver="<%=GetJsVer()%>" data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"></script>
+    <script data-jscdn="<%=GetJsCDN()%>"  data-csscdn="<%=GetCssCDN()%>" data-from="content_menu3" data-ver="<%=GetJsVer()%>" data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"></script>
 </body>
 </html>

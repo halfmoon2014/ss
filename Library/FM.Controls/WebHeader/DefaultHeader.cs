@@ -54,43 +54,43 @@ namespace FM.Controls.Header
                 SetJqueryScript();
                 SETProgressDefender();
                 SetJSUtil();
-                SetStyleSheet(string.Format("{0}/css/loading/loading.css?ver={1}", CssCDN, JsVer));
-                SetStyleSheet(string.Format("{0}/css/sweetalert/sweetalert.css?ver={1}", CssCDN, JsVer));
-                SetScript(string.Format("{0}/javascripts/sweetalert/sweetalert.min.js?ver={1}", JsCDN, JsVer));
-                SetScript(string.Format("{0}/javascripts/sweetalert/swalProcess.js?ver={1}", JsCDN, JsVer));
+                SetStyleSheet(string.Format("{0}/loading/loading.css?ver={1}", CssCDN, JsVer));
+                SetStyleSheet(string.Format("{0}/sweetalert/sweetalert.css?ver={1}", CssCDN, JsVer));
+                SetScript(string.Format("{0}/sweetalert/sweetalert.min.js?ver={1}", JsCDN, JsVer));
+                SetScript(string.Format("{0}/sweetalert/swalProcess.js?ver={1}", JsCDN, JsVer));
 
                 //手机
                 if (RequestExtensions.IsMobileBrowser(HttpContext.Current.Request))
                 {
-                    SetStyleSheet(string.Format("{0}/css/bootstrap/3.3.7/css/bootstrap.min.css?ver={1}", CssCDN, JsVer));
-                    SetStyleSheet(string.Format("{0}/css/bootstrap/ie10-viewport-bug-workaround.css?ver={1}", CssCDN, JsVer));
+                    SetStyleSheet(string.Format("{0}/bootstrap/3.3.7/css/bootstrap.min.css?ver={1}", CssCDN, JsVer));
+                    SetStyleSheet(string.Format("{0}/bootstrap/ie10-viewport-bug-workaround.css?ver={1}", CssCDN, JsVer));
                     //SetScript(string.Format("{0}/javascripts/bootstrap/ie-emulation-modes-warning.js?ver={1}", JsCDN,JsVer));
-                    SetScript(string.Format("{0}/javascripts/bootstrap/ie10-viewport-bug-workaround.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/bootstrap/3.3.7/bootstrap.min.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/menu_3/menu_3_mobile.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/bootstrap/ie10-viewport-bug-workaround.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/bootstrap/3.3.7/bootstrap.min.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/menu_3/menu_3_mobile.js?ver={1}", JsCDN, JsVer));
                 }
                 else
                 {
                     SetJQEUI(MyCode.GetPageThemes().Themes);
-                    SetStyleSheet(string.Format("{0}/css/menu_3.css?ver={1}", CssCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/menu_3/menu_3.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/myjs/longPolling.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/myjs/myweb.js?ver={1}", JsCDN, JsVer));
+                    SetStyleSheet(string.Format("{0}/menu_3.css?ver={1}", CssCDN, JsVer));
+                    SetScript(string.Format("{0}/menu_3/menu_3.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/myjs/longPolling.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/myjs/myweb.js?ver={1}", JsCDN, JsVer));
                 }
             }
             else if (myCode.CheckPageType(absolutePath, "SysModulePage"))
             {
                 //模块页
-                SetStyleSheet(string.Format("{0}/css/sweetalert/sweetalert.css?ver={1}", CssCDN, JsVer));
+                SetStyleSheet(string.Format("{0}/sweetalert/sweetalert.css?ver={1}", CssCDN, JsVer));
                 SetJqueryScript();
                 SetJQEUI(MyCode.GetPageThemes().Themes);
                 SetJSUtil();
                 SetPlat();
                 SETProgressDefender();
 
-                SetScript(string.Format("{0}/javascripts/sweetalert/sweetalert.min.js?ver={1}", JsCDN, JsVer));
-                SetScript(string.Format("{0}/javascripts/sweetalert/swalProcess.js?ver={1}", JsCDN, JsVer));
-                SetScript(string.Format("{0}/javascripts/lss/lss.js?ver={1}", JsCDN, JsVer));
+                SetScript(string.Format("{0}/sweetalert/sweetalert.min.js?ver={1}", JsCDN, JsVer));
+                SetScript(string.Format("{0}/sweetalert/swalProcess.js?ver={1}", JsCDN, JsVer));
+                SetScript(string.Format("{0}/lss/lss.js?ver={1}", JsCDN, JsVer));
 
             }
             //其它页             
@@ -108,13 +108,13 @@ namespace FM.Controls.Header
                 else if (string.Compare(MyCode.GetPageThemes().PageThemes, "jqeui") != 0)
                 {
                     SetJqueryScript();
-                    SetStyleSheet(string.Format("{0}/css/f1/main.css?ver={1}", CssCDN, JsVer));
-                    SetStyleSheet(string.Format("{0}/css/mycss/myweb.css?ver={1}", CssCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/myjs/ProcPager.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/f1/base.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/myjs/utils.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/myjs/myweb.js?ver={1}", JsCDN, JsVer));
-                    SetScript(string.Format("{0}/javascripts/lib/json2.js?ver={1}", JsCDN, JsVer));
+                    SetStyleSheet(string.Format("{0}/f1/main.css?ver={1}", CssCDN, JsVer));
+                    SetStyleSheet(string.Format("{0}/mycss/myweb.css?ver={1}", CssCDN, JsVer));
+                    SetScript(string.Format("{0}/myjs/ProcPager.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/f1/base.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/myjs/utils.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/myjs/myweb.js?ver={1}", JsCDN, JsVer));
+                    SetScript(string.Format("{0}/lib/json2.js?ver={1}", JsCDN, JsVer));
                 }
             }
         }
@@ -124,12 +124,12 @@ namespace FM.Controls.Header
         /// <param name="Themes"></param>
         void SetJQEUI(string Themes)
         {
-            SetStyleSheet(string.Format("{0}/css/jey/{1}/easyui.css?ver={2}", CssCDN, Themes, JsVer));
-            SetStyleSheet(string.Format("{0}/css/jey/icon.css?ver={1}", CssCDN, JsVer));
-            SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.min.js?ver={1}", JsCDN, JsVer));
+            SetStyleSheet(string.Format("{0}/jey/{1}/easyui.css?ver={2}", CssCDN, Themes, JsVer));
+            SetStyleSheet(string.Format("{0}/jey/icon.css?ver={1}", CssCDN, JsVer));
+            SetScript(string.Format("{0}/jey/jquery.easyui.min.js?ver={1}", JsCDN, JsVer));
             //jquery easyui 日期格式化
-            SetScript(string.Format("{0}/javascripts/jey/jquery.easyui.add.js?ver={1}", JsCDN, JsVer));
-            SetScript(string.Format("{0}/javascripts/jey/easyui-lang-zh_CN.js?ver={1}", JsCDN, JsVer));
+            SetScript(string.Format("{0}/jey/jquery.easyui.add.js?ver={1}", JsCDN, JsVer));
+            SetScript(string.Format("{0}/jey/easyui-lang-zh_CN.js?ver={1}", JsCDN, JsVer));
             //end jquery easyui 日期格式化
         }
         /// <summary>
@@ -137,31 +137,31 @@ namespace FM.Controls.Header
         /// </summary>
         void SetJSUtil()
         {
-            SetScript(string.Format("{0}/javascripts/myjs/utils.js?ver={1}", JsCDN, JsVer));
-            SetScript(string.Format("{0}/javascripts/lib/json2.js?ver={1}", JsCDN, JsVer));
+            SetScript(string.Format("{0}/myjs/utils.js?ver={1}", JsCDN, JsVer));
+            SetScript(string.Format("{0}/lib/json2.js?ver={1}", JsCDN, JsVer));
         }
         /// <summary>
         /// 平台自定义
         /// </summary>
         void SetPlat()
         {
-            SetStyleSheet(string.Format("{0}/css/mycss/myweb.css?ver={1}", CssCDN, JsVer));
-            SetScript(string.Format("{0}/javascripts/myjs/myweb.js?ver={1}", JsCDN, JsVer));
-            SetScript(string.Format("{0}/javascripts/myjs/ProcPager.js?ver={1}", JsCDN, JsVer));
+            SetStyleSheet(string.Format("{0}/mycss/myweb.css?ver={1}", CssCDN, JsVer));
+            SetScript(string.Format("{0}/myjs/myweb.js?ver={1}", JsCDN, JsVer));
+            SetScript(string.Format("{0}/myjs/ProcPager.js?ver={1}", JsCDN, JsVer));
         }
         /// <summary>
         /// 进程守护
         /// </summary>
         void SETProgressDefender()
         {
-            SetScript(string.Format("{0}/javascripts/myjs/progressDefender.js?ver={1}", JsCDN, JsVer));
+            SetScript(string.Format("{0}/myjs/progressDefender.js?ver={1}", JsCDN, JsVer));
         }
         /// <summary>
         /// 加载JQUERY
         /// </summary>
         void SetJqueryScript()
         {
-            SetScript(string.Format("{0}/javascripts/jquery/1.12.4/jquery.min.js?ver={1}", JsCDN, JsVer));
+            SetScript(string.Format("{0}/jquery/1.12.4/jquery.min.js?ver={1}", JsCDN, JsVer));
         }
         bool IHttpHandler.IsReusable
         {

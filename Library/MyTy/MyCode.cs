@@ -91,8 +91,8 @@ namespace MyTy
             PageConfiguration pageConfiguration = new PageConfiguration();
             pageConfiguration.PageThemes = ConfigReader.Read(xml, "/Root/appSettings/PageThemes", "");
             pageConfiguration.Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", "");           
-            pageConfiguration.JsCDN = "http://" + ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
-            pageConfiguration.CssCDN = "http://" + ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");            
+            pageConfiguration.JsCDN =  ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
+            pageConfiguration.CssCDN = ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");            
             pageConfiguration.JsVer = ConfigReader.Read(xml, "/Root/appSettings/JsVer", "");
             pageConfiguration.LongPollingUrl = ConfigReader.Read(xml, "/Root/appSettings/LongPollingUrl", "");
             return pageConfiguration;

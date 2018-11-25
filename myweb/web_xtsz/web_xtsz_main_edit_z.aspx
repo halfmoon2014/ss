@@ -86,5 +86,5 @@
     <input type="hidden" id="lx" runat="server" />
     <input type="hidden" id="ismobile" runat="server" />
 </body>
-<script data-cdn="<%=GetJsCDN()%>" data-from="web_xtsz_main_edit_z" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script> 
+<script data-jscdn="<%=GetJsCDN()%>"  data-csscdn="<%=GetCssCDN()%>" data-from="web_xtsz_main_edit_z" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script> 
 </html>

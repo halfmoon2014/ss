@@ -39,7 +39,7 @@
         </div>
     </div>
     <!-- Libraries -->
-    <script data-cdn="<%=GetJsCDN()%>" data-from="login" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script>
+    <script data-jscdn="<%=GetJsCDN()%>" data-csscdn="<%=GetCssCDN()%>" data-from="login" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script>
     <!-- End of Libraries -->
 </body>
 </html>
