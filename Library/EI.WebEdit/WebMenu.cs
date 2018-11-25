@@ -39,7 +39,8 @@ namespace EI.Web
                 string menu = ExtUtil.GetHtml(path, "\\webpage\\menuExt\\menu");
                 /*等待框*/
                 FM.Business.Help hp = new FM.Business.Help();
-                return string.Format(menu, GetHeadCont(path, userName, "north"), CreateMenuTree(userid), hp.GetWait(), menuPage, tzid, userName, usr) + loadingCss;
+                string longPollingUrl = MyCode.GetPageThemes().LongPollingUrl;
+                return string.Format(menu, GetHeadCont(path, userName, "north"), CreateMenuTree(userid), hp.GetWait(), menuPage, tzid, userName, usr, longPollingUrl) + loadingCss;
             }
 
         }

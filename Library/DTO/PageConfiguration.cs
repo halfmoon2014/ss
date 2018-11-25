@@ -23,6 +23,20 @@
         /// </summary>
         private string jsVer;
 
+        private string longPollingUrl;
+        public string LongPollingUrl
+        {
+            get
+            {
+                return longPollingUrl;
+            }
+
+            set
+            {
+                longPollingUrl = value;
+            }
+        }
+
         public string PageThemes
         {
             get

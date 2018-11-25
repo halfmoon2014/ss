@@ -94,6 +94,7 @@ namespace MyTy
             pageConfiguration.JsCDN = "http://" + ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
             pageConfiguration.CssCDN = "http://" + ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");            
             pageConfiguration.JsVer = ConfigReader.Read(xml, "/Root/appSettings/JsVer", "");
+            pageConfiguration.LongPollingUrl = ConfigReader.Read(xml, "/Root/appSettings/LongPollingUrl", "");
             return pageConfiguration;
         }
     }

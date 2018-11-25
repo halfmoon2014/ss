@@ -93,6 +93,7 @@
     <JsCDN>116.62.154.58:99</JsCDN>
     <JsVer>tver</JsVer>
     <CssCDN>116.62.154.58:99</CssCDN>
+    <LongPollingUrl></LongPollingUrl>
     <!--end页面样式-->    
   </appSettings>
 </Root>
