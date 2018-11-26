@@ -5,34 +5,45 @@
         longPolling(longpollingurl, usr, 0, showMsg, randomKey());
     }
 });
-var showMsg = function (msg) {
+var showMsg = function (msg,action) {
     $.messager.show({
         title: "info",
         msg: msg,
         timeout: 0,
         showType: 'fade'
     });
+    if (action == "Query") {
+        setTimeout(function () { location.reload() }, 10000)
+    }
 }
-function longPolling(longpollingurl,usr,timeout, callFuc, g) {   
+function longPolling(longpollingurl, usr, timeout, callFuc, g) {
 
     $.ajax({
         type: 'post',
-        url: longpollingurl + '/longPollingData.aspx?n=' + usr + "&t=" + timeout+"&g="+g,
+        url: longpollingurl + '/longPollingData.aspx?n=' + usr + "&t=" + timeout + "&g=" + g,
         timeout: timeout,
         data: { "timed": new Date().getTime() },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             if (textStatus == "timeout") { // 请求超时
-                //console.log("timeout")
-                longPolling(longpollingurl,usr,timeout,callFuc,g); // 递归调用
+                longPolling(longpollingurl, usr, timeout, callFuc, g); // 递归调用
                 // 其他错误，如网络错误等                
             } else {
-                //console.log("error")
-                longPolling(longpollingurl,usr,timeout,callFuc,g);
+                longPolling(longpollingurl, usr, timeout, callFuc, g);
             }
         },
-        success: function (data) {     
-            callFuc(data);
-            longPolling(longpollingurl,usr,timeout,callFuc,g);
+        success: function (data) {
+            var r = JSON.parse(data);
+            if (r.Errcode == 0) {
+                if (r.Data == "Query") {
+                    callFuc("10秒后刷新", r.Data);
+                } else {
+                    callFuc(r.Data);
+                    longPolling(longpollingurl, usr, timeout, callFuc, g);
+                }
+            } else {
+                alert(r.Errmsg);
+                longPolling(longpollingurl, usr, timeout, callFuc, g);
+            }
         }
     });
     //    $.ajax({
