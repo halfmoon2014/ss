@@ -17,7 +17,11 @@ public partial class webpage_index : System.Web.UI.Page
             Complex complex = clienConnetList[i];
             StringBuilder sb = new StringBuilder();
             sb.Append("<div class='tag_"+i+"' >");
-            sb.Append("<div>Name:" + complex.Name+ " <a href=\"#\" onclick=\"del('"+ complex.Guid + "','tag_"+i+"')\" >清除</a> </div>");
+            sb.Append("<div>Name:" + complex.Name+ " <a href=\"#\" onclick=\"doAction('del','"+ complex.Guid + "',"+i+ ")\" >清除</a>&nbsp;&nbsp;<a href=\"#\" onclick=\"doAction('query','" + complex.Guid + "'," + i + ")\" >刷新</a>&nbsp;&nbsp;<a href=\"#\" onclick=\"doAction('unload','" + complex.Guid + "'," + i + ")\" >用户注销</a> </div>");
+            sb.Append("<div><textarea class='textarea_"+i+ "'></textarea></div>");
+            sb.Append("<div><input type=\"button\" onclick=\"doAction('command','" + complex.Guid + "'," + i + ")\" value=\"send command\" /></div>");
+            sb.Append("<div>ConnID:" + complex.ConnID + "</div>");
+            sb.Append("<div>Title:" + complex.Title + "</div>");
             sb.Append("<div>Guid:" + complex.Guid + "</div>");
             sb.Append("<div>Ip:" + complex.Ip + "</div>");
             sb.Append("<div>CreateTime:" + complex.CreateTime + "</div>");

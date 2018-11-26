@@ -54,14 +54,42 @@ namespace Comet
         private DateTime createTime;
         private CometResult cometResult;
         private string ip;
+        private string title;
+        private int connID;
 
-        public Complex(string name, string guid, CometResult cometResult, DateTime createTime,string ip)
+        public Complex(string name,string title,int connID, string guid, CometResult cometResult, DateTime createTime,string ip)
         {
             Name = name;
             Guid = guid;
             CometResult = cometResult;
             CreateTime = createTime;
             Ip = ip;
+            Title = title;
+            ConnID = connID;
+        }
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+
+            set
+            {
+                title = value;
+            }
+        }
+        public int ConnID
+        {
+            get
+            {
+                return connID;
+            }
+
+            set
+            {
+                connID = value;
+            }
         }
         public string Ip
         {
@@ -139,6 +167,8 @@ namespace Comet
             //在返回之前把刚生成的IAsyncResult对象保存起来，略
             string n = context.Request.QueryString["n"].ToString();
             string g = context.Request.QueryString["g"].ToString();
+            string title = Microsoft.JScript.GlobalObject.decodeURI(context.Request.QueryString["title"].ToString());
+            int connID =int.Parse(context.Request.QueryString["b"].ToString());
             LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("ip", n, "BeginProcessRequest", g));
             string ip= "Can not get";
             if (context.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
@@ -146,7 +176,7 @@ namespace Comet
             else// not using proxy or can't get the Client IP
                 ip = context.Request.ServerVariables["REMOTE_ADDR"].ToString(); //While it can't get the Client IP, it will return proxy IP.
 
-            LongSataMrg.clienConnetList.Add(new Complex(n, g, result, DateTime.Now,ip));
+            LongSataMrg.clienConnetList.Add(new Complex(n,title,connID, g, result, DateTime.Now,ip));
             for (int i = LongSataMrg.clienConnetList.Count - 1; i >= 0; i--)
             {
                 Complex complex = LongSataMrg.clienConnetList[i];
