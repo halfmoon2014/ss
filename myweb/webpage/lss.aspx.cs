@@ -49,7 +49,8 @@ public partial class lss : System.Web.UI.Page
             Html layout = webEdit.WebLayOut(intWid, htmlParameter,MyTy.RequestExtensions.IsMobileBrowser(Request) );
             innerHtml.Append(layout.HtmlMark);
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");
-            innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\"  usr=\""+usr+"\" value=\"" + username + "\" />");
+            
+            innerHtml.Append("<input type=\"hidden\"  id=\"username\" a=\"" + menupage + "\" b=\"" + tzid.ToString() + "\"  usr=\""+usr+"\" value=\"" + username + "\" longpollingurl=\"" + MyCode.GetAppSettings().LongPollingUrl + "\" />");
             innerHtml.Append("<dialog id=\"platDialog\" style=\"border: 3px;padding:16px;\"><iframe style=\"width: 800px; height: 600px\" id=\"platIframe\" frameborder=\"0\" ></iframe></dialog>");
             CacheTools.WidInsert(intWid.ToString(), userid.ToString(), innerHtml);
             //}

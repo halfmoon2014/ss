@@ -85,7 +85,7 @@ namespace MyTy
         /// 返回页面样式配置
         /// </summary>
         /// <returns></returns>
-        public static PageConfiguration GetPageThemes()
+        public static PageConfiguration GetAppSettings()
         {
             string xml = HttpContext.Current.Server.MapPath("~/config.xml");
             PageConfiguration pageConfiguration = new PageConfiguration();

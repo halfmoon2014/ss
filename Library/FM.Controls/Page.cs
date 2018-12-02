@@ -16,23 +16,23 @@ namespace FM.Controls
         /// <returns></returns>
         protected string GetJsVer()
         {
-            return MyCode.GetPageThemes().JsVer;
+            return MyCode.GetAppSettings().JsVer;
         }
         protected string GetJsCDN()
         {
-            string jsCDN = MyCode.GetPageThemes().JsCDN;
+            string jsCDN = MyCode.GetAppSettings().JsCDN;
             //没配CDN会有问题，路径
             return jsCDN;
         }
         protected string GetCssCDN()
         {
-            string jsCDN = MyCode.GetPageThemes().CssCDN;
+            string jsCDN = MyCode.GetAppSettings().CssCDN;
             //没配CDN会有问题，路径
             return jsCDN ;
         }
         protected string GetRequireJs()
         {
-            string jsCDN = MyCode.GetPageThemes().JsCDN;
+            string jsCDN = MyCode.GetAppSettings().JsCDN;
             return jsCDN + "/lib/require.js";
         }
     }

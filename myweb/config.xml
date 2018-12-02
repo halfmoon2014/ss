@@ -94,7 +94,7 @@
     <JsVer>tver</JsVer>
     <CssCDN>http://116.62.154.58:99/css</CssCDN>
     <LongPollingUrl>http://localhost:31093/webpage</LongPollingUrl>
-	<LongPollingUrl1>http://116.62.154.58:98/webpage</LongPollingUrl1>
+	  <LongPollingUrl1>http://116.62.154.58:98/webpage</LongPollingUrl1>
     <!--end页面样式-->    
   </appSettings>
 </Root>

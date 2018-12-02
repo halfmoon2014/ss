@@ -40,6 +40,7 @@
             console.log("onExpand");
         }
     });
+    longPollingStart();
     hideLoading();
 });
 

@@ -7,6 +7,36 @@
     <script src="../javascripts/jquery/jquery-1.8.0.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>clienConnetList</title>
+    <style type="text/css">
+        .color_1{
+            background-color:#C4C4C4;
+        }
+        .color_2{
+            background-color:#C1CDC1;
+        }
+        .color_3{
+            background-color:#BFBFBF;
+        }
+        .color_4{
+            background-color:#BDB76B;
+        }
+        .color_5{
+            background-color:#BBFFFF;
+        }
+        .color_6{
+            background-color:#B8B8B8;
+        }
+        .color_7{
+            background-color:#B4EEB4;
+        }
+        .color_8{
+            background-color:#B3B3B3;
+        }
+        .color_9{
+            background-color:#B0E2FF;
+        }
+         
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -21,7 +51,7 @@
             $(".textarea_" + i).val("window_onunload(0)");
         } else if (ac == "query") {
             ac = "command";;
-            $(".textarea_" + i).val("callFuc('10秒后刷新','Query')");
+            $(".textarea_" + i).val("showMsg('10秒后刷新');setTimeout(function () { longPollingReload() }, 10000)");
         }
 
         var tag = "tag_" + i;

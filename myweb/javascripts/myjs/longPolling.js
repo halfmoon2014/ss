@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿var longPollingStart = function () {
     var longpollingurl = $("#username").attr("longpollingurl");
     var usr = $("#username").attr("usr");
     var b = $("#username").attr("b");
@@ -6,18 +6,23 @@
     if (longpollingurl.length > 0) {
         longPolling(longpollingurl, title, b, usr, 0, showMsg, randomKey());
     }
-});
-var showMsg = function (msg, action) {
+}
+
+var showMsg = function (msg) {
     $.messager.show({
         title: "info",
         msg: msg,
         timeout: 0,
         showType: 'fade'
     });
-    if (action == "Query") {
-        setTimeout(function () { location.reload() }, 10000)
-    }
+    //if (action == "Query") {
+    //    setTimeout(function () { location.reload() }, 10000)
+    //}
 }
+var longPollingReload = function () {
+    location.reload();
+}
+
 function longPolling(longpollingurl, title, b, usr, timeout, callFuc, g) {
 
     $.ajax({

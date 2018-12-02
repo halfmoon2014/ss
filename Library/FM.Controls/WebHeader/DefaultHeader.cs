@@ -7,10 +7,10 @@ namespace FM.Controls.Header
 {
     public class DefaultHeader : Header, IHttpHandler
     {
-        private string JsCDN = MyCode.GetPageThemes().JsCDN;
-        private string CssCDN = MyCode.GetPageThemes().CssCDN;
+        private string JsCDN = MyCode.GetAppSettings().JsCDN;
+        private string CssCDN = MyCode.GetAppSettings().CssCDN;
 
-        private string JsVer = (MyCode.GetPageThemes().JsVer.Length == 0 ? "regular" : MyCode.GetPageThemes().JsVer);
+        private string JsVer = (MyCode.GetAppSettings().JsVer.Length == 0 ? "regular" : MyCode.GetAppSettings().JsVer);
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -47,7 +47,7 @@ namespace FM.Controls.Header
             else if (myCode.CheckPageType(absolutePath, "SysXTSZ&JQY") || myCode.CheckPageType(absolutePath, "Other&JQY"))
             {
                 SetJqueryScript();
-                SetJQEUI(MyCode.GetPageThemes().Themes);
+                SetJQEUI(MyCode.GetAppSettings().Themes);
             }
             else if (myCode.CheckPageType(absolutePath, "MenuPage"))
             {
@@ -71,7 +71,7 @@ namespace FM.Controls.Header
                 }
                 else
                 {
-                    SetJQEUI(MyCode.GetPageThemes().Themes);
+                    SetJQEUI(MyCode.GetAppSettings().Themes);
                     SetStyleSheet(string.Format("{0}/menu_3.css?ver={1}", CssCDN, JsVer));
                     SetScript(string.Format("{0}/menu_3/menu_3.js?ver={1}", JsCDN, JsVer));
                     SetScript(string.Format("{0}/myjs/longPolling.js?ver={1}", JsCDN, JsVer));
@@ -83,7 +83,7 @@ namespace FM.Controls.Header
                 //模块页
                 SetStyleSheet(string.Format("{0}/sweetalert/sweetalert.css?ver={1}", CssCDN, JsVer));
                 SetJqueryScript();
-                SetJQEUI(MyCode.GetPageThemes().Themes);
+                SetJQEUI(MyCode.GetAppSettings().Themes);
                 SetJSUtil();
                 SetPlat();
                 SETProgressDefender();
@@ -91,21 +91,21 @@ namespace FM.Controls.Header
                 SetScript(string.Format("{0}/sweetalert/sweetalert.min.js?ver={1}", JsCDN, JsVer));
                 SetScript(string.Format("{0}/sweetalert/swalProcess.js?ver={1}", JsCDN, JsVer));
                 SetScript(string.Format("{0}/lss/lss.js?ver={1}", JsCDN, JsVer));
-
+                SetScript(string.Format("{0}/myjs/longPolling.js?ver={1}", JsCDN, JsVer));
             }
             //其它页             
             else
             {
-                if (string.Compare(MyCode.GetPageThemes().PageThemes, "jqeui") == 0)
+                if (string.Compare(MyCode.GetAppSettings().PageThemes, "jqeui") == 0)
                 {
                     SetJqueryScript();
-                    SetJQEUI(MyCode.GetPageThemes().Themes);
+                    SetJQEUI(MyCode.GetAppSettings().Themes);
                     SetJSUtil();
                     SetPlat();
                     SETProgressDefender();
                 }
                 //或者主题不是jqeui
-                else if (string.Compare(MyCode.GetPageThemes().PageThemes, "jqeui") != 0)
+                else if (string.Compare(MyCode.GetAppSettings().PageThemes, "jqeui") != 0)
                 {
                     SetJqueryScript();
                     SetStyleSheet(string.Format("{0}/f1/main.css?ver={1}", CssCDN, JsVer));

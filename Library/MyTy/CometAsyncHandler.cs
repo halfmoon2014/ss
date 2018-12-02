@@ -6,6 +6,9 @@ using System.Web;
 
 namespace Comet
 {
+    /// <summary>
+    /// 长连接对象管理类
+    /// </summary>
     public class LongSataMrg
     {
         public static LongSataMrg instance = null;
@@ -47,6 +50,9 @@ namespace Comet
         }
         public static List<Complex> clienConnetList = new List<Complex>();
     }
+    /// <summary>
+    /// 长连接实体
+    /// </summary>
     public class Complex
     {
         private string name;
@@ -154,7 +160,9 @@ namespace Comet
           
     }
 
-
+    /// <summary>
+    /// 异步
+    /// </summary>
     class CometAsyncHandler : IHttpAsyncHandler
     {
         public IAsyncResult BeginProcessRequest(HttpContext context, AsyncCallback callback, object extraData)
