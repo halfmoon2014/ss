@@ -12,11 +12,13 @@ function addMainTab(tabTitle, url) {
     if ($("#content_menu3_mydiv_mobile").attr("url") != url) {
         showLoading();
         checkSessionAsy(function (result) {
-            if (result) {
+            if (result.errcode == 0 && result.data) {
                 createMainFrame(url);
-            } else {
+            } else if (result.errcode == 0 && !result.data) {
                 hideLoading();                
                 reLoad(function () { createMainFrame(url) });
+            } else {
+                alert(result.errmsg.replace("$", "\r\n"));
             }
         });
     }

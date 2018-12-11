@@ -48,13 +48,15 @@
 function addMainTab(subtitle, url) {
     showLoading();
     checkSessionAsy(function (result) {
-        if (result) {
+        if (result.errcode == 0 && result.data) {
             goAddMainTab(subtitle, url)
-        } else {
+        } else if (result.errcode == 0 && !result.data) {
             hideLoading();            
             reLoad(function () {
                 goAddMainTab(subtitle, url)
             })
+        } else {
+            alert(result.errmsg.replace("$","\r\n"));
         }
     });
 }
@@ -92,12 +94,14 @@ function createMainFrame(url) {
 function addTab(subtitle, url, obj) {
     var alone = $(obj).attr("alone");
     checkSessionAsy(function (result) {
-        if (result) {
+        if (result.errcode == 0 && result.data) {
             goAddTab(subtitle, url, alone);
-        } else {            
+        } else if (result.errcode == 0 && !result.data) {
             reLoad(function () {
                 goAddTab(subtitle, url, alone);
             })
+        } else {
+            alert(result.errmsg.replace("$", "\r\n"));
         }
     });
 }

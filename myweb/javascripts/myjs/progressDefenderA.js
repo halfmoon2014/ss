@@ -33,15 +33,19 @@ define(['jquery', 'utils', 'progressDefender'], function ($, utils, progressDefe
             url: '../webuser/ws.asmx/CheckSession',
             async: true,
             data: {},
-            error: function (e) {
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                var o = {}; o.errcode = 100;
+                o.errmsg = 'XMLHttpRequest.status: ' + XMLHttpRequest.status + "$" + 'XMLHttpRequest.readyState: ' + XMLHttpRequest.readyState + "$" + 'textStatus: ' + textStatus + "$" + 'errorThrown: ' + errorThrown;
                 fn(false);
             },
             success: function (data) {
+                var o = {}; o.errcode = 0;
                 if (utils.myAjaxData(data).r == "") {
-                    fn(true)
+                    o.data = true;
                 } else {
-                    fn(false)
+                    o.data = false;
                 }
+                fn(o);
             }
         });
     }
