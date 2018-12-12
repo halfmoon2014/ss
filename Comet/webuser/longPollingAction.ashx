@@ -24,6 +24,15 @@ public class longPollingAction : IHttpHandler
             {
                 if (!complex.CometResult.Context.Response.IsClientConnected)
                 {
+                    try
+                    {
+                        //如果连接已经断开,也要
+                        complex.CometResult.DissClientConnectedCall();
+                    }
+                    catch (SystemException ex)
+                    {
+
+                    }
                     clienConnetList.Remove(complex);
                     result.Errcode = Math.Min(result.Errcode, 2001);//有可能存在多个相同用户名的连接
                 }

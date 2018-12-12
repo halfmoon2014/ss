@@ -49,7 +49,7 @@ public partial class web_sp_hang_plate_prt : System.Web.UI.Page
         " INNER JOIN v_user r ON r.id = a.createor_id" +
         " inner join #khmc k on k.khmc=x.khmc " +
         " where DATEDIFF(DAY,'{1}',a.BizDate)>=0 and DATEDIFF(DAY,a.BizDate,'{2}')>=0 {3} ;" +
-        " SELECT zb.khid,zb.BizDate,zb.number,a.product,a.colour,a.weight,a.count_pre_jin ,a.price,case zb.djlx when 410 then '滚镀' else '挂镀' end djlxmc, CASE ZB.DJLX WHEN  410 THEN CONVERT( DECIMAL(12,2), a.price*a.weight,2) ELSE  CONVERT( DECIMAL(12,2), a.price*a.weight*a.count_pre_jin,2) END  Amount," +
+        " SELECT zb.khid,zb.BizDate,zb.number,a.product+case a.memory when '' then '' else '['+a.memory+']' end  as product,a.colour,a.weight,a.count_pre_jin ,a.price,case zb.djlx when 410 then '滚镀' else '挂镀' end djlxmc, CASE ZB.DJLX WHEN  410 THEN CONVERT( DECIMAL(12,2), a.price*a.weight,2) ELSE  CONVERT( DECIMAL(12,2), a.price*a.weight*a.count_pre_jin,2) END  Amount," +
         " a.remark,a.after_finish,after_quantity = a.weight * a.count_pre_jin ,a.after_price,CONVERT(DECIMAL(12, 2), a.after_price * a.weight * a.count_pre_jin, 2) after_amt" +
         " FROM _v_hang_plate_detail a INNER JOIN #zb ZB ON ZB.ID=A.ID; " +
         " select a.khmc,b.khdm,b.id from #khmc a inner join v_sp_xskhda b on a.khmc=b.khmc order by case  when  ISNUMERIC(b.khdm) = 1 AND CHARINDEX(',', b.khdm) = 0 AND CHARINDEX('\', b.khdm) = 0 then  CAST(b.khdm AS INT) else 0 end; " +
