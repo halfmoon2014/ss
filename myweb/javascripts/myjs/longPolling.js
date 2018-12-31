@@ -39,9 +39,9 @@ function longPolling(longpollingurl, title, b, usr, timeout, callFuc, g) {
             }
             longPolling(longpollingurl, title, b, usr, timeout, callFuc, g)
         },
-        success: function (data) {
-            var r = JSON.parse(data);
+        success: function (data) {            
             try {
+                var r = JSON.parse(data);
                 if (r.Errcode == 0) {
                     callFuc(r.Data);
                 } else if (r.Errcode == -1) {
