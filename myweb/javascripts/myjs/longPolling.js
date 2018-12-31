@@ -32,24 +32,26 @@ function longPolling(longpollingurl, title, b, usr, timeout, callFuc, g) {
         data: { "timed": new Date().getTime() },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             if (textStatus == "timeout") { // 请求超时
-                longPolling(longpollingurl, title, b, usr, timeout, callFuc, g); // 递归调用
+                //longPolling(longpollingurl, title, b, usr, timeout, callFuc, g); // 递归调用
                 // 其他错误，如网络错误等                
             } else {
-                longPolling(longpollingurl, title, b, usr, timeout, callFuc, g);
+                //longPolling(longpollingurl, title, b, usr, timeout, callFuc, g);
             }
+            longPolling(longpollingurl, title, b, usr, timeout, callFuc, g)
         },
         success: function (data) {
             var r = JSON.parse(data);
-            if (r.Errcode == 0) {
-                callFuc(r.Data);
-                longPolling(longpollingurl, title, b, usr, timeout, callFuc, g);
-            } else if (r.Errcode == -1) {
-                eval(r.Data);
-                longPolling(longpollingurl, title, b, usr, timeout, callFuc, g);
-            } else {
-                alert(r.Errmsg);
-                longPolling(longpollingurl, title, b, usr, timeout, callFuc, g);
+            try {
+                if (r.Errcode == 0) {
+                    callFuc(r.Data);
+                } else if (r.Errcode == -1) {
+                    eval(r.Data);
+                } else {
+                    alert(r.Errmsg);
+                }
+            } catch (err) {                
             }
+            longPolling(longpollingurl, title, b, usr, timeout, callFuc, g)
         }
     });    
 }
