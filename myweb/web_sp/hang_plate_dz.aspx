@@ -52,7 +52,7 @@
             {//没记录
                 continue;
             }
-            DataTable singDetailDT = detailDT.Select("khid='" + khDR["id"] + "'", "djlxmc").CopyToDataTable();
+            DataTable singDetailDT = detailDT.Select("khid='" + khDR["id"] + "'", "djlxmc,BizDate").CopyToDataTable();
     %>
     <div class="break">
         <table style="font-size: 12pt; width: 1000px">
