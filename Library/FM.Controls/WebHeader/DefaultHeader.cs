@@ -30,12 +30,14 @@ namespace FM.Controls.Header
 
             //登陆页,套账选择页不需要在head中加截jquery
             if (myCode.CheckPageType(absolutePath, "Login"))
-            {
-
+            {                
+                SetScriptCdn(string.Format("data-jscdn=\"{0}\" data-csscdn=\"{1}\" data-from=\"login\" data-ver=\"{2}\"  data-main=\"{3}\" defer async=\"true\" src=\"{4}\" id=\"jsApp\"",
+                    JsCDN, CssCDN, JsVer, JsCDN + "/app", JsCDN + "/lib/require.js"));
             }
             else if (myCode.CheckPageType(absolutePath, "ChooseTz"))
             {
-
+                SetScriptCdn(string.Format("data-jscdn=\"{0}\" data-csscdn=\"{1}\" data-from=\"choosetz3\" data-ver=\"{2}\"  data-main=\"{3}\" defer async=\"true\" src=\"{4}\" id=\"jsApp\"",
+                                    JsCDN, CssCDN, JsVer, JsCDN + "/app", JsCDN + "/lib/require.js"));
             }
             else if (myCode.CheckPageType(absolutePath, "Other&Nope"))
             {

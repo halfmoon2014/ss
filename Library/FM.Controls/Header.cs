@@ -14,6 +14,7 @@ namespace FM.Controls.Header
         private const string descriptionFmt = "<meta name=\"description\" content=\"{0}\" />";
         private const string contentTyptFmt = "<META CHARSET={0}\" />";
         private const string scriptFmt = "<script language=\"javascript\" src=\"{0}\"></script>";
+        private const string scriptCdnFmt = "<script {0}></script>";
         private const string styleFmt = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\" />";
 
         protected override void OnLoad(EventArgs e)
@@ -34,7 +35,7 @@ namespace FM.Controls.Header
             output.WriteLine(keyWorkFmt, KeyWorks);
             output.WriteLine(descriptionFmt, Description);
             foreach (string references in listReferences)
-                output.WriteLine(references);
+                output.WriteLine(references);            
             output.WriteLine(GetJavaScript());
         }
 
@@ -71,6 +72,10 @@ namespace FM.Controls.Header
         public void SetScript(string file)
         {
             listReferences.Add(string.Format(scriptFmt, file));
+        }
+        public void SetScriptCdn(string file)
+        {
+            listReferences.Add(string.Format(scriptCdnFmt, file));
         }
 
         public string Title

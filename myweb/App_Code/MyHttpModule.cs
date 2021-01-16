@@ -145,7 +145,7 @@ public class MyHttpModule : IHttpModule
             {
                 //获取客户访问的页面
                 string module = "";//根据url得到所在的模块       
-                if (!RightChecker.HasRight(application.Context.Session["userid"].ToString(), module))
+                if (!RightChecker.HasRight(SessionHandle.Get("userid").ToString(), module))
                 {
                     application.Context.Server.Transfer("ErrorPage.aspx");
                 }

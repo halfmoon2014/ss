@@ -6,7 +6,7 @@ using Service.Util;
 using System.Collections.Generic;
 using MyTy;
 using DTO;
-
+using MySession;
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 
@@ -345,9 +345,9 @@ public class ws : System.Web.Services.WebService
     public string SessionEnd()
     {
         string r = "";
-        if (Session["menupage"] != null)
-            r = Session["menupage"].ToString();
-        Session.Abandon();
+        if (SessionHandle.Get("menupage") != null)
+            r = SessionHandle.Get("menupage").ToString();
+        SessionHandle.Abandon();
         return "{\"r\":\"" + r.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
     /// <summary>
@@ -358,11 +358,11 @@ public class ws : System.Web.Services.WebService
     public string CheckSession()
     {
         string r = "";
-        if (Session["menupage"] == null)
+        if (SessionHandle.Get("menupage") == null)
             r = "menupage,";
-        if (Session["tzid"] == null)
+        if (SessionHandle.Get("tzid") == null)
             r += "tzid,";
-        if (Session["userid"] == null)
+        if (SessionHandle.Get("userid") == null)
             r += "userid,";
 
         if (!string.IsNullOrEmpty(r))

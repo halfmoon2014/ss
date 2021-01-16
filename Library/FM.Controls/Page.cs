@@ -16,7 +16,7 @@ namespace FM.Controls
         /// <returns></returns>
         protected string GetJsVer()
         {
-            return MyCode.GetAppSettings().JsVer;
+            return MyCode.GetAppSettings().JsVer.Length == 0 ? "regular" : MyCode.GetAppSettings().JsVer;
         }
         protected string GetJsCDN()
         {

@@ -72,27 +72,7 @@ namespace FM.Business
             else
             {
                 return false;
-            }
-            //Session.Keys[0]
-            //"username"
-            //Session.Keys[1]
-            //"user"
-            //Session.Keys[2]
-            //"userid"
-            //Session.Keys[3]
-            //"menupage"
-            //Session.Keys[4]
-            //"tzid"
-            //Session[0]
-            //"张茂洪"
-            //Session[1]
-            //"xz"
-            //Session[2]
-            //"1"
-            //Session[3]
-            //"/myweb/webpage/menu_3.aspx"
-            //Session[4]
-            //"1"
+            }            
         }
 
         /// <summary>

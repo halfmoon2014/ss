@@ -17,7 +17,7 @@ public partial class main : System.Web.UI.Page
 
         string strrq = DateTime.Now.ToString("d");
 
-        this.m_top_title.InnerHtml = "<a href='../ChooseTz.aspx'  style='text-decoration:none' target='_parent' >切换套账</a> 当前系统:" + dt.Rows[0]["tzmc"].ToString() + (Session["user"] != null ? "&nbsp;用户名:" + Session["username"].ToString() : "") + " &nbsp;日期:" + strrq + "&nbsp;&nbsp;";
+        this.m_top_title.InnerHtml = "<a href='../ChooseTz.aspx'  style='text-decoration:none' target='_parent' >切换套账</a> 当前系统:" + dt.Rows[0]["tzmc"].ToString() + (SessionHandle.Get("user") != null ? "&nbsp;用户名:" + Session["username"].ToString() : "") + " &nbsp;日期:" + strrq + "&nbsp;&nbsp;";
        
     }
 

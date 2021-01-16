@@ -1,0 +1,9 @@
+body {
+  background-color: #f7f7f7;
+  margin:0px;
+  padding: 0px;
+}
+// 表格悬浮高亮
+.el-table >>> .el-table__body tr:hover>td {
+  background-color: #d4d89e;
+}  

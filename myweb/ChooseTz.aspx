@@ -25,8 +25,7 @@
             <div class="sk-cube sk-cube9"></div>
         </div>
     </div>
-    <!-- Libraries -->
-    <script data-jscdn="<%=GetJsCDN()%>"  data-csscdn="<%=GetCssCDN()%>" data-from="choosetz3" data-ver="<%=GetJsVer()%>"  data-main="<%=GetJsCDN()+"/app"%>" defer async="true" src="<%=GetRequireJs()%>" id="jsApp"  ></script>
+    <!-- Libraries -->  
     <!-- End of Libraries -->
 </body>
 </html>
