@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Net.NetworkInformation;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MyTy
@@ -352,5 +354,41 @@ namespace MyTy
             return Join(First, Second, f1, s1);
 
         }
+
+        /// <summary>
+        /// 
+        /// 测试网线路
+        /// </summary>
+        /// <param name="ipStr"></param>
+        /// <returns></returns>
+        public static bool TestNet(string ipStr)
+        {            
+                        
+            //构造Ping实例
+            Ping pingSender = new Ping();
+            //Ping 选项设置
+            PingOptions options = new PingOptions();
+            options.DontFragment = true;
+            //测试数据
+            string data = "test data";
+            byte[] buffer = Encoding.ASCII.GetBytes(data);
+            //设置超时时间
+            int timeout = 120;
+            //调用同步 send 方法发送数据,将返回结果保存至PingReply实例
+            try
+            {
+                PingReply reply = pingSender.Send(ipStr, timeout, buffer, options);
+                if (reply.Status == IPStatus.Success)
+                {
+                    return true;
+                }
+                else
+                    return false;
+            }catch(SystemException ex)
+            {
+                return false;
+            }
+        }
+
     }
 }

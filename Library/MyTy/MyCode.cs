@@ -91,8 +91,26 @@ namespace MyTy
             PageConfiguration pageConfiguration = new PageConfiguration();
             pageConfiguration.PageThemes = ConfigReader.Read(xml, "/Root/appSettings/PageThemes", "");
             pageConfiguration.Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", "");           
-            pageConfiguration.JsCDN =  ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");
-            pageConfiguration.CssCDN = ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");            
+            pageConfiguration.JsCDN =  ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");//http://o19430108m.51mypc.cn:88/javascripts
+            string ip = pageConfiguration.JsCDN.Replace("http://", "").Replace("/javascripts", "").Split(':')[0];
+            bool cndRul = Utils.TestNet(ip);
+            if (!cndRul)
+            {//取本地
+                pageConfiguration.JsCDN = "./javascripts";
+            }
+            pageConfiguration.CssCDN = ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");
+            if(ip == pageConfiguration.CssCDN.Replace("http://", "").Replace("/css", "").Split(':')[0])
+            {
+                if (!cndRul) pageConfiguration.CssCDN = "./css";
+            }
+            else
+            {
+                cndRul = Utils.TestNet(pageConfiguration.CssCDN.Replace("http://", "").Replace("/css", "").Split(':')[0]);
+                if (!cndRul)
+                {//取本地
+                    pageConfiguration.JsCDN = "./css";
+                }
+            }
             pageConfiguration.JsVer = ConfigReader.Read(xml, "/Root/appSettings/JsVer", "");
             pageConfiguration.LongPollingUrl = ConfigReader.Read(xml, "/Root/appSettings/LongPollingUrl", "");
             return pageConfiguration;
