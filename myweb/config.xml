@@ -91,10 +91,14 @@
     <PageThemes>jqeui</PageThemes>
     <Themes>ui-pepper-grinder</Themes>
     <JsCDN1>http://116.62.154.58:99/javascripts</JsCDN1>
-    <JsCDN>http://jinfeng.iok.la:88/javascripts</JsCDN>
+    <JsCDN2>http://jinfeng.iok.la:88/javascripts</JsCDN2>
+    
+    <JsCDN>http://o19430108m.51mypc.cn:88/javascripts</JsCDN>
+    <CssCDN>http://o19430108m.51mypc.cn:88/css</CssCDN>
+    
     <JsVer>tver</JsVer>
     <CssCDN1>http://116.62.154.58:99/css</CssCDN1>
-    <CssCDN>http://jinfeng.iok.la:88/css</CssCDN>
+    <CssCDN2>http://jinfeng.iok.la:88/css</CssCDN2>
     <LongPollingUrl2>http://localhost:31093/webpage</LongPollingUrl2>
 	  <LongPollingUrl1>http://116.62.154.58:98/webpage</LongPollingUrl1>
     <!--end页面样式-->    

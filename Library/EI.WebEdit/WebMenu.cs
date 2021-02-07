@@ -144,8 +144,7 @@ namespace EI.Web
                 if (Convert.ToInt32(drNode["xjmj"]) == 1)//如果菜单分组包含菜单项,那么就不要再递归下了.
                     substring.Append("<li><a href=\"#\" url=\"" + drNode["id"].ToString().Trim() + "\" class=\"nav\" >" + drNode["text"].ToString() + "</a></li>");
                 else
-                {
-                    FM.Business.Menu menu = new FM.Business.Menu();
+                {                    
                     DataTable dtNodeNext = GetMenu(drNode["id"].ToString(), dtMenu, dtUserMenu);
                     string next = CreateMenuSubTree(dtNodeNext, dtMenu, dtUserMenu);
                     substring.Append("<li data-options=\"state: 'closed'\"><span>" + drNode["text"].ToString() + "</span>" + (string.IsNullOrEmpty(next) ? "<ul><li><span>开发中</span></li></ul>" : next) + "</li>");

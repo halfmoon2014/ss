@@ -9,15 +9,21 @@ namespace FM.Business
         SqlCommandString sqlstring;
         public Menu()
         {
-            this.sqlstring = new SqlCommandString();
+            sqlstring = new SqlCommandString();
             ConnetString connstr = new ConnetString();
-            this.execObj = new DALInterface(null, connstr.GetDb(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid")));
+            execObj = new DALInterface(null, connstr.GetDb(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid")));
+        }
+        public Menu(string tzid,string userid)
+        {
+            sqlstring = new SqlCommandString();
+            ConnetString connstr = new ConnetString();
+            execObj = new DALInterface(null, connstr.GetDb(tzid, userid));
         }
 
         ////得到顶级菜单
         public DataTable GetTopLM(string userid)
         {                      
-            return this.execObj.SubmitTextDataSet(this.sqlstring.TopLM(userid)).Tables[0];
+            return execObj.SubmitTextDataSet(this.sqlstring.TopLM(userid)).Tables[0];
 
         }
         /// <summary>
@@ -36,7 +42,7 @@ namespace FM.Business
         /// <returns></returns>
         public DataTable GetMenu(string userid,string id)
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.Menu(userid, id)).Tables[0];
+            return execObj.SubmitTextDataSet(this.sqlstring.Menu(userid, id)).Tables[0];
 
         }
         /// <summary>
@@ -58,10 +64,9 @@ namespace FM.Business
         /// <param name="action">发送对象</param>
         public void Log(string ip, string action)
         {
-            if (action == "menu")
-            {
-                this.execObj.SubmitTextInt(this.sqlstring.GetLog(MySession.SessionHandle.Get("userid").Trim(), action, ip));
-            }
+            if (action == "menu")            
+                execObj.SubmitTextInt(this.sqlstring.GetLog(MySession.SessionHandle.Get("userid").Trim(), action, ip));
+            
         }
 
         /// <summary>
@@ -70,16 +75,16 @@ namespace FM.Business
         /// <param name="id"></param>
         /// <returns></returns>
         public DataTable GetContentMenu(string ssid)
-        {
-            SqlCommandString sqlstring = new SqlCommandString();
-            ConnetString connstr = new ConnetString();            
-            Service.DAL.DALInterface execObj = new Service.DAL.DALInterface(null, connstr.GetDb(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid")));
+        {          
             return execObj.SubmitTextDataSet(sqlstring.GetSsidMenu(MySession.SessionHandle.Get("userid").Trim(), ssid)).Tables[0];  
         }
-
+        public DataTable GetContentMenu(string userid,string ssid)
+        {
+            return execObj.SubmitTextDataSet(sqlstring.GetSsidMenu(userid, ssid)).Tables[0];
+        }
         public DataSet GetHelp(string id)
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.GetHelp(id));
+            return execObj.SubmitTextDataSet(this.sqlstring.GetHelp(id));
         }
     }
 }

@@ -22,18 +22,17 @@ namespace FM.Business
         /// <param name="usr"></param>
         /// <param name="psw"></param>
         /// <returns></returns>
-        public string UserLogin(string usr, string psw)
+        public int UserLogin(string usr, string psw)
         {
             Help hp = new Help();
             string EnPswdStr = hp.GetMM(psw);
             DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.v_user(usr, EnPswdStr));
             if (ds.Tables[0].Rows.Count <= 0)
                 //没有找到单据
-                return "false";
+                return 0;
             else
-            {
-                SessionHandle.Add("userid", ds.Tables[0].Rows[0]["id"].ToString().Trim());
-                return "true";
+            {               
+                return int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
             }
         }
         /// <summary>
@@ -110,10 +109,10 @@ namespace FM.Business
         /// 业务服务器创造与主服务器,模版服务器的连接
         /// </summary>
         /// <returns></returns>
-        public void CreateDbLink()
+        public void CreateDbLink(int tzid)
         {
-            UpdateServerLink();
-            UpdateBLLCite();
+            UpdateServerLink(tzid);
+            UpdateBLLCite(tzid);
 
         }
 
@@ -121,7 +120,7 @@ namespace FM.Business
         /// 更新业务服务器上的引用
         /// </summary>
         /// <returns></returns>
-        public bool UpdateServerLink()
+        public bool UpdateServerLink(int tzid)
         {
             //查找入口服务器是否配置了模版和主服务器
             string strSql = "select a.* from v_conn a where a.mbtag=1 or a.systag=1 ;";
@@ -133,7 +132,7 @@ namespace FM.Business
                 strSql = "exec  sp_linkedservers";
 
                 //在业务服务器上,能创建链接服务器权限的用户
-                string createServerLinkConnentString = this.connstr.GetCreateLinkServerConnetStringInBLL(SessionHandle.Get("tzid"));
+                string createServerLinkConnentString = this.connstr.GetCreateLinkServerConnetStringInBLL(tzid.ToString());
                 DataSet linkedServers = this.execObj.SubmitTextDataSet(strSql, createServerLinkConnentString);
                 foreach (DataRow dr in configForMbAndSys.Tables[0].Rows)
                 {
@@ -156,7 +155,7 @@ namespace FM.Business
         /// <summary>
         /// 更新业务服务器上的引用
         /// </summary>   
-        public bool UpdateBLLCite()
+        public bool UpdateBLLCite(int tzid)
         {
             try
             {
@@ -167,7 +166,7 @@ namespace FM.Business
                 strSql = " select a.ctime,a.pname,REPLACE(a.definition,' mb.dbo.',' " + this.connstr.GetMasterLinkname() + "') definition ,a.type from v_v_ptoclient a   ";
                 DataSet rootSetMaster = execObj.SubmitTextDataSet(strSql, this.connstr.GetMasterConn()); ;
 
-                string createServerLinkConnentString = this.connstr.GetCreateLinkServerConnetStringInBLL(SessionHandle.Get("tzid"));
+                string createServerLinkConnentString = this.connstr.GetCreateLinkServerConnetStringInBLL(tzid.ToString());
                 strSql = " SELECT C.PNAME,C.CTIME FROM _V_ptoclient  C;";
                 strSql += " select a.name as pname  from sys.all_objects a inner join sys.sql_modules b on a.object_id = b.object_id where a.is_ms_shipped=0  ; ";
                 DataSet targetSet = this.execObj.SubmitTextDataSet(strSql, createServerLinkConnentString);

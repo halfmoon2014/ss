@@ -6,6 +6,8 @@ using Service.Util;
 using System.Collections.Generic;
 using MyTy;
 using DTO;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 using MySession;
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -23,8 +25,42 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string Login(string ur, string ps)
     {
+
         FM.Business.Login lg = new FM.Business.Login();
-        return "{\"r\":\"" + lg.UserLogin(MyCode.MySysDate(ur), MyCode.MySysDate(ps)) + "\"}";
+        int userid = lg.UserLogin(MyCode.MySysDate(ur), MyCode.MySysDate(ps));
+        if (userid == 0) 
+            return "{\"r\":\"" + "false" + "\"}";
+        else
+        {
+            SessionHandle.Add("userid", userid.ToString());
+            return "{\"r\":\"" + "true" + "\"}";
+        }
+
+    }
+
+    [WebMethod(EnableSession = true, MessageName = "Login/json")]
+    public string LoginJson(string ur, string ps)
+    {
+        FM.Business.Login lg = new FM.Business.Login();
+        int userid = lg.UserLogin(MyCode.MySysDate(ur), MyCode.MySysDate(ps));
+        if (userid != 0)
+        {
+            TokenItem item = TokenHandle.AddUserid(userid);
+            return JsonConvert.SerializeObject(ResultUtil<TokenItem>.success(item));
+        }
+        else
+            return JsonConvert.SerializeObject(ResultUtil.error(100, "登陆失败,请检查用户名与密码是否正确!"));
+    }
+
+    [WebMethod(EnableSession = true, MessageName = "TzList/json")]
+    public string TzList(string token)
+    {
+        FM.Business.ChooseTz tz = new FM.Business.ChooseTz();
+        TokenItem item = TokenHandle.GetToken(token);
+        if (item == null)
+            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先登陆"));
+        else
+            return JsonConvert.SerializeObject(ResultUtil<DataTable>.success(tz.GetTzMenuJson(item.Userid)));
     }
 
     /// <summary>
@@ -40,10 +76,53 @@ public class ws : System.Web.Services.WebService
         if (string.Compare(updata, "true") == 0)
         {
             FM.Business.Login lg = new FM.Business.Login();
-            lg.CreateDbLink();//设置业务服务器上的 连接 主服务与母板的LINK
+            lg.CreateDbLink(int.Parse(tzid));//设置业务服务器上的 连接 主服务与母板的LINK
         }
         return "{\"r\":\"true\"}";
     }
+    [WebMethod(EnableSession = true, MessageName = "ChooseTz/json")]
+    public string ChooseTzJson(string token, int tzid, bool updata)
+    {
+        TokenItem item = TokenHandle.GetToken(token);
+        item.Tzid = tzid;
+        if (updata)
+        {
+            FM.Business.Login lg = new FM.Business.Login();
+            lg.CreateDbLink(tzid);//设置业务服务器上的 连接 主服务与母板的LINK
+        }
+        return JsonConvert.SerializeObject(ResultUtil.success());
+    }
+
+    [WebMethod(EnableSession = true, MessageName = "Menu/json")]
+    public string MenuList(string token)
+    {
+        TokenItem item = TokenHandle.GetToken(token);
+        if (item == null)
+            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先登陆"));
+        else if (item.Tzid == 0)
+            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先选择套账"));
+        else
+        {
+            FM.Business.Menu menu = new FM.Business.Menu(item.Tzid.ToString(), item.Userid.ToString());
+            return JsonConvert.SerializeObject(ResultUtil<DataSet>.success(menu.GetUserMenu(item.Userid.ToString())));
+        }
+    }
+    [WebMethod(EnableSession = true, MessageName = "MenuItem/json")]
+    public string MenuItemList(string token, int ssid)
+    {
+        TokenItem item = TokenHandle.GetToken(token);
+        if (item == null)
+            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先登陆"));
+        else if (item.Tzid == 0)
+            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先选择套账"));
+        else
+        {
+            FM.Business.Menu menu = new FM.Business.Menu(item.Tzid.ToString(), item.Userid.ToString());
+            return JsonConvert.SerializeObject(ResultUtil<DataTable>.success(menu.GetContentMenu(item.Userid.ToString(), ssid.ToString())));
+        }
+
+    }
+
     /// <summary>
     /// 重置密码
     /// </summary>

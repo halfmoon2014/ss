@@ -4,6 +4,14 @@ namespace MyTy
 {
     public class ResultUtil<T>
     {
+
+        public static Result<T> success()
+        {
+            Result<T> result = new Result<T>();
+            result.Errcode = 0;         
+            result.Errmsg = "成功";
+            return result;
+        }
         public static Result<T> success(T obj)
         {
             Result<T> result = new Result<T>();
@@ -13,7 +21,7 @@ namespace MyTy
             return result;
         }
 
-        public static Result<T> success(T obj, String errorMsg)
+        public static Result<T> success(T obj, string errorMsg)
         {
             Result<T> result = new Result<T>();
             result.Errcode=0;
@@ -23,7 +31,7 @@ namespace MyTy
         }
                
 
-        public static Result<T> error(int intCode, String strMsg)
+        public static Result<T> error(int intCode, string strMsg)
         {
             Result<T> result = new Result<T>();
             result.Errcode=intCode;
@@ -31,4 +39,27 @@ namespace MyTy
             return result;
         }
     }
+
+    public class ResultUtil
+    {
+
+        public static Result<string> success()
+        {
+            Result<string> result = new Result<string>();
+            result.Errcode = 0;
+            result.Errmsg = "成功";
+            result.Data = "";
+            return result;
+        }
+        public static Result<string> error(int intCode, string strMsg)
+        {
+            Result<string> result = new Result<string>();
+            result.Errcode = intCode;
+            result.Errmsg = strMsg;
+            return result;
+        }
+    }
+
 }
+
+

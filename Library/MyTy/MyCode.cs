@@ -96,19 +96,19 @@ namespace MyTy
             bool cndRul = Utils.TestNet(ip);
             if (!cndRul)
             {//取本地
-                pageConfiguration.JsCDN = "./javascripts";
+                pageConfiguration.JsCDN = "../javascripts";
             }
             pageConfiguration.CssCDN = ConfigReader.Read(xml, "/Root/appSettings/CssCDN", "");
             if(ip == pageConfiguration.CssCDN.Replace("http://", "").Replace("/css", "").Split(':')[0])
             {
-                if (!cndRul) pageConfiguration.CssCDN = "./css";
+                if (!cndRul) pageConfiguration.CssCDN = "../css";
             }
             else
             {
                 cndRul = Utils.TestNet(pageConfiguration.CssCDN.Replace("http://", "").Replace("/css", "").Split(':')[0]);
                 if (!cndRul)
                 {//取本地
-                    pageConfiguration.JsCDN = "./css";
+                    pageConfiguration.CssCDN = "../css";
                 }
             }
             pageConfiguration.JsVer = ConfigReader.Read(xml, "/Root/appSettings/JsVer", "");
