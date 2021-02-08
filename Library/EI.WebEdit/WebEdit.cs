@@ -15,13 +15,33 @@ namespace EI.Web
         private string userid;
         private string username;
         private bool IsMobileBrowser;
-        Business business;
-        public WebEdit(string tzid, string userid, string username)
+        Business business;        
+        /// <summary>
+        /// 浏览器类型
+        /// </summary>
+        private string browser;
+        public WebEdit(string tzid, string userid, string username,string browser)
         {
             this.tzid = tzid;
             this.userid = userid;
             this.username = username;
+            this.browser = browser;
             business = new Business(tzid, userid);
+        }
+        /// <summary>
+        /// 控件宽度差，样式控制的问题需要计算出控件左右宽度
+        /// </summary>
+        /// <returns></returns>
+        private int BrowserWidth() {
+            //chrome浏览器 2padding 2border
+            if (this.browser.Equals("chrome", System.StringComparison.OrdinalIgnoreCase))
+            {
+                return 8;
+            }
+            else
+            {//IE
+                return 4;
+            }
         }
 
         /// <summary>
@@ -827,7 +847,7 @@ namespace EI.Web
                     {
                         width = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim()=="0" ? "" : " width:" + dr["width"].ToString().Trim() + "px; ");
                         //4px是控件的border
-                        inputWidth = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + (int.Parse(dr["width"].ToString().Trim()) - 4) + "px; ");
+                        inputWidth = (dr["width"].ToString().Trim() == string.Empty || dr["width"].ToString().Trim() == "0" ? "" : " width:" + (int.Parse(dr["width"].ToString().Trim()) - BrowserWidth()) + "px; ");
                         qwidth = (dr["qwidth"].ToString().Trim() == string.Empty || dr["qwidth"].ToString().Trim() == "0" ? "" : " width:" + dr["qwidth"].ToString().Trim() + "px; ");
                     }
                     else
