@@ -28,12 +28,13 @@ public class ws : System.Web.Services.WebService
 
         FM.Business.Login lg = new FM.Business.Login();
         int userid = lg.UserLogin(MyCode.MySysDate(ur), MyCode.MySysDate(ps));
-        if (userid == 0) 
+        if (userid == 0)
             return "{\"r\":\"" + "false" + "\"}";
         else
         {
             SessionHandle.Add("userid", userid.ToString());
-            return "{\"r\":\"" + "true" + "\"}";
+            TokenItem item = TokenHandle.AddUserid(userid);
+            return "{\"r\":\"" + "true" + "\",\"token\":\""+item.Token+"\"}";
         }
 
     }
@@ -73,6 +74,8 @@ public class ws : System.Web.Services.WebService
     {
         FM.Business.ChooseTz ch = new FM.Business.ChooseTz();
         ch.AddTzid(tzid);
+        TokenItem item = TokenHandle.GetTokenByUserid(int.Parse(SessionHandle.Get("userid")));
+        item.Tzid = int.Parse(tzid);
         if (string.Compare(updata, "true") == 0)
         {
             FM.Business.Login lg = new FM.Business.Login();
@@ -426,6 +429,7 @@ public class ws : System.Web.Services.WebService
         string r = "";
         if (SessionHandle.Get("menupage") != null)
             r = SessionHandle.Get("menupage").ToString();
+        if(null !=SessionHandle.Get("userid"))  TokenHandle.DelUserid(int.Parse(SessionHandle.Get("userid")));
         SessionHandle.Abandon();
         return "{\"r\":\"" + r.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }

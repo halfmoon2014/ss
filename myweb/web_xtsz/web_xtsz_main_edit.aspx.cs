@@ -13,7 +13,7 @@ public partial class web_xtsz_web_xtsz_main_edit : FM.Controls.Page
 
         Login lg = new Login();
         string username = lg.GetUser(userid.ToString()).Tables[0].Rows[0]["name"].ToString();
-        WebEdit em = new WebEdit(tzid.ToString(), userid.ToString(), username);
+        WebEdit em = new WebEdit(tzid.ToString(), userid.ToString(), username, Request.Browser.Browser);
         if (string.Compare("default", Request.QueryString["title"].ToString().Trim(), true) == 0)
             title = em.GettWidTitle(int.Parse(Request.QueryString["wid"].ToString().Trim()));
         else

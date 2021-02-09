@@ -32,6 +32,7 @@
                         success: function (data) {
                             r = utils.myAjaxData(data);
                             if (r.r == "true") {
+                                utils.setCookie("token", r.token);
                                 if ($("#rememberme").get(0).checked) {
                                     utils.setCookie("lur", lur)
                                     utils.setCookie("rememberme", "true");

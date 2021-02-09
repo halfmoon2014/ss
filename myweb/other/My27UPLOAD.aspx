@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <script src="javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="../javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
     <style type="text/css" media="all">
         *
         {
@@ -96,9 +96,28 @@
         }
     </style>
     <script type="text/javascript">
+        var request = function (paras) {
+            var url = location.href;
+            var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+            var paraObj = {}
+            for (i = 0; j = paraString[i]; i++) {
+                paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+            }
+            var returnValue = paraObj[paras.toLowerCase()];
+            if (typeof (returnValue) == "undefined") {
+                return null;
+            } else {
+                return returnValue;
+            }
+        };
 
         $(document).ready(function () {
-            for (var i = 0; i < 5; i++) {
+            var size = request("size") || 1;
+            var add = request("add") || false;
+            if (add) {
+                document.getElementById("toolbox").style.display = "block";
+            }
+            for (var i = 0; i < size; i++) {
                 uploadcreate($("#uploadbox"), i);
             }
         });
@@ -149,7 +168,8 @@
 
         //上传成功后的处理
         var uploadsuccess = function (newpath, itemid) {
-            $("#uploading" + itemid).html("文件上传成功. <a href='javascript:void(0);' onclick='uploadinit(" + itemid + ");'>[重新上传]</a>");
+            //$("#uploading" + itemid).html("文件上传成功. <a href='javascript:void(0);' onclick='uploadinit(" + itemid + ");'>[重新上传]</a>");
+            $("#uploading" + itemid).html("文件上传成功.");
             if (isshowpic) {
                 $("#panelViewPic" + itemid).html("<a href='" + newpath + "' title='点击查看大图' target='_blank'><img src='" + newpath + "' alt='' style='width:300px;' /></a>");
                 $("#panelViewPic" + itemid).fadeIn("fast");
@@ -173,19 +193,10 @@
     </script>
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server">    
     
-    <div id="tipbox" class="box tooltip">
-        <a href="#" onclick="hideDiv('tipbox');">[关闭]</a>
-        <div class="content">
-            <h1>
-                AjaxUpload - 多文件无刷新上传源代码 v1.0</h1>
-            <p>
-                作者:李华顺 <a href="http://huacn.cnblogs.com" target="_blank">http://huacn.cnblogs.com</a></p>
-        </div>
-    </div>
-    <div id="toolbox" class="tooltip box">
-        <a href="#" onclick="uploadcreate($('#uploadbox'));">添加一个新上传控件</a> <a href="#" onclick="uploadshowpic($(this));">
+    <div id="toolbox" style="display:none" class="tooltip box">
+        <a href="#" onclick="uploadcreate($('#uploadbox'));">添加一个新上传控件</a> <a href="#" style="display:none" onclick="uploadshowpic($(this));">
             图片显示关闭</a>
     </div>
     <div id="uploadbox" class="box">

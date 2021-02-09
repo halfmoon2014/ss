@@ -87,7 +87,7 @@ public class MyHandler : IHttpHandler, IRequiresSessionState
         FM.Business.Login lg = new FM.Business.Login();
         string username = lg.GetUser(userid.ToString()).Tables[0].Rows[0]["name"].ToString();
 
-        EI.Web.WebEdit em = new EI.Web.WebEdit(tzid.ToString(), userid.ToString(), username);
+        EI.Web.WebEdit em = new EI.Web.WebEdit(tzid.ToString(), userid.ToString(), username,context.Request.Browser.Browser);
         string s = "";
         switch (type)
         {

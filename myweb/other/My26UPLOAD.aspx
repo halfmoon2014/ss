@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <script src="javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>    
+    <script src="../javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>    
 </head>
 <script type="text/javascript">
     function TestUp() {
@@ -19,7 +19,7 @@
         //开始提交
         $.ajax({
             type: "POST",
-            url: "webuser/ajaxUpFile.ashx",
+            url: "../webuser/ajaxUpFile.ashx",
             data: "upfile=" + $("#" + obfile_id).val(),
             success: function (data, status) {
                 //alert(data);

@@ -41,7 +41,7 @@ public partial class lss : System.Web.UI.Page
             cache = (StringBuilder)CacheTools.WidGet(intWid.ToString(), userid.ToString());
             //if (1 == 1/*cache==null*/)
             //{
-            WebEdit webEdit = new WebEdit(tzid.ToString(), userid.ToString(), username);
+            WebEdit webEdit = new WebEdit(tzid.ToString(), userid.ToString(), username, Request.Browser.Browser);
            
             HtmlParameter htmlParameter = new HtmlParameter();
             htmlParameter.QueryString = Request.QueryString;

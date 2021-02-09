@@ -46,7 +46,20 @@ namespace MySession
 
         }
 
-        public static TokenItem GetToken(int userid)
+        public static void DelUserid(int userid)
+        {   
+            
+            for (int i = 0; i < tokenList.Count; i++)
+            {
+                if (tokenList[i].Userid.Equals(userid))
+                {
+                    tokenList.Remove(tokenList[i]);
+                }
+            }           
+
+        }
+
+        public static TokenItem GetTokenByUserid(int userid)
         {
             for (int i = 0; i < tokenList.Count; i++)
             {
