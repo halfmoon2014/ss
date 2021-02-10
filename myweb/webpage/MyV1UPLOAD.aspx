@@ -1,11 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="My27UPLOAD.aspx.cs"
-    Inherits="Default27_upfile" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="MyV1UPLOAD.aspx.cs"
+    Inherits="upload" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
     <script src="../javascripts/jquery/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="../javascripts/myjs/utils.js" type="text/javascript"></script>
     <style type="text/css" media="all">
         *
         {
@@ -110,13 +111,15 @@
                 return returnValue;
             }
         };
-
+        var bizId;
+        var bizKey;
+        var groupId;
         $(document).ready(function () {
             var size = request("size") || 1;
             var add = request("add") || false;
-            var groupId = request("groupId") || 0;
-            var bizId = request("bizId") || 0;
-            var bizKey = request("bizKey") || "";
+            groupId = request("groupId") || 0;
+            bizId = request("bizId") || 0;
+            bizKey = request("bizKey") || "";
             var modal = request("modal") || "search"; //||add
             if (modal =="search") {
 
@@ -127,8 +130,12 @@
                     if (add) {
                         document.getElementById("toolbox").style.display = "block";
                     }
+                    var piclist = document.getElementById("piclist").value.split("|");
                     for (var i = 0; i < size; i++) {
-                        uploadcreate($("#uploadbox"), i);
+                        if (piclist.length > i && piclist[i]!="") {                            
+                            uploadcreate($("#uploadbox"), i, { id: piclist[i].split(",")[1], newpath: piclist[i].split(",")[0]} );
+                        }else
+                            uploadcreate($("#uploadbox"), i,null);
                     }
                 }
             }
@@ -151,7 +158,7 @@
         };
 
         //载入中的GIF动画
-        var loadingUrl = "images/loading.gif";
+        var loadingUrl = "../images/loading.gif";
 
         //选择文件后的事件,iframe里面调用的
         var uploading = function (imgsrc, itemid) {
@@ -163,12 +170,29 @@
         };
 
         //重新上传方法    
-        var uploadinit = function (itemid) {
+        var uploadinit = function (itemid,id) {
             currentItemID++;
-            $("#uploading" + itemid).fadeOut("fast", function () {
-                $("#ifUpload" + itemid).fadeIn("fast");
-                $("#panelViewPic" + itemid).fadeOut("fast");
-            });
+            var msg = "";
+            $.ajax({
+                type: 'post',
+                url: '../webuser/ws.asmx/DelPic',
+                async: false,
+                data: { id: id },
+                error: function (e) {
+                    alert("删除失败"+e.message)
+                },
+                success: function (data) {
+                    var r = myAjaxData(data);
+                    if (r.r == 'true') {                        
+                        $("#uploading" + itemid).fadeOut("fast", function () {
+                            $("#ifUpload" + itemid).fadeIn("fast");
+                            $("#panelViewPic" + itemid).fadeOut("fast");
+                        });
+                    } else {
+                        alert("删除失败" + r.r)                        
+                    }
+                }
+            });           
 
         };
 
@@ -179,9 +203,9 @@
         };
 
         //上传成功后的处理
-        var uploadsuccess = function (newpath, itemid) {
-            //$("#uploading" + itemid).html("文件上传成功. <a href='javascript:void(0);' onclick='uploadinit(" + itemid + ");'>[重新上传]</a>");
-            $("#uploading" + itemid).html("文件上传成功.");
+        var uploadsuccess = function (newpath, itemid,id) {
+            $("#uploading" + itemid).html("文件上传成功. <a href='javascript:void(0);' onclick='uploadinit(" + itemid + ","+id+");'>[删除且重新上传]</a>");
+            //$("#uploading" + itemid).html("文件上传成功.");
             if (isshowpic) {
                 $("#panelViewPic" + itemid).html("<a href='" + newpath + "' title='点击查看大图' target='_blank'><img src='" + newpath + "' alt='' style='width:300px;' /></a>");
                 $("#panelViewPic" + itemid).fadeIn("fast");
@@ -191,14 +215,20 @@
 
         var currentItemID = 0;  //用于存放共有多少个上传控件了
         //创建一个上传控件
-        var uploadcreate = function (el, itemid) {
+        var uploadcreate = function (el, itemid, picObj) {
             currentItemID++;
             if (itemid == null) {
                 itemid = currentItemID;
+            }           
+            var strContent = "<div class='uploadcontrol'><iframe src=\"Myv1UPLOADITEM.aspx?id=" + itemid + "&groupId=" + groupId + "&bizId=" + bizId + "&bizKey=" + bizKey + "\" id=\"ifUpload" + itemid + "\" frameborder=\"no\" scrolling=\"no\" style=\"width:400px; height:28px; " + (picObj !=null  ? "display:none" : "") + " \"></iframe>";
+            if (picObj == null) {
+                strContent += "<div class=\"uploading\" id=\"uploading" + itemid + "\" style=\"display:none;\" ></div>";
+                strContent += "<div class=\"image\" id=\"panelViewPic" + itemid + "\" style=\"display:none;\"></div></div>";
             }
-            var strContent = "<div class='uploadcontrol'><iframe src=\"My28UPLOAD.aspx?id=" + itemid + "\" id=\"ifUpload" + itemid + "\" frameborder=\"no\" scrolling=\"no\" style=\"width:400px; height:28px;\"></iframe>";
-            strContent += "<div class=\"uploading\" id=\"uploading" + itemid + "\" style=\"display:none;\" ></div>";
-            strContent += "<div class=\"image\" id=\"panelViewPic" + itemid + "\" style=\"display:none;\"></div></div>";
+            else {    
+                strContent += "<div class=\"uploading\" id=\"uploading" + itemid + "\"><a href='javascript:void(0);' onclick='uploadinit(" + itemid + "," + picObj.id+");'>[删除且重新上传]</a></div>";
+                strContent += "<div class=\"image\" id=\"panelViewPic" + itemid + "\" ><a href='" + picObj.newpath + "' title='点击查看大图' target='_blank'><img src='" + picObj.newpath + "' alt='' style='width:300px;' /></a></div></div>";
+            }
             el.append(strContent);
         };
      
@@ -206,7 +236,7 @@
 </head>
 <body>
     <form id="form1" runat="server">    
-    
+    <input type="hidden" runat="server" id="piclist" />
     <div id="toolbox" style="display:none" class="tooltip box">
         <a href="#" onclick="uploadcreate($('#uploadbox'));">添加一个新上传控件</a> <a href="#" style="display:none" onclick="uploadshowpic($(this));">
             图片显示关闭</a>

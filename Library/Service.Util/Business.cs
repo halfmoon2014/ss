@@ -64,7 +64,7 @@ namespace Service.Util
             pageDataSource.Name = dt.Rows[0]["name"].ToString().Trim();
             pageDataSource.Sql = dt.Rows[0]["sql"].ToString().Trim();
             pageDataSource.Fwsql = dt.Rows[0]["fwsql"].ToString().Trim();
-            pageDataSource.Mrcx =int.Parse(dt.Rows[0]["mrcx"].ToString().Trim());
+            pageDataSource.Mrcx = int.Parse(dt.Rows[0]["mrcx"].ToString().Trim());
             pageDataSource.Pagesize = int.Parse(dt.Rows[0]["pagesize"].ToString().Trim());
             pageDataSource.Orderby = dt.Rows[0]["orderby"].ToString().Trim();
             pageDataSource.Myadd = int.Parse(dt.Rows[0]["myadd"].ToString().Trim());
@@ -165,9 +165,9 @@ namespace Service.Util
             Parm[14] = new SqlParameter("@sql_2", System.Data.SqlDbType.VarChar, 8000);
             Parm[14].Value = pageDataSource.Sql_2;
 
-            if (this.execObj.SubmitStoredProcedureInt("p_UPSJY", Parm) > 0)            
-                return "true";            
-            else            
+            if (this.execObj.SubmitStoredProcedureInt("p_UPSJY", Parm) > 0)
+                return "true";
+            else
                 return "false";
         }
 
@@ -186,10 +186,10 @@ namespace Service.Util
             Parm[1].Value = MyTy.MyCode.DoUrlDecode(js);
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPWEBJS", Parm);
-            if (r > 0)          
-                return "true";            
-            else            
-                return "false";            
+            if (r > 0)
+                return "true";
+            else
+                return "false";
 
         }
 
@@ -208,11 +208,11 @@ namespace Service.Util
             Parm[1].Value = MyTy.MyCode.DoUrlDecode(js);
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPWEBHELP", Parm);
-            if (r > 0)            
-                return "true";            
-            else            
+            if (r > 0)
+                return "true";
+            else
                 return "false";
-            
+
 
         }
 
@@ -268,10 +268,10 @@ namespace Service.Util
             Parm[0].Value = wid;
 
             int r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_DEL", Parm);
-            if (r > 0)            
-                return "true";            
-            else            
-                return "false";            
+            if (r > 0)
+                return "true";
+            else
+                return "false";
         }
 
         /// <summary>
@@ -296,11 +296,11 @@ namespace Service.Util
                 Console.Write(e.Message);
                 r = 0;
             }
-            if (r > 0)            
-                return "true";            
-            else            
+            if (r > 0)
+                return "true";
+            else
                 return "false";
-            
+
         }
 
         /// <summary>
@@ -632,12 +632,12 @@ namespace Service.Util
             {
                 //dic["resultText"] = ex.Message;
                 //dic["resultState"] = "false";
-                result.Data = ex.Message+ ";错误发生在service.util.business中的execSqlCommand方法";
+                result.Data = ex.Message + ";错误发生在service.util.business中的execSqlCommand方法";
                 result.Errcode = 100;
             }
 
             //记录sql语句及处理状态
-            execObj.SubmitTextObject(sqlstring.GetLog(userid, arg["wid"], arg["callFucntion"], sqlCommand.Replace("'", "''"), (result.Errcode==0?"true":"false") ));
+            execObj.SubmitTextObject(sqlstring.GetLog(userid, arg["wid"], arg["callFucntion"], sqlCommand.Replace("'", "''"), (result.Errcode == 0 ? "true" : "false")));
 
             return result;
 
@@ -772,7 +772,41 @@ namespace Service.Util
 
         }
 
+        /// <summary>
+        /// 插入图片
+        /// </summary>
+        /// <param name="groupId"></param>
+        /// <param name="bizId"></param>
+        /// <param name="bizKey"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public Result<int> SavePic(int groupId, int bizId, string bizKey, string path,int userid)
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.Append(" insert _v_group_pic (group_id, biz_id, biz_key, pic, remark, bizDate, createor_id) values ");
+            sql.Append("( '" + groupId + "', '" + bizId + "', '" + bizKey + "', '" + path + "', '', getdate()," + userid + " );");
+            sql.Append(" select @@IDENTITY");            
+            return ResultUtil<int>.success(int.Parse(execObj.SubmitTextObject(sql.ToString()).ToString()));
 
+        }
+
+        public Result<int> DelPic(int id)
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.Append(" delete  _v_group_pic where id="+id+"");
+             this.execObj.SubmitTextInt(sql.ToString());
+            return ResultUtil<int>.success();
+
+        }
+
+        public Result<DataSet> GetPicList(int groupId, int bizId, string bizKey)
+        {
+            StringBuilder sql = new StringBuilder();
+            sql.Append(" select * from  _v_group_pic where group_id="+ groupId + " and  biz_id="+ bizId + " and  biz_key='"+ bizKey + "'");
+                        
+            return ResultUtil<DataSet>.success(this.execObj.SubmitTextDataSet(sql.ToString()));
+
+        }
     }
 
 }

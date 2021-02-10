@@ -24,6 +24,7 @@ Library/Service.Util/obj
 Library/WeixinUtil/bin
 Library/WeixinUtil/obj
 myweb/Bin/
+myweb/webpage/UpFile/
 myweb/logs/
 myweb.rar
 myweb.zip

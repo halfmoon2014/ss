@@ -1,9 +1,12 @@
-﻿using System;
+﻿using MySession;
+using MyTy;
+using System;
 using System.IO;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 
-public partial class upload : System.Web.UI.Page
+public partial class uploaditem : System.Web.UI.Page
 {
     string picPath = "";
     string picServer = "UpFile";
@@ -14,16 +17,20 @@ public partial class upload : System.Web.UI.Page
         if (Request.QueryString["id"] != null)
         {
             itemID = Request.QueryString["id"];
+         
         }
 
         if (IsPostBack)
         {
+            int bizId = int.Parse(Request.QueryString["bizId"]);
+            string bizKey = Request.QueryString["bizKey"];
+            int groupId =int.Parse(Request.QueryString["groupId"]);
             picPath = Server.MapPath("UpFile");
-            doUpload();
+            doUpload(groupId,bizId,bizKey);
         }
     }
 
-    protected void doUpload()
+    protected void doUpload(int groupId,int bizId,string bizKey)
     {
         try
         {
@@ -32,7 +39,9 @@ public partial class upload : System.Web.UI.Page
             file.SaveAs(picPath + strNewPath);
             string urlPath = picServer + strNewPath;
             urlPath = urlPath.Replace("\\", "/");
-            WriteJs("parent.uploadsuccess('" + urlPath + "','" + itemID + "'); ");
+            Service.Util.Business business = new Service.Util.Business(SessionHandle.Get("tzid"), SessionHandle.Get("userid"));
+            Result<int> res= business.SavePic(groupId, bizId, bizKey, urlPath, int.Parse(SessionHandle.Get("userid")));
+            WriteJs("parent.uploadsuccess('" + urlPath + "','" + itemID + "',"+ res.Data+ "); ");
 
         }
         catch (Exception ex)

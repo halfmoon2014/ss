@@ -34,7 +34,7 @@ public class ws : System.Web.Services.WebService
         {
             SessionHandle.Add("userid", userid.ToString());
             TokenItem item = TokenHandle.AddUserid(userid);
-            return "{\"r\":\"" + "true" + "\",\"token\":\""+item.Token+"\"}";
+            return "{\"r\":\"" + "true" + "\",\"token\":\"" + item.Token + "\"}";
         }
 
     }
@@ -429,7 +429,7 @@ public class ws : System.Web.Services.WebService
         string r = "";
         if (SessionHandle.Get("menupage") != null)
             r = SessionHandle.Get("menupage").ToString();
-        if(null !=SessionHandle.Get("userid"))  TokenHandle.DelUserid(int.Parse(SessionHandle.Get("userid")));
+        if (null != SessionHandle.Get("userid")) TokenHandle.DelUserid(int.Parse(SessionHandle.Get("userid")));
         SessionHandle.Abandon();
         return "{\"r\":\"" + r.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
@@ -467,6 +467,24 @@ public class ws : System.Web.Services.WebService
             System.IO.FileStream fileStream = new System.IO.FileStream(Server.MapPath("../" + ppath + "/" + pname), System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
             System.IO.Stream stream = fileStream as System.IO.Stream;
             dr.ZoomAuto(stream, Server.MapPath("../" + newpath + "/" + pname), targetWidth, targetHeight, watermarkText, watermarkImage);
+            rStr = "{\"r\":\"true\"}";
+        }
+        catch (System.Exception e)
+        {
+            rStr = "{\"r\":\"" + e.Message.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
+        }
+        return rStr;
+    }
+
+    [WebMethod(EnableSession = true)]
+    public string DelPic(int id)
+    {
+        Draw dr = new Draw();
+        string rStr;
+        try
+        {
+            Business ei = getBusiness();
+            ei.DelPic(id);
             rStr = "{\"r\":\"true\"}";
         }
         catch (System.Exception e)
