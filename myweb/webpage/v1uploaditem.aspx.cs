@@ -40,13 +40,13 @@ public partial class uploaditem : System.Web.UI.Page
             string urlPath = picServer + strNewPath;
             urlPath = urlPath.Replace("\\", "/");
             Service.Util.Business business = new Service.Util.Business(SessionHandle.Get("tzid"), SessionHandle.Get("userid"));
-            Result<int> res= business.SavePic(groupId, bizId, bizKey, urlPath, int.Parse(SessionHandle.Get("userid")));
-            WriteJs("parent.uploadsuccess('" + urlPath + "','" + itemID + "',"+ res.Data+ "); ");
+            Result<int> res= business.SavePic(groupId, bizId, bizKey, urlPath,remark1.Value, int.Parse(SessionHandle.Get("userid")));
+            WriteJs("parent.uploadsuccess('" + urlPath + "','" + itemID + "',"+ res.Data+ ",'"+remark1.Value+"'); ");
 
         }
         catch (Exception ex)
         {
-            WriteJs("parent.uploaderror();console.log('" + ex.Message+"');");
+            WriteJs("parent.uploaderror('"+ itemID + "');console.log('" + ex.Message+"');");
         }
     }
 
@@ -84,7 +84,7 @@ public partial class uploaditem : System.Web.UI.Page
         }
         catch (Exception ex)
         {
-            WriteJs("parent.uploaderror();console.log('" + ex.Message + "')");
+            WriteJs("parent.uploaderror('"+ itemID + "');console.log('" + ex.Message + "')");
             return string.Empty;
         }
     }

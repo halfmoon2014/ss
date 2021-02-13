@@ -449,6 +449,11 @@ namespace FM.Controls
                                         }
                                         break;
                                     #endregion
+                                    case "img":
+                                        #region                                        
+                                            linput = "<img class=\"style_Content_td_img_d\"  " + lputid + myevent + stywidth+" " + dr_h["format"].ToString().Trim() + " src=\""+drcn+"\" />";                                       
+                                        break;
+                                    #endregion
                                     case "textarea":
                                         #region
                                         if (pagerArguments.IsPrint || pagerArguments.IsExcel)
@@ -712,6 +717,9 @@ namespace FM.Controls
                                             break;
                                         case "a":
                                             linput = "<a href=\"#\" class=\"style_Content_td_a_d\"  " + lputid + myevent + "></a>";
+                                            break;
+                                        case "img":
+                                            linput = "<img class=\"style_Content_td_img_d\"  " + lputid + myevent+ stywidth + " " + detailHeadRow["format"].ToString().Trim() + " />";
                                             break;
                                         default:
                                             itype = " type=\"text\" "
