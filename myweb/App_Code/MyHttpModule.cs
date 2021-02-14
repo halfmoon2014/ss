@@ -37,6 +37,7 @@ public class MyHttpModule : IHttpModule
     /// <param name="e"></param>
     private void Application_AcquireRequestState(Object httpApplication, EventArgs e)
     {
+        DateTime dt1 = DateTime.Now;
         HttpApplication application = (HttpApplication)httpApplication;
         MyCode myCode = new MyCode();
         //获取服务器上 ASP.NET 应用程序的虚拟应用程序根路径
@@ -52,6 +53,9 @@ public class MyHttpModule : IHttpModule
             ip = application.Context.Request.ServerVariables["REMOTE_ADDR"].ToString(); //While it can't get the Client IP, it will return proxy IP.
 
         LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent(ip, SessionHandle.Get("userid"), "Application_AcquireRequestState", absolutePath));
+        
+        //System.Diagnostics.Debug.Write("MyHttpModule TotalSeconds:"+ absolutePath);
+        //if(absolutePath!= "webpage/lss.aspx")  application.Response.End();
         if (myCode.CheckPageType(absolutePath, "NoLimitUrl"))
         {
             #region 不受session控制的页面
@@ -153,6 +157,9 @@ public class MyHttpModule : IHttpModule
             }
             #endregion
         }
+
+        DateTime dt2 = DateTime.Now;
+        System.Diagnostics.Debug.WriteLine("MyHttpModule TotalSeconds:" + absolutePath+ dt2.Subtract(dt1).TotalSeconds);        
     }
     #endregion
 }

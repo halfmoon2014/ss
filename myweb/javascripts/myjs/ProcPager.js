@@ -101,7 +101,7 @@ function fmOnKey(e, id, addNew) {
                 if ($(n).is(':checked')) {
                     $(n).removeAttr("checked");
                 }
-                if ($(n).is('img')) {
+                if ($(n).is('img') && $(n).attr("src") != undefined) {
                     $(n).attr("src","");
                 }
                 if (n.childNodes[0] != undefined && n.childNodes[0].nodeName == "#text" && n.getElementsByTagName('*').length == 0) {
@@ -771,4 +771,9 @@ function mySysPx(obj, zd) {
         }
     }
     waitOn(myFormRefresh);
+}
+
+//根据表格中的某个ID值取行号，这个写法跟DOM结构有关，先封装成函数 
+function getTrRownum(id) {
+    return Number($($("#" + id).parent().parent()).attr("rownum"));
 }
