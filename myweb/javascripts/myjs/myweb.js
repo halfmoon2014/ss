@@ -21,9 +21,20 @@ function mySysUrl(str) {
 *打开模态窗口
 */
 function openModal(url, argin, options, callback) {
-    if (checkSession() == false) {
-        reLoad();
+    if (checkSession() == false) {        
+        reLoad(function () { openModal(url, argin, options, callback);});
     } else {
+        if (arguments.length == 2) {
+            if (typeof arguments[1] == "function") {
+                callback = arguments[1];
+            }
+        }
+        if (arguments.length == 3) {
+            if (typeof arguments[2] == "function") {
+                callback = arguments[2];
+                options = arguments[1];
+            }
+        }
         /*如果使用SESSION判断,那么会因为构造HTML标签回调函数的参数会丢失*/
         var width = document.body.clientWidth;
         var height = document.body.clientHeight;

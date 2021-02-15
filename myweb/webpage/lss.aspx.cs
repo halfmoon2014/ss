@@ -10,6 +10,8 @@ public partial class lss : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        DateTime dt1 = DateTime.Now;
+
         #region
         int intWid = 0;
         if (Request["wid"] != null)
@@ -62,6 +64,9 @@ public partial class lss : System.Web.UI.Page
         }                    ;
 
         #endregion
+        DateTime dt2 = DateTime.Now;
+        System.Diagnostics.Debug.Write("lss.aspx TotalSeconds:");
+        System.Diagnostics.Debug.WriteLine(dt2.Subtract(dt1).TotalSeconds);
     }
 
 

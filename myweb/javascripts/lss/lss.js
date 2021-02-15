@@ -11,7 +11,14 @@ $(function () {
             loadInfo(loadMark);
         });
     } else {
-        waitOff(loadMark);
+        //waitOff(loadMark); 如果首次不查也需要初始化
+        if (typeof (windowInit) == "function") {
+            windowInit(loadMark, function () {
+                waitOff(loadMark);
+            });
+        } else {
+            waitOff(loadMark);
+        }
     }
 
 });

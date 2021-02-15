@@ -101,6 +101,9 @@ function fmOnKey(e, id, addNew) {
                 if ($(n).is(':checked')) {
                     $(n).removeAttr("checked");
                 }
+                if ($(n).is('img') && $(n).attr("src") != undefined) {
+                    $(n).attr("src","");
+                }
                 if (n.childNodes[0] != undefined && n.childNodes[0].nodeName == "#text" && n.getElementsByTagName('*').length == 0) {
                     //n.childNodes[0].textContent.trim() != "" ie下有问题!
                     //td字段！                                        
@@ -119,7 +122,9 @@ function fmOnKey(e, id, addNew) {
             $("#" + id.replace(qkey, hkey)).parent().removeClass("over");
             //新增一行样式已经复制,只需要清除上一行样式
             $("#" + id).parent().removeClass("selected");
-
+            if (typeof fmOnKeyCall === "function") { 
+                fmOnKeyCall(rownum+1);
+            }
 
         } else {//非最后一行
             $("#" + id.replace(qkey, hkey) + ">input").focus();
@@ -333,6 +338,8 @@ function myFormSet(key, m, v, mx, col) {
             } else {
                 $("#" + skey).val(v);
             }
+        } else if (($("#" + skey).parent().attr("innerctrl") == 'img')) {
+            $("#" + skey).attr("src",v);
         } else {
             $("#" + skey).val(v);
         }
@@ -764,4 +771,9 @@ function mySysPx(obj, zd) {
         }
     }
     waitOn(myFormRefresh);
+}
+
+//根据表格中的某个ID值取行号，这个写法跟DOM结构有关，先封装成函数 
+function getTrRownum(id) {
+    return Number($($("#" + id).parent().parent()).attr("rownum"));
 }
