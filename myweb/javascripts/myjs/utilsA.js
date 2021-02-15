@@ -332,6 +332,7 @@
         var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
             isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
             addEvent = function (type, callback) {
+      
                 elem.addEventListener ?
                     elem.addEventListener(type, callback, false) :
                     elem.attachEvent('on' + type, callback);
@@ -359,15 +360,17 @@
                 padding = 0,
                 style = elem.style;
 
-            if (elem._length === elem.value.length) return;
+            if (elem._length === elem.value.length && isNaN(minHeight)==false) return;
             elem._length = elem.value.length;
 
             if (!isFirefox && !isOpera) {
                 padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
             };
             scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-
+            //如果刷新后切换了页面,这个minHeight拿不到值
+            if (isNaN(minHeight)) minHeight = parseFloat(getStyle('height'));
             elem.style.height = minHeight + 'px';
+         
             if (elem.scrollHeight > minHeight) {
                 if (maxHeight && elem.scrollHeight > maxHeight) {
                     height = maxHeight - padding;

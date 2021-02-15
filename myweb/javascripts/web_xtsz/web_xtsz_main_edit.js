@@ -1,4 +1,4 @@
-﻿define(['jquery', 'swalProcess', 'easyui'], function ($, swalProcess) {
+﻿define(['jquery', 'swalProcess',  'easyui'], function ($, swalProcess) {
     var myALink = function (obj) {
         // alert(obj.innerHTML);
         var wid = document.getElementById("wid").value;
@@ -26,8 +26,6 @@
                         closeTab('refresh');
                     }
                 }]
-
-
             });
         } else {
             $('#tabs').tabs('select', subtitle);
@@ -36,7 +34,7 @@
     }
 
     var createFrame = function (url, subtitle) {
-        var s = '<iframe  scrolling="auto" frameborder="0"    src="' + url + '" style="width:100%;height:100%;"></iframe>';
+        var s = '<iframe  scrolling="auto" frameborder="0"  id="if_' + subtitle+'"  src="' + url + '" style="width:100%;height:100%;"></iframe>';
         return s;
     }
     var tabClose = function () {
@@ -95,7 +93,7 @@
                             $('#tabs').tabs('update', {
                                 tab: currentTab,
                                 options: {
-                                    content: createFrame(src)
+                                    content: createFrame(src, iframe.attr("id").replace("if_", ""))
                                 }
                             })
                         }
@@ -164,7 +162,7 @@
     /*
     *等待动画开始
     */
-    var waitOn=function(callback) {
+    var waitOn = function (callback) {
         $("#Loading").fadeTo("fast", 0.5, function () {
             //开始后回调
             if (typeof (callback) == "function") {
@@ -183,34 +181,34 @@
     var autoTextarea = function (elem, extra, maxHeight) {
         extra = extra || 0;
         var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
-        isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
-                addEvent = function (type, callback) {
-                    elem.addEventListener ?
-                            elem.addEventListener(type, callback, false) :
-                            elem.attachEvent('on' + type, callback);
-                },
-                getStyle = elem.currentStyle ? function (name) {
-                    var val = elem.currentStyle[name];
+            isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+            addEvent = function (type, callback) {
+                elem.addEventListener ?
+                    elem.addEventListener(type, callback, false) :
+                    elem.attachEvent('on' + type, callback);
+            },
+            getStyle = elem.currentStyle ? function (name) {
+                var val = elem.currentStyle[name];
 
-                    if (name === 'height' && val.search(/px/i) !== 1) {
-                        var rect = elem.getBoundingClientRect();
-                        return rect.bottom - rect.top -
-                                parseFloat(getStyle('paddingTop')) -
-                                parseFloat(getStyle('paddingBottom')) + 'px';
-                    };
+                if (name === 'height' && val.search(/px/i) !== 1) {
+                    var rect = elem.getBoundingClientRect();
+                    return rect.bottom - rect.top -
+                        parseFloat(getStyle('paddingTop')) -
+                        parseFloat(getStyle('paddingBottom')) + 'px';
+                };
 
-                    return val;
-                } : function (name) {
-                    return getComputedStyle(elem, null)[name];
-                },
-                minHeight = parseFloat(getStyle('height'));
+                return val;
+            } : function (name) {
+                return getComputedStyle(elem, null)[name];
+            },
+            minHeight = parseFloat(getStyle('height'));
 
         elem.style.resize = 'none';
 
         var change = function () {
             var scrollTop, height,
-                    padding = 0,
-                    style = elem.style;
+                padding = 0,
+                style = elem.style;
 
             if (elem._length === elem.value.length) return;
             elem._length = elem.value.length;
@@ -242,7 +240,7 @@
         addEvent('focus', change);
         change();
     };
-    
+   
     var start = function () {
         $(document).ready(function () {
             $.parser.onComplete = function () {
@@ -257,9 +255,20 @@
             $("#lmenu .myALink").click(function (e) {
                 myALink(e.currentTarget);
             });
+
+            $('#tabs').tabs({
+                onSelect: function (title, index) {                   
+                    if (title == "javascript") {
+                        var oIframe = document.getElementById('if_' + title);
+                        oIframe.contentWindow.document.getElementById("tbjs") && oIframe.contentWindow.document.getElementById("tbjs").focus();
+                    }
+                }
+            });
         });
     }
+
+
     return {
-        start:start
+        start: start
     }
 });
