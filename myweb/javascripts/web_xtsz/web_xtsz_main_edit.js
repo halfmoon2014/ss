@@ -210,14 +210,14 @@
                 padding = 0,
                 style = elem.style;
 
-            if (elem._length === elem.value.length) return;
+            if (elem._length === elem.value.length && isNaN(minHeight)==false) return;
             elem._length = elem.value.length;
 
             if (!isFirefox && !isOpera) {
                 padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
             };
             scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-
+            if (isNaN(minHeight)) minHeight = parseFloat(getStyle('height'));
             elem.style.height = minHeight + 'px';
             if (elem.scrollHeight > minHeight) {
                 if (maxHeight && elem.scrollHeight > maxHeight) {
@@ -257,10 +257,12 @@
             });
 
             $('#tabs').tabs({
-                onSelect: function (title, index) {                   
-                    if (title == "javascript") {
-                        var oIframe = document.getElementById('if_' + title);
-                        oIframe.contentWindow.document.getElementById("tbjs") && oIframe.contentWindow.document.getElementById("tbjs").focus();
+                onSelect: function (title, index) {       
+                    var oIframe = document.getElementById('if_' + title);
+                
+                    if (oIframe && oIframe.contentWindow.$) {
+                        console.log("father auto")
+                        oIframe.contentWindow.$(oIframe.contentWindow.document.body).trigger("auto")                        
                     }
                 }
             });

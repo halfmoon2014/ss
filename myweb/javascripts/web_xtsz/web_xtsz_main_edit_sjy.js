@@ -18,17 +18,21 @@
             $("#tbsql2").dblclick(function (e) {
                 fd(e.currentTarget)
             });
-
-            //使用了bootstrap样式,需要增加12的高度
-            utils.autoTextarea(document.getElementById("fwsql"), 12);
-            utils.autoTextarea(document.getElementById("tbsql"), 12);
-            utils.autoTextarea(document.getElementById("tbsql2"), 12);
-            utils.autoTextarea(document.getElementById("mxhsql"), 12);
-            utils.autoTextarea(document.getElementById("mxsql"), 12);
+            $(document.body).bind("auto", autoTextarea);
+            
+            $(document.body).trigger("auto");
             utils.hideLoading();
         })
     }
-
+    var autoTextarea = function () {
+        
+         //使用了bootstrap样式,需要增加12的高度
+        utils.autoTextarea(document.getElementById("fwsql"), 12);
+        utils.autoTextarea(document.getElementById("tbsql"), 12);
+        utils.autoTextarea(document.getElementById("tbsql2"), 12);
+        utils.autoTextarea(document.getElementById("mxhsql"), 12);
+        utils.autoTextarea(document.getElementById("mxsql"), 12);
+    }
     var ok_click = function () {
         $('#ok').attr('disabled', 'disabled');
         var sql = document.getElementById("tbsql").value;

@@ -4,11 +4,20 @@
             $("#ok").bind("click", function () { ok_click(); });
             $("#fb").bind("click", function () { fb_click(); });
             $("#showtitp").bind("click", function () { showtitp_click(); });
-            //使用了bootstrap样式,需要增加12的高度
-            utils.autoTextarea(document.getElementById("tbjs"), 12);// 调用    
+              
             utils.hideLoading();
+            $(document.body).bind("auto", autoTextarea);
+
+            $(document.body).trigger("auto");
+
         });
     }
+
+    var autoTextarea = function () {
+        //使用了bootstrap样式,需要增加12的高度
+        utils.autoTextarea(document.getElementById("tbjs"), 12);// 调用  
+    }
+
     //显示提示
     var showtitp_click = function () {
         var show = $('#formts').css('display');

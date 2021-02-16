@@ -360,7 +360,8 @@
                 padding = 0,
                 style = elem.style;
 
-            if (elem._length === elem.value.length && isNaN(minHeight)==false) return;
+            //if (elem._length === elem.value.length && isNaN(minHeight) == false) return;
+            if (elem._length === elem.value.length || isNaN(minHeight)) return;
             elem._length = elem.value.length;
 
             if (!isFirefox && !isOpera) {
@@ -368,7 +369,7 @@
             };
             scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
             //如果刷新后切换了页面,这个minHeight拿不到值
-            if (isNaN(minHeight)) minHeight = parseFloat(getStyle('height'));
+            //if (isNaN(minHeight)) minHeight = parseFloat(getStyle('height'));
             elem.style.height = minHeight + 'px';
          
             if (elem.scrollHeight > minHeight) {
