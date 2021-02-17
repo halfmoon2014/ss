@@ -3,7 +3,7 @@ namespace Service.DAL
 {
     public class DALInterface
     {
-        Service.DAL.DataExecutor execObj = null;
+        readonly Service.DAL.DataExecutor execObj = null;
         public DALInterface()
         {
            execObj = Service.DAL.ExecutorFactory.Create(null);

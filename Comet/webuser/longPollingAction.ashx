@@ -29,7 +29,7 @@ public class longPollingAction : IHttpHandler
                         //如果连接已经断开,也要
                         complex.CometResult.DissClientConnectedCall();
                     }
-                    catch (SystemException ex)
+                    catch (SystemException)
                     {
 
                     }

@@ -13,11 +13,11 @@ namespace Service.Util
 {
     public class Business
     {
-        DALInterface execObj;
-        SqlCommandString sqlstring;
-        ConnetString connstr;
-        string tzid;
-        string userid;
+        readonly DALInterface execObj;
+        readonly SqlCommandString sqlstring;
+        readonly ConnetString connstr;
+        readonly string tzid;
+        readonly string userid;
         public Business(string tzid, string userid)
         {
             sqlstring = new SqlCommandString();
@@ -35,8 +35,10 @@ namespace Service.Util
         public string AutoView(string value1)
         {
             SqlParameter[] Parm = new SqlParameter[1];
-            Parm[0] = new SqlParameter("@tbname", System.Data.SqlDbType.VarChar, 4000);
-            Parm[0].Value = value1;
+            Parm[0] = new SqlParameter("@tbname", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = value1
+            };
             execObj.SubmitStoredProcedureDataSet("p_AUTOVIEW", Parm);
             return "true";
         }
@@ -134,36 +136,66 @@ namespace Service.Util
         public string UpSJY(PageDataSource pageDataSource)
         {
             SqlParameter[] Parm = new SqlParameter[15];
-            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int);
-            Parm[0].Value = pageDataSource.Id;
-            Parm[1] = new SqlParameter("@name", System.Data.SqlDbType.VarChar, 4000);
-            Parm[1].Value = pageDataSource.Name;
-            Parm[2] = new SqlParameter("@sql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[2].Value = pageDataSource.Sql;
-            Parm[3] = new SqlParameter("@fwsql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[3].Value = pageDataSource.Fwsql;
-            Parm[4] = new SqlParameter("@mrcx", System.Data.SqlDbType.Int);
-            Parm[4].Value = pageDataSource.Mrcx;
-            Parm[5] = new SqlParameter("@myadd", System.Data.SqlDbType.Int);
-            Parm[5].Value = pageDataSource.Myadd;
-            Parm[6] = new SqlParameter("@orderby", System.Data.SqlDbType.VarChar, 4000);
-            Parm[6].Value = pageDataSource.Orderby;
-            Parm[7] = new SqlParameter("@pagesize", System.Data.SqlDbType.Int);
-            Parm[7].Value = pageDataSource.Pagesize;
-            Parm[8] = new SqlParameter("@mxgl", System.Data.SqlDbType.VarChar, 4000);
-            Parm[8].Value = pageDataSource.Mxgl;
-            Parm[9] = new SqlParameter("@mxsql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[9].Value = pageDataSource.Mxsql;
-            Parm[10] = new SqlParameter("@mxhgl", System.Data.SqlDbType.VarChar, 4000);
-            Parm[10].Value = pageDataSource.Mxhgl;
-            Parm[11] = new SqlParameter("@mxhord", System.Data.SqlDbType.VarChar, 4000);
-            Parm[11].Value = pageDataSource.Mxhord;
-            Parm[12] = new SqlParameter("@mxhsql", System.Data.SqlDbType.VarChar, 8000);
-            Parm[12].Value = pageDataSource.Mxhsql;
-            Parm[13] = new SqlParameter("@mxly", System.Data.SqlDbType.VarChar, 100);
-            Parm[13].Value = pageDataSource.Mxly;
-            Parm[14] = new SqlParameter("@sql_2", System.Data.SqlDbType.VarChar, 8000);
-            Parm[14].Value = pageDataSource.Sql_2;
+            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int)
+            {
+                Value = pageDataSource.Id
+            };
+            Parm[1] = new SqlParameter("@name", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = pageDataSource.Name
+            };
+            Parm[2] = new SqlParameter("@sql", System.Data.SqlDbType.VarChar, 8000)
+            {
+                Value = pageDataSource.Sql
+            };
+            Parm[3] = new SqlParameter("@fwsql", System.Data.SqlDbType.VarChar, 8000)
+            {
+                Value = pageDataSource.Fwsql
+            };
+            Parm[4] = new SqlParameter("@mrcx", System.Data.SqlDbType.Int)
+            {
+                Value = pageDataSource.Mrcx
+            };
+            Parm[5] = new SqlParameter("@myadd", System.Data.SqlDbType.Int)
+            {
+                Value = pageDataSource.Myadd
+            };
+            Parm[6] = new SqlParameter("@orderby", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = pageDataSource.Orderby
+            };
+            Parm[7] = new SqlParameter("@pagesize", System.Data.SqlDbType.Int)
+            {
+                Value = pageDataSource.Pagesize
+            };
+            Parm[8] = new SqlParameter("@mxgl", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = pageDataSource.Mxgl
+            };
+            Parm[9] = new SqlParameter("@mxsql", System.Data.SqlDbType.VarChar, 8000)
+            {
+                Value = pageDataSource.Mxsql
+            };
+            Parm[10] = new SqlParameter("@mxhgl", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = pageDataSource.Mxhgl
+            };
+            Parm[11] = new SqlParameter("@mxhord", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = pageDataSource.Mxhord
+            };
+            Parm[12] = new SqlParameter("@mxhsql", System.Data.SqlDbType.VarChar, 8000)
+            {
+                Value = pageDataSource.Mxhsql
+            };
+            Parm[13] = new SqlParameter("@mxly", System.Data.SqlDbType.VarChar, 100)
+            {
+                Value = pageDataSource.Mxly
+            };
+            Parm[14] = new SqlParameter("@sql_2", System.Data.SqlDbType.VarChar, 8000)
+            {
+                Value = pageDataSource.Sql_2
+            };
 
             if (this.execObj.SubmitStoredProcedureInt("p_UPSJY", Parm) > 0)
                 return "true";
@@ -180,10 +212,14 @@ namespace Service.Util
         public string UpSJYJs(string wid, string js)
         {
             SqlParameter[] Parm = new SqlParameter[2];
-            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int);
-            Parm[0].Value = wid;
-            Parm[1] = new SqlParameter("@js", System.Data.SqlDbType.NText);
-            Parm[1].Value = MyTy.MyCode.DoUrlDecode(js);
+            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int)
+            {
+                Value = wid
+            };
+            Parm[1] = new SqlParameter("@js", System.Data.SqlDbType.NText)
+            {
+                Value = MyTy.MyCode.DoUrlDecode(js)
+            };
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPWEBJS", Parm);
             if (r > 0)
@@ -202,10 +238,14 @@ namespace Service.Util
         public string UpSJYHelp(string wid, string js)
         {
             SqlParameter[] Parm = new SqlParameter[2];
-            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int);
-            Parm[0].Value = wid;
-            Parm[1] = new SqlParameter("@help", System.Data.SqlDbType.VarChar, 4000);
-            Parm[1].Value = MyTy.MyCode.DoUrlDecode(js);
+            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int)
+            {
+                Value = wid
+            };
+            Parm[1] = new SqlParameter("@help", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = MyTy.MyCode.DoUrlDecode(js)
+            };
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPWEBHELP", Parm);
             if (r > 0)
@@ -226,12 +266,18 @@ namespace Service.Util
         public int AddSJYSJ(string userid, string mc, string lx)
         {
             SqlParameter[] Parm = new SqlParameter[3];
-            Parm[0] = new SqlParameter("@userid", System.Data.SqlDbType.Int);
-            Parm[0].Value = userid;
-            Parm[1] = new SqlParameter("@mc", System.Data.SqlDbType.VarChar, 4000);
-            Parm[1].Value = mc;
-            Parm[2] = new SqlParameter("@lx", System.Data.SqlDbType.VarChar, 4000);
-            Parm[2].Value = lx;
+            Parm[0] = new SqlParameter("@userid", System.Data.SqlDbType.Int)
+            {
+                Value = userid
+            };
+            Parm[1] = new SqlParameter("@mc", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = mc
+            };
+            Parm[2] = new SqlParameter("@lx", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = lx
+            };
 
             return this.execObj.SubmitStoredProcedureInt("p_WEBSJ_ADD", Parm);
         }
@@ -246,12 +292,18 @@ namespace Service.Util
         public int EditSJYSJ(string wid, string mc, string lx)
         {
             SqlParameter[] Parm = new SqlParameter[3];
-            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int);
-            Parm[0].Value = wid;
-            Parm[1] = new SqlParameter("@mc", System.Data.SqlDbType.VarChar, 4000);
-            Parm[1].Value = mc;
-            Parm[2] = new SqlParameter("@lx", System.Data.SqlDbType.VarChar, 4000);
-            Parm[2].Value = lx;
+            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int)
+            {
+                Value = wid
+            };
+            Parm[1] = new SqlParameter("@mc", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = mc
+            };
+            Parm[2] = new SqlParameter("@lx", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = lx
+            };
 
             return this.execObj.SubmitStoredProcedureInt("p_WEBSJ_EDIT", Parm);
         }
@@ -264,8 +316,10 @@ namespace Service.Util
         public string DelSJYSJ(string wid)
         {
             SqlParameter[] Parm = new SqlParameter[1];
-            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int);
-            Parm[0].Value = wid;
+            Parm[0] = new SqlParameter("@wid", System.Data.SqlDbType.Int)
+            {
+                Value = wid
+            };
 
             int r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_DEL", Parm);
             if (r > 0)
@@ -282,10 +336,14 @@ namespace Service.Util
         public string CopySJYSJ(string wid)
         {
             SqlParameter[] Parm = new SqlParameter[2];
-            Parm[0] = new SqlParameter("@oldwid", System.Data.SqlDbType.Int);
-            Parm[0].Value = wid;
-            Parm[1] = new SqlParameter("@USERID", System.Data.SqlDbType.Int);
-            Parm[1].Value = this.userid;
+            Parm[0] = new SqlParameter("@oldwid", System.Data.SqlDbType.Int)
+            {
+                Value = wid
+            };
+            Parm[1] = new SqlParameter("@USERID", System.Data.SqlDbType.Int)
+            {
+                Value = this.userid
+            };
             int r;
             try
             {
@@ -311,12 +369,18 @@ namespace Service.Util
         public string CopyWebSJZD(string wid, string newwid, string bs)
         {
             SqlParameter[] Parm = new SqlParameter[3];
-            Parm[0] = new SqlParameter("@oldwid", System.Data.SqlDbType.Int);
-            Parm[0].Value = wid;
-            Parm[1] = new SqlParameter("@newwid", System.Data.SqlDbType.Int);
-            Parm[1].Value = newwid;
-            Parm[2] = new SqlParameter("@bs", System.Data.SqlDbType.VarChar, 400);
-            Parm[2].Value = bs;
+            Parm[0] = new SqlParameter("@oldwid", System.Data.SqlDbType.Int)
+            {
+                Value = wid
+            };
+            Parm[1] = new SqlParameter("@newwid", System.Data.SqlDbType.Int)
+            {
+                Value = newwid
+            };
+            Parm[2] = new SqlParameter("@bs", System.Data.SqlDbType.VarChar, 400)
+            {
+                Value = bs
+            };
 
             int r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ_ZD", Parm);
             if (r >= 0)
@@ -345,10 +409,14 @@ namespace Service.Util
         public string UpHelp(string value1, string value2)
         {
             SqlParameter[] Parm = new SqlParameter[2];
-            Parm[0] = new SqlParameter("@id", System.Data.SqlDbType.Int);
-            Parm[0].Value = value2;
-            Parm[1] = new SqlParameter("@help", System.Data.SqlDbType.VarChar, 4000);
-            Parm[1].Value = value1;
+            Parm[0] = new SqlParameter("@id", System.Data.SqlDbType.Int)
+            {
+                Value = value2
+            };
+            Parm[1] = new SqlParameter("@help", System.Data.SqlDbType.VarChar, 4000)
+            {
+                Value = value1
+            };
 
             int r = this.execObj.SubmitStoredProcedureInt("p_UPMENUHELP", Parm);
             if (r >= 0)

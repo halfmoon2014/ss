@@ -294,7 +294,7 @@ namespace EI.Web
             DataSet ds = business.GetCTable(id, lx, js, sql, wid, myname);
             DataTable dtwid = ds.Tables[0];
 
-            DataTable dtzd = null;// ds.Tables[1];
+            //DataTable dtzd = null;// ds.Tables[1];
             //myty.GetPagedTable(dtwid, page, rows),
             return GetTJson(dtwid,  page, rows);
         }

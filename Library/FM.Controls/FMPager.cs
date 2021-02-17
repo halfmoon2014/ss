@@ -100,12 +100,12 @@ namespace FM.Controls
         /// <summary>
         /// 记录尺码的顺序,从0开始,0,1,2,3,
         /// </summary>
-        string[] cmord = new string[sizeCount];
+        readonly string[] cmord = new string[sizeCount];
 
         /// <summary>
         /// 记录尺码每个顺序对应的 |尺码组ID1/尺码ID1|尺码组ID2/尺码ID2|
         /// </summary>
-        string[] cmid = new string[sizeCount];
+        readonly string[] cmid = new string[sizeCount];
 
         //此页表名
         //public string tbname = "";
@@ -204,8 +204,7 @@ namespace FM.Controls
             {
                 #region 数据源非空
                 StringBuilder strBuild = new StringBuilder();
-                int cols = detailContentData.Columns.Count;
-
+                
                 foreach (DataRow dr in detailContentData.Rows)// 每行
                 {
                     strBuild.Append("<tr rownum=\"" + detailContentData.Rows.IndexOf(dr) + "\">");
@@ -677,8 +676,8 @@ namespace FM.Controls
                             else
                             {
                                 #region
-                                string itype = "";
-                                string linput = "";
+                                string itype;
+                                string linput;
                                 string myevent =GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), columnName, "", 0);
                                 string myreadonly = (detailHeadRow["readonly"].ToString().Trim() == "1" ? " readonly='readonly' " : " ");
                                 string mydisable = (detailHeadRow["readonly"].ToString().Trim() == "1" || pagerArguments.IsPrint || pagerArguments.IsExcel ? " disabled='disabled' " : " ");
@@ -943,7 +942,7 @@ namespace FM.Controls
             StringBuilder thHTMLCSS = new StringBuilder();
 
             //标识是否为存在合并表头
-            bool isMergeHead = headlineData.Select("hbltname<>''").Length > 0 ? true : false;
+            bool isMergeHead = headlineData.Select("hbltname<>''").Length > 0;
 
             string colspanName = "";//存合并表头名
             int colspanCount = 0;//存个数            
@@ -1227,7 +1226,7 @@ namespace FM.Controls
         /// <param name="str">字符串</param>
         /// <param name="substring">子串</param>
         /// <returns>出现的次数</returns>
-        static int SubstringCount(string str, string substring)
+        public static int SubstringCount(string str, string substring)
         {
             if (str.Contains(substring))
             {
@@ -1406,7 +1405,7 @@ namespace FM.Controls
             if (endIndex > pageCount)
                 endIndex = pageCount;
 
-            string currentPageClass = "";
+            string currentPageClass;
             for (int i = startIndex; i <= endIndex; i++)
             {
                 currentPageClass = "";
