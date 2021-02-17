@@ -6,9 +6,9 @@ namespace FM.Business
 {
     public class Login
     {
-        DALInterface execObj;
-        SqlCommandString sqlstring;
-        ConnetString connstr;
+        readonly DALInterface execObj;
+        readonly SqlCommandString sqlstring;
+        readonly ConnetString connstr;
         public Login()
         {
             sqlstring = new SqlCommandString();

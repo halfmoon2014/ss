@@ -11,7 +11,7 @@ namespace FM.Business
         /// 返回POS中的类型
         /// </summary>
         /// <returns></returns>
-        public string[] Pos_Load(ref int thbs)
+        public string[] PosLoad(ref int thbs)
         {
             sqlstring = new SqlCommandString();
             string[] str = new string[3];
@@ -68,7 +68,7 @@ namespace FM.Business
 
             return str;
         }
-        public string[] Pos_Sk()
+        public string[] PosSk()
         {
             sqlstring = new SqlCommandString();
             string[] str = new string[1];
@@ -85,7 +85,7 @@ namespace FM.Business
             str[0] += "</table>";
             return str;
         }
-        public string[] Pos_MyLoad(string mykey, ref DataSet ds)
+        public string[] PosMyLoad(string mykey, ref DataSet ds)
         {
             sqlstring = new SqlCommandString();
             FM.Business.Help hp = new FM.Business.Help();

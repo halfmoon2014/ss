@@ -62,7 +62,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '../webuser/ws.asmx/sjy_up',
+                url: '../webuser/Ws.asmx/SjyUp',
                 data: { wid: wid, value1: name, value3: sql, value4: fwsql, mrcx: mrcx, myadd: myadd, orderby: orderby, pagesize: pagesize, mxgl: mxgl, mxsql: mxsql, mxhgl: mxhgl, mxhord: mxhord, mxhsql: mxhsql, mxly: mxly, sql_2: sql_2 },
                 error: function (e) {
                     swalProcess.sAlert('连接失败!', function () {

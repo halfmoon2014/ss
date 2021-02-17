@@ -173,7 +173,7 @@ namespace FM.Controls
             }
             pageHtml.Html = string.Format("<div>{0}</div><div {3} >{1}</div><div>{2}</div>", headHtml, contentHtml, totalHtml.Html, contentCSS);
             pageHtml.ColumnCount = this.detailHeadData.Select("visible=1").Length;
-            return ResultUtil<PageHtml>.success(pageHtml);
+            return ResultUtil<PageHtml>.Success(pageHtml);
 
         }
 

@@ -128,7 +128,7 @@
         if (!isNaN(oldwid) && oldwid != "0" && oldwid != "") {
             $.ajax({
                 type: 'post',
-                url: '../webuser/ws.asmx/websj_fz_zd',
+                url: '../webuser/Ws.asmx/WebsjFzZd',
                 data: { wid: oldwid, newwid: newwid, bs: 'zd' },
                 error: function (e) {
                     swalProcess.sAlert('连接失败!');

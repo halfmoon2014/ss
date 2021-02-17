@@ -830,11 +830,11 @@ namespace Service.Util
             if (sql.Length > 0)
             {
                 execObj.SubmitTextInt(sql.ToString());
-                return ResultUtil<string>.success("success");
+                return ResultUtil<string>.Success("success");
             }
             else
             {
-                return ResultUtil<string>.error(1001, "没有要更新的数据");
+                return ResultUtil<string>.Error(1001, "没有要更新的数据");
             }
 
         }
@@ -853,7 +853,7 @@ namespace Service.Util
             sql.Append(" insert _v_group_pic (group_id, biz_id, biz_key, pic, remark, bizDate, createor_id) values ");
             sql.Append("( '" + groupId + "', '" + bizId + "', '" + bizKey + "', '" + path + "', '"+ remark + "', getdate()," + userid + " );");
             sql.Append(" select @@IDENTITY");            
-            return ResultUtil<int>.success(int.Parse(execObj.SubmitTextObject(sql.ToString()).ToString()));
+            return ResultUtil<int>.Success(int.Parse(execObj.SubmitTextObject(sql.ToString()).ToString()));
 
         }
 
@@ -862,7 +862,7 @@ namespace Service.Util
             StringBuilder sql = new StringBuilder();
             sql.Append(" delete  _v_group_pic where id="+id+"");
              this.execObj.SubmitTextInt(sql.ToString());
-            return ResultUtil<int>.success();
+            return ResultUtil<int>.Success();
 
         }
 
@@ -870,13 +870,13 @@ namespace Service.Util
         {
             StringBuilder sql = new StringBuilder();
             sql.Append(" select * from  _v_group_pic where group_id="+ groupId + " and  biz_id="+ bizId + " and  biz_key='"+ bizKey + "'");                        
-            return ResultUtil<DataSet>.success(this.execObj.SubmitTextDataSet(sql.ToString()));
+            return ResultUtil<DataSet>.Success(this.execObj.SubmitTextDataSet(sql.ToString()));
         }
         public Result<DataSet> GetPrePicList(String preIdList)
         {
             StringBuilder sql = new StringBuilder();
             sql.Append(" select * from  _v_group_pic where id in (" + preIdList + ")");
-            return ResultUtil<DataSet>.success(this.execObj.SubmitTextDataSet(sql.ToString()));
+            return ResultUtil<DataSet>.Success(this.execObj.SubmitTextDataSet(sql.ToString()));
         }
     }
 

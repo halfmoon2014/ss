@@ -5,37 +5,45 @@ namespace MyTy
     public class ResultUtil<T>
     {
 
-        public static Result<T> success()
+        public static Result<T> Success()
         {
-            Result<T> result = new Result<T>();
-            result.Errcode = 0;         
-            result.Errmsg = "成功";
+            Result<T> result = new Result<T>
+            {
+                Errcode = 0,
+                Errmsg = "成功"
+            };
             return result;
         }
-        public static Result<T> success(T obj)
+        public static Result<T> Success(T obj)
         {
-            Result<T> result = new Result<T>();
-            result.Errcode = 0;
-            result.Data=obj;
-            result.Errmsg="成功";
+            Result<T> result = new Result<T>
+            {
+                Errcode = 0,
+                Data = obj,
+                Errmsg = "成功"
+            };
             return result;
         }
 
-        public static Result<T> success(T obj, string errorMsg)
+        public static Result<T> Success(T obj, string errorMsg)
         {
-            Result<T> result = new Result<T>();
-            result.Errcode=0;
-            result.Data = obj;
-            result.Errmsg=errorMsg;
+            Result<T> result = new Result<T>
+            {
+                Errcode = 0,
+                Data = obj,
+                Errmsg = errorMsg
+            };
             return result;
         }
                
 
-        public static Result<T> error(int intCode, string strMsg)
+        public static Result<T> Error(int intCode, string strMsg)
         {
-            Result<T> result = new Result<T>();
-            result.Errcode=intCode;
-            result.Errmsg=strMsg;
+            Result<T> result = new Result<T>
+            {
+                Errcode = intCode,
+                Errmsg = strMsg
+            };
             return result;
         }
     }
@@ -43,19 +51,23 @@ namespace MyTy
     public class ResultUtil
     {
 
-        public static Result<string> success()
+        public static Result<string> Success()
         {
-            Result<string> result = new Result<string>();
-            result.Errcode = 0;
-            result.Errmsg = "成功";
-            result.Data = "";
+            Result<string> result = new Result<string>
+            {
+                Errcode = 0,
+                Errmsg = "成功",
+                Data = ""
+            };
             return result;
         }
-        public static Result<string> error(int intCode, string strMsg)
+        public static Result<string> Error(int intCode, string strMsg)
         {
-            Result<string> result = new Result<string>();
-            result.Errcode = intCode;
-            result.Errmsg = strMsg;
+            Result<string> result = new Result<string>
+            {
+                Errcode = intCode,
+                Errmsg = strMsg
+            };
             return result;
         }
     }

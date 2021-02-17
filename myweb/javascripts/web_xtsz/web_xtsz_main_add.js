@@ -15,7 +15,7 @@
                     var zt = document.getElementById("zt").value;
                     $.ajax({
                         type: 'post',
-                        url: "../webuser/ws.asmx/websj_cl",
+                        url: "../webuser/Ws.asmx/WebSjCl",
                         data: { userid: userid, mc: mc, lx: lx, wid: wid, zt: zt },
                         error: function (e) {
                             swalProcess.sAlert('连接失败!', function () {

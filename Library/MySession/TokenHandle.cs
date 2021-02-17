@@ -7,7 +7,7 @@ namespace MySession
 {
     public static class TokenHandle
     {
-        private static List<TokenItem> tokenList = new List<TokenItem>();
+        private static readonly List<TokenItem> tokenList = new List<TokenItem>();
         public static List<TokenItem> GetTokenList()
         {
             return tokenList;

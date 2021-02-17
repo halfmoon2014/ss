@@ -19,7 +19,7 @@
             targetHeight = document.getElementById("height_" + i).value; if (targetHeight == "") { targetHeight = 0; }
             if (path.length > 0 && name.length > 0) {
                 $.ajax({ type: 'post',
-                    url: '../webuser/ws.asmx/pzoom',
+                    url: '../webuser/Ws.asmx/PZoom',
                     async: false,
                     data: { ppath: path, pname: name, newpath: newpath, targetWidth: targetWidth, targetHeight: targetHeight, watermarkText: '', watermarkImage: '' },
                     error: function (e) {
@@ -52,7 +52,7 @@
         var reg = new RegExp("\r\n", "g");  
         $('#ok').linkbutton('disable');
         $.ajax({ type: 'post',
-            url: '../webuser/ws.asmx/autoview',
+            url: '../webuser/Ws.asmx/AutoView',
             data: { value1: tbname },
 
             error: function (e) {

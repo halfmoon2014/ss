@@ -19,7 +19,7 @@ public partial class web_sp_web_sp_cppos_prt : System.Web.UI.Page
         
         FM.Business.Pos em = new FM.Business.Pos();
         System.Data.DataSet ds = new System.Data.DataSet();
-        em.Pos_MyLoad(mykey,ref ds);
+        em.PosMyLoad(mykey,ref ds);
         Djh.InnerText = ds.Tables[0].Rows[0]["djh"].ToString().Trim();
         Djlbmc.InnerText = ds.Tables[0].Rows[0]["lxmc"].ToString().Trim();
         rq.InnerHtml = ds.Tables[0].Rows[0]["rq"].ToString().Trim();

@@ -163,7 +163,7 @@ namespace MyTy
                 MoneyStr = MoneyStr + DVar + UnitVar;
             }
             //二次处理大写金额字符串
-            MoneyStr = MoneyStr + "整";
+            MoneyStr += "整";
             while (MoneyStr.Contains("零分") || MoneyStr.Contains("零角") || MoneyStr.Contains("零佰") || MoneyStr.Contains("零仟")
                 || MoneyStr.Contains("零万") || MoneyStr.Contains("零亿") || MoneyStr.Contains("零零") || MoneyStr.Contains("零元")
                 || MoneyStr.Contains("亿万") || MoneyStr.Contains("零整") || MoneyStr.Contains("分整"))
@@ -367,8 +367,10 @@ namespace MyTy
             //构造Ping实例
             Ping pingSender = new Ping();
             //Ping 选项设置
-            PingOptions options = new PingOptions();
-            options.DontFragment = true;
+            PingOptions options = new PingOptions
+            {
+                DontFragment = true
+            };
             //测试数据
             string data = "test data";
             byte[] buffer = Encoding.ASCII.GetBytes(data);

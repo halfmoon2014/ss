@@ -11,15 +11,15 @@ namespace EI.Web
 {
     public class WebEdit
     {
-        private string tzid;
-        private string userid;
-        private string username;
+        private readonly string tzid;
+        private readonly string userid;
+        private readonly string username;
         private bool IsMobileBrowser;
-        Business business;        
+        readonly Business business;        
         /// <summary>
         /// 浏览器类型
         /// </summary>
-        private string browser;
+        private readonly string browser;
         public WebEdit(string tzid, string userid, string username,string browser)
         {
             this.tzid = tzid;
@@ -478,7 +478,7 @@ namespace EI.Web
 
                     string ifid = divInLayoutDataTable.Rows[0]["htmlid"].ToString().Trim();
                     if (url.IndexOf("?") < 0)
-                        url = url + "?";
+                        url += "?";
 
                     foreach (string key in requestParameter.QueryString.Keys)
                     {
@@ -887,7 +887,7 @@ namespace EI.Web
                     dataSour = dataSour.Replace(key, urlSession[key]);
                 }
 
-                System.Data.DataTable dt = new System.Data.DataTable();
+                System.Data.DataTable dt;
 
                 FM.Business.Help hp = new FM.Business.Help();
                 dt = hp.ExecuteDataset(dataSour).Tables[0];

@@ -178,7 +178,7 @@ namespace Comet
             string title = Microsoft.JScript.GlobalObject.decodeURI(context.Request.QueryString["title"].ToString());
             int connID = int.Parse(context.Request.QueryString["b"].ToString());
             LogHelper.WriteLog(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType, new LogContent("ip", n, "BeginProcessRequest", g));
-            string ip = "Can not get";
+            string ip;
             if (context.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
                 ip = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();  // Return real client IP.
             else// not using proxy or can't get the Client IP

@@ -13,9 +13,9 @@ public partial class web_ls_web_ls_cpdaxx : System.Web.UI.Page
         //加载一些只用加载 一次的东西        
 
         FM.Business.Pos em = new FM.Business.Pos();
-        string[] str = new string[3];
+        string[] str ;
         int thbs = 0;//标识初始值是否是退货还是正常销售
-        str = em.Pos_Load(ref thbs);
+        str = em.PosLoad(ref thbs);
         //销售别
         tb_select_xsb.InnerHtml = str[0];
         if (thbs == 0)

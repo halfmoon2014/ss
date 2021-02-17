@@ -87,7 +87,7 @@
                         if (!isNaN(data.wid) && data.wid != "0" && data.wid != "") {
                             $.ajax({
                                 type: 'post',
-                                url: '../webuser/ws.asmx/web_fb',
+                                url: '../webuser/Ws.asmx/WebFb',
                                 data: { wid: data.wid },
                                 error: function (e) {
                                     swalProcess.sAlert('连接失败!');
@@ -245,7 +245,7 @@
         if (!isNaN(oldwid) && oldwid != "0" && oldwid != "") {
             $.ajax({
                 type: 'post',
-                url: '../webuser/ws.asmx/websj_fz',
+                url: '../webuser/Ws.asmx/WebSjFz',
                 data: { wid: oldwid },
                 error: function (e) {
                     swalProcess.sAlert('连接失败!');
@@ -275,7 +275,7 @@
         //        if (r) {
         //            $.ajax({
         //                type: 'post',
-        //                url: '../webuser/ws.asmx/websj_del',
+        //                url: '../webuser/Ws.asmx/WebSjDel',
         //                data: { wid: mys.wid },
         //                error: function (e) {
         //                    $.messager.alert('提示信息', '连接失败!', 'info');

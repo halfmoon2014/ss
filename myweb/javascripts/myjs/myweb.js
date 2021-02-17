@@ -165,7 +165,7 @@ function myAjax(sqlCommand, xact_abort) {
     }
 
     $.ajax({ type: 'post',
-        url: '../webuser/ws.asmx/execSqlCommand',
+        url: '../webuser/Ws.asmx/ExecSqlCommand',
         async: false,
         data: { sqlCommand: sqlCommand, xact_abort: xact_abort, wid: wid },
         error: function (e) { },
@@ -181,7 +181,7 @@ function myAjax(sqlCommand, xact_abort) {
 function getAjax(par) {    
     $.ajax({
         type: 'post',
-        url: '../webuser/ws.asmx/execSqlCommand',
+        url: '../webuser/Ws.asmx/ExecSqlCommand',
         async: false,
         data: { par: par },
         error: function (e) { },

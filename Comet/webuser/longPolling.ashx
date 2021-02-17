@@ -4,7 +4,7 @@ using System;
 using System.Web;
 using Comet;
 using MyTy;
-    
+
 public class Handler : IHttpHandler
 {
 
@@ -18,15 +18,15 @@ public class Handler : IHttpHandler
 
         if (jobject["topic"].ToString() == "longPollingData")
         {
-            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(longPollingData(jobject["to"].ToString(), jobject["msg"])));
+            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(LongPollingData(jobject["to"].ToString(), jobject["msg"])));
         }
         else
         {
-            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(ResultUtil<string>.error(2000, "no method")));
+            context.Response.Write(Newtonsoft.Json.JsonConvert.SerializeObject(ResultUtil<string>.Error(2000, "no method")));
         }
     }
 
-    public Result<string> longPollingData(string to, object data)
+    public Result<string> LongPollingData(string to, object data)
     {
         Result<string> result = new Result<string>();
         try

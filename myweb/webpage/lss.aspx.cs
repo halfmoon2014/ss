@@ -44,10 +44,12 @@ public partial class lss : System.Web.UI.Page
             //if (1 == 1/*cache==null*/)
             //{
             WebEdit webEdit = new WebEdit(tzid.ToString(), userid.ToString(), username, Request.Browser.Browser);
-           
-            HtmlParameter htmlParameter = new HtmlParameter();
-            htmlParameter.QueryString = Request.QueryString;
-            htmlParameter.Form = Request.Form;            
+
+            HtmlParameter htmlParameter = new HtmlParameter
+            {
+                QueryString = Request.QueryString,
+                Form = Request.Form
+            };
             Html layout = webEdit.WebLayOut(intWid, htmlParameter,MyTy.RequestExtensions.IsMobileBrowser(Request) );
             innerHtml.Append(layout.HtmlMark);
             innerHtml.Append("<input type=\"hidden\"  id=\"wid\" IsEasyLayout=\"" + layout.IsEasyLayout.ToString() + "\"  value=\"" + intWid.ToString() + "\" />");

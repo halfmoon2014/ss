@@ -14,7 +14,7 @@ namespace EI.Web
 
         public WebMenu()
         {
-            string ip = "";
+            string ip ;
             if (HttpContext.Current.Request.ServerVariables["HTTP_VIA"] != null) // using proxy
                 ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].ToString();  // Return real client IP.
             else// not using proxy or can't get the Client IP

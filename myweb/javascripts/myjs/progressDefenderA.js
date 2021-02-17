@@ -102,7 +102,7 @@ define(['jquery', 'utils', 'progressDefender'], function ($, utils, progressDefe
                 if (!value2) {
                     throw null;
                 } else {
-                    return fetch("../webuser/ws.asmx/reloadJson", {
+                    return fetch("../webuser/Ws.asmx/ReloadJson", {
                         method: "POST",
                         credentials: 'include',
                         headers: {
@@ -256,7 +256,7 @@ define(['jquery', 'utils', 'progressDefender'], function ($, utils, progressDefe
             var err = "";
             $.ajax({
                 type: 'post',
-                url: '../webuser/ws.asmx/reload',
+                url: '../webuser/Ws.asmx/Reload',
                 async: false,
                 data: { value1: (usr), value2: (pw), a: (a), b: (b) },
                 error: function (e) { err = e; },

@@ -1,4 +1,4 @@
-﻿<%@ WebService Language="C#" Class="ws" %>
+﻿<%@ WebService Language="C#" Class="Ws" %>
 
 using System.Web.Services;
 using System.Data;
@@ -6,7 +6,6 @@ using Service.Util;
 using System.Collections.Generic;
 using MyTy;
 using DTO;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using MySession;
 [WebService(Namespace = "http://tempuri.org/")]
@@ -14,7 +13,7 @@ using MySession;
 
 //若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消对下行的注释。 
 // [System.Web.Script.Services.ScriptService]
-public class ws : System.Web.Services.WebService
+public class Ws : System.Web.Services.WebService
 {
     /// <summary>
     /// 用户登陆
@@ -47,10 +46,10 @@ public class ws : System.Web.Services.WebService
         if (userid != 0)
         {
             TokenItem item = TokenHandle.AddUserid(userid);
-            return JsonConvert.SerializeObject(ResultUtil<TokenItem>.success(item));
+            return JsonConvert.SerializeObject(ResultUtil<TokenItem>.Success(item));
         }
         else
-            return JsonConvert.SerializeObject(ResultUtil.error(100, "登陆失败,请检查用户名与密码是否正确!"));
+            return JsonConvert.SerializeObject(ResultUtil.Error(100, "登陆失败,请检查用户名与密码是否正确!"));
     }
 
     [WebMethod(EnableSession = true, MessageName = "TzList/json")]
@@ -59,9 +58,9 @@ public class ws : System.Web.Services.WebService
         FM.Business.ChooseTz tz = new FM.Business.ChooseTz();
         TokenItem item = TokenHandle.GetToken(token);
         if (item == null)
-            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先登陆"));
+            return JsonConvert.SerializeObject(ResultUtil.Error(100, "请先登陆"));
         else
-            return JsonConvert.SerializeObject(ResultUtil<DataTable>.success(tz.GetTzMenuJson(item.Userid)));
+            return JsonConvert.SerializeObject(ResultUtil<DataTable>.Success(tz.GetTzMenuJson(item.Userid)));
     }
 
     /// <summary>
@@ -93,7 +92,7 @@ public class ws : System.Web.Services.WebService
             FM.Business.Login lg = new FM.Business.Login();
             lg.CreateDbLink(tzid);//设置业务服务器上的 连接 主服务与母板的LINK
         }
-        return JsonConvert.SerializeObject(ResultUtil.success());
+        return JsonConvert.SerializeObject(ResultUtil.Success());
     }
 
     [WebMethod(EnableSession = true, MessageName = "Menu/json")]
@@ -101,13 +100,13 @@ public class ws : System.Web.Services.WebService
     {
         TokenItem item = TokenHandle.GetToken(token);
         if (item == null)
-            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先登陆"));
+            return JsonConvert.SerializeObject(ResultUtil.Error(100, "请先登陆"));
         else if (item.Tzid == 0)
-            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先选择套账"));
+            return JsonConvert.SerializeObject(ResultUtil.Error(100, "请先选择套账"));
         else
         {
             FM.Business.Menu menu = new FM.Business.Menu(item.Tzid.ToString(), item.Userid.ToString());
-            return JsonConvert.SerializeObject(ResultUtil<DataSet>.success(menu.GetUserMenu(item.Userid.ToString())));
+            return JsonConvert.SerializeObject(ResultUtil<DataSet>.Success(menu.GetUserMenu(item.Userid.ToString())));
         }
     }
     [WebMethod(EnableSession = true, MessageName = "MenuItem/json")]
@@ -115,13 +114,13 @@ public class ws : System.Web.Services.WebService
     {
         TokenItem item = TokenHandle.GetToken(token);
         if (item == null)
-            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先登陆"));
+            return JsonConvert.SerializeObject(ResultUtil.Error(100, "请先登陆"));
         else if (item.Tzid == 0)
-            return JsonConvert.SerializeObject(ResultUtil.error(100, "请先选择套账"));
+            return JsonConvert.SerializeObject(ResultUtil.Error(100, "请先选择套账"));
         else
         {
             FM.Business.Menu menu = new FM.Business.Menu(item.Tzid.ToString(), item.Userid.ToString());
-            return JsonConvert.SerializeObject(ResultUtil<DataTable>.success(menu.GetContentMenu(item.Userid.ToString(), ssid.ToString())));
+            return JsonConvert.SerializeObject(ResultUtil<DataTable>.Success(menu.GetContentMenu(item.Userid.ToString(), ssid.ToString())));
         }
 
     }
@@ -145,7 +144,7 @@ public class ws : System.Web.Services.WebService
         return lg.SetUserPsw(username, oldPassWord, newPassWord, adminTag);
     }
 
-    public Business getBusiness()
+    public Business GetBusiness()
     {
         return new Business(MySession.SessionHandle.Get("tzid"), MySession.SessionHandle.Get("userid"));
     }
@@ -158,7 +157,7 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string HelpUp(string value1, string value2)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         return "{\"r\":\"" + ei.UpHelp(value1.Trim(), value2) + "\"}";
     }
     /// <summary>
@@ -167,9 +166,9 @@ public class ws : System.Web.Services.WebService
     /// <param name="value1"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string autoview(string value1)
+    public string AutoView(string value1)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         return "{\"r\":\"" + ei.AutoView(value1) + "\"}";
     }
     /// <summary>
@@ -193,26 +192,27 @@ public class ws : System.Web.Services.WebService
     /// <param name="sql_2"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string sjy_up(int wid, string value1, string value3, string value4, int mrcx, int myadd, string orderby, int pagesize, string mxgl, string mxsql, string mxhgl, string mxhord, string mxhsql, string mxly, string sql_2)
+    public string SjyUp(int wid, string value1, string value3, string value4, int mrcx, int myadd, string orderby, int pagesize, string mxgl, string mxsql, string mxhgl, string mxhord, string mxhsql, string mxly, string sql_2)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         CacheTools.WidUpdateDep(wid.ToString());
-        PageDataSource pageDataSource = new PageDataSource();
-        pageDataSource.Id = wid;
-        pageDataSource.Name = value1;
-        pageDataSource.Sql = value3;
-        pageDataSource.Fwsql = value4;
-        pageDataSource.Mrcx = mrcx;
-        pageDataSource.Myadd = myadd;
-        pageDataSource.Orderby = orderby;
-        pageDataSource.Pagesize = pagesize;
-        pageDataSource.Mxgl = mxgl;
-        pageDataSource.Mxsql = mxsql;
-        pageDataSource.Mxhgl = mxhgl;
-        pageDataSource.Mxhord = mxhord;
-        pageDataSource.Mxhsql = mxhsql;
-        pageDataSource.Mxly = mxly;
-        pageDataSource.Sql_2 = sql_2;
+        PageDataSource pageDataSource = new PageDataSource { 
+            Id=wid,
+            Name=value1,
+            Sql=value3,
+            Fwsql=value4,
+            Mrcx=mrcx,
+            Myadd=myadd,
+            Orderby=orderby,
+            Pagesize=pagesize,
+            Mxgl=mxgl,
+            Mxsql=mxsql,
+            Mxhgl=mxhgl,
+            Mxhord=mxhord,
+            Mxhsql=mxhsql,
+            Mxly=mxly,
+            Sql_2=sql_2
+        };       
         return "{\"r\":\"" + ei.UpSJY(pageDataSource) + "\"}";
     }
     /// <summary>
@@ -224,7 +224,7 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string UpSYJLayout(string wid, string data)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         CacheTools.WidUpdateDep(wid);
         return "{\"r\":\"" + ei.UpSYJLayout(data) + "\"}";
     }
@@ -237,7 +237,7 @@ public class ws : System.Web.Services.WebService
     [WebMethod(EnableSession = true)]
     public string UpSYJZdwh(string wid, string data)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         CacheTools.WidUpdateDep(wid);
         Result<string> result = ei.UpSYJZdwh(data);
         if (result.Errcode == 0)
@@ -254,9 +254,9 @@ public class ws : System.Web.Services.WebService
     /// <param name="js"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string sjy_upjs(string wid, string js)
+    public string SjyUpJS(string wid, string js)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         CacheTools.WidUpdateDep(wid);
         return "{\"r\":\"" + ei.UpSJYJs(wid, js) + "\"}";
     }
@@ -268,9 +268,9 @@ public class ws : System.Web.Services.WebService
     /// <param name="help"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string sjy_uphelp(string wid, string help)
+    public string SjyUpHelp(string wid, string help)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         return "{\"r\":\"" + ei.UpSJYHelp(wid, help) + "\"}";
     }
 
@@ -285,9 +285,9 @@ public class ws : System.Web.Services.WebService
     /// <returns></returns>
 
     [WebMethod(EnableSession = true)]
-    public string websj_cl(string userid, string mc, string lx, string wid, string zt)
+    public string WebSjCl(string userid, string mc, string lx, string wid, string zt)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         int r;
         if (zt == "add")
         {
@@ -314,9 +314,9 @@ public class ws : System.Web.Services.WebService
     /// <param name="wid"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string websj_del(string wid)
+    public string WebSjDel(string wid)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         return "{\"r\":\"" + ei.DelSJYSJ(wid) + "\"}";
     }
     /// <summary>
@@ -325,9 +325,9 @@ public class ws : System.Web.Services.WebService
     /// <param name="wid"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string websj_fz(string wid)
+    public string WebSjFz(string wid)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         return "{\"r\":\"" + ei.CopySJYSJ(wid) + "\"}";
     }
 
@@ -337,9 +337,9 @@ public class ws : System.Web.Services.WebService
     /// <param name="wid"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string web_fb(string wid)
+    public string WebFb(string wid)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         if (wid == "menu")
             return "{\"r\":\"" + ei.Web_fb_menu().Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
         else
@@ -353,22 +353,23 @@ public class ws : System.Web.Services.WebService
     /// <param name="bs"></param>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string websj_fz_zd(string wid, string newwid, string bs)
+    public string WebsjFzZd(string wid, string newwid, string bs)
     {
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         return "{\"r\":\"" + ei.CopyWebSJZD(wid, newwid, bs).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
 
     [WebMethod(EnableSession = true)]
     //页面设计 字段处理 处理SQL语句
     //处理大类SQL
-    public string execSqlCommand(string sqlCommand, string xact_abort, string wid)
+    public string ExecSqlCommand(string sqlCommand, string xact_abort, string wid)
     {
-        Dictionary<string, string> arg = new Dictionary<string, string>();
-        arg.Add("wid", wid);
-        arg.Add("callFucntion", "zdwh_up");
+        Dictionary<string, string> arg = new Dictionary<string, string> {
+            { "wid",wid},
+            { "callFucntion","zdwh_up"}
+        };
 
-        Business ei = getBusiness();
+        Business ei = GetBusiness();
         Result<string> result;
         result = ei.ExecSqlCommand(sqlCommand, xact_abort, arg);
         return "{\"r\":\"" + (result.Errcode == 0 ? "true" : "false") + "\",\"msg\":\"" + result.Data.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
@@ -376,7 +377,7 @@ public class ws : System.Web.Services.WebService
 
     [WebMethod(EnableSession = true)]
     //重新登陆
-    public string reload(string value1, string value2, string a, string b)
+    public string Reload(string value1, string value2, string a, string b)
     {
         value1 = MyCode.MySysDate(value1);
         value2 = MyCode.MySysDate(value2);
@@ -391,7 +392,7 @@ public class ws : System.Web.Services.WebService
 
     [WebMethod(EnableSession = true)]
     //重新登陆
-    public void reloadJson(string value1, string value2, string a, string b)
+    public void ReloadJson(string value1, string value2, string a, string b)
     {
         Context.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
         Context.Response.Charset = "utf-8";
@@ -416,11 +417,11 @@ public class ws : System.Web.Services.WebService
 
     [WebMethod(EnableSession = true)]
     //根据mykey 返回 页面要加载的数据
-    public string Pos_MyLoad(string mykey)
+    public string PosMyLoad(string mykey)
     {
         FM.Business.Pos sp = new FM.Business.Pos();
         DataSet ds = new DataSet();
-        return sp.Pos_MyLoad(mykey, ref ds)[0];
+        return sp.PosMyLoad(mykey, ref ds)[0];
     }
 
     [WebMethod(EnableSession = true)]
@@ -458,7 +459,7 @@ public class ws : System.Web.Services.WebService
     /// </summary>
     /// <returns></returns>
     [WebMethod(EnableSession = true)]
-    public string pzoom(string ppath, string pname, string newpath, int targetWidth, int targetHeight, string watermarkText, string watermarkImage)
+    public string PZoom(string ppath, string pname, string newpath, int targetWidth, int targetHeight, string watermarkText, string watermarkImage)
     {
         Draw dr = new Draw();
         string rStr ;
@@ -483,7 +484,7 @@ public class ws : System.Web.Services.WebService
         string rStr;
         try
         {
-            Business ei = getBusiness();
+            Business ei = GetBusiness();
             ei.DelPic(id);
             rStr = "{\"r\":\"true\"}";
         }

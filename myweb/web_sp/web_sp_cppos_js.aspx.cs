@@ -13,7 +13,7 @@ public partial class web_sp_web_sp_cppos_js : System.Web.UI.Page
         
         FM.Business.Pos em = new FM.Business.Pos();
         string[] str = new string[1];        
-        str = em.Pos_Sk();
+        str = em.PosSk();
         div_fkfs.InnerHtml = str[0];
 
         zje.InnerText = Request.QueryString["zje"].ToString();

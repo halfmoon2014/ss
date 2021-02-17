@@ -35,7 +35,7 @@
         var wid = document.getElementById("wid").value;
         $.ajax({
             type: 'post',
-            url: '../webuser/ws.asmx/sjy_upjs',
+            url: '../webuser/Ws.asmx/SjyUpJS',
             data: { wid: wid, js: js },
             error: function (e) {
                 swalProcess.sAlert( '连接失败!',  function () {

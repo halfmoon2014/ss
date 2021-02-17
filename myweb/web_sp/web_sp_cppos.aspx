@@ -641,7 +641,7 @@
             ChangCtrl(bs);
             var r;
             $.ajax({ type: 'post',
-                url: '../webuser/ws.asmx/Pos_MyLoad',
+                url: '../webuser/Ws.asmx/PosMyLoad',
                 async: false,
                 data: { mykey: mykey },
                 error: function (e) { r = -1; },

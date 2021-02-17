@@ -9,7 +9,7 @@
 
                 $.ajax({
                     type: 'post',
-                    url: '../webuser/ws.asmx/sjy_uphelp',
+                    url: '../webuser/Ws.asmx/SjyUpHelp',
                     data: { wid: wid, help: tbhelp },
                     error: function (e) {                       
                         swalProcess.sAlert('连接失败!', function () {

@@ -16,7 +16,7 @@ namespace weixin.util
     public class WeixinUtil
     {
         public static string access_token_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
-        public AccessToken getAccessToken(String appid, String appsecret)
+        public AccessToken GetAccessToken(String appid, String appsecret)
         {
             if (HttpContext.Current.Application[appid + appsecret] == null
            || Convert.ToDateTime(HttpContext.Current.Application[appid + appsecret + "time"]).Subtract(DateTime.Now).TotalSeconds < 1)
@@ -45,7 +45,7 @@ namespace weixin.util
          * @param accessToken 有效的access_token
          * @return 0表示成功，其他值表示失败
          */
-        public string createMenu(string menu, String accessToken)
+        public string CreateMenu(string menu, String accessToken)
         {
 
             // 拼装创建菜单的url
@@ -164,9 +164,7 @@ namespace weixin.util
             {
                 backWord = e.Message;
                 Log.WriteLog("ResponseMsg", backWord);
-            }
-
-            DateTime dt = DateTime.Now;
+            }            
             string textTpl = "<xml> <ToUserName><![CDATA[" + fromUsername + @"]]></ToUserName>\r\n";
             textTpl += "<FromUserName><![CDATA[" + toUsername + @"]]></FromUserName>\r\n";
             textTpl += "<CreateTime>" + DateTime.Now + @"</CreateTime>\r\n";
@@ -417,52 +415,66 @@ namespace weixin.util
         /// <summary>
         /// 菜单
         /// </summary>
-        public string CreateMenu(string appid, string appsecret)
+        public string CreateMenuTest(string appid, string appsecret)
         {
 
             WeixinUtil wu = new WeixinUtil();
-            weixin.pojson.AccessToken ac = wu.getAccessToken(appid, appsecret);
+            weixin.pojson.AccessToken ac = wu.GetAccessToken(appid, appsecret);
             if (ac.Access_token != null)
             {
                 List<WeiXinButton> btnList = new List<WeiXinButton>();
 
-                WeiXinButton btn1 = new WeiXinButton();
-                btn1.Name = "我的衣衣";
-                btn1.SubButton = new List<WeiXinButton>();
-                WeiXinButton btn11 = new WeiXinButton();
-                btn11.Name = "最新单品";
-                btn11.Key = "11";
-                btn11.Type = "click";
+                WeiXinButton btn1 = new WeiXinButton
+                {
+                    Name = "我的衣衣",
+                    SubButton = new List<WeiXinButton>()
+                };
+                WeiXinButton btn11 = new WeiXinButton
+                {
+                    Name = "最新单品",
+                    Key = "11",
+                    Type = "click"
+                };
                 btn1.SubButton.Add(btn11);
-                WeiXinButton btn12 = new WeiXinButton();
-                btn12.Name = "销售排行";
-                btn12.Key = "12";
-                btn12.Type = "click";
+                WeiXinButton btn12 = new WeiXinButton
+                {
+                    Name = "销售排行",
+                    Key = "12",
+                    Type = "click"
+                };
                 btn1.SubButton.Add(btn12);
-                
-                WeiXinButton btn13 = new WeiXinButton();
-                btn13.Name = "我的朋友";
-                btn13.Key = "13";
-                btn13.Type = "click";
+
+                WeiXinButton btn13 = new WeiXinButton
+                {
+                    Name = "我的朋友",
+                    Key = "13",
+                    Type = "click"
+                };
                 btn1.SubButton.Add(btn13);
                 btnList.Add(btn1);
 
-                WeiXinButton btn3 = new WeiXinButton();
-                btn3.Name = "我的微生活";
-                btn3.SubButton = new List<WeiXinButton>();
-                WeiXinButton btn31 = new WeiXinButton();
-                btn31.Name = "天气查询";
-                btn31.Type = "view";
-                btn31.Url = "http://m.46644.com/tool/?tpltype=weixin";
+                WeiXinButton btn3 = new WeiXinButton
+                {
+                    Name = "我的微生活",
+                    SubButton = new List<WeiXinButton>()
+                };
+                WeiXinButton btn31 = new WeiXinButton
+                {
+                    Name = "天气查询",
+                    Type = "view",
+                    Url = "http://m.46644.com/tool/?tpltype=weixin"
+                };
                 btn3.SubButton.Add(btn31);
 
                 btnList.Add(btn3);
 
-                JsonSerializerSettings jSetting = new JsonSerializerSettings();
-                jSetting.NullValueHandling = NullValueHandling.Ignore;
+                JsonSerializerSettings jSetting = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                };
                 string menuStr = "{\"button\":" + JsonConvert.SerializeObject(btnList, jSetting) + "}";
 
-                return wu.createMenu(menuStr, ac.Access_token);
+                return wu.CreateMenu(menuStr, ac.Access_token);
 
             }
             else
@@ -470,9 +482,7 @@ namespace weixin.util
                 return "tokenerr";
 
             }
-        }
-
-       
+        }       
 
     }
 }
