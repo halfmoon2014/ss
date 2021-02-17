@@ -13,7 +13,7 @@ namespace Comet
     {
         public static LongSataMrg instance = null;
 
-        public static LongSataMrg getInstance()
+        public static LongSataMrg GetInstance()
         {
             if (instance == null)
             {
@@ -241,7 +241,7 @@ namespace Comet
             Context.Response.Write(ExtraData);
             IsCompleted = true;
             if (this.Callback != null)
-                this.Callback(this);
+                Callback(this);
             return 0;
         }
 
@@ -253,7 +253,7 @@ namespace Comet
         {
             IsCompleted = true;
             if (this.Callback != null)
-                this.Callback(this);
+                Callback(this);
             return 0;
         }
     }

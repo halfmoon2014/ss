@@ -82,7 +82,7 @@ public class MyHttpModule : IHttpModule
             #region 套账页面
             if (SessionHandle.Get("userid") != null && SessionHandle.Get("tzid") != null)
             {
-                string redirectURL = "";
+                string redirectURL ;
                 if (SessionHandle.Get("urlreferrer") != null)
                 {//超时重登陆
                     redirectURL = SessionHandle.Get("urlreferrer").ToString();
@@ -101,7 +101,7 @@ public class MyHttpModule : IHttpModule
                     else
                     {
                         SessionHandle.Del("tzid");
-                        redirectURL = "~/choosetz.aspx";
+                        //redirectURL = "~/choosetz.aspx";
                     }
                 }
                 

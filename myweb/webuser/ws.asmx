@@ -288,7 +288,7 @@ public class ws : System.Web.Services.WebService
     public string websj_cl(string userid, string mc, string lx, string wid, string zt)
     {
         Business ei = getBusiness();
-        int r = 0;
+        int r;
         if (zt == "add")
         {
             r = ei.AddSJYSJ(userid, mc, lx);
@@ -341,9 +341,9 @@ public class ws : System.Web.Services.WebService
     {
         Business ei = getBusiness();
         if (wid == "menu")
-            return "{\"r\":\"" + ei.web_fb_menu().Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
+            return "{\"r\":\"" + ei.Web_fb_menu().Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
         else
-            return "{\"r\":\"" + ei.web_fb(wid).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
+            return "{\"r\":\"" + ei.Web_fb(wid).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
     /// <summary>
     /// WEB设计 复制webid中的每项
@@ -369,8 +369,8 @@ public class ws : System.Web.Services.WebService
         arg.Add("callFucntion", "zdwh_up");
 
         Business ei = getBusiness();
-        Result<string> result = new Result<string>();
-        result = ei.execSqlCommand(sqlCommand, xact_abort, arg);
+        Result<string> result;
+        result = ei.ExecSqlCommand(sqlCommand, xact_abort, arg);
         return "{\"r\":\"" + (result.Errcode == 0 ? "true" : "false") + "\",\"msg\":\"" + result.Data.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
 
@@ -461,7 +461,7 @@ public class ws : System.Web.Services.WebService
     public string pzoom(string ppath, string pname, string newpath, int targetWidth, int targetHeight, string watermarkText, string watermarkImage)
     {
         Draw dr = new Draw();
-        string rStr = "";
+        string rStr ;
         try
         {
             System.IO.FileStream fileStream = new System.IO.FileStream(Server.MapPath("../" + ppath + "/" + pname), System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);

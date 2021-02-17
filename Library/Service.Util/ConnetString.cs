@@ -5,16 +5,8 @@ using System.Data;
 namespace Service.Util
 {
     public class ConnetString
-    {
-        /// <summary>
-        /// 主服务器
-        /// </summary>
-        private string masterSql = "select a.ds,a.m_port,a.ic,a.m_ui,a.m_pw,a.linkname from v_conn a   where systag=1";
+    {     
 
-        /// <summary>
-        /// 模版服务器
-        /// </summary>
-        private string mbSql = "select a.ds,a.m_port,a.ic,a.m_ui,a.m_pw,a.linkname from v_conn a   where mbtag=1";
 
         /// <summary>
         /// 取web.config中的连接字串
@@ -144,10 +136,11 @@ namespace Service.Util
 
         private DataTable GetMasterConnService()
         {
+            SqlCommandString sqlString = new SqlCommandString();
             DataTable dataTable = (DataTable)CacheTools.MasterConnGet();
             if (dataTable == null)
             {
-                dataTable = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, this.masterSql).Tables[0];
+                dataTable = SqlHelper.ExecuteDataset(ConfigReader.Read("DBCon"), CommandType.Text, sqlString.GetMasterSql()).Tables[0];
                 if (dataTable.Rows.Count <= 0)
                 {
                     Log.WriteLog("DBstring", "无法获取主服务器地址！");
@@ -173,10 +166,11 @@ namespace Service.Util
 
         private DataTable GetMbConnService()
         {
+            SqlCommandString sqlString = new SqlCommandString();
             DataTable dataTable = (DataTable)CacheTools.MbConnGet();
             if (dataTable == null)
             {
-                dataTable = SqlHelper.ExecuteDataset(MyTy.ConfigReader.Read("DBCon"), CommandType.Text, this.mbSql).Tables[0];
+                dataTable = SqlHelper.ExecuteDataset(MyTy.ConfigReader.Read("DBCon"), CommandType.Text, sqlString.GetMbSql()).Tables[0];
                 if (dataTable.Rows.Count <= 0)
                 {
                     Log.WriteLog("DBstring", "无法获取模版地址！");

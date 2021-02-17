@@ -291,12 +291,12 @@ namespace EI.Web
         /// <returns></returns>
         public string GetCTable(int id, string lx, string js, string sql, string wid, string myname, int page, int rows)
         {
-            DataSet ds = business.GetCTable(id, lx, js, sql, wid, myname, page, rows);
+            DataSet ds = business.GetCTable(id, lx, js, sql, wid, myname);
             DataTable dtwid = ds.Tables[0];
 
             DataTable dtzd = null;// ds.Tables[1];
             //myty.GetPagedTable(dtwid, page, rows),
-            return GetTJson(dtwid, dtzd, page, rows);
+            return GetTJson(dtwid,  page, rows);
         }
         /// <summary>
         /// 
@@ -306,7 +306,7 @@ namespace EI.Web
         /// <param name="page">页码</param>
         /// <param name="rows">每页显示的行数</param>
         /// <returns></returns>
-        public string GetTJson(DataTable dtsour, DataTable dtzd, int page, int rows)
+        public string GetTJson(DataTable dtsour,  int page, int rows)
         {
             MyTy.Utils us = new MyTy.Utils();
             //实际页显示的内容
@@ -360,10 +360,12 @@ namespace EI.Web
 
             //处理所有平台上的session字段
             //如果url传参就使用url参数值,否则取默认值(默认值替换只允许替换url里的)
-            Dictionary<string, string> sessionKey = new Dictionary<string, string>();
-            sessionKey.Add("@userid", this.userid);
-            sessionKey.Add("@tzid", this.tzid);
-            sessionKey.Add("@username", this.username);
+            Dictionary<string, string> sessionKey = new Dictionary<string, string>
+            {
+                { "@userid", this.userid },
+                { "@tzid", this.tzid },
+                { "@username", this.username }
+            };
 
             DataSet divSessionDataSet = business.GetLayout(intWid, (IsMobileBrowser ? "allmobilewz" : "allwz"));
             foreach (DataRow dr in divSessionDataSet.Tables[0].Rows)
@@ -400,7 +402,7 @@ namespace EI.Web
             #region 循环五个方位,得到对应方位上的html标签
             foreach (string key in pz.Keys)
             {
-                HtmlContent htmlContent = DivInEasyLayOut(intWid, divSessionDataSet, key, requestParameter, sessionKey, divDataSet);
+                HtmlContent htmlContent = DivInEasyLayOut(divSessionDataSet, key, requestParameter, sessionKey, divDataSet);
                 string htmlMark = htmlContent.Htmlmark;
 
                 if (!string.IsNullOrEmpty(htmlMark))
@@ -427,125 +429,16 @@ namespace EI.Web
             return easyHtmlMark;
         }
 
-        public string _EasyLayout(int intWid, Dictionary<string, NameValueCollection> requestParameter)
-        {
-            //上下左右中,五个
-            Dictionary<string, string> pz = new Dictionary<string, string> { { "t", "north" }, { "l", "west" }, { "c", "center" }, { "r", "east" }, { "b", "south" } };
-            DataSet divSessionDataSet = business.GetLayout(intWid, "allwz");
-            Dictionary<string, ClientDiv> clientDivDic = new Dictionary<string, ClientDiv>();
-
-            #region 五个方位的布局
-            foreach (string key in pz.Keys)
-            {
-                clientDivDic.Add(key, _DivInEasyLayOut(intWid, divSessionDataSet, key));
-            }
-            #endregion
-
-
-            #region 取得div上的数据源            
-
-
-            //获取查询区sql语句,这里面可能会用到替换变量
-            DataSet fwSqlDataSet = business.GetWebFwSql(intWid);
-            string divSql = "";
-            if (fwSqlDataSet.Tables[0].Rows.Count != 0)
-            {
-                divSql = fwSqlDataSet.Tables[0].Rows[0]["fwsql"].ToString();
-            }
-
-            //处理所有平台上的session字段
-            //如果url传参就使用url参数值,否则取默认值(默认值替换只允许替换url里的)            
-            Dictionary<string, string> sessionKey = new Dictionary<string, string>();
-            NameValueCollection queryString = requestParameter["QueryString"];
-
-            foreach (DataRow dr in divSessionDataSet.Tables[0].Rows)
-            {
-                if (dr["session"].ToString() != string.Empty)
-                {
-                    //如果存在session
-                    if (!sessionKey.ContainsKey(dr["session"].ToString()))
-                    {
-                        //session唯一                        
-                        if (queryString[dr["session"].ToString().Replace("@", "")] == null)
-                        {
-                            //如果sql没有包含参数
-                            sessionKey.Add(dr["session"].ToString(), GetMrz(dr["mrz"].ToString(), queryString));
-                        }
-                        else
-                        {
-                            sessionKey.Add(dr["session"].ToString(), queryString[dr["session"].ToString().Replace("@", "")]);
-                        }
-
-                    }
-                }
-            }
-            sessionKey.Add("@userid", this.userid);
-            sessionKey.Add("@tzid", this.tzid);
-            FM.Business.Login lg = new FM.Business.Login();
-            sessionKey.Add("@username", this.username);
-            foreach (string key in sessionKey.Keys)
-            {
-                //如果有给值                    
-                divSql = divSql.Replace(key, sessionKey[key]);
-            }
-
-            DataSet divDataSet = null;
-            if (!string.IsNullOrEmpty(divSql))
-            {
-                FM.Business.Help hp = new FM.Business.Help();
-                divDataSet = hp.ExecuteDataset(divSql);
-            }
-            #endregion
-
-            #region 将布局和数据融合
-            foreach (string key in clientDivDic.Keys)
-            {
-                ClientDiv clientDiv = clientDivDic[key];
-
-            }
-            #endregion
-
-            string easyHtmlMark = "";
-
-            //#region 循环五个方位,得到对应方位上的html标签
-            //foreach (string key in pz.Keys)
-            //{
-            //    Dictionary<string, string> divDic = DivInEasyLayOut(intWid, divSessionDataSet, key, requestParameter);
-
-            //    string htmlMark = divDic["htmlmark"];
-
-            //    if (htmlMark != string.Empty)
-            //    {
-            //        string tmpCssStyle = "data-options=\"fit:true\"";
-            //        if (key == "l" || key == "r")
-            //        {//左可以得到宽度
-            //            tmpCssStyle = (divDic["width"] != string.Empty && divDic["width"] != "0" ? "style=\"width:" + divDic["width"] + "px\"" : tmpCssStyle);
-            //        }
-            //        else if (key == "t" || key == "b")
-            //        {//上,下可以得到高度
-            //            tmpCssStyle = (divDic["height"] != string.Empty && divDic["height"] != "0" ? "style=\"height:" + divDic["height"] + "px\"" : tmpCssStyle);
-            //        }
-
-            //        htmlMark = "<div id=\"" + pz[key] + "\" data-options=\"region:'" + pz[key] + "',split:false,border:false \" " + tmpCssStyle + "  >"
-            //            + htmlMark + (key == "c" ? GetEditPermission(intWid) : "") + "</div>";
-            //    }
-            //    easyHtmlMark += htmlMark;
-            //}
-            //#endregion
-            return easyHtmlMark;
-        }
-
         /// <summary>
         /// 获取简单布局div
-        /// </summary>
-        /// <param name="wid"></param>
+        /// </summary>   
         /// <param name="divSessionDataSet"></param>
         /// <param name="type"></param>
         /// <param name="requestParameter"></param>
         /// <param name="sessionKey"></param>
         /// <param name="divDataSet"></param>
         /// <returns></returns>
-        public HtmlContent DivInEasyLayOut(int wid, DataSet divSessionDataSet, string type, HtmlParameter requestParameter, Dictionary<string, string> sessionKey, DataSet divDataSet)
+        public HtmlContent DivInEasyLayOut( DataSet divSessionDataSet, string type, HtmlParameter requestParameter, Dictionary<string, string> sessionKey, DataSet divDataSet)
         {
             HtmlContent htmlContent = new HtmlContent();
             //得到的这个数据源一定要排序好!后面会使用到排序算法
@@ -577,7 +470,7 @@ namespace EI.Web
                 if (divInLayoutDataTable.Rows[0]["nwebid"].ToString() != "0" || divInLayoutDataTable.Rows[0]["naspx"].ToString() != string.Empty)
                 {
                     #region 如果方位上是一个页面或者是个wid, 并且一定是第一行
-                    string url = "";
+                    string url;
                     if (divInLayoutDataTable.Rows[0]["naspx"].ToString() != string.Empty)
                         url = divInLayoutDataTable.Rows[0]["naspx"].ToString().Trim();
                     else
@@ -641,107 +534,6 @@ namespace EI.Web
         }
 
 
-        public ClientDiv _DivInEasyLayOut(int wid, DataSet divSessionDataSet, string type)
-        {
-            ClientDiv clientDiv = new ClientDiv();
-            //得到的这个数据源一定要排序好!后面会使用到排序算法
-            //排序按lx,ord
-
-            //按ord 排序datatable            
-            DataRow[] rows = divSessionDataSet.Tables[0].Select("lx='" + type + "'", "ord");
-            DataTable divInLayoutDataTable = divSessionDataSet.Tables[0].Clone();
-            divInLayoutDataTable.Clear();
-
-            foreach (DataRow row in rows)
-            {
-                divInLayoutDataTable.ImportRow(row);
-            }
-
-
-            if (divInLayoutDataTable.Rows.Count != 0)
-            {
-                //方位上一定要有数据,不然就是空!
-                #region 获取方位上面的高or宽
-                if (string.Compare(type, "l") == 0)
-                {
-                    clientDiv.Width = int.Parse(divInLayoutDataTable.Rows[0]["westwidth"].ToString().Trim());
-                }
-                else if (string.Compare(type, "r") == 0)
-                {
-                    clientDiv.Width = int.Parse(divInLayoutDataTable.Rows[0]["eastwidth"].ToString().Trim());
-                }
-                else if (string.Compare(type, "t") == 0)
-                {
-                    clientDiv.Height = int.Parse(divInLayoutDataTable.Rows[0]["northheight"].ToString().Trim());
-                }
-                else if (string.Compare(type, "b") == 0)
-                {
-                    clientDiv.Height = int.Parse(divInLayoutDataTable.Rows[0]["southheight"].ToString().Trim());
-                }
-                #endregion
-
-                #region 简单布局中
-                if (divInLayoutDataTable.Rows[0]["nwebid"].ToString() != "0" || divInLayoutDataTable.Rows[0]["naspx"].ToString() != string.Empty)
-                {
-                    #region 如果方位上是一个页面或者是个wid, 并且一定是第一行
-                    string url = "";
-                    if (divInLayoutDataTable.Rows[0]["naspx"].ToString() != string.Empty)
-                    {
-                        url = divInLayoutDataTable.Rows[0]["naspx"].ToString().Trim();
-                    }
-                    else
-                    {
-                        url = "lss.aspx?wid=" + int.Parse(divInLayoutDataTable.Rows[0]["nwebid"].ToString().Trim());
-                    }
-
-                    ClientPage clientPage = new ClientPage();
-                    clientDiv.DivType = DivType.page;
-                    clientPage.Id = divInLayoutDataTable.Rows[0]["htmlid"].ToString().Trim();
-                    clientPage.Url = url;
-                    clientDiv.ClientData = clientPage;
-                    #endregion
-
-                }
-                else if (divInLayoutDataTable.Rows[0]["type"].ToString() == "tree")
-                {
-                    #region 处理树
-                    ClientTree clientTree = new ClientTree();
-                    clientTree.Id = divInLayoutDataTable.Rows[0]["htmlid"].ToString();
-                    clientTree.Data = divInLayoutDataTable.Rows[0]["bz"].ToString().Trim();
-
-                    if (divInLayoutDataTable.Rows[0]["visible"].ToString().Trim() != "1")
-                    {
-                        clientTree.Visible = true;
-                    }
-                    else
-                    {
-                        clientTree.Visible = false;
-                        clientTree.Width = int.Parse(divInLayoutDataTable.Rows[0]["width"].ToString().Trim());
-                    }
-
-                    clientDiv.ClientData = clientTree;
-                    clientDiv.DivType = DivType.tree;
-                    #endregion
-                }
-                else
-                {
-                    clientDiv.ClientData = _CreatDiv(divInLayoutDataTable);
-                    clientDiv.DivType = DivType.table;
-                }
-
-                #endregion
-            }
-            else
-            {
-                if (string.Compare(type, "c") == 0)
-                {
-                    //如果中间的是表格,而不是布局的话初始占位div
-                    //否则就是单记录形式                    
-                    clientDiv.DivType = DivType.content;
-                }
-            }
-            return clientDiv;
-        }
         /// <summary>
         /// //创建DIV
         /// </summary>
@@ -768,21 +560,7 @@ namespace EI.Web
             }
             return "<div class=\"MyDivBlockClass\">" + tableHtml.ToString() + "</div>";
         }
-        public List<ClientTable> _CreatDiv(DataTable divInLayoutDataTable)
-        {
-            string tablebTag = "";
-            List<ClientTable> clientTableList = new List<ClientTable>();
-            foreach (System.Data.DataRow dr in divInLayoutDataTable.Rows)
-            {
-                if (tablebTag != dr["ord"].ToString().Trim().Substring(0, 1))
-                {
-                    tablebTag = dr["ord"].ToString().Trim().Substring(0, 1);
-                    clientTableList.Add(_CreateTable(tablebTag, divInLayoutDataTable));
-                }
-
-            }
-            return clientTableList;
-        }
+       
         /// <summary>
         /// 创建TABLE
         /// </summary>
@@ -814,7 +592,7 @@ namespace EI.Web
                         foreach (string key in sessionKey.Keys)
                             //用url参数替换默认值里的替换变量
                             mrzSql.Replace("@" + key, sessionKey[key]);
-                        mrz = business.execSqlCommand(mrzSql, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "CreateTable" } }).Data;
+                        mrz = business.ExecSqlCommand(mrzSql, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "CreateTable" } }).Data;
                     }
                     else
                         mrz = mrzSql;
@@ -1033,8 +811,8 @@ namespace EI.Web
                     else
                         visible = " display: none; ";
 
-                    string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " readonly=\"readonly\" " : "");
-                    string sevent = dr["event"].ToString().Trim();
+                    //string sreadonly = (dr["readonly"].ToString().Trim() == "1" ? " readonly=\"readonly\" " : "");
+                    //string sevent = dr["event"].ToString().Trim();
                     string yy = "";//引用+表达示
                     if (dr["yy"].ToString().Trim() != string.Empty)
                     {
@@ -1057,285 +835,6 @@ namespace EI.Web
             
         }
 
-        public ClientTable _CreateTable(string tablebTag, DataTable divInLayoutDataTable)
-        {
-            ClientTable clientTable = new ClientTable();
-            foreach (System.Data.DataRow dr in divInLayoutDataTable.Select("substring(ord,1,1)='" + tablebTag + "'"))
-            {
-                ClientWidget clientWidget = new ClientWidget();
-                ClientWidgetDefaultValue clientWidgetDefaultValue = new ClientWidgetDefaultValue();
-                clientWidget.ClientWidgetDefaultValue = clientWidgetDefaultValue;
-                clientWidgetDefaultValue.Session = dr["session"].ToString();
-                clientWidgetDefaultValue.Mrz = dr["mrz"].ToString();
-                clientWidgetDefaultValue.Iszb = int.Parse(dr["zb"].ToString().Trim());
-
-                if (dr["type"].ToString().Trim() == "text")
-                {
-                    #region 文本
-                    clientWidget.ClientControlType = ClientControlType.text;
-                    ClientLable clientLable = new ClientLable();
-                    clientLable.Css = dr["css0"].ToString().Trim();
-                    clientLable.Value = dr["mc"].ToString().Trim();
-                    ClientText clientText = new ClientText();
-                    clientText.Lable = clientLable;
-                    clientText.Css = dr["css"].ToString().Trim();
-                    clientText.Event = dr["event"].ToString().Trim();
-                    clientText.Readonly = (dr["readonly"].ToString().Trim() == "1" ? true : false);
-                    //clientText.Value = defaultValue;
-                    clientText.Id = dr["htmlid"].ToString().Trim();
-
-                    if (dr["visible"].ToString().Trim() == "1")
-                    {
-                        clientLable.Width = int.Parse(dr["qwidth"].ToString().Trim());
-                        clientLable.Visible = true;
-                        clientText.Visible = true;
-                        clientText.Width = int.Parse(dr["width"].ToString().Trim());
-                    }
-                    else
-                    {
-                        clientLable.Visible = false;
-                        clientText.Visible = false;
-                    }
-
-
-                    if (dr["yy"].ToString().Trim() != string.Empty)
-                    {
-                        clientText.Bds = dr["bds"].ToString().Trim();
-                        clientText.Yy = dr["yy"].ToString().Trim();
-                    }
-
-                    clientWidget.Widget = clientText;
-                    #endregion
-                }
-                else if (dr["type"].ToString().Trim() == "select")
-                {
-                    #region
-                    clientWidget.ClientControlType = ClientControlType.select;
-                    ClientLable clientLable = new ClientLable();
-                    clientLable.Css = dr["css0"].ToString().Trim();
-                    clientLable.Value = dr["mc"].ToString().Trim();
-
-                    ClientSelect clientSelect = new ClientSelect();
-                    clientSelect.ClientLable = clientLable;
-                    clientSelect.Css = dr["css"].ToString().Trim();
-                    clientSelect.Event = dr["event"].ToString().Trim();
-                    clientSelect.Readonly = (dr["readonly"].ToString().Trim() == "1" ? true : false);
-                    clientSelect.Id = dr["htmlid"].ToString().Trim();
-
-                    if (dr["visible"].ToString().Trim() == "1")
-                    {
-                        clientLable.Width = int.Parse(dr["qwidth"].ToString().Trim());
-                        clientLable.Visible = true;
-                        clientSelect.Visible = true;
-                    }
-                    else
-                    {
-                        clientLable.Visible = false;
-                        clientSelect.Visible = false;
-
-                    }
-
-                    clientSelect.Option = dr["bz"].ToString().Trim();
-                    //clientSelect.Value = defaultValue;
-
-                    if (dr["yy"].ToString().Trim() != string.Empty)
-                    {
-                        clientSelect.Bds = dr["bds"].ToString().Trim();
-                        clientSelect.Yy = dr["yy"].ToString().Trim();
-                    }
-
-                    clientWidget.Widget = clientSelect;
-                    #endregion
-                }
-                else if (dr["type"].ToString().Trim() == "button")
-                {
-                    #region
-                    clientWidget.ClientControlType = ClientControlType.button;
-                    ClientButton clientButton = new ClientButton();
-                    clientButton.Css = dr["css"].ToString().Trim();
-                    clientButton.Id = dr["htmlid"].ToString().Trim();
-                    clientButton.Readonly = (dr["readonly"].ToString().Trim() == "1" ? true : false);
-                    clientButton.Value = dr["mc"].ToString().Trim();
-                    clientButton.Event = dr["event"].ToString().Trim();
-
-                    if (dr["visible"].ToString().Trim() == "1")
-                    {
-                        clientButton.Visible = true;
-                        clientButton.Width = int.Parse(dr["width"].ToString().Trim());
-                    }
-                    else
-                    {
-                        clientButton.Visible = false;
-
-                    }
-
-
-                    clientWidget.Widget = clientButton;
-                    #endregion
-                }
-                else if (dr["type"].ToString().Trim() == "checkbox")
-                {
-                    #region
-                    clientWidget.ClientControlType = ClientControlType.checkbox;
-                    ClientLable clientLable = new ClientLable();
-                    clientLable.Css = dr["css0"].ToString().Trim();
-                    clientLable.Value = dr["mc"].ToString().Trim();
-                    ClientCheckbox clientCheckbox = new ClientCheckbox();
-                    clientCheckbox.ClientLable = clientLable;
-                    clientCheckbox.Css = dr["css"].ToString().Trim();
-                    clientCheckbox.Id = dr["htmlid"].ToString().Trim();
-                    clientCheckbox.Event = dr["event"].ToString().Trim();
-                    clientCheckbox.Readonly = (dr["readonly"].ToString().Trim() == "1" ? true : false);
-                    //clientCheckbox.Value = defaultValue;
-
-                    if (dr["visible"].ToString().Trim() == "1")
-                    {
-                        clientCheckbox.Width = int.Parse(dr["width"].ToString().Trim());
-                        clientLable.Width = int.Parse(dr["qwidth"].ToString().Trim());
-                        clientLable.Visible = true;
-                        clientCheckbox.Visible = true;
-                    }
-                    else
-                    {
-                        clientLable.Visible = false;
-                        clientCheckbox.Visible = false;
-
-                    }
-
-
-                    if (dr["yy"].ToString().Trim() != string.Empty)
-                    {
-                        clientCheckbox.Bds = dr["bds"].ToString().Trim();
-                        clientCheckbox.Yy = dr["yy"].ToString().Trim();
-                    }
-                    clientWidget.Widget = clientCheckbox;
-                    #endregion
-                }
-                else if (dr["type"].ToString().Trim() == "textarea")
-                {
-                    #region
-                    clientWidget.ClientControlType = ClientControlType.textarea;
-                    ClientLable clientLable = new ClientLable();
-                    clientLable.Css = dr["css0"].ToString().Trim();
-                    clientLable.Value = dr["mc"].ToString().Trim();
-                    ClientText clientText = new ClientText();
-                    clientText.Lable = clientLable;
-                    clientText.Css = dr["css"].ToString().Trim();
-                    clientText.Event = dr["event"].ToString().Trim();
-                    clientText.Readonly = (dr["readonly"].ToString().Trim() == "1" ? true : false);
-                    //clientText.Value = defaultValue;
-                    clientText.Id = dr["htmlid"].ToString().Trim();
-
-                    if (dr["visible"].ToString().Trim() == "1")
-                    {
-                        clientLable.Width = int.Parse(dr["qwidth"].ToString().Trim());
-                        clientLable.Visible = true;
-                        clientText.Visible = true;
-                        clientText.Width = int.Parse(dr["width"].ToString().Trim());
-                    }
-                    else
-                    {
-                        clientLable.Visible = false;
-                        clientText.Visible = false;
-                    }
-
-
-                    if (dr["yy"].ToString().Trim() != string.Empty)
-                    {
-                        clientText.Bds = dr["bds"].ToString().Trim();
-                        clientText.Yy = dr["yy"].ToString().Trim();
-                    }
-
-                    clientWidget.Widget = clientText;
-
-                    #endregion
-                }
-                else if (dr["type"].ToString().Trim() == "td")
-                {
-                    #region
-                    clientWidget.ClientControlType = ClientControlType.td;
-                    ClientTd clientTd = new ClientTd();
-                    clientTd.Width = int.Parse(dr["qwidth"].ToString().Trim());
-                    clientTd.Css = dr["css0"].ToString().Trim();
-                    clientTd.Value = dr["mc"].ToString().Trim();
-                    clientWidget.Widget = clientTd;
-                    #endregion
-                }
-                else if (dr["type"].ToString().Trim() == "a")
-                {
-                    #region
-                    clientWidget.ClientControlType = ClientControlType.href;
-                    ClientLable clientLable = new ClientLable();
-                    clientLable.Css = dr["css0"].ToString().Trim();
-                    clientLable.Value = dr["mc"].ToString().Trim();
-                    ClientHref clientHref = new ClientHref();
-                    clientHref.Lable = clientLable;
-                    clientHref.Event = dr["event"].ToString().Trim();
-                    clientHref.Readonly = (dr["readonly"].ToString().Trim() == "1" ? true : false);
-                    clientHref.Css = dr["css"].ToString().Trim();
-                    clientHref.Value = dr["mc"].ToString().Trim();
-
-                    if (dr["visible"].ToString().Trim() == "1")
-                    {
-
-                        clientLable.Width = int.Parse(dr["qwidth"].ToString().Trim());
-                        clientLable.Visible = true;
-                        clientHref.Visible = true;
-                        clientHref.Width = int.Parse(dr["width"].ToString().Trim());
-                    }
-                    else
-                    {
-                        clientLable.Visible = false;
-                        clientHref.Visible = false;
-
-                    }
-                    clientWidget.Widget = clientHref;
-                    #endregion
-                }
-
-                else if (dr["type"].ToString().Trim() == "date")
-                {
-                    #region
-                    clientWidget.ClientControlType = ClientControlType.data;
-                    ClientLable clientLable = new ClientLable();
-                    clientLable.Css = dr["css0"].ToString().Trim();
-                    clientLable.Value = dr["mc"].ToString().Trim();
-                    ClientDate clientDate = new ClientDate();
-                    clientDate.Lable = clientLable;
-                    clientDate.Id = dr["htmlid"].ToString().Trim();
-                    //clientDate.Value = defaultValue;
-                    clientDate.Css = dr["css"].ToString().Trim();
-
-
-                    if (dr["visible"].ToString().Trim() == "1")
-                    {
-                        clientLable.Width = int.Parse(dr["qwidth"].ToString().Trim());
-                        clientLable.Visible = true;
-                        clientDate.Visible = true;
-                        clientDate.Width = int.Parse(dr["width"].ToString().Trim());
-                    }
-                    else
-                    {
-                        clientLable.Visible = false;
-                        clientDate.Visible = false;
-
-                    }
-
-
-                    if (dr["yy"].ToString().Trim() != string.Empty)
-                    {
-
-                        clientDate.Bds = dr["bds"].ToString().Trim();
-                        clientDate.Yy = dr["yy"].ToString().Trim();
-                    }
-                    clientWidget.Widget = clientDate;
-                    #endregion
-                }
-                clientTable.WidgetList.Add(clientWidget);
-
-            }
-            return clientTable;
-        }
 
         /// <summary>
         /// 获取下拉框数据源
@@ -1438,7 +937,7 @@ namespace EI.Web
                 m.Replace("@userid", userid);
                 m.Replace("@tzid", tzid);
                 m.Replace("@username", username);
-                return business.execSqlCommand(m, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "GetMrz" } }).Data;
+                return business.ExecSqlCommand(m, "off", new Dictionary<string, string> { { "wid", "-1" }, { "callFucntion", "GetMrz" } }).Data;
             }
             else if (m == "@username")
                 return username;

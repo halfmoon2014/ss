@@ -88,10 +88,12 @@ namespace MyTy
         public static PageConfiguration GetAppSettings()
         {
             string xml = HttpContext.Current.Server.MapPath("~/config.xml");
-            PageConfiguration pageConfiguration = new PageConfiguration();
-            pageConfiguration.PageThemes = ConfigReader.Read(xml, "/Root/appSettings/PageThemes", "");
-            pageConfiguration.Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", "");           
-            pageConfiguration.JsCDN =  ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "");//http://o19430108m.51mypc.cn:88/javascripts
+            PageConfiguration pageConfiguration = new PageConfiguration
+            {
+                PageThemes = ConfigReader.Read(xml, "/Root/appSettings/PageThemes", ""),
+                Themes = ConfigReader.Read(xml, "/Root/appSettings/Themes", ""),
+                JsCDN = ConfigReader.Read(xml, "/Root/appSettings/JsCDN", "")
+            };
             string ip = pageConfiguration.JsCDN.Replace("http://", "").Replace("/javascripts", "").Split(':')[0];
             bool cndRul = Utils.TestNet(ip);
             if (!cndRul)

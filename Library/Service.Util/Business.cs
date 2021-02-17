@@ -20,7 +20,7 @@ namespace Service.Util
         string userid;
         public Business(string tzid, string userid)
         {
-            this.sqlstring = new SqlCommandString();
+            sqlstring = new SqlCommandString();
             this.connstr = new ConnetString();
             this.tzid = tzid;
             this.userid = userid;
@@ -37,30 +37,30 @@ namespace Service.Util
             SqlParameter[] Parm = new SqlParameter[1];
             Parm[0] = new SqlParameter("@tbname", System.Data.SqlDbType.VarChar, 4000);
             Parm[0].Value = value1;
-            this.execObj.SubmitStoredProcedureDataSet("p_AUTOVIEW", Parm);
+            execObj.SubmitStoredProcedureDataSet("p_AUTOVIEW", Parm);
             return "true";
         }
 
         public DataSet GetLeftTree()
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.LeftTree());
+            return execObj.SubmitTextDataSet(sqlstring.LeftTree());
 
         }
 
-        public DataSet GetCTable(int id, string lx, string js, string sql, string wid, string myname, int page, int rows)
+        public DataSet GetCTable(int id, string lx, string js, string sql, string wid, string myname)
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.CTable(id, lx, js, sql, wid, myname));
+            return execObj.SubmitTextDataSet(sqlstring.CTable(id, lx, js, sql, wid, myname));
         }
 
         public DataSet GetCTableLx()
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.CTableLx());
+            return execObj.SubmitTextDataSet(sqlstring.CTableLx());
         }
 
         public PageDataSource GettContEdit(int wid)
         {
             PageDataSource pageDataSource = new PageDataSource();
-            DataTable dt = this.execObj.SubmitTextDataSet(this.sqlstring.ContEditSql(wid)).Tables[0];
+            DataTable dt = execObj.SubmitTextDataSet(sqlstring.ContEditSql(wid)).Tables[0];
             pageDataSource.Name = dt.Rows[0]["name"].ToString().Trim();
             pageDataSource.Sql = dt.Rows[0]["sql"].ToString().Trim();
             pageDataSource.Fwsql = dt.Rows[0]["fwsql"].ToString().Trim();
@@ -82,7 +82,7 @@ namespace Service.Util
         {
             string[] rstring = new string[1];
             rstring[0] = "";
-            DataTable dt = this.execObj.SubmitTextDataSet(this.sqlstring.ContEdit(wid, "js")).Tables[0];
+            DataTable dt = execObj.SubmitTextDataSet(sqlstring.ContEdit(wid, "js")).Tables[0];
             rstring[0] = dt.Rows[0]["js"].ToString().Trim();
             return rstring;
         }
@@ -91,24 +91,24 @@ namespace Service.Util
         {
             string[] rstring = new string[1];
             rstring[0] = "";
-            DataTable dt = this.execObj.SubmitTextDataSet(this.sqlstring.ContEdit(wid, "help")).Tables[0];
+            DataTable dt = execObj.SubmitTextDataSet(sqlstring.ContEdit(wid, "help")).Tables[0];
             rstring[0] = dt.Rows[0]["help"].ToString().Trim();
             return rstring;
         }
 
         public string GettWidTitle(int wid)
         {
-            DataTable dt = this.execObj.SubmitTextDataSet(this.sqlstring.ContEdit(wid, "name")).Tables[0];
+            DataTable dt = execObj.SubmitTextDataSet(sqlstring.ContEdit(wid, "name")).Tables[0];
             return dt.Rows[0]["name"].ToString().Trim();
         }
 
         public DataSet GetTbzd(int wid)
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.Tbzd(wid));
+            return execObj.SubmitTextDataSet(sqlstring.Tbzd(wid));
         }
         public DataSet GetTbLayOut(int wid, string lx, string ord)
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.TbLayOut(wid, lx, ord));
+            return execObj.SubmitTextDataSet(sqlstring.TbLayOut(wid, lx, ord));
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace Service.Util
             Parm[0].Value = wid;
             Parm[1] = new SqlParameter("@USERID", System.Data.SqlDbType.Int);
             Parm[1].Value = this.userid;
-            int r = 0;
+            int r;
             try
             {
                 r = this.execObj.SubmitStoredProcedureInt("p_WEBSJ_FZ", Parm);
@@ -363,7 +363,7 @@ namespace Service.Util
         /// </summary>
         /// <param name="wid"></param>
         /// <returns></returns>
-        public string web_fb(string wid)
+        public string Web_fb(string wid)
         {
             string str_sql = "select * from v_user_conn where mbtag=1 ;" +
                 "select zd.* from v_tbzd zd   where zd.webid=" + wid + " ;" +
@@ -372,7 +372,7 @@ namespace Service.Util
             DAL.DALInterface execObj = new DAL.DALInterface(null, connstr.GetMbConn());
             DataSet ds = execObj.SubmitTextDataSet(str_sql);
             string error = "";
-            string upstr = "";
+            string upstr;
             //查找模版服务器上有没有特定链接服务器
             str_sql = "exec  sp_linkedservers";
             execObj.SetConnectionString(connstr.GetCreateLinkServerConnetStringInBLL(this.tzid));
@@ -500,11 +500,10 @@ namespace Service.Util
         /// 发布菜单
         /// </summary>
         /// <returns></returns>
-        public string web_fb_menu()
+        public string Web_fb_menu()
         {
             string str_sql = "select * from v_user_conn where systag=1 ;" +
-                "";
-            SqlCommandString sqlstring = new SqlCommandString();
+                "";     
             DAL.DALInterface execObj = new DAL.DALInterface(null, connstr.GetMbConn());
             DataTable userConn = execObj.SubmitTextDataSet(str_sql).Tables[0];
 
@@ -512,7 +511,7 @@ namespace Service.Util
 
 
             string error = "";
-            string upstr = "";
+            string upstr;
 
             //查找模版服务器上有没有特定链接服务器
             str_sql = "exec  sp_linkedservers";
@@ -589,7 +588,7 @@ namespace Service.Util
         /// <param name="xact_abort">事务回滚</param>
         /// <param name="arg">调用信息</param>
         /// <returns></returns>
-        public Result<string> execSqlCommand(string sqlCommand, string xact_abort, Dictionary<string, string> arg)
+        public Result<string> ExecSqlCommand(string sqlCommand, string xact_abort, Dictionary<string, string> arg)
         {
             Result<string> result = new Result<string>();
 
@@ -733,7 +732,7 @@ namespace Service.Util
                         sql.Append(" update v_wid_layout  set css0='" + layout.Css0 + "', css='" + layout.Css + "',mrz='" + layout.Mrz + "',bds='" + layout.Bds + "',mc='" + layout.Mc + "', htmlid='" + layout.Htmlid + "',ord='" + layout.Ord + "',mobileord='" + layout.MobileOrd + "', width='" + layout.Width + "',widthm='" + layout.Widthm + "',qwidth='" + layout.Qwidth + "',qwidthm='" + layout.Qwidthm + "',westwidth='" + layout.Westwidth + "',westwidthm='" + layout.Westwidthm + "',eastwidth='" + layout.Eastwidth + "',Eastwidthm='" + layout.Eastwidthm + "', northheight='" + layout.Northheight + "',Northheightm='" + layout.Northheightm + "',southheight='" + layout.Southheight + "',southheightm='" + layout.Southheightm + "' ,dwidth='" + layout.Dwidth + "', dheight='" + layout.Dheight + "', visible='" + layout.Visible + "', readonly='" + layout.Readonly + "', type='" + layout.Type + "',   bz='" + layout.Bz + "',nwebid='" + layout.Nwebid + "',  event='" + layout.Event + "', yy='" + layout.Yy + "',zb='" + layout.Zb + "',session='" + layout.Session + "',naspx='" + layout.Naspx + "'   where id='" + layout.Id + "'; ");
                 }
             }
-            int r = this.execObj.SubmitTextInt(sql.ToString());
+            execObj.SubmitTextInt(sql.ToString());
             return "true";
         }
 
@@ -762,7 +761,7 @@ namespace Service.Util
             }
             if (sql.Length > 0)
             {
-                int r = this.execObj.SubmitTextInt(sql.ToString());
+                execObj.SubmitTextInt(sql.ToString());
                 return ResultUtil<string>.success("success");
             }
             else

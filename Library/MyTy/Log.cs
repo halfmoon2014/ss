@@ -15,7 +15,7 @@ namespace MyTy
         public static void WriteLog(string tag, string strMemo)
         {
             Utils utils = new Utils();
-            string PhysicalApplicationPath = utils.getWebPath() + "//logs";
+            string PhysicalApplicationPath = utils.GetWebPath() + "//logs";
 
             if (PhysicalApplicationPath != string.Empty)
             {

@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using Service.Util;
+using System.Collections.Generic;
 using System.Data;
 namespace FM.Business
 {
     public class Pos
     {
+        SqlCommandString sqlstring;
+
         /// <summary>
         /// 返回POS中的类型
         /// </summary>
         /// <returns></returns>
         public string[] Pos_Load(ref int thbs)
         {
+            sqlstring = new SqlCommandString();
             string[] str = new string[3];
             //销售别
             str[0] = "";
@@ -19,7 +23,7 @@ namespace FM.Business
             str[2] = "<select id=\"select_ck\" class=\"p100\">";
 
             //第一个字母表示列位置,第二个排序 
-            string str2 = " select a.id,a.mc,a.lx,a.mrz,a.kzx from v_sp_poslx  a ;select a.id,a.bb from v_sp_posbb a; select a.id,a.mc from v_sp_ckb a inner join  v_sp_user_ck b on a.id=b.ckid where a.ty=0 and  b.userid= " + MySession.SessionHandle.Get("userid").ToString();
+            string str2 = sqlstring.GetPosInfo(MySession.SessionHandle.Get("userid").ToString());
             FM.Business.Help hp = new FM.Business.Help();
             DataSet ds = hp.ExecuteDataset(str2);
 
@@ -66,11 +70,11 @@ namespace FM.Business
         }
         public string[] Pos_Sk()
         {
-
+            sqlstring = new SqlCommandString();
             string[] str = new string[1];
             str[0] = "<table>";
             //第一个字母表示列位置,第二个排序 
-            string str2 = " select a.id,a.sklx from v_sp_possklx  a ;";
+            string str2 = sqlstring.GetPosSklx();
             FM.Business.Help hp = new FM.Business.Help();
             DataSet ds = hp.ExecuteDataset(str2);
             foreach (DataRow dr in ds.Tables[0].Rows)
@@ -83,6 +87,7 @@ namespace FM.Business
         }
         public string[] Pos_MyLoad(string mykey, ref DataSet ds)
         {
+            sqlstring = new SqlCommandString();
             FM.Business.Help hp = new FM.Business.Help();
             string[] rstring = new string[2];
             Dictionary<string, string> zbstring = new Dictionary<string, string>();//主表
@@ -91,12 +96,7 @@ namespace FM.Business
             Dictionary<string, Dictionary<string, string>> skjl = new Dictionary<string, Dictionary<string, string>>();//尺码 
             //读取数据
             //sj.Pos_MyLoad(mykey, ref zbstring, ref mx, ref cm);            
-            string str2 = " select lx.mc as lxmc,a.id,a.xskhid,a.zdr, convert(varchar(10),a.zdrq ,120) as zdrq ,a.djh,a.bz,a.ckbs,a.djlx,a.ckid,convert(varchar(10),a.rq ,120) rq,a.djbs,a.bb,a.yyy,a.thid,a.lx, substring(convert(varchar(10),b.rq ,112),1,6)+b.djh as thh,substring(convert(varchar(10),a.rq ,112),1,6)+a.djh as rqdjh  from _v_sp_cpposb a ";
-            str2 += " inner join v_sp_poslx lx on lx.id=a.lx left join _v_sp_cpposb b on a.thid=b.id  where a.id=" + mykey;
-            str2 += " select a.*,b.pm,b.jhj,b.pfj,b.kh,b.fzkh,b.cmzbid,b.shid,sh.ysmc from _v_sp_cpposmxb a inner join v_sp_cpda b on a.cpid=b.id inner join  v_sp_shdmb sh on sh.id=b.shid where a.id=" + mykey;
-            str2 += " select a.*,d.mc as cmmc from _v_sp_cpposcmmxb a inner join v_sp_cmxxb d on d.id=a.cmid  where a.id=" + mykey;
-            str2 += " select a.skje,b.sklx from _v_sp_cpposjlb a inner join v_sp_possklx b on a.sklx=b.id where a.id=" + mykey;
-            str2 += " select     a.pos_prt,a.tzid from v_sp_zmdconfig  a  where a.tzid=" + MySession.SessionHandle.Get("tzid").ToString().Trim();
+            string str2 =sqlstring.GetPosBill(mykey, MySession.SessionHandle.Get("tzid").ToString().Trim());
 
             ds = hp.ExecuteDataset(str2);
 

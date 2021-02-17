@@ -9,7 +9,7 @@ public partial class web_xtsz_web_xtsz_main_edit : FM.Controls.Page
         base.Page_Load(sender, e);
         int tzid = int.Parse(MySession.SessionHandle.Get("tzid").ToString().Trim());
         int userid = int.Parse(MySession.SessionHandle.Get("userid").ToString().Trim());
-        string title = "";
+        string title;
 
         Login lg = new Login();
         string username = lg.GetUser(userid.ToString()).Tables[0].Rows[0]["name"].ToString();

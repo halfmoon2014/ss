@@ -11,9 +11,9 @@ namespace FM.Business
         ConnetString connstr;
         public Login()
         {
-            this.sqlstring = new SqlCommandString();
-            this.connstr = new ConnetString();
-            this.execObj = new DALInterface(null, connstr.GetConnString());
+            sqlstring = new SqlCommandString();
+            connstr = new ConnetString();
+            execObj = new DALInterface(null, connstr.GetConnString());
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace FM.Business
         {
             Help hp = new Help();
             string EnPswdStr = hp.GetMM(psw);
-            DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.v_user(usr, EnPswdStr));
+            DataSet ds = execObj.SubmitTextDataSet(sqlstring.User(usr, EnPswdStr));
             if (ds.Tables[0].Rows.Count <= 0)
                 //没有找到单据
                 return 0;
@@ -42,7 +42,7 @@ namespace FM.Business
         /// <returns></returns>
         public DataSet GetUser(string userid)
         {
-            return this.execObj.SubmitTextDataSet(this.sqlstring.v_user(userid));
+            return execObj.SubmitTextDataSet(sqlstring.User(userid));
         }
 
         /// <summary>
@@ -57,21 +57,18 @@ namespace FM.Business
         {
             Help hp = new Help();
             string EnPswdStr = hp.GetMM(value2);
-            DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.reload_user(value1, EnPswdStr));
+            DataSet ds = execObj.SubmitTextDataSet(sqlstring.ReloadUser(value1, EnPswdStr));
 
             if (ds.Tables[0].Rows.Count == 1)
-            {
-                //CSession.Add("username", value1);
-                //CSession.Add("user", ds.Tables[0].Rows[0]["usr"].ToString());
+            {          
                 SessionHandle.Add("userid", ds.Tables[0].Rows[0]["id"].ToString());
                 SessionHandle.Add("menupage", a);
                 SessionHandle.Add("tzid", b);
                 return true;
             }
-            else
-            {
+            else         
                 return false;
-            }            
+
         }
 
         /// <summary>
@@ -94,7 +91,7 @@ namespace FM.Business
             else
             {
                 //2 判断旧密码
-                DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.v_user(username, hp.GetMM(oldPassWord)));
+                DataSet ds = this.execObj.SubmitTextDataSet(this.sqlstring.User(username, hp.GetMM(oldPassWord)));
                 if (ds.Tables[0].Rows.Count == 0 && adminTag == "0")
                     r = "oldPassWord";
                 else
@@ -123,24 +120,24 @@ namespace FM.Business
         public bool UpdateServerLink(int tzid)
         {
             //查找入口服务器是否配置了模版和主服务器
-            string strSql = "select a.* from v_conn a where a.mbtag=1 or a.systag=1 ;";
+            
+            string strSql = sqlstring.GetCtlServers();
             DataSet configForMbAndSys = execObj.SubmitTextDataSet(strSql); ;
             if (configForMbAndSys.Tables[0].Rows.Count == 2)
             {
                 //在业务服务器上,查找否已经存在模版连接服务器和主服务器链接
                 //如果没有就创建
-                strSql = "exec  sp_linkedservers";
+                strSql = sqlstring.GetSearchLink();
 
                 //在业务服务器上,能创建链接服务器权限的用户
-                string createServerLinkConnentString = this.connstr.GetCreateLinkServerConnetStringInBLL(tzid.ToString());
-                DataSet linkedServers = this.execObj.SubmitTextDataSet(strSql, createServerLinkConnentString);
+                string createServerLinkConnentString = connstr.GetCreateLinkServerConnetStringInBLL(tzid.ToString());
+                DataSet linkedServers = execObj.SubmitTextDataSet(strSql, createServerLinkConnentString);
                 foreach (DataRow dr in configForMbAndSys.Tables[0].Rows)
                 {
                     string linkName = dr["linkname"].ToString().Trim();
                     if (linkedServers.Tables[0].Select("SRV_NAME='" + linkName + "'").Length <= 0)
                     {//如果不存在连接  
-                        strSql = "exec  sp_addlinkedserver '" + linkName + "',' ','SQLOLEDB','" + dr["ds"].ToString().Trim() + "" + (dr["m_port"].ToString().Trim() == "0" ? "" : "," + dr["m_port"].ToString().Trim()) + "' ";
-                        strSql += " exec sp_addlinkedsrvlogin '" + linkName + "','false',null,'" + dr["m_ui"].ToString().Trim() + "','" + dr["m_pw"].ToString().Trim() + "'";
+                        strSql = sqlstring.GetCreateLink(linkName, dr["ds"].ToString().Trim(), dr["m_port"].ToString().Trim(), dr["m_ui"].ToString().Trim(), dr["m_pw"].ToString().Trim());                        
                         this.execObj.SubmitTextObject(strSql, createServerLinkConnentString);
                     }
                 }
@@ -160,19 +157,18 @@ namespace FM.Business
             try
             {
                 string strSql;
-                strSql = " select a.ctime,a.pname,REPLACE(a.definition,' mb.dbo.',' " + this.connstr.GetMbLinkname() + "') definition ,a.type from v_v_ptoclient a   ";
-                DataSet rootSetMb = execObj.SubmitTextDataSet(strSql, this.connstr.GetMbConn()); ;
+                strSql = sqlstring.Getptoclient(connstr.GetMbLinkname());
+                DataSet rootSetMb = execObj.SubmitTextDataSet(strSql, connstr.GetMbConn()); ;
 
-                strSql = " select a.ctime,a.pname,REPLACE(a.definition,' mb.dbo.',' " + this.connstr.GetMasterLinkname() + "') definition ,a.type from v_v_ptoclient a   ";
-                DataSet rootSetMaster = execObj.SubmitTextDataSet(strSql, this.connstr.GetMasterConn()); ;
+                strSql = sqlstring.Getptoclient(connstr.GetMasterLinkname());
+                DataSet rootSetMaster = execObj.SubmitTextDataSet(strSql, connstr.GetMasterConn()); ;
 
-                string createServerLinkConnentString = this.connstr.GetCreateLinkServerConnetStringInBLL(tzid.ToString());
-                strSql = " SELECT C.PNAME,C.CTIME FROM _V_ptoclient  C;";
-                strSql += " select a.name as pname  from sys.all_objects a inner join sys.sql_modules b on a.object_id = b.object_id where a.is_ms_shipped=0  ; ";
-                DataSet targetSet = this.execObj.SubmitTextDataSet(strSql, createServerLinkConnentString);
+                string createServerLinkConnentString = connstr.GetCreateLinkServerConnetStringInBLL(tzid.ToString());
+                strSql = sqlstring.GetBLLptoclient();
+                DataSet targetSet = execObj.SubmitTextDataSet(strSql, createServerLinkConnentString);
 
-                UpdateBLLSQL(this.connstr.GetMbLinkname(), rootSetMb, createServerLinkConnentString, targetSet);
-                UpdateBLLSQL(this.connstr.GetMasterLinkname(), rootSetMaster, createServerLinkConnentString, targetSet);
+                UpdateBLLSQL(connstr.GetMbLinkname(), rootSetMb, createServerLinkConnentString, targetSet);
+                UpdateBLLSQL(connstr.GetMasterLinkname(), rootSetMaster, createServerLinkConnentString, targetSet);
                 return true;
             }
             catch (System.Exception e)
@@ -197,32 +193,26 @@ namespace FM.Business
                         {//处理的存储过程
                             if (targetSet.Tables[1].Select("pname='" + dr["pname"].ToString().Trim() + "'").Length > 0)
                             {//如果目标存在,就删除
-                                execObj.SubmitTextInt("Drop procedure " + dr["pname"].ToString().Trim(), createServerLinkConnentString); ;
+                                execObj.SubmitTextInt(sqlstring.GetDropProcedure( dr["pname"].ToString().Trim()), createServerLinkConnentString); ;
                             }
-                            execObj.SubmitTextInt("/*此存储过程由外部服务器("+ linkName + ")创建,不能直接修改*/"
-                                +dr["definition"].ToString().Trim(), createServerLinkConnentString); ;
+                            execObj.SubmitTextInt(sqlstring.GetCreateProcedure(dr["definition"].ToString().Trim(),linkName), createServerLinkConnentString); ;
                         }
                         else
                         {//视图
 
                             if (targetSet.Tables[1].Select("pname='" + dr["pname"].ToString().Trim() + "'").Length > 0)
                             {//如果目标存在,就删除
-                                this.execObj.SubmitTextInt("Drop view " + dr["pname"].ToString().Trim(), createServerLinkConnentString); ;
+                                this.execObj.SubmitTextInt(sqlstring.GetDropView (dr["pname"].ToString().Trim()), createServerLinkConnentString); ;
                             }
-                            execObj.SubmitTextInt("create view  " + dr["pname"].ToString().Trim() 
-                                + " as /*此存储过程由外部服务器(" + linkName + ")创建,不能直接修改*/ "
-                                +" select * from  " + linkName + dr["pname"].ToString().Trim(), createServerLinkConnentString); ;                            
+                            execObj.SubmitTextInt(sqlstring.GetCreateView(dr["pname"].ToString().Trim(),linkName), createServerLinkConnentString); ;                            
                         }
-                        execObj.SubmitTextInt(" ; delete from _V_ptoclient where pname='" + dr["pname"].ToString().Trim()
-                                + "'; insert _V_ptoclient(ctime,pname) values(CONVERT(DATETIME, '" + ctime.ToString("yyyy/MM/dd HH:mm:ss:fff") + "'),'" + dr["pname"].ToString().Trim() + "');", createServerLinkConnentString); ;
-
+                        execObj.SubmitTextInt(sqlstring.GetUpBLLPtoclient(dr["pname"].ToString().Trim(), ctime.ToString("yyyy/MM/dd HH:mm:ss:fff")), createServerLinkConnentString); 
                     }
                 }
                 return true;
             }
             catch (System.Exception e)
             {
-
                 System.Console.Write(e.Message);
                 return false;
             }

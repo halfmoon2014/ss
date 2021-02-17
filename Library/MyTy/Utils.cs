@@ -123,7 +123,7 @@ namespace MyTy
         /// web应用所在的绝对路径
         /// </summary>
         /// <returns></returns>
-        public string getWebPath()
+        public string GetWebPath()
         {
             //return MyTy.ConfigReader.Read(HttpContext.Current.Server.MapPath("~/config.xml"), "/Root/appSettings/LogPath", "");
             return System.Web.Hosting.HostingEnvironment.MapPath("~");
@@ -138,7 +138,7 @@ namespace MyTy
         public string ConvertMoney(Decimal Money)
         {
             //金额转换程序
-            string MoneyNum = "";//记录小写金额字符串[输入参数]
+            string MoneyNum ;//记录小写金额字符串[输入参数]
             string MoneyStr = "";//记录大写金额字符串[输出参数]
             string BNumStr = "零壹贰叁肆伍陆柒捌玖";//模
             string UnitStr = "万仟佰拾亿仟佰拾万仟佰拾元角分";//模
@@ -384,7 +384,7 @@ namespace MyTy
                 }
                 else
                     return false;
-            }catch(SystemException ex)
+            }catch(SystemException )
             {
                 return false;
             }

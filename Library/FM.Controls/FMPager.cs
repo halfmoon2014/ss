@@ -131,8 +131,7 @@ namespace FM.Controls
 
         public override void DataBind()
         {
-            base.DataBind();
-            Control repeater = FindRepeater(Page);
+            base.DataBind();     
             HtmlContainerControl MyRepeater = (HtmlContainerControl)FindRepeater(Page);
             MyRepeater.InnerHtml = Html().Data.Html;
             //设置明细表格的位置
@@ -148,7 +147,7 @@ namespace FM.Controls
         {
             PageHtml pageHtml = new PageHtml();
             string headHtml = GetHeadHtml(this.detailHeadData, pagerArguments.Wid.ToString().Trim(), this.cmHeadlineData, this.masterCmRelation);
-            string contentHtml = GetContentHtml(this.detailContentData, this.detailHeadData, pagerArguments.Wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation, this.cmHeadlineData);
+            string contentHtml = GetContentHtml(this.detailContentData, this.detailHeadData, pagerArguments.Wid.ToString().Trim(), this.masterCmRelation, this.masterSlaveKey, this.cmDetailsData, this.detailCmRelation);
             TotalHtml totalHtml = GetTotalHtml(detailHeadData, this.totalDetailsData, this.masterSlaveKey, this.masterCmRelation, this.detailCmRelation, this.cmDetailsData, pagerArguments.Wid.ToString().Trim());
             pageHtml.TableWidth = totalHtml.TableWidth;
             string contentCSS = "";
@@ -192,7 +191,7 @@ namespace FM.Controls
         /// <param name="detailCmRelation"></param>
         /// <param name="cmHeadlineData"></param>
         /// <returns></returns>
-        public string GetContentHtml(DataTable detailContentData, DataTable detailHeadData, string webid, string masterCmRelation, string masterSlaveKey, DataTable cmDetailsData, string detailCmRelation, DataTable cmHeadlineData)
+        public string GetContentHtml(DataTable detailContentData, DataTable detailHeadData, string webid, string masterCmRelation, string masterSlaveKey, DataTable cmDetailsData, string detailCmRelation)
         {
             if (detailContentData == null || detailContentData.Rows.Count == 0)
             {
@@ -275,9 +274,8 @@ namespace FM.Controls
                                     else
                                     {
                                         #region
-                                        string itype = "";
-                                        string linput = "";
-                                        string myevent =GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), detailHeadRow["ywname"].ToString().Trim() + "_" + i, drcn, detailHeadRow["type"].ToString().Trim(), detailContentData.Rows.IndexOf(dr));
+                                        string itype; string linput;
+                                        string myevent =GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), detailHeadRow["ywname"].ToString().Trim() + "_" + i, drcn, detailContentData.Rows.IndexOf(dr));
 
                                         //控制控件只读1.字段属性只读
                                         string myreadonly = (detailHeadRow["readonly"].ToString().Trim() == "1" ? " readonly='readonly' " : " ");
@@ -355,13 +353,13 @@ namespace FM.Controls
                             {
                                 #region
                                 //元素控件的类型
-                                string itype = "";
+                                string itype;
 
                                 //td之间的innerHtml
-                                string linput = "";
+                                string linput;
 
                                 #region 事件,可将定义的value 转为真实的值,,row 转为行号
-                                string myevent = GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), cn, drcn, detailHeadRow["type"].ToString().Trim(), detailContentData.Rows.IndexOf(dr));
+                                string myevent = GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), cn, drcn,  detailContentData.Rows.IndexOf(dr));
                                 #endregion
 
                                 //控制控件只读1.字段属性只读
@@ -637,7 +635,7 @@ namespace FM.Controls
                         {
                             string lid = ""; string lputid = "";
                             GetWebContentControlId(webid, 0, detailHeadRow["ywname"].ToString().Trim() + "_" + i, ref lid, ref lputid);
-                            string myevent = GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), detailHeadRow["ywname"].ToString().Trim() + "_" + i, "", detailHeadRow["type"].ToString().Trim(), 0);
+                            string myevent = GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), detailHeadRow["ywname"].ToString().Trim() + "_" + i, "",  0);
                             string myreadonly = (detailHeadRow["readonly"].ToString().Trim() == "1" ? " readonly='readonly' " : " ");
                             string itype = " type=\"text\" "
                                 + (detailHeadRow["readonly"].ToString().Trim() == "1" ? " class=\"style_Content_td_text_d\" " : " class=\"style_Content_td_text_e\" ");
@@ -681,7 +679,7 @@ namespace FM.Controls
                                 #region
                                 string itype = "";
                                 string linput = "";
-                                string myevent =GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), columnName, "", detailHeadRow["type"].ToString().Trim(), 0);
+                                string myevent =GetWebContentControlEvent(detailHeadRow["event"].ToString().Trim(), columnName, "", 0);
                                 string myreadonly = (detailHeadRow["readonly"].ToString().Trim() == "1" ? " readonly='readonly' " : " ");
                                 string mydisable = (detailHeadRow["readonly"].ToString().Trim() == "1" || pagerArguments.IsPrint || pagerArguments.IsExcel ? " disabled='disabled' " : " ");
                                 string stywidth = " style='width: " + Convert.ToInt32(detailHeadRow["width"]) + "px'";
@@ -895,7 +893,7 @@ namespace FM.Controls
         /// <param name="type">类型</param>
         /// <param name="row">行号</param>
         /// <param name="myevent">返回值</param>
-        protected string GetWebContentControlEvent(string eventDesc, string field, string value, string type, int row)
+        protected string GetWebContentControlEvent(string eventDesc, string field, string value,int row)
         {
             StringBuilder eventBuilder = new StringBuilder();
             if (!string.IsNullOrEmpty(eventDesc))
@@ -972,7 +970,7 @@ namespace FM.Controls
                             //如果不存在合并表头!
                             if (dr["type"].ToString().Trim() == "mx")
                                 //明细表头
-                                topRowHtml.Append(getDataHeadCm(isMergeHead, "hidden", cmHeadlineData, masterCmRelation, (string.IsNullOrEmpty(prtName) ? titleName : prtName), width, tdCmID, inputCmID, "", ref thHTMLCSS));
+                                topRowHtml.Append(GetDataHeadCm(isMergeHead, "hidden", cmHeadlineData, masterCmRelation, (string.IsNullOrEmpty(prtName) ? titleName : prtName), width, tdCmID, inputCmID, ref thHTMLCSS));
 
                             else
                                 topRowHtml.Append("<td style='display:none'" + tdID + "><input type='hidden'" + inputID + "value=\"" + titleName + "\"/></td>");
@@ -1038,7 +1036,7 @@ namespace FM.Controls
                     {
                         if (dr["type"].ToString().Trim() == "mx")
                             //明细表头
-                            topRowHtml.Append(getDataHeadCm(isMergeHead, "nohidden", cmHeadlineData, masterCmRelation, (string.IsNullOrEmpty(prtName) ? titleName : prtName), width, tdCmID, inputCmID, filterEvent, ref thHTMLCSS));
+                            topRowHtml.Append(GetDataHeadCm(isMergeHead, "nohidden", cmHeadlineData, masterCmRelation, (string.IsNullOrEmpty(prtName) ? titleName : prtName), width, tdCmID, inputCmID,  ref thHTMLCSS));
                         else
                         {
                             topRowHtml.Append("<td HeadName='" + (string.IsNullOrEmpty(prtName) ? titleName : prtName) + "'style='width:" + width + "px'" + tdID + filterEvent + " > " + linput + "</td>");
@@ -1051,7 +1049,7 @@ namespace FM.Controls
                         if (dr["hbltname"].ToString().Trim() == string.Empty)
                         {
                             if (dr["type"].ToString().Trim() == "mx")
-                                topRowHtml.Append(getDataHeadCm(isMergeHead, "nohidden", cmHeadlineData, masterCmRelation, (string.IsNullOrEmpty(prtName) ? titleName : prtName), width, tdCmID, inputCmID, filterEvent, ref thHTMLCSS));
+                                topRowHtml.Append(GetDataHeadCm(isMergeHead, "nohidden", cmHeadlineData, masterCmRelation, (string.IsNullOrEmpty(prtName) ? titleName : prtName), width, tdCmID, inputCmID, ref thHTMLCSS));
                             else
                             {
                                 topRowHtml.Append("<td rowspan='2' HeadName='" + (string.IsNullOrEmpty(prtName) ? titleName : prtName) + "' style='width:" + width + "px'" + tdID + filterEvent + " > " + linput + "</td>");
@@ -1126,7 +1124,7 @@ namespace FM.Controls
         /// <param name="rmc"></param>
         /// <param name="thHTMLCSS"></param>
         /// <returns></returns>
-        protected string getDataHeadCm(bool doubleHeadTitle, string hidden, DataTable DataHeadCm, string mxhord, string HeadName, int width, string cmid, string lputcmid, string rmc, ref StringBuilder thHTMLCSS)
+        protected string GetDataHeadCm(bool doubleHeadTitle, string hidden, DataTable DataHeadCm, string mxhord, string HeadName, int width, string cmid, string lputcmid, ref StringBuilder thHTMLCSS)
         {
             List<string> cmGroupList = new List<string>();//尺码组
             int minl = 0;//最小尺码顺序号
@@ -1399,7 +1397,7 @@ namespace FM.Controls
 
             //获取数字页
             int navigateCount = 6;   //每6页进行导航
-            int navigateTotal = pageCount / navigateCount;  //总计能生成多少个数字导航
+            
             int pageInNavigate = ((pagerArguments.CurrentPageIndex - 1) / navigateCount) + 1; //当前在第几个数字导航中
 
             //计算数字导航开始页序及结束页序
