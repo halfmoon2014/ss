@@ -1,6 +1,6 @@
 <template>
   <div style="margin: 50px" v-show="show">
-    <a-list item-layout="horizontal" :data-source="mdata.menuList">
+    <a-list item-layout="horizontal" :data-source="mdata.accountList">
       <a-list-item slot="renderItem" slot-scope="item" @click="choose(item)" >
         <a-list-item-meta :description="item.tzmc"> 
           <a slot="title" href="#">{{ item.sm }}</a>
@@ -20,7 +20,7 @@ export default {
   data() {
     return {
       mdata: {
-        menuList: [],
+        accountList: [],
       },
       show: true,
     };
@@ -32,9 +32,22 @@ export default {
       this.show = false;
       this.$axiosPost.post(APIUTL + "/TzList/json", param).then((response) => {
         let res = getWsResult(response);
-        console.log(res);
+        // console.log(res);
         if (res.Errcode == 0) {
-          this.mdata.menuList = res.Data;
+          let disposeData=[];
+          for(let i=0;i<res.Data.length;i++){
+            let isExt=false;
+            for(let j=0;j<disposeData.length;j++){
+              if(disposeData[j].tzid==res.Data[i].tzid){
+                isExt=true;
+                break;
+              }
+            }
+            if(!isExt){
+              disposeData.push({tzid:res.Data[i].tzid,sm:res.Data[i].sm})
+            }
+          }
+          this.mdata.accountList = disposeData;
           this.show = true;     
         } else {
           console.log(res);          
@@ -48,19 +61,19 @@ export default {
       let param = new Object();
       param.token = myStore.userInfo.Token;
       param.updata = false;
-      param.tzid = item.id;
+      param.tzid = item.tzid;
 
       this.show = false;
       this.$axiosPost.post(APIUTL + "/ChooseTz/json", param).then((response) => {
         let res = getWsResult(response);
-        console.log(res)
+        // console.log(res)
         if (res.Errcode == 0) {
-          console.log(myStore.userInfo)          
+          // console.log(myStore.userInfo)          
           let obj=myStore.userInfo;
           obj.Tzid=item.tzid;
           Object.assign(myStore.userInfo, obj)       
 
-          console.log(myStore.userInfo)
+          // console.log(myStore.userInfo)
           this.show = true;
           this.$router.push({ path: "/Menu" });
         } else {

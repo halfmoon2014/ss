@@ -12,10 +12,7 @@ let SectionMain = () => import('@/components/Section/Main')
 Vue.use(Router)
 
 export default new Router({
-  routes: [
-     
-    
-       
+  routes: [       
     {
       path: '/Section',
       default: 'SectionMain',

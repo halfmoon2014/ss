@@ -1,5 +1,8 @@
 <template>
   <div style="margin:50px;" v-show="show">
+        <div style="margin: 16px">
+      <van-button size="small" @click="login" type="primary">查询</van-button>
+    </div>
     <a-row type="flex"  justify="center">
       <a-col  :span="24">
         <h2 style="text-align: center">Login In</h2>
@@ -28,9 +31,12 @@
 <script>
 import { getWsResult } from "@/assets/js/utils";
 import myStore from "@/components/Utils/Store";
+import { Button as VanButton } from "vant";
 export default {
   name: "Login",
-  components: {},
+  components: {
+    VanButton,
+  },
   data() {
     return {
       labelCol: { span: 4 },

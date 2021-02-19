@@ -100,7 +100,7 @@
     <CssCDN1>http://116.62.154.58:99/css</CssCDN1>
     <CssCDN2>http://jinfeng.iok.la:88/css</CssCDN2>
     <LongPollingUrl2>http://localhost:31093/webpage</LongPollingUrl2>
-	  <LongPollingUrl1>http://116.62.154.58:98/webpage</LongPollingUrl1>
+	  <LongPollingUrl>http://jinfeng.iok.la:98/webpage</LongPollingUrl>
     <!--end页面样式-->    
   </appSettings>
 </Root>

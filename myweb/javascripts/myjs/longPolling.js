@@ -23,7 +23,7 @@ var longPollingReload = function () {
     location.reload();
 }
 
-function longPolling(longpollingurl, title, b, usr, timeout, callFuc, g) {
+function longPolling(longpollingurl, title, b, usr, timeout, callFuc, g,timSpan) {
 
     $.ajax({
         type: 'post',
@@ -37,7 +37,10 @@ function longPolling(longpollingurl, title, b, usr, timeout, callFuc, g) {
             } else {
                 //longPolling(longpollingurl, title, b, usr, timeout, callFuc, g);
             }
-            longPolling(longpollingurl, title, b, usr, timeout, callFuc, g)
+            if (!timSpan) timSpan = 1000;
+            else timSpan += 1000;
+            setTimeout(function () { longPolling(longpollingurl, title, b, usr, timeout, callFuc, g, timSpan) }, timSpan)
+            
         },
         success: function (data) {            
             try {

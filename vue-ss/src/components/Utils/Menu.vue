@@ -1,7 +1,12 @@
 <template>
   <div style="margin: 50px" v-show="show">
-    {{userid}}
-    {{tzid}}
+       <a-list item-layout="horizontal" :data-source="mdata.menuList">
+      <a-list-item slot="renderItem" slot-scope="item" @click="menu(item)" >
+        <a-list-item-meta :description="item.mc">          
+        </a-list-item-meta>
+      </a-list-item>
+      
+    </a-list>
     
   </div>
 </template>
@@ -15,7 +20,7 @@ export default {
   data() {
     return {
       mdata: {
-       
+        menuList: [],
       },
       show: true,
       tzid:myStore.userInfo.Tzid,
@@ -24,10 +29,11 @@ export default {
   },
   methods: {
     init() {
-     
+     this.mdata.menuList.push({mc:'挂镀入库模块',path:'/guadrk'})
+     this.mdata.menuList.push({mc:'滚镀入库模块',path:'/gundrk'})
     },
 
-    choose(item) {      
+    menu(item) {      
       let param = new Object();
       param.token = myStore.userInfo.Token;
       param.updata = false;
