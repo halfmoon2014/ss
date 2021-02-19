@@ -1,7 +1,7 @@
 <template>
-  <div v-show="show">
-    <a-row type="flex" justify="center">
-      <a-col  style="width:500px;" :span="24">
+  <div style="margin:50px;" v-show="show">
+    <a-row type="flex"  justify="center">
+      <a-col  :span="24">
         <h2 style="text-align: center">Login In</h2>
         <a-form-model
           :model="mdata"
@@ -13,12 +13,12 @@
           </a-form-model-item>
 
           <a-form-model-item label="密 码">
-            <a-input v-model="mdata.userpass" />
+            <a-input type="password" v-model="mdata.userpass" />
           </a-form-model-item>
         </a-form-model>
         <div class="errtips">{{ this.mdata.errmsg }}</div>
         <div style="text-align: right">
-          <!-- <el-button type="primary" @click="doLogin" :loading="loading">{{this.mdata.loading ? '登录中..':'登 录'}}</el-button> -->
+          <a-button @click="login" icon="login">Login</a-button>
         </div>
       </a-col>
     </a-row>
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { getUrlKey } from "@/assets/js/utils";
+import { getWsResult } from "@/assets/js/utils";
 import myStore from "@/components/Utils/Store";
 export default {
   name: "Login",
@@ -40,36 +40,34 @@ export default {
         userpass: "",
         errmsg: "",
       },
-      show: false, //这个用来自动登陆的,所以界面不用展示
+      show: true, 
     };
   },
   methods: {
     init() {
-      this.imLogin();
+      
     },
-    doLogin() {},
-    imLogin() {
-      //取IM中身份
-      let param = new Object();
-      param.action = "getUserinfo";
-      param.token = getUrlKey("apptoken", window.location.href);
-      param.dept = "";
-      param.Parameter = [1];
-      param.orgid = 0;
-      this.$axiosPost.post(APIUTLOuth, param).then((response) => {
-        if (response.data.code == 200) {
-          myStore.userInfo = response.data.data;
-          // console.log(myStore.userInfo);
-          this.show = false;
-          this.$router.push({ path: getUrlKey("path", window.location.href) });
+   
+    login() {
+      if(this.mdata.username.length ==0 || this.mdata.userpass==0 ) return;
+      let param = new Object();      
+      param.ur = this.mdata.username;
+      param.ps = this.mdata.userpass;   
+      this.show = false;   
+      this.$axiosPost.post(APIUTL+"/Login/json", param).then((response) => {        
+        let res=getWsResult(response);
+        if (res.Errcode == 0) {
+          
+          Object.assign(myStore.userInfo, res.Data)       
+          this.show = true;
+          console.log(myStore.userInfo)
+          this.$router.push({ path: "/Account" });
         } else {
-          console.log(response.data.message);
-          this.mdata.errmsg = response.data.message;
-          this.loading = false;
+          console.log(res);
+          this.mdata.errmsg = res.Errmsg;          
           this.show = true;
         }
-      });
-      //取IM中身份 end
+      });      
     },
   },
   mounted() {},
@@ -81,10 +79,4 @@ export default {
 };
 </script>
 
-<style>
-.login_dialog {
-  width: 100%;
-  height: 100%;
-  margin-top: 0px !important;
-}
-</style>
+

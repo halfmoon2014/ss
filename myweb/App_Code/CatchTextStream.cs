@@ -78,8 +78,12 @@ public class CatchTextStream : Stream
             Encoding encoding = context.Response.ContentEncoding;
             string responseInfo = encoding.GetString(buffer, offset, count);
             context.Response.ContentType = "application/json";
-            responseInfo = responseInfo.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<string xmlns=\"http://tempuri.org/\">", "");
-            responseInfo = responseInfo.Substring(0, responseInfo.Length - 9);
+            //使用VUE请求的时候,返回的是JSON
+            if (responseInfo.StartsWith("<?xml"))
+            {
+                responseInfo = responseInfo.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<string xmlns=\"http://tempuri.org/\">", "");
+                responseInfo = responseInfo.Substring(0, responseInfo.Length - 9);
+            }
             buffer = encoding.GetBytes(responseInfo);
             output.Write(buffer, 0, buffer.Length);
         }

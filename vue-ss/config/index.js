@@ -17,29 +17,14 @@ module.exports = {
         pathRewrite: {
           '^/ErpScan/HttpRequestSkill.ashx': '/HttpRequestSkill.ashx',
         }
-      },
-      '/ErpScan10/HttpRequestSkill.ashx': {
-        target: 'http://tm.lilanz.com/oa/project/ErpScan',
+      },    
+      '/webuser/Ws.asmx': {
+        target: 'http://localhost:34495/webuser',
         changeOrigin: true,
         pathRewrite: {
-          '^/ErpScan10/HttpRequestSkill.ashx': '/HttpRequestSkill.ashx',
+          '^/webuser/Ws.asmx': '/Ws.asmx',
         }
       },       
-      '/ErpScan/HttpRequestSkillFile.ashx': {
-        target: 'http://192.168.35.231/QYWX/project/ErpScan',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/ErpScan/HttpRequestSkillFile.ashx': '/HttpRequestSkillFile.ashx',
-        }
-      },
-      '/MobileScan/checkScan.ashx': {
-        // target : 'http://192.168.35.231/QYWX/project/MobileScan',
-        target: 'http://tm.lilanz.com/oa/project/MobileScan',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/MobileScan/checkScan.ashx': '/checkScan.ashx',
-        }
-      }
     },
 
     // Various Dev Server settings
