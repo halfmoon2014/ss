@@ -431,7 +431,7 @@ namespace Service.Util
         /// </summary>
         /// <param name="wid"></param>
         /// <returns></returns>
-        public string Web_fb(string wid)
+        public string WebFb(string wid)
         {
             string str_sql = "select * from v_user_conn where mbtag=1 ;" +
                 "select zd.* from v_tbzd zd   where zd.webid=" + wid + " ;" +
@@ -568,7 +568,7 @@ namespace Service.Util
         /// 发布菜单
         /// </summary>
         /// <returns></returns>
-        public string Web_fb_menu()
+        public string WebFbMenu()
         {
             string str_sql = "select * from v_user_conn where systag=1 ;" +
                 "";     

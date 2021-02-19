@@ -80,7 +80,7 @@ export default {
             Object.assign(myStore.userInfo, obj);
 
             // console.log(myStore.userInfo)
-            this.show = true;
+            //this.show = true;
             this.$router.push({ path: "/Menu" });
           } else {
             // console.log(res);

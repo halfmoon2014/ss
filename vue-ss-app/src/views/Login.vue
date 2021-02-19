@@ -1,10 +1,21 @@
 <template>
   <div class="wrap">
-    <div style="margin:50px;"  v-show="show">
+    <div style="margin: 50px" v-show="show">
       <h2 style="text-align: center">Login In</h2>
       <van-cell-group>
-        <van-field v-model="mdata.username" label="用户名" />
-        <van-field v-model="mdata.userpass" label="密 码" />
+        <van-field
+          v-model="mdata.username"
+          label="用户名"
+          placeholder="用户名"
+          :rules="[{ required: true, message: '请填写用户名' }]"
+        />
+        <van-field
+          type="password"
+          v-model="mdata.userpass"
+          label="密码"
+          placeholder="密码"
+          :rules="[{ required: true, message: '请填写密码' }]"
+        />
       </van-cell-group>
       <van-notice-bar :text="this.mdata.errmsg" />
       <div style="margin: 16px">
@@ -64,8 +75,8 @@ export default {
         let res = getWsResult(response);
         if (res.Errcode == 0) {
           Object.assign(myStore.userInfo, res.Data);
-          this.show = true;
-          console.log(myStore.userInfo);
+          // this.show = true;
+          // console.log(myStore.userInfo);
           this.$router.push({ path: "/Account" });
         } else {
           console.log(res);
@@ -87,7 +98,7 @@ export default {
 
 <style scoped>
 .wrap {
-  height: calc(100% );
+  height: calc(100%);
   overflow-y: auto;
 }
 </style>

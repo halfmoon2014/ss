@@ -1,8 +1,7 @@
 <template>
   <div class="wrap">
     <div
-      style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
-      v-loading="loading"
+      style="margin-left: 10px; margin-right: 10px; margin-top: 10px"      
       v-show="scanVisible"
     >
       <van-divider
@@ -268,6 +267,7 @@ import { Cell as VanCell } from "vant";
 import { CellGroup as VanCellGroup } from "vant";
 import { guid } from "@/assets/js/utils";
 import { getUrlKey } from "@/assets/js/utils";
+import { Toast as VanToast } from "vant";
 export default {
   name: "Guadrk",
   components: {
@@ -287,6 +287,7 @@ export default {
     VanDivider,
     VanCellGroup,
     VanCell,
+    VanToast,
   },
   data: function () {
     return {
@@ -460,81 +461,11 @@ export default {
   },
   methods: {
     init() {
-      if (this.mdata.djid == 0)
-        this.mdata.djid = getUrlKey("MyDJid", window.location.href) || 0;
-      if (this.mdata.djid) {
-        this.loading = true;
-        this.initPromise(this.mdata.djid)
-          .then(async (result) => {
-            if (result.errcode != 0) {
-              this.errMsg(result.errmsg);
-              this.loading = false;
-              return;
-            }
-            this.mdata.sphh = result.data[0][0].sphh;
-            this.mdata.sphhHidden = result.data[0][0].sphh;
-            this.mdata.khmc = result.data[0][0].khmc;
-
-            this.mdata.xdcx = result.data[0][0].xdcx;
-            this.mdata.xdcs = result.data[0][0].xdcs;
-            this.mdata.ddsl = result.data[0][0].ddsl;
-            this.mdata.wtsid = result.data[0][0].wtsid;
-            this.mdata.syid = result.data[0][0].syid;
-            this.mdata.xzyj = result.data[0][0].xzyj;
-            this.mdata.shyj = result.data[0][0].shyj;
-            this.mdata.ldxzyj = result.data[0][0].ldxzyj;
-            this.mdata.ldshyj = result.data[0][0].ldshyj;
-
-            this.mdata.flowcs = result.data[0][0].flowcs || "";
-            this.mdata.sysDetail.splice(0, this.mdata.sysDetail.length);
-            this.mdata.yplb = result.data[0][0].yplb;
-            await this.yplbPromise();
-
-            this.mdata.xzcm = result.data[2][0].dm;
-
-            //await this.xzcmPromise();
-            this.mdata.bwDetail.splice(0, this.mdata.bwDetail.length);
-            for (var i = 0; i < result.data[2].length; i++) {
-              this.mdata.bwDetail.push({
-                dm: result.data[2][i].dm,
-                mc: result.data[2][i].mc,
-                ypkh: result.data[2][i].ypkh,
-                bzcc: result.data[2][i].bzcc,
-                xqcc: result.data[2][i].xqcc,
-                xhcc: result.data[2][i].xhcc,
-              });
-            }
-
-            for (var i = 0; i < result.data[1].length; i++) {
-              var kxz = result.data[1][i].kxz;
-              if (kxz) {
-                let kxzList = [];
-                for (var j = 0; j < kxz.split("/").length; j++) {
-                  kxzList.push({
-                    dm: kxz.split("/")[j],
-                    mc: kxz.split("/")[j],
-                  });
-                }
-                result.data[1][i].kxzList = kxzList;
-              }
-              this.mdata.sysDetail.push({
-                bjdmxid: result.data[1][i].bjdmxid,
-                mc: result.data[1][i].mc,
-                bsbzz: result.data[1][i].bsbzz,
-                kxz: result.data[1][i].kxz,
-                kxzList: result.data[1][i].kxzList,
-                jcjg: result.data[1][i].jcjg,
-                pdjg: result.data[1][i].pdjg,
-              });
-            }
-            this.mdata.cmzbid = result.data[2][0].id;
-            this.loading = false;
-          })
-          .catch((error) => {
-            this.errMsg(error);
-            this.loading = false;
-          });
-      }
+         VanToast.loading({
+        duration: 0,
+        message: "加载中...",
+        forbidClick: true,
+      });
     },
     pickerSingleBack(type, mark, obj) {
       this.loading = true;

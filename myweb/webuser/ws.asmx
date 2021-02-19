@@ -341,9 +341,9 @@ public class Ws : System.Web.Services.WebService
     {
         Business ei = GetBusiness();
         if (wid == "menu")
-            return "{\"r\":\"" + ei.Web_fb_menu().Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
+            return "{\"r\":\"" + ei.WebFbMenu().Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
         else
-            return "{\"r\":\"" + ei.Web_fb(wid).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
+            return "{\"r\":\"" + ei.WebFb(wid).Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"}";
     }
     /// <summary>
     /// WEB设计 复制webid中的每项
