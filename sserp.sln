@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FM.Business", "Library\FM.Business\FM.Business.csproj", "{2FBC01BB-BCCA-4EBC-9236-31DB5C819EDA}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FM.Controls", "Library\FM.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FM.DataAccess", "Library\FM.DataAccess\FM.DataAccess.csproj", "{8B957BC7-75CD-4F0B-90A3-650B0A65EC0E}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "myweb", "myweb\", "{10CCB843-730F-4F48-81E0-CAF936D991CA}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "myweb", "myweb", "{10CCB843-730F-4F48-81E0-CAF936D991CA}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = ""
 		SccAuxPath = ""
@@ -38,7 +38,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "myweb", "myweb\", "{10CCB84
 		StartServerOnDebug = "false"
 	EndProjectSection
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "homepage", "homepage\", "{64458841-C56F-46AC-ABCA-0B960B677C9F}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "homepage", "homepage", "{64458841-C56F-46AC-ABCA-0B960B677C9F}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = ""
 		SccAuxPath = ""
@@ -79,7 +79,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.Util", "Library\Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "Library\DTO\DTO.csproj", "{D73E1422-9E97-4DC5-A32F-B86489F9D67A}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Comet", "Comet\", "{B7BC8D36-EC13-4EB2-946E-169DC09326D8}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Comet", "Comet", "{B7BC8D36-EC13-4EB2-946E-169DC09326D8}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		ProjectReferences = "{44801fc4-f82a-4ad5-9302-ee2052a98d75}|MyTy.dll;{D73E1422-9E97-4DC5-A32F-B86489F9D67A}|DTO.dll;"
@@ -101,6 +101,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Comet", "Comet\", "{B7BC8D3
 		SlnRelativePath = "Comet\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketWatch", "socketWatch\SocketWatch.csproj", "{36048EE8-91BF-43AC-9E71-16E9D77A420E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketClient", "SocketClient\SocketClient.csproj", "{584B7C7C-A415-47D2-B97C-3629BA21BA28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +168,14 @@ Global
 		{B7BC8D36-EC13-4EB2-946E-169DC09326D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7BC8D36-EC13-4EB2-946E-169DC09326D8}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7BC8D36-EC13-4EB2-946E-169DC09326D8}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{36048EE8-91BF-43AC-9E71-16E9D77A420E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36048EE8-91BF-43AC-9E71-16E9D77A420E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36048EE8-91BF-43AC-9E71-16E9D77A420E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36048EE8-91BF-43AC-9E71-16E9D77A420E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{584B7C7C-A415-47D2-B97C-3629BA21BA28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{584B7C7C-A415-47D2-B97C-3629BA21BA28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{584B7C7C-A415-47D2-B97C-3629BA21BA28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{584B7C7C-A415-47D2-B97C-3629BA21BA28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

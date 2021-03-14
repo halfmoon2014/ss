@@ -1,0 +1,8 @@
+G:\gitRepos\ss\socketWatch\bin\Debug\socketWatch.exe
+G:\gitRepos\ss\socketWatch\bin\Debug\socketWatch.pdb
+G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.Properties.Resources.resources
+G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.csproj.GenerateResource.cache
+G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.csproj.CoreCompileInputs.cache
+G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.exe
+G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.pdb
+G:\gitRepos\ss\socketWatch\obj\Debug\SocketWatch.Watch.resources
