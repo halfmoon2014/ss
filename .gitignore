@@ -36,3 +36,7 @@ vue-ss/node_modules/
 vue-ss-app/node_modules/
 vue-ss/dist/
 vue-ss-app/dist/
+SocketClient/bin
+SocketClient/obj
+socketWatch/bin
+socketWatch/obj
