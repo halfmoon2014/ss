@@ -1,4 +1,5 @@
 ﻿using System;
+using AForge.Video.DirectShow;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,15 +12,28 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
+using AForge.Video;
+using System.IO;
 
 namespace SocketWatch
 {
     public partial class Watch : Form
     {
+        private FilterInfoCollection videoDevices;//所有摄像设备
+        private VideoCaptureDevice videoDevice;//摄像设备
         delegate void SetTextCallBack(string text);
+        delegate void RemoveListCallBack(string key);
+        delegate void AddListCallBack(Socket s, string col1, string col2);
+        private static string path="d:\\";
         public Watch()
         {
             InitializeComponent();
+            this.listView1.View = View.Details;
+            this.listView1.SmallImageList = this.imageList1;
+
+            this.listView1.Columns.Add("key", 100, HorizontalAlignment.Left);
+            this.listView1.Columns.Add("time", 100, HorizontalAlignment.Left);
+            
         }
         Thread threadWatch = null;// 负责监听客户端的线程
         Socket socketWatch = null;// 负责监听客户端的套接字
@@ -52,6 +66,7 @@ namespace SocketWatch
             threadWatch.IsBackground = true;
             threadWatch.Start();
             chatContent.AppendText("成功启动监听！ip：" + ip + "，端口：" + port.Text.Trim() + "\r\n");
+            this.button1.Enabled = false;
 
         }
 
@@ -95,7 +110,7 @@ namespace SocketWatch
             //接收用户姓名信息
             length = socketServer.Receive(recMsg);
             string xm = AnalyticData(recMsg, length);
-
+            AddList(socketServer, xm, DateTime.Now.ToString());
             socketServer.Send(PackData("连接时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
             while (true)
             {
@@ -105,8 +120,10 @@ namespace SocketWatch
                 length = socketServer.Receive(recMsg);
                 if (length == 0)
                 {
+                    //WEB刷新,socket通讯会中断 List移掉
+                    RemoveList(xm);
                     break;
-                }               
+                }
                 //将机器接受到的字节数组转换为人可以读懂的字符串
                 //string msg = Encoding.UTF8.GetString(recMsg, 0, length);
                 string msg = AnalyticData(recMsg, length);
@@ -255,9 +272,33 @@ namespace SocketWatch
         /// <param name="msg"></param>
         private void serverSendMsg(string msg)
         {
-            byte[] sendMsg = Encoding.UTF8.GetBytes(msg);
-            clientConnection.Send(sendMsg);
-            chatContent.AppendText("服务端(" + GetCurrentTime() + "):" + msg + "\r\n");
+            //byte[] sendMsg = Encoding.UTF8.GetBytes(msg);
+            ListView.CheckedListViewItemCollection item = this.listView1.CheckedItems;           
+            Socket send = null;
+            ListViewItem itemSelect = null;
+            for (int i = 0; i < item.Count; i++)
+            {
+                //Console.WriteLine("选中索引:" + item[i].Index + "表项文本:" + item[i].SubItems[1].Text);
+                send = (Socket)item[i].Tag;
+                itemSelect = item[i];
+            }
+            if (send == null)
+            {
+                MessageBox.Show("请选择用户");
+            }
+            else
+            {
+                try
+                {
+                    send.Send(PackData(msg));
+                    chatContent.AppendText("服务端(" + GetCurrentTime() + "):" + msg + "\r\n");
+                }
+                catch (Exception ex)
+                {
+                    this.listView1.Items.Remove(itemSelect);
+                    MessageBox.Show(ex.Message);
+                }
+            }
         }
 
         /// <summary>
@@ -287,5 +328,99 @@ namespace SocketWatch
                 this.chatContent.AppendText(text);
             }
         }
+        private void RemoveList(string key)
+        {
+            //RemoveListCallBack
+            if (this.listView1.InvokeRequired)
+            {
+                RemoveListCallBack stcb = new RemoveListCallBack(RemoveList);
+                this.Invoke(stcb, new object[] { key });
+            }
+            else
+            {
+                //WEB刷新,socket通讯会中断 List移掉
+                for (int i = 0; i < this.listView1.Items.Count; i++)
+                {
+                    //Console.WriteLine("选中索引:" + item[i].Index + "表项文本:" + item[i].SubItems[1].Text);
+                    if (this.listView1.Items[i].Text.Equals(key))
+                    {
+                        this.listView1.Items[i].Remove();
+                    }
+
+                }
+            }
+        }
+        //AddListCallBack(Socket s,string col1,string col2);
+        private void AddList(Socket s, string col1, string col2)
+        {
+            if (this.listView1.InvokeRequired)
+            {
+                AddListCallBack stcb = new AddListCallBack(AddList);
+                this.Invoke(stcb, new object[] { s, col1, col2 });
+            }
+            else
+            {
+                ListViewItem lvi = new ListViewItem();
+                lvi.ImageIndex = 1;     //通过与imageList绑定，显示imageList中第i项图标
+                lvi.Text = col1;
+                lvi.SubItems.Add(col2);
+                lvi.Tag = s;
+                this.listView1.Items.Add(lvi);
+                this.Activate();
+                //this.chatContent.AppendText(text);
+            }
+        }
+
+        private void Watch_Load(object sender, EventArgs e)
+        {
+            videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);//得到所有接入的摄像设备
+            if (videoDevices.Count != 0)
+            {
+                foreach (FilterInfo device in videoDevices)
+                {
+                    comboBox1.Items.Add(device.Name);//把摄像设备添加到摄像列表中                    
+                }
+            }
+            else
+            {
+                SetText("没有找到摄像头！\r\n");
+            }
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            videoDevice = new VideoCaptureDevice(videoDevices[comboBox1.SelectedIndex].MonikerString);
+            videoSourcePlayer1.VideoSource = videoDevice;
+            videoSourcePlayer1.SignalToStop();
+            videoSourcePlayer1.WaitForStop();
+            videoSourcePlayer1.Start();
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            videoSourcePlayer1.Stop();
+            Bitmap bmp =videoSourcePlayer1.GetCurrentVideoFrame();
+            //
+            //Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
+            string fullPath = path + "temp\\";
+            if (!Directory.Exists(fullPath))
+                Directory.CreateDirectory(fullPath);
+            string img = fullPath + DateTime.Now.ToString("yyyyMMdd hhmmss") + ".bmp";
+            bmp.Save(img);
+            videoSourcePlayer1.Start();
+            ////////other
+            //if (videoDevice == null)
+            //    return;
+            ////g_Path = path;
+            //videoDevice.NewFrame += new NewFrameEventHandler(videoSource_NewFrame); 
+        }
+
+        //void videoSource_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        //{
+        //    Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
+        //    string fullPath = path + "temp\\";
+        //    if (!Directory.Exists(fullPath))
+        //        Directory.CreateDirectory(fullPath);
+        //    string img = fullPath + DateTime.Now.ToString("yyyyMMdd hhmmss") + ".bmp";
+        //    bmp.Save(img);
+        //}
     }
 }

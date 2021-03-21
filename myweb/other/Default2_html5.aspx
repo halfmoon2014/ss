@@ -10,7 +10,7 @@
     .top
     {
         background:red;
-        height:40px;
+        height:140px;
         margin:0px;
     }
      .bottom
@@ -33,7 +33,7 @@
             document.getElementById("content").addEventListener('touchstart', touch, false);
             document.getElementById("content").addEventListener('touchmove', touch, false);
             document.getElementById("content").addEventListener('touchend', touch, false);
-            WebSocketTest();
+            //WebSocketTest();
         }
         function touch(event) {
             var event = event || window.event;
@@ -77,13 +77,14 @@
                 ws.onopen = function () {
                     // Web Socket 已连接上，使用 send() 方法发送数据
                     console.log(ws.readyState);
-                    ws.send("发送数据");
+                    ws.send(document.getElementById("socketName").value);
                     console.log("数据发送中...");
                 };
 
                 ws.onmessage = function (evt) {
                     var received_msg = evt.data;
-                    console.log(received_msg)
+                    document.getElementById("txt").value = document.getElementById("txt").value +"\r\n"+ received_msg;
+                    //console.log(received_msg)
                     console.log("数据已接收...");
                 };
 
@@ -104,7 +105,15 @@
 <body style="margin:0px;">
     <form id="form1" runat="server">
     
-    <div class="top" id="top">top</div>
+    <div class="top" id="top">top
+        <div>
+        <input type="text" id="socketName" />
+        <input type="button" value="online" onclick="WebSocketTest()" />
+        </div>
+        <div>
+        <textarea id="txt" style="width:90%;" rows="5"></textarea>
+        </div>
+    </div>
     <div class="test"  id="test" >
     <div class="content" id="content" >
     <video id="myVideo" style=" width:100%"  src="http://www.157.hk:89/samplevideo_hq.mp4" preload  controls="controls"  >         
