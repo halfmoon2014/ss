@@ -128,7 +128,7 @@
             this.chatContent.TabIndex = 10;
             this.chatContent.Text = "";
             // 
-            // Form1
+            // Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -143,8 +143,8 @@
             this.Controls.Add(this.port);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ipAddress);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Client";
+            this.Text = "Client";
             this.ResumeLayout(false);
             this.PerformLayout();
 

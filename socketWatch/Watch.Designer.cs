@@ -128,7 +128,7 @@
             this.label4.TabIndex = 9;
             this.label4.Text = "回复消息";
             // 
-            // Form1
+            // Watch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -143,8 +143,8 @@
             this.Controls.Add(this.port);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ipAddress);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "Watch";
+            this.Text = "Watch";
             this.ResumeLayout(false);
             this.PerformLayout();
 

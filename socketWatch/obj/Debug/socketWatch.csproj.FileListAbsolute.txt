@@ -6,3 +6,4 @@ G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.csproj.CoreCompileInputs.cache
 G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.exe
 G:\gitRepos\ss\socketWatch\obj\Debug\socketWatch.pdb
 G:\gitRepos\ss\socketWatch\obj\Debug\SocketWatch.Watch.resources
+G:\gitRepos\ss\socketWatch\obj\Debug\SocketWatch.csprojAssemblyReference.cache
