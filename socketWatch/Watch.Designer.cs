@@ -193,6 +193,7 @@
             this.Controls.Add(this.port);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ipAddress);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Watch";
             this.Text = "Watch";
             this.Load += new System.EventHandler(this.Watch_Load);
