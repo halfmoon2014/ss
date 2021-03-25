@@ -389,14 +389,18 @@ namespace SocketWatch
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             videoDevice = new VideoCaptureDevice(videoDevices[comboBox1.SelectedIndex].MonikerString);
+            videoDevice.VideoResolution = videoDevice.VideoCapabilities[0];
+            videoSourcePlayer1.Height = videoDevice.VideoCapabilities[0].FrameSize.Height;
+            videoSourcePlayer1.Width = videoDevice.VideoCapabilities[0].FrameSize.Width;
             videoSourcePlayer1.VideoSource = videoDevice;
             videoSourcePlayer1.SignalToStop();
             videoSourcePlayer1.WaitForStop();
             videoSourcePlayer1.Start();
+            
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            videoSourcePlayer1.Stop();
+            //videoSourcePlayer1.Stop();
             Bitmap bmp =videoSourcePlayer1.GetCurrentVideoFrame();
             //
             //Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
@@ -405,7 +409,7 @@ namespace SocketWatch
                 Directory.CreateDirectory(fullPath);
             string img = fullPath + DateTime.Now.ToString("yyyyMMdd hhmmss") + ".bmp";
             bmp.Save(img);
-            videoSourcePlayer1.Start();
+            //videoSourcePlayer1.Start();
             ////////other
             //if (videoDevice == null)
             //    return;

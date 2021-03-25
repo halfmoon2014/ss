@@ -91,9 +91,9 @@ public partial class web_sp_hang_plate_prt : System.Web.UI.Page
     {
         return string.Format("<tr><td>{0}</td><td  style='text-align: center' colspan='6'>本月合计</td><td style='text-align: right'>{1}</td></tr>", jsrq,(totalAmount == 0 ? "" : string.Format("{0:0.###}", totalAmount)))+
             "<tr><td class='hiddenTR' colspan='8'>&nbsp;</td></tr>" +
-            "<tr><td style='font-size:18pt;' class='hiddenTR' colspan ='8'>中国农业银行.石狮市支行营业部 6228.4606.8800.7017.771 王宏强</td></tr>" +
-            "<tr><td style='font-size:18pt;' class='hiddenTR' colspan='8'>中国建设银行.石狮宝岛支行 6227.0018.3362.0132.965  王宏强</td></tr>" +
-            "<tr><td style='font-size:18pt;' class='hiddenTR' colspan='8'>福建省农村信用社联合社 6230.3611.0703.2408.372  王宏强</td></tr>" +
+            "<tr><td style='font-size:18pt;' class='hiddenTR' colspan ='8'>中国农业银行．石狮市支行营业部 6228.4606.8800.7727.270 施婷婷</td></tr>" +
+            "<tr><td style='font-size:18pt;' class='hiddenTR' colspan='8'>中国建设银行．石狮祥芝支行 6217.0018.3002.5375.273  施婷婷</td></tr>" +
+            "<tr><td style='font-size:18pt;' class='hiddenTR' colspan='8'>福建省农村信用社联合社．石狮农商银行湖边分理处 6230.3611.0709.6070.159  施婷婷</td></tr>" +
             "<tr><td class='hiddenTR' colspan='8'>&nbsp;</td></tr>" +
             "<tr><td class='hiddenTR' colspan='8'>&nbsp;</td></tr>" +
             "<tr><td class='hiddenTR' colspan='8'>&nbsp;</td></tr>";
