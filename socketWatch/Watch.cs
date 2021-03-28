@@ -409,12 +409,23 @@ namespace SocketWatch
                 Directory.CreateDirectory(fullPath);
             string img = fullPath + DateTime.Now.ToString("yyyyMMdd hhmmss") + ".bmp";
             bmp.Save(img);
+            videoSourcePlayer1.WaitForStop();
             //videoSourcePlayer1.Start();
             ////////other
             //if (videoDevice == null)
             //    return;
             ////g_Path = path;
             //videoDevice.NewFrame += new NewFrameEventHandler(videoSource_NewFrame); 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            videoSourcePlayer1.Start();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            videoSourcePlayer1.WaitForStop();
         }
 
         //void videoSource_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)

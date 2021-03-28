@@ -1,8 +1,0 @@
-G:\gitRepos\ss\SocketClient\bin\Debug\SocketClient.exe
-G:\gitRepos\ss\SocketClient\bin\Debug\SocketClient.pdb
-G:\gitRepos\ss\SocketClient\obj\Debug\SocketClient.Properties.Resources.resources
-G:\gitRepos\ss\SocketClient\obj\Debug\SocketClient.csproj.GenerateResource.cache
-G:\gitRepos\ss\SocketClient\obj\Debug\SocketClient.csproj.CoreCompileInputs.cache
-G:\gitRepos\ss\SocketClient\obj\Debug\SocketClient.exe
-G:\gitRepos\ss\SocketClient\obj\Debug\SocketClient.pdb
-G:\gitRepos\ss\SocketClient\obj\Debug\SocketClient.Client.resources
