@@ -25,3 +25,5 @@ G:\gitRepos\ss\socketWatch\obj\Debug\SocketWatch.csproj.CoreCompileInputs.cache
 G:\gitRepos\ss\socketWatch\obj\Debug\SocketWatch.csproj.CopyComplete
 G:\gitRepos\ss\socketWatch\obj\Debug\SocketWatch.exe
 G:\gitRepos\ss\socketWatch\obj\Debug\SocketWatch.pdb
+G:\gitRepos\ss\socketWatch\bin\Debug\Newtonsoft.Json.dll
+G:\gitRepos\ss\socketWatch\bin\Debug\Newtonsoft.Json.xml

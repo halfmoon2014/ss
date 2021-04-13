@@ -105,15 +105,18 @@ namespace SocketWatch
             //将接收到的信息存入到内存缓冲区,并返回其字节数组的长度
             int length = socketServer.Receive(recMsg);
             socketServer.Send(PackHandShakeData(GetSecKeyAccetp(recMsg, length)));
-            Console.WriteLine("已经发送握手协议了....");
+            Console.WriteLine(DateTime.Now.ToString("o")+"已经发送握手协议了....");
 
             //接收用户姓名信息
             length = socketServer.Receive(recMsg);
             string xm = AnalyticData(recMsg, length);
             AddList(socketServer, xm, DateTime.Now.ToString());
-            socketServer.Send(PackData("连接时间：" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
+            String what = "连接时间：" + DateTime.Now.ToString("o");
+            socketServer.Send(PackData(what));
+            Console.WriteLine(DateTime.Now.ToString("o") + what);
             while (true)
             {
+                Console.WriteLine("true");
                 //创建一个内存缓冲区 其大小为1024*1024字节  即1M
                 recMsg = new byte[1024 * 1024];
                 //将接收到的信息存入到内存缓冲区,并返回其字节数组的长度
@@ -127,7 +130,9 @@ namespace SocketWatch
                 //将机器接受到的字节数组转换为人可以读懂的字符串
                 //string msg = Encoding.UTF8.GetString(recMsg, 0, length);
                 string msg = AnalyticData(recMsg, length);
-                //chatContent.AppendText("客户端(" + GetCurrentTime() + "):" + msg + "\r\n");
+                ClientParameter cp=Newtonsoft.Json.JsonConvert.DeserializeObject<ClientParameter>(msg);
+
+                
                 SetText("客户端(" + GetCurrentTime() + "):" + msg + "\r\n");
             }
         }
@@ -366,7 +371,7 @@ namespace SocketWatch
                 lvi.SubItems.Add(col2);
                 lvi.Tag = s;
                 this.listView1.Items.Add(lvi);
-                this.Activate();
+                //this.Activate();
                 //this.chatContent.AppendText(text);
             }
         }
@@ -427,7 +432,7 @@ namespace SocketWatch
         {
             videoSourcePlayer1.WaitForStop();
         }
-
+        
         //void videoSource_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
         //{
         //    Bitmap bmp = (Bitmap)eventArgs.Frame.Clone();
@@ -437,5 +442,11 @@ namespace SocketWatch
         //    string img = fullPath + DateTime.Now.ToString("yyyyMMdd hhmmss") + ".bmp";
         //    bmp.Save(img);
         //}
+        private class ClientParameter
+        {
+            string modal;
+            int groupid;
+        }
     }
+    
 }

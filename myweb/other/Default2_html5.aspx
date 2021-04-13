@@ -116,7 +116,7 @@
     </div>
     <div class="test"  id="test" >
     <div class="content" id="content" >
-    <video id="myVideo" style=" width:100%"  src="http://www.157.hk:89/samplevideo_hq.mp4" preload  controls="controls"  >         
+    <%--<video id="myVideo" style=" width:100%"  src="http://www.157.hk:89/samplevideo_hq.mp4" preload  controls="controls"  >     --%>    
     </video>
 		a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />
         a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />a<br />b<br />
