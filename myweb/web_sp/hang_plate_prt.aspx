@@ -113,6 +113,12 @@
                     <td colspan="2"><%=string.Format("{0:0.###}",pageCurrentTotal) %></td>                  
                    
                 </tr>
+                <tr style="line-height: 30px;">
+                    <td colspan="9" style="text-align: left">
+                        注:一、白联:本公司存根联;二、红联:贵司财务对账凭证联,如有异常请于次日18:30前向我司反馈；</br>
+                        三、黄联:贵司收货凭证联,请予次日18:30前签字确认回执。
+                    </td>                    
+                </tr>
  <%--               <tr>
                 <td colspan="7" style="height:80px;">
                     <table>
