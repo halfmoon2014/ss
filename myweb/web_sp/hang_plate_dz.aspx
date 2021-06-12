@@ -73,6 +73,7 @@
                 <td style="width: 150px;" class="wh">颜色</td>
                 <td style="width: 80px; text-align: center" class="wh">重量(斤)</td>
                 <td style="width: 70px; text-align: center" class="wh">斤个数</td>
+                <td style="width: 70px; text-align: center" class="wh">总个数</td>
                 <td style="width: 70px; text-align: center" class="wh">单价</td>
                 <td style="width: 100px; text-align: center" class="wh">金额</td>
             </tr>
@@ -88,6 +89,7 @@
                 <td><%=dr["colour"]%></td>
                 <td style="text-align: right"><%=string.Format("{0:0.##}",dr["weight"])%></td>
                 <td style="text-align: right"><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["count_pre_jin"]) ) %></td>
+                <td style="text-align: right"><%=(decimal.Parse(dr["count_pre_jin"].ToString())==0?"":string.Format("{0:0.###}",dr["after_quantity"]) ) %></td>
                 <td style="text-align: right"><%=(decimal.Parse(dr["price"].ToString())==0?"":string.Format("{0:0.###}",dr["price"]))%></td>
                 <td style="text-align: right"><%=(decimal.Parse(dr["Amount"].ToString())==0?"":string.Format("{0:0.##}",dr["Amount"]))%></td>
             </tr>
